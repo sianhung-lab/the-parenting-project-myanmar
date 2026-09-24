@@ -103,6 +103,19 @@ public class MainActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 progressBar.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, android.webkit.WebResourceError error) {
+                if (request.isForMainFrame()) {
+                    String offlineHtml = "<html><body style='background:#061830;color:#fff;font-family:sans-serif;text-align:center;padding:60px 20px;'>"
+                        + "<div style='font-size:52px;margin-bottom:16px;'>📡</div>"
+                        + "<h2 style='color:#ffcc00;margin-bottom:10px;'>အင်တာနက် လိုင်းချိတ်ဆက်မှု ပြတ်တောက်နေပါသည်</h2>"
+                        + "<p style='color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:28px;'>No internet connection detected. Please verify your Wi-Fi or mobile data.</p>"
+                        + "<button onclick='location.reload()' style='background:#ffcc00;color:#061830;border:none;padding:14px 32px;border-radius:24px;font-weight:bold;font-size:16px;cursor:pointer;'>ပြန်လည်ကြိုးစားမည် (Retry)</button>"
+                        + "</body></html>";
+                    view.loadDataWithBaseURL(null, offlineHtml, "text/html", "UTF-8", null);
+                }
+            }
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
