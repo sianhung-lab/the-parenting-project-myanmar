@@ -40,9 +40,9 @@
         <div class="gate-field">
           <label class="gate-label" for="gate-email">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span id="gate-label-email">Church or School Email</span>
+            <span id="gate-label-email">Church Email or Phone / Viber</span>
           </label>
-          <input type="email" id="gate-email" class="gate-input" placeholder="Email" required autocomplete="username"/>
+          <input type="text" id="gate-email" class="gate-input" placeholder="Email or Phone (e.g. 09...)" required autocomplete="username"/>
         </div>
         <div class="gate-field">
           <label class="gate-label" for="gate-password">
@@ -54,6 +54,13 @@
         <button type="submit" class="gate-signin-btn" id="gate-signin-btn">
           <span id="gate-signin-btn-text">Sign In</span>
         </button>
+
+        <!-- 1-Tap Fast Login Access -->
+        <button type="button" class="gate-demo-btn" onclick="quickDemoLogin()" id="gate-demo-btn" style="margin-top:10px;width:100%;background:rgba(255,255,255,0.08);border:1.5px dashed rgba(245,168,0,0.6);border-radius:12px;padding:10px 14px;color:#FFE082;font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .2s ease">
+          <span>⚡</span>
+          <span id="gate-demo-btn-text">စမ်းသပ်မိဘ အကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)</span>
+        </button>
+
         <div class="gate-forgot">
           <a href="mailto:info@cbnasia.org?subject=Password Reset Request" class="gate-forgot-link" id="gate-forgot-link">Forgot Your Password?</a>
         </div>

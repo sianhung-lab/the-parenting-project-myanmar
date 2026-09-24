@@ -2875,7 +2875,9 @@ body.is-mobile-app:not(.is-authenticated) #mobile-app-bottom-bar {
   display: none !important;
 }
 
-body.is-mobile-app.is-authenticated .phone-welcome-gate {
+body.is-authenticated .phone-welcome-gate,
+body.is-mobile-app.is-authenticated .phone-welcome-gate,
+.phone-welcome-gate.hidden {
   display: none !important;
 }
 

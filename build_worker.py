@@ -404,28 +404,36 @@ export default {{
           }});
         }}
 
-        // Any valid email can login as registered parent with full access to modules 1-11
-        if (emailOrPhone.includes("@")) {{
-          const namePart = emailOrPhone.split('@')[0];
-          const userDisplay = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        // Any non-empty input (email, phone, pastor/church name) logs in with full access!
+        if (emailOrPhone.length > 0) {{
+          let userDisplay = "Partner Facilitator";
+          if (emailOrPhone.includes("@")) {{
+            const namePart = emailOrPhone.split('@')[0];
+            userDisplay = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+          }} else if (emailOrPhone.match(/^[0-9+ ]+$/)) {{
+            userDisplay = "Parent (" + emailOrPhone.slice(-4) + ")";
+          }} else {{
+            userDisplay = emailOrPhone.charAt(0).toUpperCase() + emailOrPhone.slice(1);
+          }}
+
           syncToGoogleSheetsDual(ctx, {{
             type: "login",
             email: emailOrPhone,
             displayName: userDisplay,
             churchName: "Partner Family",
-            role: "parent",
-            platform: "Cloudflare API Parent Login"
+            role: "facilitator",
+            platform: "Cloudflare API Direct Login"
           }});
           return jsonResponse({{
             status: "success",
-            role: "parent",
+            role: "facilitator",
             displayName: userDisplay,
             churchName: "Partner Family",
             isGranted: true
           }});
         }}
 
-        return jsonResponse({{ error: "Please enter a valid email or choose Quick Demo Login." }}, 401);
+        return jsonResponse({{ error: "Please enter an email or phone number." }}, 400);
       }} catch (err) {{
         return jsonResponse({{ error: err.message }}, 400);
       }}
