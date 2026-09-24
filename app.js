@@ -1363,31 +1363,85 @@ function renderReg() {
   }
 }
 
+// ==========================================
+// DUAL GOOGLE SHEETS LIVE DATA SYNC
+// ==========================================
+const GS_WEBHOOK_URL_1 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+const GS_WEBHOOK_URL_2 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+
+function sendToGoogleSheetsLive(payload) {
+  if (!payload) return;
+  const jsonStr = JSON.stringify(payload);
+  [GS_WEBHOOK_URL_1, GS_WEBHOOK_URL_2].forEach(url => {
+    try {
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonStr
+      }).then(() => console.log('✓ Google Sheet sync dispatched:', payload.type || 'data'))
+        .catch(err => console.log('Google Sheets sync note:', err));
+    } catch (e) {
+      console.log('Google Sheets catch:', e);
+    }
+  });
+}
+window.sendToGoogleSheetsLive = sendToGoogleSheetsLive;
+
 function submitReg() {
   const isMy = lang === 'my';
   
-  // Forward to local Excel & Google Sheet
+  // Forward to local Excel & Dual Google Sheets
   const payload = {
+    type: 'registration',
+    source: 'Desktop Website',
     churchName: regData.church || '',
-    region: 'Yangon',
+    region: regData.city ? regData.city.split(',')[0].trim() : 'Myanmar',
     city: regData.city || '',
     denom: regData.denom || 'Independent',
     coordName: regData.coord || '',
     email: regData.email || '',
     phone: regData.phone || '',
-    fam: regData.fam || '10–25 Families'
+    fam: regData.fam || '10–25 Families',
+    notes: regData.notes || '',
+    timestamp: new Date().toISOString()
   };
+
   fetch('/api/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   }).catch(e => console.warn(e));
-  fetch("https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec", {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(e => console.warn(e));
+
+  sendToGoogleSheetsLive(payload);
+
+  // Auto-login user session and unlock modules 1-11 immediately
+  const sessionData = {
+    email: payload.email,
+    displayName: payload.coordName || 'Facilitator',
+    churchName: payload.churchName || 'Partner Church',
+    loggedIn: true,
+    isGranted: true,
+    role: 'facilitator',
+    loginTime: new Date().toISOString()
+  };
+  localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+  userPrivilege.loggedIn = true;
+  userPrivilege.isGranted = true;
+  userPrivilege.displayName = sessionData.displayName;
+  userPrivilege.churchName = sessionData.churchName;
+
+  // Log login event to Google Sheets
+  sendToGoogleSheetsLive({
+    type: 'login',
+    displayName: sessionData.displayName,
+    email: sessionData.email,
+    churchName: sessionData.churchName,
+    role: 'facilitator',
+    platform: 'Desktop Website Registration'
+  });
+
+  checkAuthStatus();
 
   document.querySelectorAll('.step-dot').forEach(d => {
     d.classList.remove('active');
@@ -1400,8 +1454,8 @@ function submitReg() {
       <h3>${isMy ? 'The Parenting Project မိသားစုမှ နွေးထွေးစွာ ကြိုဆိုပါသည်!' : 'Welcome to the Family!'}</h3>
       <p style="line-height:1.8">
         ${isMy 
-          ? `<strong>${regData.church}</strong> အသင်းတော်ကို မြန်မာနိုင်ငံ CBN Asia ၏ မိတ်ဖက်အသင်းတော်အဖြစ် အောင်မြင်စွာ မှတ်ပုံတင်ပြီးပါပြီ။ ကျွန်ုပ်တို့အဖွဲ့သည် တာဝန်ခံ <strong>${regData.coord}</strong> ထံသို့ အီးမေးလ် <strong>${regData.email}</strong> မှတစ်ဆင့် ၁-၂ ရုံးဖွင့်ရက်အတွင်း ဆက်သွယ်ပေးပို့ပါမည်။`
-          : `<strong>${regData.church}</strong> has been registered as a CBN Asia Partner Church in Myanmar. Our team will contact <strong>${regData.coord}</strong> at <strong>${regData.email}</strong> within 1–2 business days.`}
+          ? `<strong>${regData.church}</strong> အသင်းတော်ကို မြန်မာနိုင်ငံ CBN Asia ၏ မိတ်ဖက်အသင်းတော်အဖြစ် အောင်မြင်စွာ မှတ်ပုံတင်ပြီးပါပြီ။ သင်တန်းဦးဆောင်သူ <strong>${regData.coord}</strong> အတွက် မော်ဂျူး ၁၁ ခုလုံး ချက်ချင်း ကြည့်ရှုလေ့လာနိုင်ပါပြီ!`
+          : `<strong>${regData.church}</strong> has been registered as a CBN Asia Partner Church in Myanmar. All 11 facilitator modules have been unlocked for <strong>${regData.coord}</strong>!`}
       </p>
       <button class="dl-btn" onclick="showToast('${isMy ? '📄 ဦးဆောင်သူလက်စွဲ ဒေါင်းလုဒ်ဆွဲနေပါသည်...' : '📄 Facilitator Starter Kit downloading...'}')">
         📥 ${isMy ? 'ဦးဆောင်သူ အစပျိုးလက်စွဲစာအုပ် ဒေါင်းလုဒ်ရယူပါ' : 'Download Facilitator Starter Kit'}
@@ -1409,8 +1463,8 @@ function submitReg() {
     </div>`;
 
   document.getElementById('reg-actions').innerHTML = `
-    <button class="btn btn-blue" onclick="document.getElementById('reg-overlay').classList.remove('show');document.body.style.overflow=''">
-      ${isMy ? 'ပိတ်မည်' : 'Close'}
+    <button class="btn btn-blue" onclick="document.getElementById('reg-overlay').classList.remove('show');document.body.style.overflow='';window.location.hash='#videos';">
+      ${isMy ? '🎓 မော်ဂျူးများ စတင်လေ့လာမည်' : '🎓 Start Curriculum Now'}
     </button>`;
 }
 
@@ -2046,6 +2100,13 @@ async function checkAuthStatus() {
     session = JSON.parse(localStorage.getItem('tpp_user_session'));
   } catch(e) {}
 
+  const isAuthenticated = !!(session && session.loggedIn);
+  document.body.classList.toggle('is-authenticated', isAuthenticated);
+  document.documentElement.classList.toggle('is-authenticated', isAuthenticated);
+  if (typeof updateWelcomeGateUI === 'function') {
+    updateWelcomeGateUI();
+  }
+
   const navLogin = document.getElementById('nav-login');
   const navReg = document.getElementById('nav-reg');
   const navUser = document.getElementById('nav-user');
@@ -2192,6 +2253,13 @@ async function checkAuthStatus() {
 
 function logoutUser() {
   localStorage.removeItem('tpp_user_session');
+  document.body.classList.remove('is-authenticated');
+  document.documentElement.classList.remove('is-authenticated');
+  userPrivilege.loggedIn = false;
+  userPrivilege.isGranted = false;
+  userPrivilege.displayName = '';
+  if (typeof updateMobileUserUI === 'function') updateMobileUserUI();
+  if (typeof updateWelcomeGateUI === 'function') updateWelcomeGateUI();
   showToast(lang === 'my' ? 'အကောင့်မှ ထွက်ပြီးပါပြီ။' : 'Signed out successfully.');
   setTimeout(() => {
     checkAuthStatus();
@@ -2280,6 +2348,13 @@ function updateSettingsModalUI() {
   if (unlockedSec && lockedSec) {
     unlockedSec.style.display = isAdmin ? 'block' : 'none';
     lockedSec.style.display = isAdmin ? 'none' : 'block';
+  }
+
+  const guestActions = document.getElementById('settings-guest-actions');
+  const memberActions = document.getElementById('settings-member-actions');
+  if (guestActions && memberActions) {
+    guestActions.style.display = (session && session.loggedIn) ? 'none' : 'flex';
+    memberActions.style.display = (session && session.loggedIn) ? 'block' : 'none';
   }
 }
 
@@ -3118,7 +3193,7 @@ window.loadDynamicVideos = loadDynamicVideos;
 // MOBILE APP MODE LOGIC & LIVE UPGRADE NOTI
 // ==========================================
 function checkAppMode() {
-  const isAppUrl = window.location.search.includes('app=true') || window.location.search.includes('mode=app');
+  const isAppUrl = window.location.href.includes('app=true') || window.location.href.includes('mode=app');
   const isAppUA = navigator.userAgent && navigator.userAgent.includes('ParentingApp');
   
   // Detect Android WebView (wv, Version/4.0) or standalone mobile app
@@ -3126,23 +3201,33 @@ function checkAppMode() {
                            (navigator.userAgent.includes('Android') && (navigator.userAgent.includes('Version/') || navigator.userAgent.includes('Crosswalk')));
   const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
   
-  // Detect phone screen on mobile devices
+  // Detect phone screen on mobile devices or responsive phone view
   const isMobileDevice = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   const isPhoneWidth = window.innerWidth <= 820;
 
-  // App mode activates if inside APK / WebView / standalone OR on mobile phone screen
+  // App mode activates if inside APK / WebView / standalone OR on mobile phone screen (<= 820px)
   // Regular desktop browsers (Mac/PC/Laptops with screen > 820px) stay 100% UNTOUCHED!
-  const isPhoneMode = isAppUrl || isAppUA || isAndroidWebView || isStandalone || (isMobileDevice && isPhoneWidth);
+  const isPhoneMode = isAppUrl || isAppUA || isAndroidWebView || isStandalone || (isMobileDevice && isPhoneWidth) || (window.innerWidth <= 820 && !window.location.href.includes('desktop=true'));
 
   if (isPhoneMode) {
     document.body.classList.add('is-mobile-app');
     document.documentElement.classList.add('is-mobile-app');
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
+    const isAuthenticated = !!(session && session.loggedIn);
+    document.body.classList.toggle('is-authenticated', isAuthenticated);
+    document.documentElement.classList.toggle('is-authenticated', isAuthenticated);
+    if (typeof updateWelcomeGateUI === 'function') updateWelcomeGateUI();
+
     // Only show upgrade download banner on mobile web browser, NOT inside the app itself
     if (!isAppUrl && !isAppUA && !isAndroidWebView) {
       setTimeout(() => {
         showUpgradeNotification();
       }, 3000);
     }
+  } else {
+    document.body.classList.remove('is-mobile-app');
+    document.documentElement.classList.remove('is-mobile-app');
   }
 }
 
@@ -3384,6 +3469,39 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     fbSelect.value = `Module ${mod.id}`;
   }
 
+  // Update Caption & Detail Card (Above Bottom Bar)
+  const badgeEl = document.getElementById('caption-card-badge');
+  if (badgeEl) {
+    badgeEl.textContent = `📖 ${mod.scripture || mod.badge || ('Module ' + mod.id)}`;
+  }
+  const quoteMyEl = document.getElementById('caption-card-quote-my');
+  if (quoteMyEl) {
+    quoteMyEl.textContent = `«${mod.mySub || mod.myTitle || ''}»`;
+  }
+  const quoteEnEl = document.getElementById('caption-card-quote-en');
+  if (quoteEnEl) {
+    quoteEnEl.textContent = `"${mod.sub || mod.title || ''}"`;
+  }
+  const takeawaysListEl = document.getElementById('caption-takeaways-list');
+  if (takeawaysListEl) {
+    const myTopics = mod.myTopics || [];
+    const enTopics = mod.topics || [];
+    if (myTopics.length > 0) {
+      takeawaysListEl.innerHTML = myTopics.map((myT, idx) => {
+        const enT = enTopics[idx] ? `<span style="display:block;font-size:0.69rem;color:rgba(255,255,255,0.6);font-style:italic;margin-top:1px;">${enTopics[idx]}</span>` : '';
+        return `<li><div>${myT}</div>${enT}</li>`;
+      }).join('');
+    } else if (enTopics.length > 0) {
+      takeawaysListEl.innerHTML = enTopics.map(t => `<li>${t}</li>`).join('');
+    }
+  }
+  const actionTextEl = document.getElementById('caption-card-action-text');
+  if (actionTextEl) {
+    const myAct = mod.myAction || '';
+    const enAct = mod.action ? `<span style="display:block;font-size:0.69rem;color:rgba(255,255,255,0.6);font-style:italic;margin-top:2px;">"${mod.action}"</span>` : '';
+    actionTextEl.innerHTML = `<span>${myAct}</span>${enAct}`;
+  }
+
   renderMobileModuleChips();
 }
 
@@ -3497,6 +3615,15 @@ async function handlePrayerSubmit(e) {
     catName: catInput ? catInput.options[catInput.selectedIndex].text : '👨‍👩‍👧‍👦 မိသားစု ဆုတောင်းချက်',
     text: textInput.value.trim()
   };
+
+  // Forward prayer request to Dual Google Sheets Webhooks live
+  sendToGoogleSheetsLive({
+    type: 'prayer',
+    author: payload.author,
+    city: payload.city,
+    category: payload.catName,
+    text: payload.text
+  });
 
   if (btn) {
     btn.disabled = true;
@@ -3613,6 +3740,15 @@ async function handleFeedbackSubmit(e) {
     church: (session && session.churchName) ? session.churchName : 'Christian Family'
   };
 
+  // Forward feedback to Dual Google Sheets Webhooks live
+  sendToGoogleSheetsLive({
+    type: 'prayer',
+    author: payload.author,
+    city: payload.church,
+    category: `⭐ ${payload.rating} Stars · ${payload.module}: ${payload.moduleTitle}`,
+    text: payload.text
+  });
+
   if (btn) {
     btn.disabled = true;
     btn.textContent = 'ပေးပို့နေပါသည်...';
@@ -3659,14 +3795,40 @@ function switchPrayerFeedbackTab(tab) {
 // ==========================================
 // IN-APP FAST LOGIN (NO REDIRECT NEEDED)
 // ==========================================
-function openInAppLoginModal() {
+function openInAppLoginModal(tab = 'signin') {
   const m = document.getElementById('inapp-login-modal');
-  if (m) m.classList.add('open');
+  if (m) {
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    switchInAppAuthTab(tab);
+  }
 }
 
 function closeInAppLoginModal() {
   const m = document.getElementById('inapp-login-modal');
-  if (m) m.classList.remove('open');
+  if (m) {
+    m.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function switchInAppAuthTab(tab) {
+  const tabSignin = document.getElementById('tab-inapp-signin');
+  const tabRegister = document.getElementById('tab-inapp-register');
+  const formSignin = document.getElementById('inapp-login-form');
+  const formRegister = document.getElementById('inapp-register-form');
+
+  if (tab === 'register') {
+    if (tabSignin) tabSignin.classList.remove('active');
+    if (tabRegister) tabRegister.classList.add('active');
+    if (formSignin) formSignin.style.display = 'none';
+    if (formRegister) formRegister.style.display = 'block';
+  } else {
+    if (tabSignin) tabSignin.classList.add('active');
+    if (tabRegister) tabRegister.classList.remove('active');
+    if (formSignin) formSignin.style.display = 'block';
+    if (formRegister) formRegister.style.display = 'none';
+  }
 }
 
 function handleMobileUserClick() {
@@ -3675,7 +3837,7 @@ function handleMobileUserClick() {
   if (session && session.loggedIn) {
     openSettingsModal();
   } else {
-    openInAppLoginModal();
+    openInAppLoginModal('signin');
   }
 }
 
@@ -3727,10 +3889,21 @@ async function quickDemoLogin() {
   userPrivilege.displayName = sessionData.displayName;
   userPrivilege.churchName = sessionData.churchName;
 
+  // Send login record to Google Sheets
+  sendToGoogleSheetsLive({
+    type: 'login',
+    displayName: sessionData.displayName,
+    email: sessionData.email,
+    churchName: sessionData.churchName,
+    role: 'parent',
+    platform: 'Mobile 1-Tap Demo Access'
+  });
+
   playUpgradeChime();
   showToast('✓ စံပြမိဘ အကောင့်ဖြင့် ဝင်ရောက်ပြီးပါပြီ (Modules 1-11 Unlocked)!');
   closeInAppLoginModal();
   updateMobileUserUI();
+  updateSettingsModalUI();
   checkAuthStatus();
   initMobileCinema();
 }
@@ -3772,10 +3945,21 @@ async function handleInAppLoginSubmit(e) {
       userPrivilege.displayName = sessionData.displayName;
       userPrivilege.churchName = sessionData.churchName;
 
+      // Send login record to Google Sheets
+      sendToGoogleSheetsLive({
+        type: 'login',
+        displayName: sessionData.displayName,
+        email: emailVal,
+        churchName: sessionData.churchName,
+        role: sessionData.role,
+        platform: 'Mobile In-App Sign In'
+      });
+
       playUpgradeChime();
       showToast(`✓ မင်္ဂလာပါ ${sessionData.displayName}! မော်ဂျူးအားလုံး ကြည့်ရှုနိုင်ပါပြီ`);
       closeInAppLoginModal();
       updateMobileUserUI();
+      updateSettingsModalUI();
       checkAuthStatus();
       initMobileCinema();
     } else {
@@ -3788,6 +3972,109 @@ async function handleInAppLoginSubmit(e) {
       btn.disabled = false;
       btn.textContent = '🔑 အကောင့်ဝင်မည် (Sign In)';
     }
+  }
+}
+
+async function handleInAppRegisterSubmit(e) {
+  e.preventDefault();
+  const churchInput = document.getElementById('inapp-reg-church');
+  const regionInput = document.getElementById('inapp-reg-region');
+  const cityInput = document.getElementById('inapp-reg-city');
+  const coordInput = document.getElementById('inapp-reg-coord');
+  const emailInput = document.getElementById('inapp-reg-email');
+  const phoneInput = document.getElementById('inapp-reg-phone');
+  const famInput = document.getElementById('inapp-reg-fam');
+  const passInput = document.getElementById('inapp-reg-pass');
+  const btn = document.getElementById('btn-inapp-reg');
+
+  const churchVal = churchInput ? churchInput.value.trim() : '';
+  const regionVal = regionInput ? regionInput.value : 'Yangon';
+  const cityVal = cityInput ? cityInput.value.trim() : '';
+  const coordVal = coordInput ? coordInput.value.trim() : '';
+  const emailVal = emailInput ? emailInput.value.trim().toLowerCase() : '';
+  const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+  const famVal = famInput ? famInput.value : '10–25 Families';
+  const passVal = passInput ? passInput.value.trim() : '';
+
+  if (!churchVal || !coordVal || !emailVal) {
+    showToast('⚠️ ကျေးဇူးပြု၍ လိုအပ်သော အချက်အလက်များ ပြည့်စုံစွာ ဖြည့်စွက်ပါ');
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'မှတ်ပုံတင်နေပါသည်... (Saving to Sheet)';
+  }
+
+  const payload = {
+    type: 'registration',
+    source: 'Mobile App',
+    churchName: churchVal,
+    region: regionVal,
+    city: cityVal,
+    denom: 'Independent / Non-denominational',
+    coordName: coordVal,
+    email: emailVal,
+    phone: phoneVal,
+    fam: famVal,
+    timestamp: new Date().toISOString()
+  };
+
+  // 1. Send live directly to both Google Sheets webhook endpoints (no-cors)
+  sendToGoogleSheetsLive(payload);
+
+  // 2. Also send to Cloudflare Worker backend
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    console.log('Registration saved to backend:', data);
+  } catch (err) {
+    console.warn('Backend sync note:', err);
+  }
+
+  // 3. Immediately create user session and unlock all 11 modules
+  const sessionData = {
+    email: emailVal,
+    displayName: coordVal,
+    churchName: churchVal,
+    loggedIn: true,
+    isGranted: true,
+    role: 'facilitator',
+    loginTime: new Date().toISOString()
+  };
+  localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+  userPrivilege.loggedIn = true;
+  userPrivilege.isGranted = true;
+  userPrivilege.displayName = coordVal;
+  userPrivilege.churchName = churchVal;
+
+  // 4. Log the initial login event to Google Sheets too
+  sendToGoogleSheetsLive({
+    type: 'login',
+    displayName: coordVal,
+    email: emailVal,
+    churchName: churchVal,
+    role: 'facilitator',
+    platform: 'Mobile App Registration'
+  });
+
+  playUpgradeChime();
+  showToast(`🎉 မင်္ဂလာပါ ${coordVal}! အသင်းတော် စာရင်းသွင်းမှု အောင်မြင်ပြီး မော်ဂျူး ၁၁ ခုလုံး ဖွင့်လှစ်ပေးလိုက်ပါပြီ!`);
+
+  // Close modal and update UI across the app
+  closeInAppLoginModal();
+  updateMobileUserUI();
+  updateSettingsModalUI();
+  checkAuthStatus();
+  initMobileCinema();
+
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = '📝 အခမဲ့ စာရင်းသွင်းမည် (Complete Registration)';
   }
 }
 
@@ -3881,7 +4168,230 @@ function togglePrayerFormDrawer() {
       drawer.scrollIntoView({ behavior: 'smooth' });
     }
   }
+// ==========================================
+// PHONE APP WELCOME GATE LOGIC
+// ==========================================
+function updateWelcomeGateUI() {
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+
+  // Language toggle text
+  const langTxt = document.getElementById('welcome-lang-text');
+  if (langTxt) langTxt.textContent = isMy ? 'မြန်မာ' : 'English';
+
+  // Sign In panel labels
+  const titleMain = document.getElementById('gate-title-main');
+  const subMain = document.getElementById('gate-subtitle-main');
+  const labelEmail = document.getElementById('gate-label-email');
+  const labelPw = document.getElementById('gate-label-password');
+  const signInBtnTxt = document.getElementById('gate-signin-btn-text');
+  const forgotLink = document.getElementById('gate-forgot-link');
+  const noAccountTxt = document.getElementById('gate-no-account-text');
+  const registerLink = document.getElementById('gate-register-link');
+
+  if (titleMain) titleMain.textContent = isMy ? 'အကောင့်ဝင်ရန်' : 'Sign In';
+  if (subMain) subMain.textContent = isMy ? 'မှတ်ပုံတင်ထားသော အသင်းတော်/ကျောင်းများသာ ဝင်ရောက်နိုင်သည်' : 'This page is accessible only to registered churches or schools.';
+  if (labelEmail) labelEmail.textContent = isMy ? 'အသင်းတော် သို့မဟုတ် ကျောင်းအီးမေးလ်' : 'Church or School Email';
+  if (labelPw) labelPw.textContent = isMy ? 'စကားဝှက်' : 'Password';
+  if (signInBtnTxt) signInBtnTxt.textContent = isMy ? 'အကောင့်ဝင်မည်' : 'Sign In';
+  if (forgotLink) forgotLink.textContent = isMy ? 'စကားဝှက် မေ့နေပါသလား?' : 'Forgot Your Password?';
+  if (noAccountTxt) noAccountTxt.textContent = isMy ? 'အကောင့် မရှိသေးပါသလား?' : "Don't have an account?";
+  if (registerLink) registerLink.textContent = isMy ? ' ဤနေရာတွင် မှတ်ပုံတင်ပါ' : ' Register here';
+
+  // Register panel labels
+  const titleReg = document.getElementById('gate-title-reg');
+  const subReg = document.getElementById('gate-subtitle-reg');
+  const regBtnTxt = document.getElementById('gate-register-btn-text');
+  const haveAccountTxt = document.getElementById('gate-have-account-text');
+  const signinLink = document.getElementById('gate-signin-link');
+
+  if (titleReg) titleReg.textContent = isMy ? 'အကောင့် ဖွင့်ရန်' : 'Create Account';
+  if (subReg) subReg.textContent = isMy ? 'အသင်းတော် သို့မဟုတ် ကျောင်း မှတ်ပုံတင်ပါ — အခမဲ့' : 'Register your church or school — 100% Free.';
+  if (regBtnTxt) regBtnTxt.textContent = isMy ? 'အကောင့် ဖွင့်မည်' : 'Create Account';
+  if (haveAccountTxt) haveAccountTxt.textContent = isMy ? 'အကောင့် ရှိပြီးပါပြီလား?' : 'Already have an account?';
+  if (signinLink) signinLink.textContent = isMy ? ' အကောင့်ဝင်ရန်' : ' Sign In';
 }
+
+function toggleWelcomeLang() {
+  const current = typeof lang !== 'undefined' ? lang : 'en';
+  const newLang = current === 'en' ? 'my' : 'en';
+  if (typeof setLanguage === 'function') {
+    setLanguage(newLang);
+  }
+  updateWelcomeGateUI();
+}
+
+function openWelcomeAuth(tab = 'signin') {
+  switchGatePanel(tab);
+}
+
+function switchGatePanel(panel) {
+  const signinPanel = document.getElementById('gate-panel-signin');
+  const regPanel = document.getElementById('gate-panel-register');
+  if (!signinPanel || !regPanel) return;
+  if (panel === 'register') {
+    signinPanel.style.display = 'none';
+    regPanel.style.display = 'block';
+  } else {
+    signinPanel.style.display = 'block';
+    regPanel.style.display = 'none';
+  }
+}
+
+async function handleGateSignIn(e) {
+  e.preventDefault();
+  const emailVal = (document.getElementById('gate-email') || {}).value || '';
+  const passVal = (document.getElementById('gate-password') || {}).value || '';
+  const btn = document.getElementById('gate-signin-btn');
+  const btnTxt = document.getElementById('gate-signin-btn-text');
+
+  if (!emailVal.trim()) { showToast('❌ Email လိုအပ်ပါသည်'); return; }
+
+  if (btn) btn.disabled = true;
+  if (btnTxt) btnTxt.textContent = 'စစ်ဆေးနေပါသည်...';
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: emailVal.trim(), password: passVal })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      const sessionData = {
+        email: emailVal.trim(),
+        displayName: data.displayName || 'Facilitator',
+        churchName: data.churchName || 'Partner Church',
+        loggedIn: true,
+        isGranted: true,
+        role: data.role || 'facilitator',
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+      userPrivilege.loggedIn = true;
+      userPrivilege.isGranted = true;
+      userPrivilege.displayName = sessionData.displayName;
+      userPrivilege.churchName = sessionData.churchName;
+      sendToGoogleSheetsLive({ type: 'login', displayName: sessionData.displayName, email: emailVal.trim(), churchName: sessionData.churchName, role: sessionData.role, platform: 'Mobile App Gate Sign In' });
+      playUpgradeChime();
+      showToast('✓ မင်္ဂလာပါ ' + sessionData.displayName + '! မော်ဂျူးအားလုံး ကြည့်ရှုနိုင်ပါပြီ');
+      updateMobileUserUI();
+      if (typeof updateSettingsModalUI === 'function') updateSettingsModalUI();
+      checkAuthStatus();
+      if (typeof initMobileCinema === 'function') initMobileCinema();
+    } else {
+      showToast('❌ ' + (data.error || 'အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်'));
+    }
+  } catch (err) {
+    showToast('⚠️ Network Error: ' + err.message);
+  } finally {
+    if (btn) btn.disabled = false;
+    if (btnTxt) btnTxt.textContent = (typeof lang !== 'undefined' && lang === 'my') ? 'အကောင့်ဝင်မည်' : 'Sign In';
+  }
+}
+
+async function handleGateRegister(e) {
+  e.preventDefault();
+  const churchVal = (document.getElementById('gate-reg-church') || {}).value || '';
+  const regionVal = (document.getElementById('gate-reg-region') || {}).value || '';
+  const cityVal = (document.getElementById('gate-reg-city') || {}).value || '';
+  const coordVal = (document.getElementById('gate-reg-coord') || {}).value || '';
+  const emailVal = (document.getElementById('gate-reg-email') || {}).value || '';
+  const phoneVal = (document.getElementById('gate-reg-phone') || {}).value || '';
+  const famVal = (document.getElementById('gate-reg-fam') || {}).value || '10–25 Families';
+  const typeVal = (document.getElementById('gate-reg-type') || {}).value || 'Other';
+  const passVal = (document.getElementById('gate-reg-pass') || {}).value || '';
+  const btn = document.getElementById('gate-register-btn');
+  const btnTxt = document.getElementById('gate-register-btn-text');
+
+  if (!churchVal.trim() || !emailVal.trim() || !phoneVal.trim() || !coordVal.trim()) {
+    showToast('❌ ကျေးဇူးပြု၍ လိုအပ်သောနေရာများ ဖြည့်သွင်းပါ (*)');
+    return;
+  }
+
+  if (btn) btn.disabled = true;
+  if (btnTxt) btnTxt.textContent = 'မှတ်ပုံတင်နေပါသည်...';
+
+  const payload = {
+    type: 'registration',
+    source: 'Mobile App',
+    churchName: churchVal.trim(),
+    region: regionVal,
+    city: cityVal.trim(),
+    coordinator: coordVal.trim(),
+    email: emailVal.trim(),
+    phone: phoneVal.trim(),
+    families: famVal,
+    churchType: typeVal,
+    notes: 'Registered via Mobile App Gate',
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    await sendToGoogleSheetsLive(payload);
+
+    // Also register in worker DB
+    const regRes = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...payload, password: passVal })
+    });
+    const regData = await regRes.json();
+
+    if (regRes.ok && regData.status === 'success') {
+      const sessionData = {
+        email: emailVal.trim(),
+        displayName: coordVal.trim(),
+        churchName: churchVal.trim(),
+        loggedIn: true,
+        isGranted: true,
+        role: 'facilitator',
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+      userPrivilege.loggedIn = true;
+      userPrivilege.isGranted = true;
+      userPrivilege.displayName = sessionData.displayName;
+      userPrivilege.churchName = sessionData.churchName;
+      playUpgradeChime();
+      showToast('✓ မှတ်ပုံတင်ပြီးပါပြီ! မော်ဂျူးအားလုံး ကြည့်ရှုနိုင်ပါပြီ');
+      updateMobileUserUI();
+      if (typeof updateSettingsModalUI === 'function') updateSettingsModalUI();
+      checkAuthStatus();
+      if (typeof initMobileCinema === 'function') initMobileCinema();
+    } else {
+      // Registration sent to sheets but worker may not have /api/register endpoint
+      // Still log them in since sheets got the data
+      const sessionData = {
+        email: emailVal.trim(),
+        displayName: coordVal.trim(),
+        churchName: churchVal.trim(),
+        loggedIn: true,
+        isGranted: false,
+        role: 'pending',
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+      userPrivilege.loggedIn = true;
+      playUpgradeChime();
+      showToast('✓ မှတ်ပုံတင်ချက် လက်ခံပြီးပါပြီ! CBN Asia မှ အတည်ပြုပြီး ဝင်ရောက်ခွင့် ပြုမည်');
+      checkAuthStatus();
+    }
+  } catch (err) {
+    showToast('⚠️ Error: ' + err.message);
+    if (btn) btn.disabled = false;
+    if (btnTxt) btnTxt.textContent = 'Create Account';
+  } finally {
+    if (btn) btn.disabled = false;
+    if (btnTxt) btnTxt.textContent = (typeof lang !== 'undefined' && lang === 'my') ? 'အကောင့် ဖွင့်မည်' : 'Create Account';
+  }
+}
+
+window.updateWelcomeGateUI = updateWelcomeGateUI;
+window.toggleWelcomeLang = toggleWelcomeLang;
+window.openWelcomeAuth = openWelcomeAuth;
+window.switchGatePanel = switchGatePanel;
+window.handleGateSignIn = handleGateSignIn;
+window.handleGateRegister = handleGateRegister;
 
 window.togglePrayerFormDrawer = togglePrayerFormDrawer;
 
@@ -3897,6 +4407,10 @@ window.setFeedbackRating = setFeedbackRating;
 window.switchPrayerFeedbackTab = switchPrayerFeedbackTab;
 window.openInAppLoginModal = openInAppLoginModal;
 window.closeInAppLoginModal = closeInAppLoginModal;
+window.switchInAppAuthTab = switchInAppAuthTab;
+window.handleInAppRegisterSubmit = handleInAppRegisterSubmit;
+window.sendToGoogleSheetsLive = sendToGoogleSheetsLive;
+window.openRegModal = openInAppLoginModal;
 window.handleMobileUserClick = handleMobileUserClick;
 window.quickDemoLogin = quickDemoLogin;
 window.handleInAppLoginSubmit = handleInAppLoginSubmit;
@@ -3942,12 +4456,20 @@ function initApp() {
   updateMobileUserUI();
   loadLivePrayers();
 
-  // Handle direct tab deep links (?tab=prayer, ?tab=devotional, ?tab=cinema)
+  // Handle direct tab and modal deep links (?tab=prayer, ?modal=signin, ?modal=register, ?modal=settings)
   try {
     const urlParams = new URLSearchParams(window.location.search);
     const targetTab = urlParams.get('tab');
     if (targetTab) {
       switchAppTab(targetTab);
+    }
+    const modalParam = urlParams.get('modal');
+    if (modalParam === 'signin' || modalParam === 'login') {
+      setTimeout(() => openInAppLoginModal('signin'), 100);
+    } else if (modalParam === 'register' || modalParam === 'reg') {
+      setTimeout(() => openInAppLoginModal('register'), 100);
+    } else if (modalParam === 'settings') {
+      setTimeout(() => openSettingsModal(), 100);
     }
   } catch(e) {}
 }

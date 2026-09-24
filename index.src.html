@@ -17,6 +17,142 @@
 </head>
 <body>
 
+<!-- DEDICATED PHONE APP WELCOME GATEWAY (Appears ONLY on Phone App when not signed in) -->
+<div id="phone-welcome-gate" class="phone-welcome-gate">
+  <!-- Language toggle top-right -->
+  <button type="button" class="gate-lang-btn" id="welcome-lang-btn" onclick="toggleWelcomeLang()" aria-label="Switch Language">
+    🌐 <span id="welcome-lang-text">English</span>
+  </button>
+
+  <!-- Auth card -->
+  <div class="gate-card">
+    <!-- Shield Logo -->
+    <div class="gate-logo-wrap">
+      <img src="official_logo.png" alt="The Parenting Project" class="gate-logo-img"/>
+    </div>
+
+    <!-- Sign In Panel -->
+    <div id="gate-panel-signin" class="gate-panel active">
+      <h2 class="gate-title" id="gate-title-main">Sign In</h2>
+      <p class="gate-subtitle" id="gate-subtitle-main">This page is accessible only to registered churches or schools.</p>
+
+      <form id="gate-signin-form" onsubmit="handleGateSignIn(event)" autocomplete="on">
+        <div class="gate-field">
+          <label class="gate-label" for="gate-email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span id="gate-label-email">Church or School Email</span>
+          </label>
+          <input type="email" id="gate-email" class="gate-input" placeholder="Email" required autocomplete="username"/>
+        </div>
+        <div class="gate-field">
+          <label class="gate-label" for="gate-password">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            <span id="gate-label-password">Password</span>
+          </label>
+          <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="current-password"/>
+        </div>
+        <button type="submit" class="gate-signin-btn" id="gate-signin-btn">
+          <span id="gate-signin-btn-text">Sign In</span>
+        </button>
+        <div class="gate-forgot">
+          <a href="mailto:info@cbnasia.org?subject=Password Reset Request" class="gate-forgot-link" id="gate-forgot-link">Forgot Your Password?</a>
+        </div>
+        <div class="gate-switch-row">
+          <span id="gate-no-account-text">Don't have an account?</span>
+          <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('register')" id="gate-register-link"> Register here</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Register Panel -->
+    <div id="gate-panel-register" class="gate-panel" style="display:none">
+      <h2 class="gate-title" id="gate-title-reg">Create Account</h2>
+      <p class="gate-subtitle" id="gate-subtitle-reg">Register your church or school — 100% Free.</p>
+
+      <form id="gate-register-form" onsubmit="handleGateRegister(event)" autocomplete="on">
+        <div class="gate-field">
+          <label class="gate-label" for="gate-reg-church"><span id="gate-reg-label-church">Church or School Name *</span></label>
+          <input type="text" id="gate-reg-church" class="gate-input" placeholder="Grace Baptist Church" required/>
+        </div>
+        <div class="gate-field-row">
+          <div class="gate-field">
+            <label class="gate-label" for="gate-reg-region"><span id="gate-reg-label-region">State / Region *</span></label>
+            <select id="gate-reg-region" class="gate-input gate-select" required>
+              <option value="Yangon">Yangon</option>
+              <option value="Mandalay">Mandalay</option>
+              <option value="Shan">Shan State</option>
+              <option value="Kachin">Kachin State</option>
+              <option value="Chin">Chin State</option>
+              <option value="Kayin">Kayin State</option>
+              <option value="Mon">Mon State</option>
+              <option value="Sagaing">Sagaing</option>
+              <option value="Bago">Bago</option>
+              <option value="Ayeyarwady">Ayeyarwady</option>
+              <option value="Magway">Magway</option>
+              <option value="Tanintharyi">Tanintharyi</option>
+              <option value="Naypyidaw">Naypyidaw</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-reg-city"><span id="gate-reg-label-city">City / Township *</span></label>
+            <input type="text" id="gate-reg-city" class="gate-input" placeholder="Insein" required/>
+          </div>
+        </div>
+        <div class="gate-field">
+          <label class="gate-label" for="gate-reg-coord"><span id="gate-reg-label-coord">Lead Pastor / Coordinator *</span></label>
+          <input type="text" id="gate-reg-coord" class="gate-input" placeholder="Pastor Name" required/>
+        </div>
+        <div class="gate-field-row">
+          <div class="gate-field">
+            <label class="gate-label" for="gate-reg-email"><span id="gate-reg-label-email">Email *</span></label>
+            <input type="email" id="gate-reg-email" class="gate-input" placeholder="church@gmail.com" required autocomplete="email"/>
+          </div>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-reg-phone"><span id="gate-reg-label-phone">Phone / Viber *</span></label>
+            <input type="tel" id="gate-reg-phone" class="gate-input" placeholder="09..." required/>
+          </div>
+        </div>
+        <div class="gate-field-row">
+          <div class="gate-field">
+            <label class="gate-label" for="gate-reg-fam"><span id="gate-reg-label-fam">Families to Train</span></label>
+            <select id="gate-reg-fam" class="gate-input gate-select">
+              <option value="10–25 Families">10–25 Families</option>
+              <option value="26–50 Families">26–50 Families</option>
+              <option value="51–100 Families">51–100 Families</option>
+              <option value="100+ Families">100+ Families</option>
+            </select>
+          </div>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-reg-type"><span id="gate-reg-label-type">Church Type</span></label>
+            <select id="gate-reg-type" class="gate-input gate-select">
+              <option value="Baptist">Baptist</option>
+              <option value="Catholic">Catholic</option>
+              <option value="Methodist">Methodist</option>
+              <option value="Presbyterian">Presbyterian</option>
+              <option value="Pentecostal">Pentecostal</option>
+              <option value="Non-denominational">Non-denom</option>
+              <option value="School">School</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="gate-field">
+          <label class="gate-label" for="gate-reg-pass"><span id="gate-reg-label-pass">Create Password *</span></label>
+          <input type="password" id="gate-reg-pass" class="gate-input" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password"/>
+        </div>
+        <button type="submit" class="gate-signin-btn" id="gate-register-btn">
+          <span id="gate-register-btn-text">Create Account</span>
+        </button>
+        <div class="gate-switch-row">
+          <span id="gate-have-account-text">Already have an account?</span>
+          <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('signin')" id="gate-signin-link"> Sign In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- DEDICATED NATIVE MOBILE APP HEADER (Appears ONLY in Android App Mode) -->
 <header id="mobile-app-bar" class="mobile-app-only">
   <div class="mobile-app-bar-inner">
@@ -78,7 +214,49 @@
 
     <!-- Bottom Info Pill (Exact match to Photo 1) -->
     <div class="mobile-cinema-bottom-pill" id="mobile-cinema-bottom-pill">
-      Module 1: Foundations | 15 mins
+      Module 1: Being a Positive Role Model | 45 mins
+    </div>
+
+    <!-- Video Detail & Caption Card (Above Bottom Bar) -->
+    <div class="mobile-video-caption-card" id="mobile-video-caption-card">
+      <div class="caption-card-header">
+        <div class="caption-card-badge" id="caption-card-badge">📖 Deuteronomy 6:6-7</div>
+        <button type="button" class="caption-card-btn-action" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
+          <span id="ico-mod-completed">✓</span>
+          <span id="txt-mod-completed">ပြီးဆုံး</span>
+        </button>
+      </div>
+
+      <!-- Core Principle / Caption Quote -->
+      <div class="caption-card-quote-box">
+        <div class="caption-card-quote-my" id="caption-card-quote-my">
+          «မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှု စရိုက်လက္ခဏာသည် သားသမီးများ ပထမဆုံး ဖတ်ရှုရသော ပြဋ္ဌာန်းစာအုပ်ဖြစ်ပါသည်။»
+        </div>
+        <div class="caption-card-quote-en" id="caption-card-quote-en">
+          "Your daily character is the first textbook your child reads."
+        </div>
+      </div>
+
+      <!-- Key Practical Takeaways (3 Bullet Points) -->
+      <div class="caption-card-takeaways">
+        <div class="caption-takeaways-title">
+          <span>🎯 လက်တွေ့ သင်ခန်းစာ အနှစ်ချုပ် (Key Takeaways):</span>
+        </div>
+        <ul class="caption-takeaways-list" id="caption-takeaways-list">
+          <li>မိမိသွန်သင်သော တန်ဖိုးများနှင့်အညီ လက်တွေ့ ညီညွတ်စွာ နေထိုင်ခြင်း</li>
+          <li>မှားယွင်းမှုကို ရိုးသားစွာ ဝန်ခံပြီး သားသမီးထံ တောင်းပန်ခြင်း</li>
+          <li>မိသားစု ဖိစီးမှုများကြားတွင် စိတ်ခံစားမှုကို တည်ငြိမ်စွာ ထိန်းကျောင်းခြင်း</li>
+        </ul>
+      </div>
+
+      <!-- Weekly Family Action Step Callout -->
+      <div class="caption-card-action-box" id="caption-card-action-box">
+        <span class="action-icon">💡</span>
+        <div class="action-text-wrap">
+          <strong>ယခုအပတ် လက်တွေ့လေ့ကျင့်ခန်း:</strong>
+          <span id="caption-card-action-text">«စိတ်တိုဒေါသထွက်တဲ့အခါ အဖေ/အမေ ဘာကို ပြုပြင်သင့်လဲ» ဟု သားသမီးအား မေးမြန်းနားထောင်ပါ။</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -739,6 +917,23 @@
       <div class="settings-lbl">Current Account & Role</div>
       <div class="settings-val" id="settings-user-info">Guest Visitor</div>
       <div id="settings-role-badge" style="margin-top:6px;font-size:0.8rem;color:#4cd964;font-weight:700">● Public Guest Mode</div>
+      
+      <!-- Guest Action Buttons (Sign In / Register) -->
+      <div id="settings-guest-actions" style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+        <button type="button" class="btn btn-gold" style="width:100%;justify-content:center;font-weight:800" onclick="closeSettingsModal();openInAppLoginModal('signin')">
+          <span>🔑 အကောင့်ဝင်ရောက်ရန် (Sign In)</span>
+        </button>
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#ffcc00;border-color:rgba(255,204,0,0.4)" onclick="closeSettingsModal();openInAppLoginModal('register')">
+          <span>✍️ အခမဲ့ စာရင်းသွင်းရန် (Register Free)</span>
+        </button>
+      </div>
+
+      <!-- Logged In Action Button (Sign Out) -->
+      <div id="settings-member-actions" style="margin-top:12px;display:none">
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#ff9999;border-color:rgba(255,60,60,0.4)" onclick="logoutUser();updateSettingsModalUI()">
+          <span>🚪 အကောင့်ထွက်မည် (Sign Out)</span>
+        </button>
+      </div>
     </div>
 
     <!-- Admin / Owner Privilege Unlock Section -->
@@ -1081,45 +1276,56 @@
 <!-- FIXED BOTTOM NAVIGATION BAR FOR NATIVE PHONE EXPERIENCE (Appears ONLY in Android App Mode) -->
 <nav id="mobile-app-bottom-bar" class="mobile-app-only">
   <button type="button" class="app-bottom-tab active" id="btn-app-tab-cinema" onclick="switchAppTab('cinema')" aria-label="Home">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-prayer" onclick="switchAppTab('prayer')" aria-label="Community">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-prayer" onclick="switchAppTab('prayer')" aria-label="Prayer Community">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
+      <path d="M12.5 2c-.28 0-.5.22-.5.5v7.2c-.3-.2-.67-.32-1.07-.32-.93 0-1.7.67-1.88 1.56L9.6 13.2c-.17.81.33 1.58 1.14 1.75.8.17 1.58-.33 1.76-1.14l.43-2.06c.04-.18.19-.31.37-.31h.7v6.62l-2.61-1.3c-.49-.25-1.08-.18-1.5.17l-.82.68 4.3 4.3c.75.75 1.77 1.17 2.83 1.17h4.8c1.66 0 3-1.34 3-3V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v-7c0-.28-.22-.5-.5-.5s-.5.22-.5.5v5.5a1.5 1.5 0 0 1-3 0V2.5c0-.28-.22-.5-.5-.5z"/>
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-devotional" onclick="switchAppTab('devotional')" aria-label="Devotional">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-devotional" onclick="switchAppTab('devotional')" aria-label="Daily Devotion">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
+      <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
   <button type="button" class="app-bottom-tab" id="btn-app-tab-account" onclick="openSettingsModal()" aria-label="Settings">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
       <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
 </nav>
 
-<!-- IN-APP FAST LOGIN MODAL (For seamless mobile login without leaving app) -->
+<!-- IN-APP AUTH & REGISTRATION HUB (Seamless across all screens) -->
 <div id="inapp-login-modal" class="inapp-modal-overlay">
   <div class="inapp-modal-box">
     <button type="button" class="inapp-modal-close" onclick="closeInAppLoginModal()">✕</button>
-    <div style="text-align:center;margin-bottom:14px">
-      <img src="official_logo.png" alt="Logo" style="width:48px;height:48px;margin:0 auto 8px;object-fit:contain"/>
-      <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:2px">အသင်းတော် အကောင့်ဝင်ရောက်ရန်</h3>
-      <p style="font-size:0.75rem;color:rgba(255,255,255,0.7)">Sign in to unlock all 11 modules and video sessions</p>
+    <div style="text-align:center;margin-bottom:12px">
+      <img src="official_logo.png" alt="Logo" style="width:46px;height:46px;margin:0 auto 6px;object-fit:contain"/>
+      <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:2px" id="inapp-auth-title">အသင်းတော် အကောင့်စနစ်</h3>
+      <p style="font-size:0.75rem;color:rgba(255,255,255,0.7)" id="inapp-auth-sub">Sign in or register free to unlock all 11 modules</p>
     </div>
 
+    <!-- Tab Switcher: Sign In vs Register Free -->
+    <div class="inapp-tabs-wrap">
+      <button type="button" class="inapp-tab-btn active" id="tab-inapp-signin" onclick="switchInAppAuthTab('signin')">
+        🔑 အကောင့်ဝင်ရန် (Sign In)
+      </button>
+      <button type="button" class="inapp-tab-btn" id="tab-inapp-register" onclick="switchInAppAuthTab('register')">
+        ✍️ အခမဲ့ စာရင်းသွင်း (Register)
+      </button>
+    </div>
+
+    <!-- 1. SIGN IN FORM -->
     <form id="inapp-login-form" onsubmit="handleInAppLoginSubmit(event)">
       <div style="margin-bottom:10px">
-        <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:3px">Church or Parent Email</label>
-        <input type="text" id="inapp-email" class="prayer-input" placeholder="ဥပမာ- parent@cbn.org" required style="margin-bottom:0"/>
+        <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:3px">Church or Parent Email / Phone</label>
+        <input type="text" id="inapp-email" class="prayer-input" placeholder="ဥပမာ- pastor@church.org သို့မဟုတ် 09..." required style="margin-bottom:0"/>
       </div>
       <div style="margin-bottom:12px">
         <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:3px">Password (စကားဝှက်)</label>
@@ -1137,7 +1343,81 @@
       </button>
 
       <div style="margin-top:14px;text-align:center">
-        <a href="javascript:void(0)" onclick="closeInAppLoginModal();openRegModal()" style="font-size:0.75rem;color:#ffcc00;font-weight:700">အသင်းတော် စာရင်းမသွင်းရသေးပါက အခမဲ့ စာရင်းသွင်းရန် →</a>
+        <a href="javascript:void(0)" onclick="switchInAppAuthTab('register')" style="font-size:0.75rem;color:#ffcc00;font-weight:700">အသင်းတော် စာရင်းမသွင်းရသေးပါက အခမဲ့ စာရင်းသွင်းရန် →</a>
+      </div>
+    </form>
+
+    <!-- 2. REGISTER FORM (Direct to Google Sheets & Worker DB) -->
+    <form id="inapp-register-form" style="display:none" onsubmit="handleInAppRegisterSubmit(event)">
+      <div style="margin-bottom:9px">
+        <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">Church or School Name (အသင်းတော်/ကျောင်းအမည်) *</label>
+        <input type="text" id="inapp-reg-church" class="prayer-input" placeholder="ဥပမာ- ရန်ကုန်ကျေးဇူးတော် နှစ်ခြင်းအသင်းတော်" required style="margin-bottom:0"/>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px">
+        <div>
+          <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">State / Region (တိုင်းဒေသကြီး) *</label>
+          <select id="inapp-reg-region" class="prayer-select" style="margin-bottom:0;padding:8px 10px;font-size:0.75rem">
+            <option value="Yangon">Yangon (ရန်ကုန်)</option>
+            <option value="Mandalay">Mandalay (မန္တလေး)</option>
+            <option value="Shan">Shan State (ရှမ်း)</option>
+            <option value="Kachin">Kachin State (ကချင်)</option>
+            <option value="Chin">Chin State (ချင်း)</option>
+            <option value="Kayin">Kayin State (ကရင်)</option>
+            <option value="Mon">Mon State (မွန်)</option>
+            <option value="Sagaing">Sagaing (စစ်ကိုင်း)</option>
+            <option value="Bago">Bago (ပဲခူး)</option>
+            <option value="Ayeyarwady">Ayeyarwady (ဧရာဝတီ)</option>
+            <option value="Magway">Magway (မကွေး)</option>
+            <option value="Tanintharyi">Tanintharyi (တနင်္သာရီ)</option>
+            <option value="Naypyidaw">Naypyidaw (နေပြည်တော်)</option>
+            <option value="Other">Other / International</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">City / Township (မြို့နယ်) *</label>
+          <input type="text" id="inapp-reg-city" class="prayer-input" placeholder="ဥပမာ- အင်းစိန်" required style="margin-bottom:0"/>
+        </div>
+      </div>
+
+      <div style="margin-bottom:9px">
+        <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">Lead Pastor / Coordinator (ဦးဆောင်သူ အမည်) *</label>
+        <input type="text" id="inapp-reg-coord" class="prayer-input" placeholder="ဦးဆောင်သူ သင်းအုပ်/ဆရာ အမည်" required style="margin-bottom:0"/>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px">
+        <div>
+          <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">Email (အီးမေးလ်) *</label>
+          <input type="email" id="inapp-reg-email" class="prayer-input" placeholder="church@gmail.com" required style="margin-bottom:0"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">Phone / Viber *</label>
+          <input type="tel" id="inapp-reg-phone" class="prayer-input" placeholder="09..." required style="margin-bottom:0"/>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div>
+          <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">Families to Train *</label>
+          <select id="inapp-reg-fam" class="prayer-select" style="margin-bottom:0;padding:8px 10px;font-size:0.75rem">
+            <option value="10–25 Families">10 – 25 Families</option>
+            <option value="26–50 Families">26 – 50 Families</option>
+            <option value="51–100 Families">51 – 100 Families</option>
+            <option value="100+ Families">100+ Families</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px">Password (စကားဝှက်) *</label>
+          <input type="password" id="inapp-reg-pass" class="prayer-input" placeholder="အနည်းဆုံး ၆ လုံး" required style="margin-bottom:0"/>
+        </div>
+      </div>
+
+      <button type="submit" class="prayer-submit-btn" id="btn-inapp-reg" style="background:linear-gradient(135deg,#ffcc00,#f39c12);color:#061830;font-weight:800">
+        📝 အခမဲ့ စာရင်းသွင်းမည် (Complete Registration)
+      </button>
+
+      <div style="margin-top:12px;text-align:center">
+        <a href="javascript:void(0)" onclick="switchInAppAuthTab('signin')" style="font-size:0.75rem;color:#ffcc00;font-weight:700">အကောင့်ရှိပြီးသားဖြစ်ပါက အကောင့်ဝင်ရန် →</a>
       </div>
     </form>
   </div>

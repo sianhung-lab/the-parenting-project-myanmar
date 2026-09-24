@@ -32,21 +32,38 @@ def get_b64(filename, mime):
     return ""
 
 logo_b64 = get_b64('official_logo.png', 'image/png')
-hero_b64 = get_b64('hero_couple_opt.jpg', 'image/jpeg')
+hero_b64 = get_b64('opt_brand_hero.jpg', 'image/jpeg') or get_b64('brand_hero_zoomed.jpg', 'image/jpeg')
+church_b64 = get_b64('opt_church.jpg', 'image/jpeg') or get_b64('church_couple_welcoming.jpg', 'image/jpeg')
+banner_b64 = get_b64('opt_banner.jpg', 'image/jpeg') or get_b64('banner.jpg', 'image/jpeg')
 avatar_couple_b64 = get_b64('avatar_couple.jpg', 'image/jpeg')
 avatar_refugee_b64 = get_b64('avatar_refugee.jpg', 'image/jpeg')
 avatar_edu_b64 = get_b64('avatar_education.jpg', 'image/jpeg')
+login_bg_b64 = get_b64('opt_login_bg.jpg', 'image/jpeg') or get_b64('login_bg.jpg', 'image/jpeg')
+welcome_bg_b64 = get_b64('welcome_gate_bg.jpg', 'image/jpeg')
 
 if logo_b64:
     index_compiled = index_compiled.replace('src="official_logo.png"', f'src="{logo_b64}"')
+    login_html = login_html.replace('src="official_logo.png"', f'src="{logo_b64}"')
+    reg_html = reg_html.replace('src="official_logo.png"', f'src="{logo_b64}"')
 if hero_b64:
+    index_compiled = index_compiled.replace('src="brand_hero_zoomed.jpg"', f'src="{hero_b64}"')
     index_compiled = index_compiled.replace('src="hero_couple_opt.jpg"', f'src="{hero_b64}"')
+if church_b64:
+    index_compiled = index_compiled.replace('src="church_couple_welcoming.jpg"', f'src="{church_b64}"')
+if banner_b64:
+    index_compiled = index_compiled.replace('src="banner.jpg"', f'src="{banner_b64}"')
 if avatar_couple_b64:
     index_compiled = index_compiled.replace('src="avatar_couple.jpg"', f'src="{avatar_couple_b64}"')
 if avatar_refugee_b64:
     index_compiled = index_compiled.replace('src="avatar_refugee.jpg"', f'src="{avatar_refugee_b64}"')
 if avatar_edu_b64:
     index_compiled = index_compiled.replace('src="avatar_education.jpg"', f'src="{avatar_edu_b64}"')
+if login_bg_b64:
+    login_html = login_html.replace("url('login_bg.jpg')", f"url('{login_bg_b64}')")
+    reg_html = reg_html.replace("url('login_bg.jpg')", f"url('{login_bg_b64}')")
+if welcome_bg_b64:
+    index_compiled = index_compiled.replace("url('welcome_gate_bg.jpg')", f"url('{welcome_bg_b64}')")
+    index_compiled = index_compiled.replace('url("welcome_gate_bg.jpg")', f'url("{welcome_bg_b64}")')
 
 # Default custom videos
 default_videos = []
@@ -166,8 +183,29 @@ worker_code = f"""
 // Cloudflare Worker for The Parenting Project Myanmar
 // Edge-accelerated with instant Google Sheets sync and In-Page Admin Hub
 
-const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GOOGLE_SHEETS_URL_1 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+const GOOGLE_SHEETS_URL_2 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
 const STAFF_PASSCODE = "cbn2026";
+
+function syncToGoogleSheetsDual(ctx, payload) {{
+  if (!ctx || !payload) return;
+  const body = JSON.stringify(payload);
+  ctx.waitUntil(
+    Promise.allSettled([
+      fetch(GOOGLE_SHEETS_URL_1, {{
+        method: "POST",
+        headers: {{ "Content-Type": "application/json" }},
+        body: body
+      }}),
+      fetch(GOOGLE_SHEETS_URL_2, {{
+        method: "POST",
+        headers: {{ "Content-Type": "application/json" }},
+        body: body
+      }})
+    ]).then(() => console.log("✓ Google Sheets dual sync completed:", payload.type || "event"))
+      .catch(err => console.log("Google Sheets sync note:", err))
+  );
+}}
 
 // Initial In-Memory State (persists across warm isolates; can also bind to KV if available)
 let registrationsDB = {json.dumps(default_regs)};
@@ -284,14 +322,8 @@ export default {{
         registrationsDB.unshift(newEntry);
         if (env.KV) await env.KV.put("registrations", JSON.stringify(registrationsDB));
 
-        // Forward to Google Sheets Webhook in background
-        ctx.waitUntil(
-          fetch(GOOGLE_SHEETS_URL, {{
-            method: "POST",
-            headers: {{ "Content-Type": "application/json" }},
-            body: JSON.stringify(payload)
-          }}).catch(err => console.log("Google Sheets sync note:", err))
-        );
+        // Forward to Google Sheets Webhooks in background
+        syncToGoogleSheetsDual(ctx, Object.assign({{ type: "registration" }}, payload));
 
         return jsonResponse({{
           status: "success",
@@ -312,6 +344,14 @@ export default {{
 
         // Check if admin passcode
         if (password === STAFF_PASSCODE || emailOrPhone === "admin@cbn.org") {{
+          syncToGoogleSheetsDual(ctx, {{
+            type: "login",
+            email: emailOrPhone,
+            displayName: "CBN Asia Admin",
+            churchName: "CBN Asia Headquarters",
+            role: "admin",
+            platform: "Cloudflare API Admin Login"
+          }});
           return jsonResponse({{
             status: "success",
             role: "admin",
@@ -323,6 +363,14 @@ export default {{
 
         // Quick 1-tap parent test login
         if (emailOrPhone === "demo" || emailOrPhone === "parent@cbn.org" || password === "demo") {{
+          syncToGoogleSheetsDual(ctx, {{
+            type: "login",
+            email: emailOrPhone,
+            displayName: "စံပြမိဘ (Myanmar Parent)",
+            churchName: "Grace Community Church",
+            role: "parent",
+            platform: "Cloudflare API Quick Login"
+          }});
           return jsonResponse({{
             status: "success",
             role: "parent",
@@ -339,6 +387,14 @@ export default {{
         );
 
         if (church) {{
+          syncToGoogleSheetsDual(ctx, {{
+            type: "login",
+            email: emailOrPhone,
+            displayName: church.coordName,
+            churchName: church.churchName,
+            role: "facilitator",
+            platform: "Cloudflare API Facilitator Login"
+          }});
           return jsonResponse({{
             status: "success",
             role: "facilitator",
@@ -352,6 +408,14 @@ export default {{
         if (emailOrPhone.includes("@")) {{
           const namePart = emailOrPhone.split('@')[0];
           const userDisplay = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+          syncToGoogleSheetsDual(ctx, {{
+            type: "login",
+            email: emailOrPhone,
+            displayName: userDisplay,
+            churchName: "Partner Family",
+            role: "parent",
+            platform: "Cloudflare API Parent Login"
+          }});
           return jsonResponse({{
             status: "success",
             role: "parent",
@@ -391,6 +455,16 @@ export default {{
         }};
         prayersDB.unshift(newPrayer);
         if (env.KV) await env.KV.put("prayers", JSON.stringify(prayersDB));
+
+        // Forward to Google Sheets Webhooks
+        syncToGoogleSheetsDual(ctx, {{
+          type: "prayer",
+          author: newPrayer.author,
+          city: newPrayer.city,
+          category: newPrayer.catName,
+          text: newPrayer.text
+        }});
+
         return jsonResponse({{ status: "success", prayer: newPrayer }});
       }} catch (err) {{
         return jsonResponse({{ error: err.message }}, 400);
@@ -438,6 +512,16 @@ export default {{
         }};
         feedbackDB.unshift(newFb);
         if (env.KV) await env.KV.put("feedback", JSON.stringify(feedbackDB));
+
+        // Forward to Google Sheets Webhooks
+        syncToGoogleSheetsDual(ctx, {{
+          type: "prayer",
+          author: newFb.author,
+          city: newFb.church,
+          category: "⭐ " + newFb.rating + " Stars · " + newFb.module + ": " + newFb.moduleTitle,
+          text: newFb.text
+        }});
+
         return jsonResponse({{ status: "success", feedback: newFb }});
       }} catch (err) {{
         return jsonResponse({{ error: err.message }}, 400);
@@ -545,5 +629,8 @@ export default {{
 with open(os.path.join(DIR, 'worker.js'), 'w', encoding='utf-8') as f:
     f.write(worker_code.strip())
 
+with open(os.path.join(DIR, 'index.html'), 'w', encoding='utf-8') as f:
+    f.write(index_compiled)
+
 size_kb = os.path.getsize(os.path.join(DIR, 'worker.js')) / 1024
-print(f"✅ Generated worker.js ({size_kb:.1f} KB)")
+print(f"✅ Generated worker.js ({size_kb:.1f} KB) and index.html")

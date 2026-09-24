@@ -33,6 +33,93 @@ function doPost(e) {
 
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    // Parse incoming data from website or phone app form
+    var data = {};
+    if (e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (parseErr) {
+        data = e.parameter;
+      }
+    } else {
+      data = e.parameter;
+    }
+
+    var now = new Date();
+    var timestamp = Utilities.formatDate(now, "Asia/Yangon", "yyyy-MM-dd HH:mm:ss");
+    var type = (data.type || "registration").toLowerCase();
+
+    // ==========================================
+    // 1. USER LOGIN & ACTIVITY TAB
+    // ==========================================
+    if (type === "login") {
+      var loginSheet = ss.getSheetByName("User Logins & Activity");
+      if (!loginSheet) {
+        loginSheet = ss.insertSheet("User Logins & Activity");
+        var logHeaders = ["Timestamp", "Display Name", "Email / Account", "Church / School", "Role", "Platform"];
+        loginSheet.appendRow(logHeaders);
+        var hRange = loginSheet.getRange(1, 1, 1, logHeaders.length);
+        hRange.setBackground("#003087");
+        hRange.setFontColor("#FFFFFF");
+        hRange.setFontWeight("bold");
+        hRange.setFontFamily("Plus Jakarta Sans");
+        loginSheet.setFrozenRows(1);
+      }
+
+      var loginRow = [
+        timestamp,
+        data.displayName || data.coordName || "Facilitator",
+        data.email || "",
+        data.churchName || "Partner Church",
+        data.role || "facilitator",
+        data.platform || "Mobile App / Web"
+      ];
+      loginSheet.appendRow(loginRow);
+
+      return ContentService.createTextOutput(JSON.stringify({
+        result: "success",
+        type: "login",
+        timestamp: timestamp
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ==========================================
+    // 2. PRAYER REQUESTS TAB
+    // ==========================================
+    if (type === "prayer") {
+      var prayerSheet = ss.getSheetByName("Prayer Requests");
+      if (!prayerSheet) {
+        prayerSheet = ss.insertSheet("Prayer Requests");
+        var prayHeaders = ["Timestamp", "Author", "City / Region", "Category", "Prayer Content"];
+        prayerSheet.appendRow(prayHeaders);
+        var pRange = prayerSheet.getRange(1, 1, 1, prayHeaders.length);
+        pRange.setBackground("#0F2A4A");
+        pRange.setFontColor("#FFFFFF");
+        pRange.setFontWeight("bold");
+        pRange.setFontFamily("Plus Jakarta Sans");
+        prayerSheet.setFrozenRows(1);
+      }
+
+      var prayerRow = [
+        timestamp,
+        data.author || "Anonymous Parent",
+        data.city || "Myanmar",
+        data.category || "General",
+        data.text || data.prayer || ""
+      ];
+      prayerSheet.appendRow(prayerRow);
+
+      return ContentService.createTextOutput(JSON.stringify({
+        result: "success",
+        type: "prayer",
+        timestamp: timestamp
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ==========================================
+    // 3. CHURCH & PARENT REGISTRATIONS TAB (Default)
+    // ==========================================
     var sheet = ss.getSheetByName("Church Registrations");
     
     // Auto-create Sheet and Headers if sheet doesn't exist yet
@@ -63,20 +150,6 @@ function doPost(e) {
       sheet.setFrozenRows(1);
     }
 
-    // Parse incoming data from website form
-    var data = {};
-    if (e.postData && e.postData.contents) {
-      try {
-        data = JSON.parse(e.postData.contents);
-      } catch (parseErr) {
-        data = e.parameter;
-      }
-    } else {
-      data = e.parameter;
-    }
-
-    var now = new Date();
-    var timestamp = Utilities.formatDate(now, "Asia/Yangon", "yyyy-MM-dd HH:mm:ss");
     var rowCount = sheet.getLastRow();
     var regId = "TPP-MM-" + Utilities.formatString("%04d", rowCount);
 
@@ -91,7 +164,7 @@ function doPost(e) {
       data.email || "",
       data.phone || "",
       data.fam || "10–25 Families",
-      "New Registration"
+      "New Registration ✅"
     ];
 
     sheet.appendRow(newRow);
@@ -102,13 +175,13 @@ function doPost(e) {
     rowRange.setFontFamily("Plus Jakarta Sans");
     rowRange.setVerticalAlignment("middle");
     
-    // Light gray alternating row background
     if (lastRowIdx % 2 === 0) {
       rowRange.setBackground("#F8FAFC");
     }
 
     return ContentService.createTextOutput(JSON.stringify({
       result: "success",
+      type: "registration",
       regId: regId,
       timestamp: timestamp,
       message: "Registration successfully recorded into Google Sheet!"

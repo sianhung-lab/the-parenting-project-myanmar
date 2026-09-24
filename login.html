@@ -497,12 +497,32 @@ function toggleLang() {
   showToast(currentLang === 'my' ? "မြန်မာဘာသာသို့ ပြောင်းလဲပြီးပါပြီ" : "Switched to English");
 }
 
-function handleLogin(e) {
+const GS_WEBHOOK_URL_1 = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GS_WEBHOOK_URL_2 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+
+function sendToGoogleSheetsLive(payload) {
+  if (!payload) return;
+  const jsonStr = JSON.stringify(payload);
+  [GS_WEBHOOK_URL_1, GS_WEBHOOK_URL_2].forEach(url => {
+    try {
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonStr
+      }).catch(e => console.warn(e));
+    } catch(err) {}
+  });
+}
+
+async function handleLogin(e) {
   e.preventDefault();
   const btn = document.getElementById('l-btn-submit');
   const txt = document.getElementById('l-btn-txt');
   const emailInput = document.getElementById('email');
+  const passInput = document.getElementById('password');
   const emailVal = emailInput ? emailInput.value.trim() : '';
+  const passVal = passInput ? passInput.value.trim() : '';
   const origTxt = txt.textContent;
   
   btn.disabled = true;
@@ -515,11 +535,38 @@ function handleLogin(e) {
     userDisplay = prefix.charAt(0).toUpperCase() + prefix.slice(1);
   }
 
-  // Save session to localStorage
+  // 1. Send login activity directly to Dual Google Sheets
+  sendToGoogleSheetsLive({
+    type: "login",
+    email: emailVal,
+    displayName: userDisplay,
+    churchName: "Partner Church",
+    role: "facilitator",
+    platform: "Desktop Login Page"
+  });
+
+  // 2. Authenticate against API
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: emailVal, password: passVal })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      userDisplay = data.displayName || userDisplay;
+    }
+  } catch (err) {
+    console.warn("Backend auth note:", err);
+  }
+
+  // 3. Save full session to localStorage
   localStorage.setItem('tpp_user_session', JSON.stringify({
     email: emailVal,
     displayName: userDisplay,
     loggedIn: true,
+    isGranted: true,
+    role: 'facilitator',
     loginTime: new Date().toISOString()
   }));
 
@@ -529,8 +576,8 @@ function handleLogin(e) {
     showToast(TRANSLATIONS[currentLang].loginSuccess);
     setTimeout(() => {
       window.location.href = "index.html";
-    }, 1200);
-  }, 900);
+    }, 800);
+  }, 600);
 }
 
 function openForgotModal(e) {

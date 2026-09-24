@@ -876,26 +876,54 @@ function sendToExcelBackend(data) {
   });
 }
 
-// Google Sheets Webhook URL from CBN Myanmar Apps Script
-const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+// Dual Google Sheets Webhook URLs from CBN Myanmar Apps Script
+const GOOGLE_SHEETS_WEBHOOK_URL_1 = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GOOGLE_SHEETS_WEBHOOK_URL_2 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
 
 function sendToGoogleSheets(data) {
-  if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
-  fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  }).then(() => {
-    console.log("✓ Dispatched to Google Sheet");
-  }).catch(e => {
-    console.warn("Google Sheet sync note:", e);
+  const payload = Object.assign({ type: "registration" }, data);
+  const jsonStr = JSON.stringify(payload);
+  [GOOGLE_SHEETS_WEBHOOK_URL_1, GOOGLE_SHEETS_WEBHOOK_URL_2].forEach(url => {
+    try {
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonStr
+      }).then(() => {
+        console.log("✓ Dispatched to Google Sheet:", url.substring(0, 45));
+      }).catch(e => {
+        console.warn("Google Sheet sync note:", e);
+      });
+    } catch(err) {}
   });
 }
 
 function sendToDataDestination(data) {
   sendToExcelBackend(data);
   sendToGoogleSheets(data);
+
+  // Auto-login registered church user and unlock curriculum
+  const sessionData = {
+    email: data.email,
+    displayName: data.coordName || 'Facilitator',
+    churchName: data.churchName || 'Partner Church',
+    loggedIn: true,
+    isGranted: true,
+    role: 'facilitator',
+    loginTime: new Date().toISOString()
+  };
+  localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+
+  // Log initial login event to Google Sheets
+  sendToGoogleSheets({
+    type: 'login',
+    displayName: sessionData.displayName,
+    email: sessionData.email,
+    churchName: sessionData.churchName,
+    role: 'facilitator',
+    platform: 'Standalone Register Page'
+  });
 }
 
 function showAccessibilityTip() {
