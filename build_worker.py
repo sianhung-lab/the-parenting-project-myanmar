@@ -212,8 +212,8 @@ export default {{
     }}
 
     // Download APK route
-    if (path === "/apk" || path === "/download" || path === "/ParentingProjectMyanmar.apk") {{
-      return Response.redirect("https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.0.0/ParentingProjectMyanmar.apk", 302);
+    if (path === "/apk" || path === "/download" || path === "/download/apk" || path === "/app.apk" || path === "/ParentingProjectMyanmar.apk") {{
+      return Response.redirect("https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk", 302);
     }}
 
     // 1. Static Pages
