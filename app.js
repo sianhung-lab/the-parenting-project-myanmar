@@ -1367,7 +1367,7 @@ function renderReg() {
 // DUAL GOOGLE SHEETS LIVE DATA SYNC
 // ==========================================
 const GS_WEBHOOK_URL_1 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
-const GS_WEBHOOK_URL_2 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+const GS_WEBHOOK_URL_2 = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
 
 function sendToGoogleSheetsLive(payload) {
   if (!payload) return;

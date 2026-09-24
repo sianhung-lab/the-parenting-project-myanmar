@@ -184,7 +184,7 @@ worker_code = f"""
 // Edge-accelerated with instant Google Sheets sync and In-Page Admin Hub
 
 const GOOGLE_SHEETS_URL_1 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
-const GOOGLE_SHEETS_URL_2 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+const GOOGLE_SHEETS_URL_2 = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
 const STAFF_PASSCODE = "cbn2026";
 
 function syncToGoogleSheetsDual(ctx, payload) {{
