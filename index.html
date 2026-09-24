@@ -2902,28 +2902,46 @@ body.is-mobile-app.is-authenticated .phone-welcome-gate,
   box-sizing: border-box;
 }
 
-/* Language toggle button – top right corner */
-.gate-lang-btn {
+/* Two-Language Switcher Pills — top right corner */
+.gate-lang-selector {
   position: absolute;
-  top: 12px;
+  top: 14px;
   right: 14px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  font-size: 0.72rem;
+  z-index: 100;
+  display: flex;
+  background: rgba(5, 18, 38, 0.85);
+  border: 1px solid rgba(245, 168, 0, 0.5);
+  border-radius: 9999px;
+  padding: 3px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  gap: 3px;
+}
+.gate-lang-pill {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.74rem;
   font-weight: 700;
-  padding: 5px 11px;
+  padding: 6px 12px;
   border-radius: 9999px;
   cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  backdrop-filter: blur(6px);
-  transition: background 0.2s;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  white-space: nowrap;
 }
-.gate-lang-btn:active {
-  background: rgba(255,255,255,0.28);
+.gate-lang-pill:hover {
+  color: #ffffff;
+}
+.gate-lang-pill.active {
+  background: linear-gradient(135deg, #f0c355 0%, #e6a700 100%);
+  color: #061830;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(240, 180, 0, 0.4);
+}
+
+.gate-lang-btn {
+  display: none;
 }
 
 /* Auth Card — navy, centered, matches screenshot */
@@ -4621,10 +4639,11 @@ body.is-mobile-app .mobile-cert-card-footer {
 
 <!-- DEDICATED PHONE APP WELCOME GATEWAY (Appears ONLY on Phone App when not signed in) -->
 <div id="phone-welcome-gate" class="phone-welcome-gate">
-  <!-- Language toggle top-right -->
-  <button type="button" class="gate-lang-btn" id="welcome-lang-btn" onclick="toggleWelcomeLang()" aria-label="Switch Language">
-    🌐 <span id="welcome-lang-text">English</span>
-  </button>
+  <!-- Two-Language Switcher (Myanmar & English) -->
+  <div class="gate-lang-selector" id="gate-lang-selector" aria-label="Language Selector">
+    <button type="button" class="gate-lang-pill active" id="gate-lang-my" onclick="setAppLanguage('my')">🇲🇲 မြန်မာ</button>
+    <button type="button" class="gate-lang-pill" id="gate-lang-en" onclick="setAppLanguage('en')">🇬🇧 English</button>
+  </div>
 
   <!-- Auth card -->
   <div class="gate-card">
@@ -10253,13 +10272,50 @@ function togglePrayerFormDrawer() {
       drawer.scrollIntoView({ behavior: 'smooth' });
     }
   }
+}
+
 // ==========================================
-// PHONE APP WELCOME GATE LOGIC
+// PHONE APP WELCOME GATE LOGIC & BILINGUAL SUPPORT
 // ==========================================
+function setAppLanguage(newLang) {
+  lang = (newLang === 'my' || newLang === 'burmese') ? 'my' : 'en';
+  try { localStorage.setItem('tpp_lang', lang); } catch (e) {}
+  document.body.classList.toggle('lang-my', lang === 'my');
+  
+  // Update desktop lang button
+  const dLangBtn = document.getElementById('lang-btn');
+  if (dLangBtn) dLangBtn.textContent = lang === 'my' ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+
+  // Update mobile app header lang button
+  const mLangBtn = document.getElementById('mobile-app-btn-lang');
+  if (mLangBtn) mLangBtn.textContent = lang === 'my' ? 'EN' : 'မြန်မာ';
+
+  // Update gate language pills
+  const pillMy = document.getElementById('gate-lang-my');
+  const pillEn = document.getElementById('gate-lang-en');
+  if (pillMy) pillMy.classList.toggle('active', lang === 'my');
+  if (pillEn) pillEn.classList.toggle('active', lang === 'en');
+
+  const langTxt = document.getElementById('welcome-lang-text');
+  if (langTxt) langTxt.textContent = lang === 'my' ? 'မြန်မာ' : 'English';
+
+  applyLang();
+  updateWelcomeGateUI();
+  if (typeof renderModules === 'function') renderModules();
+  if (typeof initMobileCinema === 'function') initMobileCinema();
+}
+window.setAppLanguage = setAppLanguage;
+
 function updateWelcomeGateUI() {
   const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
 
-  // Language toggle text
+  // Language toggle pills state
+  const pillMy = document.getElementById('gate-lang-my');
+  const pillEn = document.getElementById('gate-lang-en');
+  if (pillMy) pillMy.classList.toggle('active', isMy);
+  if (pillEn) pillEn.classList.toggle('active', !isMy);
+
+  // Fallback single button text if present
   const langTxt = document.getElementById('welcome-lang-text');
   if (langTxt) langTxt.textContent = isMy ? 'မြန်မာ' : 'English';
 
@@ -10301,11 +10357,9 @@ function updateWelcomeGateUI() {
 function toggleWelcomeLang() {
   const current = typeof lang !== 'undefined' ? lang : 'en';
   const newLang = current === 'en' ? 'my' : 'en';
-  if (typeof setLanguage === 'function') {
-    setLanguage(newLang);
-  }
-  updateWelcomeGateUI();
+  setAppLanguage(newLang);
 }
+window.toggleWelcomeLang = toggleWelcomeLang;
 
 function openWelcomeAuth(tab = 'signin') {
   switchGatePanel(tab);

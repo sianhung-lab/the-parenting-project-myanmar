@@ -4187,13 +4187,50 @@ function togglePrayerFormDrawer() {
       drawer.scrollIntoView({ behavior: 'smooth' });
     }
   }
+}
+
 // ==========================================
-// PHONE APP WELCOME GATE LOGIC
+// PHONE APP WELCOME GATE LOGIC & BILINGUAL SUPPORT
 // ==========================================
+function setAppLanguage(newLang) {
+  lang = (newLang === 'my' || newLang === 'burmese') ? 'my' : 'en';
+  try { localStorage.setItem('tpp_lang', lang); } catch (e) {}
+  document.body.classList.toggle('lang-my', lang === 'my');
+  
+  // Update desktop lang button
+  const dLangBtn = document.getElementById('lang-btn');
+  if (dLangBtn) dLangBtn.textContent = lang === 'my' ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+
+  // Update mobile app header lang button
+  const mLangBtn = document.getElementById('mobile-app-btn-lang');
+  if (mLangBtn) mLangBtn.textContent = lang === 'my' ? 'EN' : 'မြန်မာ';
+
+  // Update gate language pills
+  const pillMy = document.getElementById('gate-lang-my');
+  const pillEn = document.getElementById('gate-lang-en');
+  if (pillMy) pillMy.classList.toggle('active', lang === 'my');
+  if (pillEn) pillEn.classList.toggle('active', lang === 'en');
+
+  const langTxt = document.getElementById('welcome-lang-text');
+  if (langTxt) langTxt.textContent = lang === 'my' ? 'မြန်မာ' : 'English';
+
+  applyLang();
+  updateWelcomeGateUI();
+  if (typeof renderModules === 'function') renderModules();
+  if (typeof initMobileCinema === 'function') initMobileCinema();
+}
+window.setAppLanguage = setAppLanguage;
+
 function updateWelcomeGateUI() {
   const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
 
-  // Language toggle text
+  // Language toggle pills state
+  const pillMy = document.getElementById('gate-lang-my');
+  const pillEn = document.getElementById('gate-lang-en');
+  if (pillMy) pillMy.classList.toggle('active', isMy);
+  if (pillEn) pillEn.classList.toggle('active', !isMy);
+
+  // Fallback single button text if present
   const langTxt = document.getElementById('welcome-lang-text');
   if (langTxt) langTxt.textContent = isMy ? 'မြန်မာ' : 'English';
 
@@ -4235,11 +4272,9 @@ function updateWelcomeGateUI() {
 function toggleWelcomeLang() {
   const current = typeof lang !== 'undefined' ? lang : 'en';
   const newLang = current === 'en' ? 'my' : 'en';
-  if (typeof setLanguage === 'function') {
-    setLanguage(newLang);
-  }
-  updateWelcomeGateUI();
+  setAppLanguage(newLang);
 }
+window.toggleWelcomeLang = toggleWelcomeLang;
 
 function openWelcomeAuth(tab = 'signin') {
   switchGatePanel(tab);

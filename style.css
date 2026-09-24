@@ -2887,28 +2887,46 @@ body.is-mobile-app.is-authenticated .phone-welcome-gate,
   box-sizing: border-box;
 }
 
-/* Language toggle button – top right corner */
-.gate-lang-btn {
+/* Two-Language Switcher Pills — top right corner */
+.gate-lang-selector {
   position: absolute;
-  top: 12px;
+  top: 14px;
   right: 14px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  font-size: 0.72rem;
+  z-index: 100;
+  display: flex;
+  background: rgba(5, 18, 38, 0.85);
+  border: 1px solid rgba(245, 168, 0, 0.5);
+  border-radius: 9999px;
+  padding: 3px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  gap: 3px;
+}
+.gate-lang-pill {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.74rem;
   font-weight: 700;
-  padding: 5px 11px;
+  padding: 6px 12px;
   border-radius: 9999px;
   cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  backdrop-filter: blur(6px);
-  transition: background 0.2s;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  white-space: nowrap;
 }
-.gate-lang-btn:active {
-  background: rgba(255,255,255,0.28);
+.gate-lang-pill:hover {
+  color: #ffffff;
+}
+.gate-lang-pill.active {
+  background: linear-gradient(135deg, #f0c355 0%, #e6a700 100%);
+  color: #061830;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(240, 180, 0, 0.4);
+}
+
+.gate-lang-btn {
+  display: none;
 }
 
 /* Auth Card — navy, centered, matches screenshot */

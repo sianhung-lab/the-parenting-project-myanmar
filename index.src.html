@@ -19,10 +19,11 @@
 
 <!-- DEDICATED PHONE APP WELCOME GATEWAY (Appears ONLY on Phone App when not signed in) -->
 <div id="phone-welcome-gate" class="phone-welcome-gate">
-  <!-- Language toggle top-right -->
-  <button type="button" class="gate-lang-btn" id="welcome-lang-btn" onclick="toggleWelcomeLang()" aria-label="Switch Language">
-    🌐 <span id="welcome-lang-text">English</span>
-  </button>
+  <!-- Two-Language Switcher (Myanmar & English) -->
+  <div class="gate-lang-selector" id="gate-lang-selector" aria-label="Language Selector">
+    <button type="button" class="gate-lang-pill active" id="gate-lang-my" onclick="setAppLanguage('my')">🇲🇲 မြန်မာ</button>
+    <button type="button" class="gate-lang-pill" id="gate-lang-en" onclick="setAppLanguage('en')">🇬🇧 English</button>
+  </div>
 
   <!-- Auth card -->
   <div class="gate-card">
