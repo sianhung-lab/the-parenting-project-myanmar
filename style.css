@@ -2764,10 +2764,19 @@ body.is-mobile-app {
   background-color: #061830 !important;
 }
 
-/* Hide desktop navbar, desktop hero, and desktop badges in app */
+/* Hide desktop navbar, desktop hero, and desktop sections in app */
 body.is-mobile-app #navbar,
 body.is-mobile-app #home,
-body.is-mobile-app .hero {
+body.is-mobile-app .hero,
+body.is-mobile-app #videos,
+body.is-mobile-app #modules,
+body.is-mobile-app #church,
+body.is-mobile-app #quiz,
+body.is-mobile-app #about,
+body.is-mobile-app #testimonials,
+body.is-mobile-app #faq,
+body.is-mobile-app footer,
+body.is-mobile-app .footer-bottom {
   display: none !important;
 }
 
@@ -3667,5 +3676,430 @@ body.is-mobile-app .gate-modal-card {
   justify-content: center;
   gap: 6px;
 }
+
+/* =========================================================
+   AUTHENTIC 3-SCREEN MOBILE APP STYLES (MATCHING USER PHOTOS)
+   ========================================================= */
+
+/* Screen Views */
+body.is-mobile-app .mobile-screen-view {
+  display: none;
+  animation: fadeInAppScreen 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+body.is-mobile-app .mobile-screen-view.active {
+  display: block !important;
+}
+
+@keyframes fadeInAppScreen {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 1. Video Learning Hub Screen */
+body.is-mobile-app .mobile-hub-headline {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #f0c355;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin: 8px 0 2px;
+  text-shadow: 0 2px 10px rgba(240, 195, 85, 0.3);
+}
+body.is-mobile-app .mobile-hub-current-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 12px;
+  opacity: 0.95;
+}
+body.is-mobile-app .mobile-stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #f0c355;
+  margin: 14px 2px 10px;
+}
+
+/* 11 Module Chips Grid */
+body.is-mobile-app .mobile-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 6px;
+}
+body.is-mobile-app .mobile-chips-grid-row2 {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+body.is-mobile-app .mobile-chip-btn {
+  height: 38px;
+  min-width: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: rgba(18, 30, 52, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.is-mobile-app .mobile-chip-btn:active {
+  transform: scale(0.92);
+}
+body.is-mobile-app .mobile-chip-btn.active {
+  background: linear-gradient(135deg, #f5c542 0%, #d4af37 100%) !important;
+  border-color: #ffd700 !important;
+  color: #0b1325 !important;
+  box-shadow: 0 4px 16px rgba(245, 197, 66, 0.5) !important;
+  transform: scale(1.05);
+}
+
+/* Info Pill */
+body.is-mobile-app .mobile-cinema-bottom-pill {
+  background: rgba(14, 26, 46, 0.92);
+  border: 1px solid rgba(240, 195, 85, 0.3);
+  border-radius: 25px;
+  padding: 9px 18px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+  margin: 10px 0 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 2. Prayer Community Screen */
+body.is-mobile-app .mobile-subpage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 12px;
+}
+body.is-mobile-app .mobile-subpage-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #f0c355;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  flex: 1;
+}
+body.is-mobile-app .mobile-subpage-back {
+  background: none;
+  border: none;
+  color: #f0c355;
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0 8px 0 0;
+  cursor: pointer;
+}
+body.is-mobile-app .mobile-subpage-gear {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+body.is-mobile-app .mobile-bell-btn {
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+body.is-mobile-app .mobile-bell-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4757;
+  border: 1.5px solid #061830;
+}
+body.is-mobile-app .mobile-share-prayer-pill {
+  width: 100%;
+  background: rgba(18, 32, 56, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 25px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .mobile-share-prayer-pill:hover {
+  border-color: #f0c355;
+  background: rgba(25, 42, 72, 0.95);
+}
+
+/* Prayer Card Lux */
+body.is-mobile-app .mobile-prayer-card-lux {
+  background: rgba(14, 26, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+body.is-mobile-app .mobile-prayer-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+body.is-mobile-app .mobile-prayer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #f0c355;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(240, 195, 85, 0.3);
+}
+body.is-mobile-app .mobile-prayer-author-group {
+  flex: 1;
+  min-width: 0;
+}
+body.is-mobile-app .mobile-prayer-card-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+body.is-mobile-app .mobile-prayer-card-sub {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 1px;
+}
+body.is-mobile-app .mobile-prayer-body-text {
+  font-size: 0.83rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.55;
+  margin-bottom: 12px;
+  font-family: 'Pyidaungsu', 'Myanmar3', system-ui;
+}
+body.is-mobile-app .mobile-prayer-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 10px;
+}
+body.is-mobile-app .mobile-prayer-stats {
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+body.is-mobile-app .mobile-btn-pray-gold {
+  background: linear-gradient(135deg, #f5c542 0%, #d4af37 100%);
+  border: none;
+  color: #0b1325;
+  font-weight: 800;
+  font-size: 0.78rem;
+  padding: 7px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(245, 197, 66, 0.4);
+  transition: transform 0.15s ease;
+}
+body.is-mobile-app .mobile-btn-pray-gold:active {
+  transform: scale(0.92);
+}
+
+/* 3. Daily Devotional & Certificate Screen */
+body.is-mobile-app .mobile-devotional-card-lux {
+  background: linear-gradient(135deg, rgba(16, 32, 60, 0.95) 0%, rgba(10, 22, 42, 0.95) 100%);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+body.is-mobile-app .mobile-devotional-headline {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #f0c355;
+  margin-bottom: 4px;
+}
+body.is-mobile-app .mobile-devotional-mm-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 10px;
+  font-family: 'Pyidaungsu', 'Myanmar3', system-ui;
+}
+body.is-mobile-app .mobile-scripture-badge {
+  display: inline-block;
+  background: rgba(240, 195, 85, 0.15);
+  color: #f0c355;
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  padding: 3px 10px;
+  border-radius: 14px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+body.is-mobile-app .mobile-scripture-quote {
+  font-size: 0.82rem;
+  color: #ffffff;
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+body.is-mobile-app .mobile-reading-block {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 2px solid #f0c355;
+  padding: 8px 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+body.is-mobile-app .mobile-reflection-block {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 2px solid #2ecc71;
+  padding: 8px 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+/* Certificate Progress Stepper */
+body.is-mobile-app .mobile-cert-card-lux {
+  background: rgba(14, 26, 46, 0.9);
+  border: 1.5px solid rgba(240, 195, 85, 0.4);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+body.is-mobile-app .mobile-cert-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+body.is-mobile-app .mobile-cert-card-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+body.is-mobile-app .cert-stepper-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 16px 4px 12px;
+}
+body.is-mobile-app .cert-stepper-line {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 1;
+  transform: translateY(-50%);
+}
+body.is-mobile-app .cert-stepper-step {
+  position: relative;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0f1c30;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+body.is-mobile-app .cert-stepper-step.done {
+  background: #d4af37 !important;
+  border-color: #ffd700 !important;
+  color: #0b1325 !important;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.5);
+}
+body.is-mobile-app .cert-stepper-step.active {
+  background: #f5c542 !important;
+  border-color: #ffd700 !important;
+  color: #0b1325 !important;
+  box-shadow: 0 0 14px rgba(245, 197, 66, 0.75);
+  transform: scale(1.08);
+}
+body.is-mobile-app .mobile-cert-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+}
+
+/* Photo 3 Celebration Banner Card */
+body.is-mobile-app .mobile-photo3-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  margin-bottom: 14px;
+}
+body.is-mobile-app .mobile-photo3-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+body.is-mobile-app .mobile-photo3-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(6, 24, 48, 0.95) 0%, rgba(6, 24, 48, 0.6) 70%, transparent 100%);
+  padding: 12px 14px;
+}
+
 
 

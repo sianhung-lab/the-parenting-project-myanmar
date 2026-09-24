@@ -3137,11 +3137,12 @@ function checkAppMode() {
   if (isPhoneMode) {
     document.body.classList.add('is-mobile-app');
     document.documentElement.classList.add('is-mobile-app');
-    
-    // Trigger in-app live upgrade notification
-    setTimeout(() => {
-      showUpgradeNotification();
-    }, 500);
+    // Only show upgrade download banner on mobile web browser, NOT inside the app itself
+    if (!isAppUrl && !isAppUA && !isAndroidWebView) {
+      setTimeout(() => {
+        showUpgradeNotification();
+      }, 3000);
+    }
   }
 }
 
@@ -3328,6 +3329,26 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
   const iframe = document.getElementById('mobile-cinema-iframe');
   if (iframe) {
     iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1${autoPlay ? '&autoplay=1' : ''}`;
+  }
+
+  // Update Photo 1 headline current title
+  const currentTitleEl = document.getElementById('mobile-cinema-current-title');
+  if (currentTitleEl) {
+    currentTitleEl.textContent = `M${mod.id}: ${mod.title}`;
+  }
+
+  // Update Bottom Info Pill
+  const pillEl = document.getElementById('mobile-cinema-bottom-pill');
+  if (pillEl) {
+    pillEl.textContent = `Module ${mod.id}: ${mod.title} | ${mod.dur || 15} mins`;
+  }
+
+  // Update 11-chip grid active state
+  for (let i = 1; i <= 11; i++) {
+    const chipBtn = document.getElementById(`chip-m${i}`);
+    if (chipBtn) {
+      chipBtn.classList.toggle('active', i === mod.id);
+    }
   }
 
   const titleEl = document.getElementById('mobile-cinema-title');
@@ -3788,41 +3809,57 @@ function shareDailyBlessing() {
 }
 
 // ==========================================
-// MOBILE APP TAB SWITCHER
+// MOBILE APP TAB SWITCHER & VIEW CONTROLLER
 // ==========================================
 function switchAppTab(tab) {
-  const tabs = ['lessons', 'cinema', 'prayer', 'account', 'quiz', 'church'];
+  const tabs = ['cinema', 'prayer', 'devotional', 'account', 'lessons', 'quiz'];
   tabs.forEach(t => {
     const btn = document.getElementById(`btn-app-tab-${t}`);
     if (btn) btn.classList.toggle('active', t === tab);
-    const pill = document.getElementById(`pill-${t}`);
-    if (pill) pill.classList.toggle('active', t === tab);
   });
 
-  if (tab === 'lessons') {
-    const el = document.getElementById('modules');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  } else if (tab === 'cinema') {
-    const el = document.getElementById('mobile-cinema-hub');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      const vEl = document.getElementById('videos');
-      if (vEl) vEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  } else if (tab === 'prayer') {
-    const el = document.getElementById('mobile-prayer-hub');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    loadLivePrayers();
-  } else if (tab === 'church') {
-    openRegModal();
-  } else if (tab === 'account') {
+  if (tab === 'account') {
     handleMobileUserClick();
-  } else if (tab === 'quiz') {
-    const el = document.getElementById('quiz');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+
+  const screenViews = {
+    'cinema': document.getElementById('view-mobile-cinema'),
+    'hub': document.getElementById('view-mobile-cinema'),
+    'prayer': document.getElementById('view-mobile-prayer'),
+    'devotional': document.getElementById('view-mobile-devotional')
+  };
+
+  const activeView = screenViews[tab];
+  if (activeView) {
+    document.querySelectorAll('.mobile-screen-view').forEach(v => {
+      v.classList.remove('active');
+      v.style.display = 'none';
+    });
+    activeView.classList.add('active');
+    activeView.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  if (tab === 'prayer') {
+    loadLivePrayers();
+  } else if (tab === 'devotional') {
+    updateMobileProgressUI();
   }
 }
+
+function togglePrayerFormDrawer() {
+  const drawer = document.getElementById('mobile-prayer-form-drawer');
+  if (drawer) {
+    const isHidden = drawer.style.display === 'none' || !drawer.style.display;
+    drawer.style.display = isHidden ? 'block' : 'none';
+    if (isHidden) {
+      drawer.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+
+window.togglePrayerFormDrawer = togglePrayerFormDrawer;
 
 window.initMobileCinema = initMobileCinema;
 window.selectMobileModuleVideo = selectMobileModuleVideo;
@@ -3880,6 +3917,15 @@ function initApp() {
   initMobileCinema();
   updateMobileUserUI();
   loadLivePrayers();
+
+  // Handle direct tab deep links (?tab=prayer, ?tab=devotional, ?tab=cinema)
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetTab = urlParams.get('tab');
+    if (targetTab) {
+      switchAppTab(targetTab);
+    }
+  } catch(e) {}
 }
 
 if (document.readyState === 'loading') {

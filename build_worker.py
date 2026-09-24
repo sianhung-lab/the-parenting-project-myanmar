@@ -22,6 +22,32 @@ manifest_json = read('manifest.json') if os.path.exists(os.path.join(DIR, 'manif
 index_compiled = index_html.replace('<link rel="stylesheet" href="style.css"/>', f'<style>{style_css}</style>')
 index_compiled = index_compiled.replace('<script src="app.js"></script>', f'<script>{app_js}</script>')
 
+# Helper to read base64 image data
+import base64
+def get_b64(filename, mime):
+    filepath = os.path.join(DIR, filename)
+    if os.path.exists(filepath):
+        with open(filepath, 'rb') as f:
+            return f'data:{mime};base64,' + base64.b64encode(f.read()).decode('utf-8')
+    return ""
+
+logo_b64 = get_b64('official_logo.png', 'image/png')
+hero_b64 = get_b64('hero_couple_opt.jpg', 'image/jpeg')
+avatar_couple_b64 = get_b64('avatar_couple.jpg', 'image/jpeg')
+avatar_refugee_b64 = get_b64('avatar_refugee.jpg', 'image/jpeg')
+avatar_edu_b64 = get_b64('avatar_education.jpg', 'image/jpeg')
+
+if logo_b64:
+    index_compiled = index_compiled.replace('src="official_logo.png"', f'src="{logo_b64}"')
+if hero_b64:
+    index_compiled = index_compiled.replace('src="hero_couple_opt.jpg"', f'src="{hero_b64}"')
+if avatar_couple_b64:
+    index_compiled = index_compiled.replace('src="avatar_couple.jpg"', f'src="{avatar_couple_b64}"')
+if avatar_refugee_b64:
+    index_compiled = index_compiled.replace('src="avatar_refugee.jpg"', f'src="{avatar_refugee_b64}"')
+if avatar_edu_b64:
+    index_compiled = index_compiled.replace('src="avatar_education.jpg"', f'src="{avatar_edu_b64}"')
+
 # Default custom videos
 default_videos = []
 if os.path.exists(os.path.join(DIR, 'custom_videos.json')):
@@ -83,33 +109,33 @@ default_regs = [
 default_prayers = [
     {
         "id": "p-1",
-        "author": "ဒေါ်နန်းခင်",
-        "city": "မန္တလေးမြို့",
-        "cat": "child",
-        "catName": "👶 ကလေးများ စရိုက်လက္ခဏာ",
-        "text": "ကျွန်မ၏ သားကြီး အသက် ၁၄ နှစ်သည် ဖုန်းနှင့် ဂိမ်းအရမ်းစွဲလမ်းနေပြီး စကားနားမထောင်တော့ပါ။ Module 5 (Digital Household) ကို ကြည့်ပြီး မိဘတစ်ယောက်အနေဖြင့် မေတ္တာနှင့် ဘယ်လိုထိန်းကျောင်းရမလဲ ကြိုးစားနေပါတယ်။ သားလေး နောင်တရပြီး အပြုသဘောပြောင်းလဲလာစေဖို့ အတူ ဆုတောင်းပေးကြပါအုံးရှင်။",
+        "author": "Ko Min & Ma Hla",
+        "city": "Yangon",
+        "cat": "family",
+        "catName": "👨‍👩‍👧‍👦 Myanmar Family Support",
+        "text": "လူငယ်များအကြား မျှော်လင့်ချက်ပေးစွမ်းနိုင်သော မိဘများဖြစ်လာစေရန် မိသားစုများ အချင်းချင်း ဝိုင်းဝန်းဆုတောင်းပေးကြပါအုံးရှင်။",
         "time": "ယနေ့ နံနက်",
-        "prayerCount": 42
+        "prayerCount": 142
     },
     {
         "id": "p-2",
-        "author": "ဆရာဦးသန်းနိုင်",
-        "city": "အင်းစိန်၊ ရန်ကုန်",
-        "cat": "family",
-        "catName": "👨‍👩‍👧‍👦 မိသားစု ညီညွတ်ရေး",
-        "text": "မိသားစုအတွင်း စီးပွားရေးအခက်အခဲများကြောင့် ဇနီးမောင်နှံကြား စိတ်ဖိစီးမှုများနေပါသည်။ သားသမီးများကို အော်ဟစ်ဆူပူမိခြင်းမှ ရှောင်ကြဉ်ပြီး မော်ဂျူး ၃ သင်ခန်းစာအတိုင်း မေတ္တာနှင့် မိဘဩဇာကို တည်ငြိမ်စွာ ဦးဆောင်နိုင်စေရန် ဆုတောင်းပေးတော်မူပါ။",
+        "author": "Refugee Families",
+        "city": "Karen & Chin Refugee Communities",
+        "cat": "mental",
+        "catName": "🕊️ Refugee Families Support",
+        "text": "လူငယ်လေးများ စိတ်ဒဏ်ရာများ သက်သာပျောက်ကင်းစေရန်နှင့် မိဘများနှင့်အတူ မေတ္တာမေတ္တာများ ရရှိနိုင်ကြစေရန် ဝိုင်းဝန်းဆုတောင်းပေးတော်မူပါ။",
         "time": "မနေ့က",
-        "prayerCount": 38
+        "prayerCount": 142
     },
     {
         "id": "p-3",
-        "author": "မနှင်းနှင်း",
-        "city": "တောင်ကြီးမြို့၊ ရှမ်းပြည်နယ်",
-        "cat": "mental",
-        "catName": "🕊️ စိတ်ပိုင်းဆိုင်ရာ အနာရောဂါငြိမ်းခြင်း",
-        "text": "သမီးလေးသည် ကျောင်းတွင် အနိုင်ကျင့်ခံရပြီးနောက်ပိုင်း လူကြောက်ပြီး စိုးရိမ်စိတ်များနေပါသည်။ Module 4 (Filling the Emotional Tank) အတိုင်း သမီးလေး၏ ရင်ဖွင့်သံကို နေ့စဉ် နားထောင်ပေးနေပါသည်။ စိတ်ဒဏ်ရာများ အမြန်ဆုံး အနာငြိမ်းပြီး ယုံကြည်စိတ်ချမှု ပြန်လည်ရရှိစေရန် မေတ္တာဖြင့် ဆုတောင်းပေးကြပါရန် တောင်းခံအပ်ပါသည်။",
+        "author": "Education Path",
+        "city": "Higher Education & Mentorship",
+        "cat": "child",
+        "catName": "👶 Education & Youth Strength",
+        "text": "မောင်တစ်ထောင်တို့ရဲ့ ပညာရေးအတွက် မိဘများ လိုအပ်သော ခွန်အားနှင့် ငွေကြေး အရင်းအနှီးများ ပြည့်စုံစေရန် မေတ္တာဖြင့် ဆုတောင်းပေးကြပါရန် တောင်းခံအပ်ပါသည်။",
         "time": "၃ ရက်အလို",
-        "prayerCount": 56
+        "prayerCount": 18
     }
 ]
 
