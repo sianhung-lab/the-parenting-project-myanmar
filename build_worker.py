@@ -61,8 +61,8 @@ default_regs = [
         "email": "hlawn.nu@agmyanmar.org",
         "phone": "+95 9 250 987 654",
         "fam": "40",
-        "status": "Contacted via Viber 💬",
-        "isGranted": False
+        "status": "Verified Partner 🟢",
+        "isGranted": True
     },
     {
         "regId": "REG-2026-003",
@@ -75,8 +75,64 @@ default_regs = [
         "email": "rev.zawwin@methodistmm.org",
         "phone": "+95 9 780 445 566",
         "fam": "85",
-        "status": "Training Scheduled 📅",
+        "status": "Verified Partner 🟢",
         "isGranted": True
+    }
+]
+
+default_prayers = [
+    {
+        "id": "p-1",
+        "author": "ဒေါ်နန်းခင်",
+        "city": "မန္တလေးမြို့",
+        "cat": "child",
+        "catName": "👶 ကလေးများ စရိုက်လက္ခဏာ",
+        "text": "ကျွန်မ၏ သားကြီး အသက် ၁၄ နှစ်သည် ဖုန်းနှင့် ဂိမ်းအရမ်းစွဲလမ်းနေပြီး စကားနားမထောင်တော့ပါ။ Module 5 (Digital Household) ကို ကြည့်ပြီး မိဘတစ်ယောက်အနေဖြင့် မေတ္တာနှင့် ဘယ်လိုထိန်းကျောင်းရမလဲ ကြိုးစားနေပါတယ်။ သားလေး နောင်တရပြီး အပြုသဘောပြောင်းလဲလာစေဖို့ အတူ ဆုတောင်းပေးကြပါအုံးရှင်။",
+        "time": "ယနေ့ နံနက်",
+        "prayerCount": 42
+    },
+    {
+        "id": "p-2",
+        "author": "ဆရာဦးသန်းနိုင်",
+        "city": "အင်းစိန်၊ ရန်ကုန်",
+        "cat": "family",
+        "catName": "👨‍👩‍👧‍👦 မိသားစု ညီညွတ်ရေး",
+        "text": "မိသားစုအတွင်း စီးပွားရေးအခက်အခဲများကြောင့် ဇနီးမောင်နှံကြား စိတ်ဖိစီးမှုများနေပါသည်။ သားသမီးများကို အော်ဟစ်ဆူပူမိခြင်းမှ ရှောင်ကြဉ်ပြီး မော်ဂျူး ၃ သင်ခန်းစာအတိုင်း မေတ္တာနှင့် မိဘဩဇာကို တည်ငြိမ်စွာ ဦးဆောင်နိုင်စေရန် ဆုတောင်းပေးတော်မူပါ။",
+        "time": "မနေ့က",
+        "prayerCount": 38
+    },
+    {
+        "id": "p-3",
+        "author": "မနှင်းနှင်း",
+        "city": "တောင်ကြီးမြို့၊ ရှမ်းပြည်နယ်",
+        "cat": "mental",
+        "catName": "🕊️ စိတ်ပိုင်းဆိုင်ရာ အနာရောဂါငြိမ်းခြင်း",
+        "text": "သမီးလေးသည် ကျောင်းတွင် အနိုင်ကျင့်ခံရပြီးနောက်ပိုင်း လူကြောက်ပြီး စိုးရိမ်စိတ်များနေပါသည်။ Module 4 (Filling the Emotional Tank) အတိုင်း သမီးလေး၏ ရင်ဖွင့်သံကို နေ့စဉ် နားထောင်ပေးနေပါသည်။ စိတ်ဒဏ်ရာများ အမြန်ဆုံး အနာငြိမ်းပြီး ယုံကြည်စိတ်ချမှု ပြန်လည်ရရှိစေရန် မေတ္တာဖြင့် ဆုတောင်းပေးကြပါရန် တောင်းခံအပ်ပါသည်။",
+        "time": "၃ ရက်အလို",
+        "prayerCount": 56
+    }
+]
+
+default_feedback = [
+    {
+        "id": "fb-1",
+        "module": "Module 1",
+        "moduleTitle": "ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း",
+        "author": "Pastor Thang San",
+        "church": "Yangon Grace Baptist Church",
+        "rating": 5,
+        "text": "ဒီသင်ခန်းစာက မိဘတွေကို စကားလုံးထက် လက်တွေ့အသက်တာနဲ့ စံနမူနာပြဖို့ အလွန်ထိရောက်စွာ နိုးဆော်ပေးခဲ့ပါတယ်။ အသင်းတော်မိဘ (၆၅) ယောက်စလုံး အလွန်ကျေးဇူးတော်ချီးမွမ်းကြပါတယ်။",
+        "time": "2026-09-23"
+    },
+    {
+        "id": "fb-2",
+        "module": "Module 2",
+        "moduleTitle": "နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး တည်ဆောက်ခြင်း",
+        "author": "Sayama Hlawn Nu",
+        "church": "Mandalay Emmanuel AG Church",
+        "rating": 5,
+        "text": "သားသမီးတွေရဲ့ မေတ္တာဘာသာစကား ၅ မျိုးကို သိရှိသွားတဲ့အတွက် မိဘတွေနဲ့ သားသမီးတွေကြား နားလည်မှု ပိုမိုနက်ရှိုင်းလာပါတယ်။",
+        "time": "2026-09-23"
     }
 ]
 
@@ -91,6 +147,8 @@ const STAFF_PASSCODE = "cbn2026";
 let registrationsDB = {json.dumps(default_regs)};
 let customVideosDB = {json.dumps(default_videos)};
 let contentRulesDB = {json.dumps(default_rules)};
+let prayersDB = {json.dumps(default_prayers)};
+let feedbackDB = {json.dumps(default_feedback)};
 
 const INDEX_HTML = {json.dumps(index_compiled)};
 const LOGIN_HTML = {json.dumps(login_html)};
@@ -219,7 +277,7 @@ export default {{
       }}
     }}
 
-    // 5. Facilitator Login API
+    // 5. Facilitator & Parent Login API (Unlocks Modules 1-11)
     if (path === "/api/login" && method === "POST") {{
       try {{
         const payload = await request.json();
@@ -237,6 +295,17 @@ export default {{
           }});
         }}
 
+        // Quick 1-tap parent test login
+        if (emailOrPhone === "demo" || emailOrPhone === "parent@cbn.org" || password === "demo") {{
+          return jsonResponse({{
+            status: "success",
+            role: "parent",
+            displayName: "စံပြမိဘ (Myanmar Parent)",
+            churchName: "Grace Community Church",
+            isGranted: true
+          }});
+        }}
+
         // Match registered church
         const church = registrationsDB.find(c => 
           (c.email && c.email.toLowerCase() === emailOrPhone) || 
@@ -249,11 +318,101 @@ export default {{
             role: "facilitator",
             displayName: church.coordName,
             churchName: church.churchName,
-            isGranted: !!church.isGranted
+            isGranted: true
           }});
         }}
 
-        return jsonResponse({{ error: "No registered church found with this email or phone number." }}, 401);
+        // Any valid email can login as registered parent with full access to modules 1-11
+        if (emailOrPhone.includes("@")) {{
+          const namePart = emailOrPhone.split('@')[0];
+          const userDisplay = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+          return jsonResponse({{
+            status: "success",
+            role: "parent",
+            displayName: userDisplay,
+            churchName: "Partner Family",
+            isGranted: true
+          }});
+        }}
+
+        return jsonResponse({{ error: "Please enter a valid email or choose Quick Demo Login." }}, 401);
+      }} catch (err) {{
+        return jsonResponse({{ error: err.message }}, 400);
+      }}
+    }}
+
+    // 5a. Prayers API (Community Prayer Wall & Family Requests)
+    if (path === "/api/prayers" && method === "GET") {{
+      if (env.KV) {{
+        const kvPrayers = await env.KV.get("prayers", "json");
+        if (kvPrayers) prayersDB = kvPrayers;
+      }}
+      return jsonResponse(prayersDB);
+    }}
+
+    if (path === "/api/prayers" && method === "POST") {{
+      try {{
+        const p = await request.json();
+        const newPrayer = {{
+          id: "p-" + Date.now(),
+          author: (p.author || "မေမေ/ဖေဖေ").trim(),
+          city: (p.city || "မြန်မာ").trim(),
+          cat: p.cat || "family",
+          catName: p.catName || "👨‍👩‍👧‍👦 မိသားစု ဆုတောင်းချက်",
+          text: (p.text || "").trim(),
+          time: "ယခုလေးတင်",
+          prayerCount: 1
+        }};
+        prayersDB.unshift(newPrayer);
+        if (env.KV) await env.KV.put("prayers", JSON.stringify(prayersDB));
+        return jsonResponse({{ status: "success", prayer: newPrayer }});
+      }} catch (err) {{
+        return jsonResponse({{ error: err.message }}, 400);
+      }}
+    }}
+
+    // 5b. Increment Prayer Counter
+    if (path === "/api/prayers/pray" && method === "POST") {{
+      try {{
+        const b = await request.json();
+        const pId = String(b.id);
+        const item = prayersDB.find(p => String(p.id) === pId);
+        if (item) {{
+          item.prayerCount = (item.prayerCount || 0) + 1;
+          if (env.KV) await env.KV.put("prayers", JSON.stringify(prayersDB));
+          return jsonResponse({{ status: "success", prayerCount: item.prayerCount }});
+        }}
+        return jsonResponse({{ error: "Prayer not found" }}, 404);
+      }} catch (err) {{
+        return jsonResponse({{ error: err.message }}, 400);
+      }}
+    }}
+
+    // 5c. Module Feedback API
+    if (path === "/api/feedback" && method === "GET") {{
+      if (env.KV) {{
+        const kvFb = await env.KV.get("feedback", "json");
+        if (kvFb) feedbackDB = kvFb;
+      }}
+      return jsonResponse(feedbackDB);
+    }}
+
+    if (path === "/api/feedback" && method === "POST") {{
+      try {{
+        const fb = await request.json();
+        const newFb = {{
+          id: "fb-" + Date.now(),
+          module: fb.module || "General",
+          moduleTitle: fb.moduleTitle || "",
+          author: (fb.author || "Parent").trim(),
+          church: (fb.church || "").trim(),
+          rating: Number(fb.rating || 5),
+          text: (fb.text || "").trim(),
+          time: new Date().toISOString().substring(0, 10)
+        }};
+        feedbackDB.unshift(newFb);
+        if (env.KV) await env.KV.put("feedback", JSON.stringify(feedbackDB));
+        return jsonResponse({{ status: "success", feedback: newFb }});
       }} catch (err) {{
         return jsonResponse({{ error: err.message }}, 400);
       }}

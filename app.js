@@ -1549,8 +1549,10 @@ let liveContentRules = {
 
 function isVideoAccessible(videoItemOrId) {
   if (!videoItemOrId) return true;
+  // If user is logged in, unlock modules 1 to 11 immediately!
+  if (userPrivilege.loggedIn || userPrivilege.isGranted) return true;
   let id = typeof videoItemOrId === 'object' ? videoItemOrId.id : videoItemOrId;
-  if (id === 'trailer' || id === 0 || id === '0') return true;
+  if (id === 'trailer' || id === 0 || id === '0' || id === 1 || id === '1') return true;
   const rule = liveContentRules[String(id)];
   if (rule && rule.access === 'free') return true;
   return !!userPrivilege.isGranted;
@@ -3249,8 +3251,547 @@ function dismissUpgradeNoti() {
   }
 }
 
+// ==========================================
+// DEDICATED PHONE APP SUITE & 11-MODULE CINEMA
+// ==========================================
+let currentMobileModId = 1;
+let currentFeedbackRating = 5;
+
+function getCompletedModules() {
+  try {
+    return JSON.parse(localStorage.getItem('tpp_completed_modules')) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCompletedModules(arr) {
+  try {
+    localStorage.setItem('tpp_completed_modules', JSON.stringify(arr));
+  } catch (e) {}
+  updateMobileProgressUI();
+  renderMobileModuleChips();
+}
+
+function updateMobileProgressUI() {
+  const completed = getCompletedModules();
+  const count = completed.length;
+  const pct = Math.round((count / 11) * 100);
+
+  const countEl = document.getElementById('mobile-progress-count');
+  if (countEl) {
+    countEl.textContent = `${count} of 11 Completed (${pct}%)`;
+  }
+  const fillEl = document.getElementById('mobile-progress-fill');
+  if (fillEl) {
+    fillEl.style.width = `${pct}%`;
+  }
+}
+
+function initMobileCinema() {
+  renderMobileModuleChips();
+  selectMobileModuleVideo(currentMobileModId, false);
+  updateMobileProgressUI();
+}
+
+function renderMobileModuleChips() {
+  const container = document.getElementById('mobile-modules-scroll');
+  if (!container) return;
+
+  const completed = getCompletedModules();
+  const isMy = lang === 'my';
+
+  container.innerHTML = MODULES.map(m => {
+    const isAct = m.id === currentMobileModId;
+    const isDone = completed.includes(m.id);
+    const title = isMy ? m.myTitle : m.title;
+
+    return `
+      <div class="mobile-module-chip ${isAct ? 'active' : ''}" onclick="selectMobileModuleVideo(${m.id}, true)">
+        <div class="mobile-chip-top">
+          <span class="mobile-chip-badge">${m.icon} M${m.id}</span>
+          <span class="mobile-chip-status">${isDone ? '✅' : '⏳'}</span>
+        </div>
+        <div class="mobile-chip-title">${title}</div>
+        <div style="font-size:0.65rem;color:rgba(255,255,255,0.6);margin-top:3px">${m.dur} mins</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectMobileModuleVideo(modId, autoPlay = true) {
+  currentMobileModId = modId;
+  const mod = MODULES.find(m => m.id === modId);
+  if (!mod) return;
+
+  const isMy = lang === 'my';
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  if (iframe) {
+    iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1${autoPlay ? '&autoplay=1' : ''}`;
+  }
+
+  const titleEl = document.getElementById('mobile-cinema-title');
+  if (titleEl) {
+    titleEl.textContent = `မော်ဂျူး ${mod.id}: ${isMy ? mod.myTitle : mod.title}`;
+  }
+
+  const subEl = document.getElementById('mobile-cinema-sub');
+  if (subEl) {
+    subEl.textContent = isMy ? mod.mySub : mod.sub;
+  }
+
+  // Update Completed Button state
+  const completed = getCompletedModules();
+  const isDone = completed.includes(mod.id);
+  const btnComp = document.getElementById('btn-toggle-mod-completed');
+  const txtComp = document.getElementById('txt-mod-completed');
+  const icoComp = document.getElementById('ico-mod-completed');
+
+  if (btnComp) {
+    btnComp.classList.toggle('is-completed', isDone);
+  }
+  if (txtComp) {
+    txtComp.textContent = isDone ? '✓ ပြီးဆုံးပြီး (Completed)' : 'ပြီးဆုံးကြောင်း မှတ်သားမည်';
+  }
+  if (icoComp) {
+    icoComp.textContent = isDone ? '✅' : '✓';
+  }
+
+  // Sync dropdown in feedback form
+  const fbSelect = document.getElementById('fb-module-select');
+  if (fbSelect) {
+    fbSelect.value = `Module ${mod.id}`;
+  }
+
+  renderMobileModuleChips();
+}
+
+function toggleModuleCompletedCurrent() {
+  const completed = getCompletedModules();
+  const idx = completed.indexOf(currentMobileModId);
+  if (idx >= 0) {
+    completed.splice(idx, 1);
+    showToast(`မော်ဂျူး ${currentMobileModId} ကို မပြီးဆုံးသေးအဖြစ် ပြောင်းလိုက်ပါသည်`);
+  } else {
+    completed.push(currentMobileModId);
+    playUpgradeChime();
+    showToast(`🎉 မော်ဂျူး ${currentMobileModId} ပြီးဆုံးကြောင်း အောင်မြင်စွာ မှတ်သားပြီးပါပြီ!`);
+    if (completed.length === 11) {
+      setTimeout(() => {
+        showToast('🏆 ဂုဏ်ယူပါသည်! မော်ဂျူး ၁၁ ခုစလုံး ပြီးဆုံးပါပြီ။ အောင်လက်မှတ်ကို ကြည့်ရှုနိုင်ပါပြီ!');
+        openCertificateModal();
+      }, 1000);
+    }
+  }
+  saveCompletedModules(completed);
+  selectMobileModuleVideo(currentMobileModId, false);
+}
+
+function openFeedbackForCurrentModule() {
+  switchAppTab('prayer');
+  switchPrayerFeedbackTab('feedback');
+  const fbSelect = document.getElementById('fb-module-select');
+  if (fbSelect) fbSelect.value = `Module ${currentMobileModId}`;
+}
+
+function openPrayerForCurrentModule() {
+  switchAppTab('prayer');
+  switchPrayerFeedbackTab('prayer');
+  const catSelect = document.getElementById('prayer-cat');
+  if (catSelect) catSelect.value = 'child';
+}
+
+// ==========================================
+// PRAYER REQUESTS & COMMUNITY PRAYER WALL
+// ==========================================
+let livePrayers = [];
+
+async function loadLivePrayers() {
+  const container = document.getElementById('prayers-container');
+  if (!container) return;
+
+  try {
+    const res = await fetch('/api/prayers');
+    if (res.ok) {
+      livePrayers = await res.json();
+    }
+  } catch (e) {
+    console.log('Error loading prayers:', e);
+  }
+
+  if (!livePrayers || livePrayers.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:1rem;color:rgba(255,255,255,0.6);font-size:0.8rem">ဆုတောင်းချက် မရှိသေးပါ။ သင်၏ မိသားစု ဆုတောင်းချက်ကို ပထမဆုံး စတင် တင်သွင်းနိုင်ပါသည် 🙏</div>`;
+    return;
+  }
+
+  container.innerHTML = livePrayers.map(p => {
+    return `
+      <div class="prayer-card" id="prayer-card-${p.id}">
+        <div class="prayer-card-header">
+          <span class="prayer-card-author">👤 ${p.author} <small style="font-weight:normal;color:rgba(255,255,255,0.6)">(${p.city})</small></span>
+          <span class="prayer-card-cat">${p.catName || '🙏 ဆုတောင်းချက်'}</span>
+        </div>
+        <div class="prayer-card-text">${p.text}</div>
+        <div class="prayer-card-footer">
+          <span class="prayer-card-time">🕒 ${p.time}</span>
+          <button type="button" class="prayer-btn-pray" onclick="incrementPrayer('${p.id}')">
+            <span>🙏</span>
+            <span id="pray-cnt-${p.id}">${p.prayerCount || 1}</span>
+            <span>Parents Prayed</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function handlePrayerSubmit(e) {
+  e.preventDefault();
+  const authorInput = document.getElementById('prayer-author');
+  const cityInput = document.getElementById('prayer-city');
+  const catInput = document.getElementById('prayer-cat');
+  const textInput = document.getElementById('prayer-text');
+  const btn = document.getElementById('btn-submit-prayer');
+
+  if (!textInput || !textInput.value.trim()) return;
+
+  const payload = {
+    author: (authorInput ? authorInput.value.trim() : '') || 'မေမေ/ဖေဖေ',
+    city: (cityInput ? cityInput.value.trim() : '') || 'မြန်မာ',
+    cat: catInput ? catInput.value : 'family',
+    catName: catInput ? catInput.options[catInput.selectedIndex].text : '👨‍👩‍👧‍👦 မိသားစု ဆုတောင်းချက်',
+    text: textInput.value.trim()
+  };
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'တင်သွင်းနေပါသည်...';
+  }
+
+  try {
+    const res = await fetch('/api/prayers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      textInput.value = '';
+      playUpgradeChime();
+      showToast('🙏 သင်၏ မိသားစု ဆုတောင်းလွှာကို အောင်မြင်စွာ တင်သွင်းပြီးပါပြီ!');
+      await loadLivePrayers();
+    } else {
+      showToast('ဆုတောင်းလွှာ တင်သွင်းမှု မအောင်မြင်ပါ။ ပြန်လည်ကြိုးစားပါ');
+    }
+  } catch (err) {
+    showToast('Network error: ' + err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '🙏 ဆုတောင်းလွှာ တင်သွင်းမည် (Submit Prayer)';
+    }
+  }
+}
+
+async function incrementPrayer(pId) {
+  const cntEl = document.getElementById(`pray-cnt-${pId}`);
+  if (cntEl) {
+    let current = parseInt(cntEl.textContent, 10) || 0;
+    cntEl.textContent = current + 1;
+  }
+  playUpgradeChime();
+  if (navigator.vibrate) {
+    try { navigator.vibrate(60); } catch(e) {}
+  }
+  showToast('❤️ ဆုတောင်းခြင်းတွင် ပါဝင်ပေးသည့်အတွက် ကျေးဇူးတင်ပါသည်!');
+
+  try {
+    await fetch('/api/prayers/pray', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: pId })
+    });
+  } catch (e) {}
+}
+
+// ==========================================
+// MODULE FEEDBACK & TESTIMONIALS
+// ==========================================
+let liveFeedback = [];
+
+function setFeedbackRating(stars) {
+  currentFeedbackRating = stars;
+  const starBtns = document.querySelectorAll('#fb-stars-row .star-btn');
+  starBtns.forEach((btn, idx) => {
+    btn.classList.toggle('active', idx < stars);
+  });
+}
+
+async function loadLiveFeedback() {
+  const container = document.getElementById('feedback-container');
+  if (!container) return;
+
+  try {
+    const res = await fetch('/api/feedback');
+    if (res.ok) {
+      liveFeedback = await res.json();
+    }
+  } catch (e) {}
+
+  if (!liveFeedback || liveFeedback.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:1rem;color:rgba(255,255,255,0.6);font-size:0.8rem">သုံးသပ်ချက် မရှိသေးပါ။ ပထမဆုံး စတင် ရေးသားနိုင်ပါသည် ⭐</div>`;
+    return;
+  }
+
+  container.innerHTML = liveFeedback.map(fb => {
+    const stars = '★'.repeat(fb.rating || 5) + '☆'.repeat(5 - (fb.rating || 5));
+    return `
+      <div class="prayer-card" style="border-left: 3px solid #ffcc00">
+        <div class="prayer-card-header">
+          <span class="prayer-card-author">👤 ${fb.author} <small style="color:#ffcc00">(${fb.church || 'မိတ်ဖက်မိဘ'})</small></span>
+          <span style="color:#ffcc00;font-size:0.85rem">${stars}</span>
+        </div>
+        <div style="font-size:0.7rem;color:rgba(255,255,255,0.6);margin-bottom:4px">📚 ${fb.module}: ${fb.moduleTitle || ''}</div>
+        <div class="prayer-card-text">${fb.text}</div>
+        <div class="prayer-card-time">🕒 ${fb.time || '2026-09-24'}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function handleFeedbackSubmit(e) {
+  e.preventDefault();
+  const modSelect = document.getElementById('fb-module-select');
+  const textInput = document.getElementById('fb-text');
+  const btn = document.getElementById('btn-submit-fb');
+
+  if (!textInput || !textInput.value.trim()) return;
+
+  let session = null;
+  try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
+
+  const payload = {
+    module: modSelect ? modSelect.value : 'General',
+    moduleTitle: modSelect ? modSelect.options[modSelect.selectedIndex].text : '',
+    rating: currentFeedbackRating,
+    text: textInput.value.trim(),
+    author: (session && session.displayName) ? session.displayName : 'Parent',
+    church: (session && session.churchName) ? session.churchName : 'Christian Family'
+  };
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'ပေးပို့နေပါသည်...';
+  }
+
+  try {
+    const res = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      textInput.value = '';
+      playUpgradeChime();
+      showToast('⭐ သင့်သုံးသပ်ချက်ကို အောင်မြင်စွာ လက်ခံရရှိပါပြီ။ ကျေးဇူးတင်ပါသည်!');
+      await loadLiveFeedback();
+    }
+  } catch (err) {
+    showToast('Network error: ' + err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '✍️ သုံးသပ်ချက် ပေးပို့မည် (Submit Feedback)';
+    }
+  }
+}
+
+function switchPrayerFeedbackTab(tab) {
+  const btnP = document.getElementById('sec-tab-prayer');
+  const btnF = document.getElementById('sec-tab-feedback');
+  const viewP = document.getElementById('view-prayer-wall');
+  const viewF = document.getElementById('view-feedback');
+
+  if (btnP) btnP.classList.toggle('active', tab === 'prayer');
+  if (btnF) btnF.classList.toggle('active', tab === 'feedback');
+
+  if (viewP) viewP.style.display = tab === 'prayer' ? 'block' : 'none';
+  if (viewF) viewF.style.display = tab === 'feedback' ? 'block' : 'none';
+
+  if (tab === 'prayer') loadLivePrayers();
+  if (tab === 'feedback') loadLiveFeedback();
+}
+
+// ==========================================
+// IN-APP FAST LOGIN (NO REDIRECT NEEDED)
+// ==========================================
+function openInAppLoginModal() {
+  const m = document.getElementById('inapp-login-modal');
+  if (m) m.classList.add('open');
+}
+
+function closeInAppLoginModal() {
+  const m = document.getElementById('inapp-login-modal');
+  if (m) m.classList.remove('open');
+}
+
+function handleMobileUserClick() {
+  let session = null;
+  try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
+  if (session && session.loggedIn) {
+    openSettingsModal();
+  } else {
+    openInAppLoginModal();
+  }
+}
+
+function updateMobileUserUI() {
+  let session = null;
+  try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
+
+  const btn = document.getElementById('mobile-app-btn-user');
+  const ico = document.getElementById('mobile-user-icon');
+  const lbl = document.getElementById('mobile-user-label');
+
+  if (btn && lbl) {
+    if (session && session.loggedIn) {
+      btn.classList.add('is-logged-in');
+      if (ico) ico.textContent = '👤';
+      lbl.textContent = session.displayName ? session.displayName.split(' ')[0] : 'Member';
+    } else {
+      btn.classList.remove('is-logged-in');
+      if (ico) ico.textContent = '🔑';
+      lbl.textContent = 'Sign In';
+    }
+  }
+
+  // Update Certificate info
+  const certName = document.getElementById('cert-parent-name');
+  const certChurch = document.getElementById('cert-church-name');
+  if (certName && session && session.displayName) {
+    certName.textContent = session.displayName;
+  }
+  if (certChurch && session && session.churchName) {
+    certChurch.textContent = session.churchName;
+  }
+}
+
+async function quickDemoLogin() {
+  const sessionData = {
+    email: 'parent@cbn.org',
+    displayName: 'စံပြမိဘ (Myanmar Parent)',
+    churchName: 'Grace Community Church',
+    loggedIn: true,
+    isGranted: true,
+    role: 'parent',
+    loginTime: new Date().toISOString()
+  };
+
+  localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+  userPrivilege.loggedIn = true;
+  userPrivilege.isGranted = true;
+  userPrivilege.displayName = sessionData.displayName;
+  userPrivilege.churchName = sessionData.churchName;
+
+  playUpgradeChime();
+  showToast('✓ စံပြမိဘ အကောင့်ဖြင့် ဝင်ရောက်ပြီးပါပြီ (Modules 1-11 Unlocked)!');
+  closeInAppLoginModal();
+  updateMobileUserUI();
+  checkAuthStatus();
+  initMobileCinema();
+}
+
+async function handleInAppLoginSubmit(e) {
+  e.preventDefault();
+  const emailInput = document.getElementById('inapp-email');
+  const passInput = document.getElementById('inapp-password');
+  const btn = document.getElementById('btn-inapp-login');
+
+  const emailVal = emailInput ? emailInput.value.trim() : '';
+  const passVal = passInput ? passInput.value.trim() : '';
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'စစ်ဆေးနေပါသည်...';
+  }
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: emailVal, password: passVal })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      const sessionData = {
+        email: emailVal,
+        displayName: data.displayName || 'Parent Facilitator',
+        churchName: data.churchName || 'Partner Church',
+        loggedIn: true,
+        isGranted: true,
+        role: data.role || 'facilitator',
+        loginTime: new Date().toISOString()
+      };
+      localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
+      userPrivilege.loggedIn = true;
+      userPrivilege.isGranted = true;
+      userPrivilege.displayName = sessionData.displayName;
+      userPrivilege.churchName = sessionData.churchName;
+
+      playUpgradeChime();
+      showToast(`✓ မင်္ဂလာပါ ${sessionData.displayName}! မော်ဂျူးအားလုံး ကြည့်ရှုနိုင်ပါပြီ`);
+      closeInAppLoginModal();
+      updateMobileUserUI();
+      checkAuthStatus();
+      initMobileCinema();
+    } else {
+      showToast('❌ ' + (data.error || 'အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်'));
+    }
+  } catch (err) {
+    showToast('⚠️ Network Error: ' + err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '🔑 အကောင့်ဝင်မည် (Sign In)';
+    }
+  }
+}
+
+// ==========================================
+// DIGITAL CERTIFICATE & DAILY DEVOTIONAL
+// ==========================================
+function openCertificateModal() {
+  updateMobileUserUI();
+  const m = document.getElementById('certificate-modal');
+  if (m) m.classList.add('open');
+}
+
+function closeCertificateModal() {
+  const m = document.getElementById('certificate-modal');
+  if (m) m.classList.remove('open');
+}
+
+function shareCertificateViber() {
+  let session = null;
+  try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
+  const name = session && session.displayName ? session.displayName : 'Parent';
+  const text = encodeURIComponent(`🎓 The Parenting Project Myanmar — Certificate of Family Discipleship\nRecipient: ${name}\nCompleted all 11 biblical parenting modules with CBN Asia!\nJoin the project: https://parenting-project-myanmar.penglambot.workers.dev`);
+  window.location.href = `viber://forward?text=${text}`;
+}
+
+function shareDailyBlessing() {
+  const vText = document.getElementById('devotional-verse-text');
+  const rText = document.getElementById('devotional-ref-text');
+  const verse = vText ? vText.textContent.trim() : '';
+  const ref = rText ? rText.textContent.trim() : '';
+  const text = encodeURIComponent(`✨ ယနေ့အတွက် မိဘကောင်းချီး နှုတ်ကပတ်တော် (The Parenting Project Myanmar):\n\n${verse}\n— ${ref}\n\nအိမ်ထောင်မိသားစု ကောင်းချီးခံစားရပါစေ! 🙏\nhttps://parenting-project-myanmar.penglambot.workers.dev`);
+  window.location.href = `viber://forward?text=${text}`;
+}
+
+// ==========================================
+// MOBILE APP TAB SWITCHER
+// ==========================================
 function switchAppTab(tab) {
-  const tabs = ['lessons', 'cinema', 'church', 'account', 'quiz'];
+  const tabs = ['lessons', 'cinema', 'prayer', 'account', 'quiz', 'church'];
   tabs.forEach(t => {
     const btn = document.getElementById(`btn-app-tab-${t}`);
     if (btn) btn.classList.toggle('active', t === tab);
@@ -3262,21 +3803,47 @@ function switchAppTab(tab) {
     const el = document.getElementById('modules');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   } else if (tab === 'cinema') {
-    const el = document.getElementById('videos');
+    const el = document.getElementById('mobile-cinema-hub');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      const vEl = document.getElementById('videos');
+      if (vEl) vEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  } else if (tab === 'prayer') {
+    const el = document.getElementById('mobile-prayer-hub');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
+    loadLivePrayers();
   } else if (tab === 'church') {
     openRegModal();
   } else if (tab === 'account') {
-    if (isAdminOrOwner()) {
-      openAdminHub();
-    } else {
-      openSettingsModal();
-    }
+    handleMobileUserClick();
   } else if (tab === 'quiz') {
     const el = document.getElementById('quiz');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }
 }
+
+window.initMobileCinema = initMobileCinema;
+window.selectMobileModuleVideo = selectMobileModuleVideo;
+window.toggleModuleCompletedCurrent = toggleModuleCompletedCurrent;
+window.loadLivePrayers = loadLivePrayers;
+window.handlePrayerSubmit = handlePrayerSubmit;
+window.incrementPrayer = incrementPrayer;
+window.loadLiveFeedback = loadLiveFeedback;
+window.handleFeedbackSubmit = handleFeedbackSubmit;
+window.setFeedbackRating = setFeedbackRating;
+window.switchPrayerFeedbackTab = switchPrayerFeedbackTab;
+window.openInAppLoginModal = openInAppLoginModal;
+window.closeInAppLoginModal = closeInAppLoginModal;
+window.handleMobileUserClick = handleMobileUserClick;
+window.quickDemoLogin = quickDemoLogin;
+window.handleInAppLoginSubmit = handleInAppLoginSubmit;
+window.openCertificateModal = openCertificateModal;
+window.closeCertificateModal = closeCertificateModal;
+window.shareCertificateViber = shareCertificateViber;
+window.shareDailyBlessing = shareDailyBlessing;
+window.updateMobileUserUI = updateMobileUserUI;
 
 // Re-check when app is resumed from background
 document.addEventListener('visibilitychange', () => {
@@ -3310,6 +3877,9 @@ function initApp() {
   checkAuthStatus();
   handleUrlActions();
   loadDynamicVideos();
+  initMobileCinema();
+  updateMobileUserUI();
+  loadLivePrayers();
 }
 
 if (document.readyState === 'loading') {
