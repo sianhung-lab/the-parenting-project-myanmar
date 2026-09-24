@@ -24,16 +24,15 @@
       <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="mobile-app-logo"/>
       <div class="mobile-app-brand-text">
         <div class="mobile-app-title">The Parenting Project</div>
-        <div class="mobile-app-subtitle">Myanmar · CBN Asia</div>
+        <div class="mobile-app-subtitle">Myanmar</div>
       </div>
     </div>
     <div class="mobile-app-actions">
-      <button type="button" class="mobile-app-btn-user" id="mobile-app-btn-user" onclick="handleMobileUserClick()">
-        <span id="mobile-user-icon">🔑</span>
-        <span id="mobile-user-label">Sign In</span>
+      <button type="button" class="mobile-app-btn-menu" onclick="openSettingsModal()" aria-label="Menu" title="Menu">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
       </button>
-      <button type="button" class="mobile-app-btn-lang" onclick="toggleLang()" id="mobile-app-lang-btn">🇲🇲</button>
-      <button type="button" class="mobile-app-btn-gear" onclick="openSettingsModal()" title="Settings & Admin">☰</button>
     </div>
   </div>
 </header>
@@ -81,22 +80,6 @@
     <div class="mobile-cinema-bottom-pill" id="mobile-cinema-bottom-pill">
       Module 1: Foundations | 15 mins
     </div>
-
-    <!-- Quick Module Actions -->
-    <div class="mobile-cinema-actions" style="justify-content:center;margin-bottom:14px">
-      <button type="button" class="mobile-cinema-btn-action" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
-        <span id="ico-mod-completed">✓</span>
-        <span id="txt-mod-completed">ပြီးဆုံးကြောင်း မှတ်သားမည်</span>
-      </button>
-      <button type="button" class="mobile-cinema-btn-action" onclick="openFeedbackForCurrentModule()">
-        <span>⭐</span>
-        <span>သုံးသပ်ချက်</span>
-      </button>
-      <button type="button" class="mobile-cinema-btn-action" onclick="openPrayerForCurrentModule()">
-        <span>🙏</span>
-        <span>ဆုတောင်းမည်</span>
-      </button>
-    </div>
   </div>
 
   <!-- ============================================== -->
@@ -108,15 +91,17 @@
       <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')">‹</button>
       <div class="mobile-subpage-title">Prayer Community</div>
       <div class="mobile-bell-btn" onclick="showToast('🔔 အသင်းတော် ဆုတောင်းသတိပေးချက် ဖွင့်ထားပါသည်')">
-        🔔<span class="mobile-bell-dot"></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#f0c355"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <span class="mobile-bell-dot">3</span>
       </div>
     </div>
 
     <!-- Share a Prayer Pill Button -->
     <button type="button" class="mobile-share-prayer-pill" onclick="togglePrayerFormDrawer()">
-      <span style="font-size:1.1rem">👤</span>
-      <span>Share a Prayer</span>
-      <span style="margin-left:auto;color:#f0c355;font-size:0.8rem">+ အသစ်ရေးမည်</span>
+      <div class="mobile-share-avatar">
+        <img src="avatar_couple.jpg" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"/>
+      </div>
+      <span style="color:rgba(255,255,255,0.7);font-size:0.84rem;font-weight:600">Share a Prayer</span>
     </button>
 
     <!-- Expandable Prayer Submission Drawer -->
@@ -149,14 +134,14 @@
         <img src="avatar_couple.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
         <div class="mobile-prayer-author-group">
           <div class="mobile-prayer-card-title">Myanmar Family Support <span style="color:#f0c355;font-size:0.8rem">›</span></div>
-          <div class="mobile-prayer-card-sub">Ko Min & Ma Hla · Pyidaungsu Font</div>
+          <div class="mobile-prayer-card-sub">Ko Min & Ma Hla<br>Pyidaungsu Font</div>
         </div>
       </div>
       <p class="mobile-prayer-body-text">
         လူငယ်များအကြား မျှော်လင့်ချက်ပေးစွမ်းနိုင်သော မိဘများဖြစ်လာစေရန် မိသားစုများ အချင်းချင်း ဝိုင်းဝန်းဆုတောင်းပေးကြပါအုံးရှင်။
       </p>
       <div class="mobile-prayer-card-footer">
-        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p1">142</span> · Comments: 28</div>
+        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p1">142</span><br>Comments: 28</div>
         <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-1')">
           <span>🙏</span> <span>Pray</span>
         </button>
@@ -168,14 +153,14 @@
         <img src="avatar_refugee.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
         <div class="mobile-prayer-author-group">
           <div class="mobile-prayer-card-title">Refugee Families <span style="color:#f0c355;font-size:0.8rem">›</span></div>
-          <div class="mobile-prayer-card-sub">Karen & Chin Refugee Communities</div>
+          <div class="mobile-prayer-card-sub">Refugee Families</div>
         </div>
       </div>
       <p class="mobile-prayer-body-text">
         လူငယ်လေးများ စိတ်ဒဏ်ရာများ သက်သာပျောက်ကင်းစေရန်နှင့် မိဘများနှင့်အတူ မေတ္တာမေတ္တာများ ရရှိနိုင်ကြစေရန် ဝိုင်းဝန်းဆုတောင်းပေးတော်မူပါ။
       </p>
       <div class="mobile-prayer-card-footer">
-        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p2">142</span> · Comments: 28</div>
+        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p2">142</span><br>Comments: 28</div>
         <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-2')">
           <span>🙏</span> <span>Pray</span>
         </button>
@@ -187,14 +172,14 @@
         <img src="avatar_education.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
         <div class="mobile-prayer-author-group">
           <div class="mobile-prayer-card-title">Education Path <span style="color:#f0c355;font-size:0.8rem">›</span></div>
-          <div class="mobile-prayer-card-sub">Higher Education & Youth Mentorship</div>
+          <div class="mobile-prayer-card-sub">Education Path</div>
         </div>
       </div>
       <p class="mobile-prayer-body-text">
         မောင်တစ်ထောင်တို့ရဲ့ ပညာရေးအတွက် မိဘများ လိုအပ်သော ခွန်အားနှင့် ငွေကြေး အရင်းအနှီးများ ပြည့်စုံစေရန် မေတ္တာဖြင့် ဆုတောင်းပေးကြပါရန် တောင်းခံအပ်ပါသည်။
       </p>
       <div class="mobile-prayer-card-footer">
-        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p3">18</span> · Comments: 7</div>
+        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p3">18</span><br>Comments: 78</div>
         <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-3')">
           <span>🙏</span> <span>Pray</span>
         </button>
@@ -212,65 +197,62 @@
     <!-- Top Header Bar -->
     <div class="mobile-subpage-header">
       <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')">‹</button>
-      <div class="mobile-subpage-title" style="font-size:0.82rem;letter-spacing:0">October 26, 2026 | Day 45: Cultivating Kindness</div>
+      <div class="mobile-subpage-title" style="font-size:0.75rem;letter-spacing:0">October 26, 2023 | Day 45: Cultivating Kindness</div>
       <button type="button" class="mobile-subpage-gear" onclick="openSettingsModal()">⚙️</button>
     </div>
 
     <!-- Daily Devotional Card (Exact match to Photo 1) -->
     <div class="mobile-devotional-card-lux">
       <div class="mobile-devotional-headline">Daily Devotional</div>
-      <div class="mobile-devotional-mm-title">သတိထားပါ၊ ကောင်းမြတ်သောလမ်းစဉ်ကို စောင့်ထိန်းပါ</div>
+      <div class="mobile-devotional-mm-title">သတိထားပါ၊ မေတ္တာနှင့်ကောင်းသောအကျင့်စောင့်ထိန်းပါ</div>
       <div class="mobile-scripture-badge">Proverbs 22:6</div>
       <p class="mobile-scripture-quote">
-        «သူငယ်သွားရမည့် လမ်းအတိုင်း သွန်သင်လော့။ သို့ပြုလျှင်၊ သူသည် အိုသော်လည်း ထိုလမ်းမှ မလွှဲမရှောင်ဘဲ နေလိမ့်မည်။»<br>
-        <span style="font-size:0.75rem;color:rgba(255,255,255,0.7)">Proverbs 22:6. The scripture & foundation to Myanmar & English text.</span>
+        Proverbs 22:6. The scripture & foundation to Myanmar & English text.
       </p>
 
       <div class="mobile-reading-block">
-        <strong style="color:#f0c355">Reading:</strong> The loving passage of the master the orientation and acceptance to see the next sources the sustainment and our path of a passage and veneration the holdings.
+        <strong style="color:#f0c355">Reading:</strong> The loving passage of the mandate the orientation and accepted to see the net services the sustainment and our earth of a passage and veneration the holdings.
       </div>
       <div class="mobile-reflection-block">
-        <strong style="color:#f0c355">Reflections:</strong> The profound discovery, the newer character and pact of god; reflections on decisions, reflections.
+        <strong style="color:#f0c355">Reflections:</strong> The profound discovery, the beware character and pact of god; reflections on decisions, reflections.
       </div>
-
-      <button type="button" class="mobile-devotional-btn-share" onclick="shareDailyBlessing()">
-        <span>💬</span> <span>Viber ဖြင့် မိသားစုထံ ကောင်းချီးဝေမျှမည်</span>
-      </button>
     </div>
 
     <!-- Family Discipleship Certificate Card (Photo 1) -->
-    <div class="mobile-cert-card-lux">
-      <div class="mobile-cert-card-title">Family Discipleship Certificate</div>
+    <div class="mobile-cert-card-lux" onclick="openCertificateModal()" style="cursor:pointer" title="Click to view full certificate">
+      <div class="mobile-cert-banner">
+        <div class="mobile-cert-card-title">Family Discipleship Certificate</div>
+      </div>
       <div class="mobile-cert-card-sub">Certificate Progress</div>
 
       <!-- Stepper Line with Milestone Badges -->
       <div class="cert-stepper-track">
         <div class="cert-stepper-line"></div>
-        <div class="cert-stepper-step done" id="step-m1" title="Module 1 Completed">✓ M1</div>
-        <div class="cert-stepper-step done" id="step-m2" title="Module 2 Completed">✓ M2</div>
-        <div class="cert-stepper-step active" id="step-m3" title="Module 3 Active">👥 M3</div>
-        <div class="cert-stepper-step" id="step-m4" title="Module 4">📄 M4</div>
-        <div class="cert-stepper-step locked" title="Future Modules">🔒 ..</div>
+        <div class="cert-stepper-node">
+          <div class="cert-stepper-step done" id="step-m1">✓</div>
+          <span class="cert-stepper-label">M1</span>
+        </div>
+        <div class="cert-stepper-node">
+          <div class="cert-stepper-step done" id="step-m2">✓</div>
+          <span class="cert-stepper-label">M2</span>
+        </div>
+        <div class="cert-stepper-node">
+          <div class="cert-stepper-step active" id="step-m3">👥</div>
+          <span class="cert-stepper-label">M3</span>
+        </div>
+        <div class="cert-stepper-node">
+          <div class="cert-stepper-step" id="step-m4">📄</div>
+          <span class="cert-stepper-label">M4</span>
+        </div>
+        <div class="cert-stepper-node">
+          <div class="cert-stepper-step locked">🔒</div>
+          <span class="cert-stepper-label">--</span>
+        </div>
       </div>
 
       <div class="mobile-cert-card-footer">
         <span>Earn your Certificate</span>
-        <span id="mobile-cert-progress-text" style="color:#f0c355;font-weight:800">2 of 11 Completed (18%)</span>
-      </div>
-
-      <button type="button" class="prayer-submit-btn" style="margin-top:12px;background:linear-gradient(135deg,#f5c542,#d4af37)" onclick="openCertificateModal()">
-        🎓 အောင်လက်မှတ် ကြည့်မည် / View Certificate
-      </button>
-    </div>
-
-    <!-- Featured Family Photo Card (Photo 3 Celebrating Couple) -->
-    <div class="mobile-photo3-card">
-      <img src="hero_couple_opt.jpg" alt="Celebrating Myanmar Parents" class="mobile-photo3-img"/>
-      <div class="mobile-photo3-overlay">
-        <div style="font-size:0.7rem;font-weight:800;color:#f0c355;text-transform:uppercase;letter-spacing:1px">CBN Discipleship Family</div>
-        <div style="font-size:0.85rem;font-weight:700;color:#fff;margin-top:2px">
-          "မိဘများ၏ ပျော်ရွှင်သော ခြေလှမ်းတိုင်းသည် သားသမီးများအတွက် အကြီးမားဆုံး ကောင်းချီးဖြစ်ပါသည်"
-        </div>
+        <span id="mobile-cert-progress-text">0 Progress</span>
       </div>
     </div>
   </div>
@@ -1098,21 +1080,29 @@
 
 <!-- FIXED BOTTOM NAVIGATION BAR FOR NATIVE PHONE EXPERIENCE (Appears ONLY in Android App Mode) -->
 <nav id="mobile-app-bottom-bar" class="mobile-app-only">
-  <button type="button" class="app-bottom-tab active" id="btn-app-tab-cinema" onclick="switchAppTab('cinema')">
-    <span class="app-tab-icon">🏠</span>
-    <span class="app-tab-label">Video Hub</span>
+  <button type="button" class="app-bottom-tab active" id="btn-app-tab-cinema" onclick="switchAppTab('cinema')" aria-label="Home">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+    <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-prayer" onclick="switchAppTab('prayer')">
-    <span class="app-tab-icon">🙏</span>
-    <span class="app-tab-label">Prayer</span>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-prayer" onclick="switchAppTab('prayer')" aria-label="Community">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+    </svg>
+    <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-devotional" onclick="switchAppTab('devotional')">
-    <span class="app-tab-icon">📖</span>
-    <span class="app-tab-label">Devotional</span>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-devotional" onclick="switchAppTab('devotional')" aria-label="Devotional">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+    </svg>
+    <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-account" onclick="switchAppTab('account')">
-    <span class="app-tab-icon">⚙️</span>
-    <span class="app-tab-label">Account</span>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-account" onclick="openSettingsModal()" aria-label="Settings">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+    </svg>
+    <span class="app-tab-indicator"></span>
   </button>
 </nav>
 

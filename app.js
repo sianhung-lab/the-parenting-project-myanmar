@@ -3441,11 +3441,25 @@ async function loadLivePrayers() {
   }
 
   if (!livePrayers || livePrayers.length === 0) {
+    if (document.body.classList.contains('is-mobile-app')) {
+      container.innerHTML = '';
+      return;
+    }
     container.innerHTML = `<div style="text-align:center;padding:1rem;color:rgba(255,255,255,0.6);font-size:0.8rem">ဆုတောင်းချက် မရှိသေးပါ။ သင်၏ မိသားစု ဆုတောင်းချက်ကို ပထမဆုံး စတင် တင်သွင်းနိုင်ပါသည် 🙏</div>`;
     return;
   }
 
-  container.innerHTML = livePrayers.map(p => {
+  // In mobile app mode, do not render duplicate seed prayers (p-1, p-2, p-3) into prayers-container
+  let displayPrayers = livePrayers;
+  if (document.body.classList.contains('is-mobile-app')) {
+    displayPrayers = livePrayers.filter(p => p.id && !p.id.toString().startsWith('p-') && p.id !== 'seed');
+    if (displayPrayers.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+  }
+
+  container.innerHTML = displayPrayers.map(p => {
     return `
       <div class="prayer-card" id="prayer-card-${p.id}">
         <div class="prayer-card-header">
@@ -3839,6 +3853,16 @@ function switchAppTab(tab) {
     activeView.classList.add('active');
     activeView.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Hide top brand bar on subpages so that back-headers sit cleanly at top
+  const mobileAppBar = document.getElementById('mobile-app-bar');
+  if (tab === 'prayer' || tab === 'devotional') {
+    document.body.classList.add('on-subpage');
+    if (mobileAppBar) mobileAppBar.style.setProperty('display', 'none', 'important');
+  } else {
+    document.body.classList.remove('on-subpage');
+    if (mobileAppBar) mobileAppBar.style.setProperty('display', 'flex', 'important');
   }
 
   if (tab === 'prayer') {
