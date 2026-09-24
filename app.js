@@ -3173,11 +3173,22 @@ function showUpgradeNotification() {
   const banner = document.createElement('div');
   banner.id = 'upgrade-noti-banner';
   banner.innerHTML = `
-    <div class="upgrade-noti-icon-wrap">⚡</div>
+    <div class="upgrade-noti-icon-wrap">🚀</div>
     <div class="upgrade-noti-content">
-      <span class="upgrade-noti-badge">Upgraded v1.1.0 Phone Edition</span>
-      <div class="upgrade-noti-title">ဗားရှင်းသစ်သို့ အဆင့်မြှင့်တင်ပြီးပါပြီ</div>
-      <div class="upgrade-noti-sub">ဖုန်းမျက်နှာပြင်နှင့် အဆင်ပြေစေရန် ပြောင်းလဲပြီးပါပြီ (No download needed)</div>
+      <span class="upgrade-noti-badge">v1.1.0 Phone Edition Ready</span>
+      <div class="upgrade-noti-title">ဗားရှင်းသစ် အဆင်သင့်ဖြစ်ပါပြီ</div>
+      <div class="upgrade-noti-sub">ဖုန်းသီးသန့်ဒီဇိုင်း APK ကို ယခုချက်ချင်း ဒေါင်းလုဒ်လုပ်ပါ</div>
+      <div class="upgrade-noti-actions">
+        <a href="https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk" target="_blank" class="upgrade-noti-btn-dl" onclick="triggerApkDownload(event)">
+          📥 APK ဒေါင်းလုဒ်
+        </a>
+        <a href="viber://forward?text=The%20Parenting%20Project%20Myanmar%20v1.1.0%20APK:%20https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk" class="upgrade-noti-btn-viber">
+          💬 Viber
+        </a>
+        <button type="button" onclick="copyApkDownloadLink()" class="upgrade-noti-btn-copy">
+          📋 Copy
+        </button>
+      </div>
     </div>
     <button class="upgrade-noti-close-btn" onclick="dismissUpgradeNoti()" aria-label="Close">✕</button>
   `;
@@ -3192,16 +3203,38 @@ function showUpgradeNotification() {
   if ('Notification' in window && Notification.permission === 'granted') {
     try {
       new Notification('The Parenting Project Myanmar', {
-        body: 'ဖုန်းအရွယ်အစား ဗားရှင်းသစ်သို့ တိုက်ရိုက် အဆင့်မြှင့်တင်ပြီးပါပြီ (v1.1.0)!',
+        body: 'ဖုန်းအရွယ်အစား ဗားရှင်းသစ် v1.1.0 APK ကို ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ!',
         icon: 'official_logo.png'
       });
     } catch (e) {}
   }
 
-  // Auto dismiss after 8.5 seconds
+  // Keep visible longer so user has time to tap
   setTimeout(() => {
     dismissUpgradeNoti();
-  }, 8500);
+  }, 25000);
+}
+
+function triggerApkDownload(e) {
+  const apkUrl = "https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk";
+  try {
+    window.location.href = apkUrl;
+  } catch (err) {
+    window.open(apkUrl, '_blank');
+  }
+}
+
+function copyApkDownloadLink() {
+  const apkUrl = "https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk";
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(apkUrl).then(() => {
+      alert("✅ APK ဒေါင်းလုဒ်လင့်ခ်ကို ကူးယူပြီးပါပြီ (Copied)! Chrome browser တွင် Paste လုပ်ပြီး တိုက်ရိုက်ဒေါင်းလုဒ်လုပ်နိုင်ပါသည်:\n" + apkUrl);
+    }).catch(() => {
+      prompt("APK Download Link:", apkUrl);
+    });
+  } else {
+    prompt("APK Download Link:", apkUrl);
+  }
 }
 
 function dismissUpgradeNoti() {

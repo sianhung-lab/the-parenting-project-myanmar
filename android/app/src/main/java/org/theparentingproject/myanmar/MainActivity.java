@@ -98,8 +98,31 @@ public class MainActivity extends Activity {
                         return true;
                     }
                 }
+                // Handle APK downloads, Play Store, or external files
+                if (url.endsWith(".apk") || url.contains("/releases/download/") || url.startsWith("market:") || url.contains("play.google.com")) {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    } catch (Exception ignored) {
+                        return true;
+                    }
+                }
                 return false;
             }
+        });
+
+        // Native Download Manager integration for in-app downloads
+        webView.setDownloadListener(new android.webkit.DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception ignored) {}
+            }
+        });
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
