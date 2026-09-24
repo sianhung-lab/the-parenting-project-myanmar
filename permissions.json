@@ -1,0 +1,128 @@
+{
+  "khinmaung@gracechurch.org": {
+    "regId": "TPP-MM-001",
+    "churchName": "Yangon Grace Baptist Church",
+    "granted": true,
+    "status": "Verified (Full Access)",
+    "updatedAt": "2026-09-24 09:06"
+  },
+  "aungsan@emmanuelmdy.com": {
+    "regId": "TPP-MM-002",
+    "churchName": "Mandalay Emmanuel Christian Church",
+    "granted": true,
+    "status": "Granted (Full Access)",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "sai.lone@livingword.org": {
+    "regId": "TPP-MM-003",
+    "churchName": "Taunggyi Living Word Fellowship",
+    "granted": true,
+    "status": "Granted (Full Access)",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "thang.lian@hakhachurch.org": {
+    "regId": "TPP-MM-004",
+    "churchName": "Hakha Faith Baptist Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "maran.seng@hopecenter.org": {
+    "regId": "TPP-MM-005",
+    "churchName": "Myitkyina Hope Center Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "tinhlaing@trinitypathein.org": {
+    "regId": "TPP-MM-006",
+    "churchName": "Pathein Trinity Methodist Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "sawehkaw@hpaanchurch.org": {
+    "regId": "TPP-MM-007",
+    "churchName": "Hpa-an Grace Community Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "win.naing@harvestassembly.org": {
+    "regId": "TPP-MM-008",
+    "churchName": "Mawlamyine Harvest Assembly",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "kapno@kalaychurch.org": {
+    "regId": "TPP-MM-009",
+    "churchName": "Kalay Central Baptist Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "myomyint@bagochurch.org": {
+    "regId": "TPP-MM-010",
+    "churchName": "Bago City Light Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "uthein@hope.org": {
+    "regId": "TPP-MM-011",
+    "churchName": "Mawlamyine Hope Baptist",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "aungmyo@grace.org": {
+    "regId": "TPP-MM-012",
+    "churchName": "Mandalay Grace Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "saikham@taunggyichurch.org": {
+    "regId": "TPP-MM-014",
+    "churchName": "Taunggyi Community Fellowship",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "sianhung@gmail.com": {
+    "regId": "TPP-MM-015",
+    "churchName": "CBN Myanmar",
+    "granted": true,
+    "status": "Verified (Full Access)",
+    "updatedAt": "2026-09-24 08:54"
+  },
+  "test@test.com": {
+    "regId": "TPP-MM-016",
+    "churchName": "Test Church",
+    "granted": false,
+    "status": "Pending Admin Approval",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "cbnmyanmar@gmail.com": {
+    "regId": "TPP-MM-017",
+    "churchName": "CBN Myanmar",
+    "granted": true,
+    "status": "Granted (Full Access)",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "mary@cbnmyanmar.org": {
+    "regId": "TPP-MM-018",
+    "churchName": "End-to-End Live Sync Church",
+    "granted": true,
+    "status": "Granted (Full Access)",
+    "updatedAt": "2026-09-24 08:30"
+  },
+  "cbnmm@gmail.com": {
+    "regId": "TPP-MM-019",
+    "churchName": "CBN Church",
+    "granted": true,
+    "status": "Granted (Full Access)",
+    "updatedAt": "2026-09-24 08:30"
+  }
+}

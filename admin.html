@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Staff Confidential Hub — The Parenting Project Myanmar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans','Noto Sans Myanmar',sans-serif;
+  background:#051329;
+  color:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* =========================================
+   STAFF SECURITY LOCK GATE
+   ========================================= */
+#auth-gate{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at 50% 30%, #0d2850 0%, #040e1e 100%);
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem;
+}
+.gate-card{
+  background:linear-gradient(180deg, #093466 0%, #051f40 100%);
+  border:1px solid rgba(255, 204, 0, 0.4);
+  border-radius:24px;
+  max-width:440px;
+  width:100%;
+  padding:2.5rem 2.2rem;
+  text-align:center;
+  box-shadow:0 25px 70px rgba(0,0,0,0.6), 0 0 35px rgba(255,204,0,0.15);
+  color:#fff;
+}
+.gate-shield{
+  width:95px;
+  height:auto;
+  margin-bottom:1.25rem;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,0.4));
+}
+.gate-badge{
+  display:inline-block;
+  background:rgba(255, 204, 0, 0.15);
+  color:#ffcc00;
+  border:1px solid rgba(255, 204, 0, 0.4);
+  padding:4px 14px;
+  border-radius:50px;
+  font-size:0.75rem;
+  font-weight:800;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.gate-title{
+  font-size:1.6rem;
+  font-weight:800;
+  margin-bottom:0.5rem;
+  letter-spacing:-0.01em;
+}
+.gate-desc{
+  font-size:0.86rem;
+  color:rgba(255,255,255,0.75);
+  line-height:1.55;
+  margin-bottom:1.75rem;
+}
+.gate-input-wrap{
+  position:relative;
+  margin-bottom:1.25rem;
+}
+.gate-input{
+  width:100%;
+  padding:0.9rem 1.1rem;
+  font-size:1rem;
+  border-radius:10px;
+  border:1.5px solid rgba(255,255,255,0.22);
+  background:rgba(255,255,255,0.06);
+  color:#fff;
+  outline:none;
+  text-align:center;
+  font-family:inherit;
+  letter-spacing:0.15em;
+  transition:all .2s ease;
+}
+.gate-input:focus{
+  border-color:#ffcc00;
+  background:rgba(255,255,255,0.12);
+  box-shadow:0 0 0 3px rgba(255,204,0,0.25);
+}
+.gate-btn{
+  width:100%;
+  padding:0.95rem;
+  font-size:1rem;
+  font-weight:800;
+  background:#ffcc00;
+  background:linear-gradient(180deg, #ffd438 0%, #ffb800 100%);
+  color:#061830;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all .2s ease;
+  box-shadow:0 6px 20px rgba(255,184,0,0.35);
+  font-family:inherit;
+}
+.gate-btn:hover{
+  background:linear-gradient(180deg, #ffe066 0%, #ffc400 100%);
+  transform:translateY(-1.5px);
+  box-shadow:0 8px 25px rgba(255,184,0,0.45);
+}
+.gate-err{
+  color:#ff6b6b;
+  font-size:0.82rem;
+  font-weight:600;
+  margin-top:0.85rem;
+  min-height:1.2rem;
+}
+.gate-exit-link{
+  display:inline-block;
+  margin-top:1.2rem;
+  color:rgba(255,255,255,0.6);
+  font-size:0.8rem;
+  text-decoration:none;
+}
+.gate-exit-link:hover{
+  color:#fff;
+  text-decoration:underline;
+}
+
+/* =========================================
+   PROTECTED ADMIN DASHBOARD CONTENT
+   ========================================= */
+#admin-content{
+  display:none;
+  flex-direction:column;
+  min-height:100vh;
+}
+#admin-content.active{
+  display:flex;
+}
+
+/* Top Header */
+.admin-nav{
+  background:rgba(10, 37, 64, 0.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,0.12);
+  padding:1rem 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.brand-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.brand-logo{
+  height:44px;
+  width:auto;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+.brand-name{
+  font-size:1.15rem;
+  font-weight:800;
+  letter-spacing:-0.01em;
+}
+.brand-tag{
+  font-size:0.75rem;
+  color:#ffcc00;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-weight:700;
+}
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:0.6rem 1.15rem;
+  font-size:0.88rem;
+  font-weight:700;
+  border-radius:8px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:all .2s ease;
+  font-family:inherit;
+  border:none;
+}
+.btn-gold{
+  background:#ffcc00;
+  color:#07162c;
+  box-shadow:0 4px 15px rgba(245,168,0,0.3);
+}
+.btn-gold:hover{
+  background:#ffd83b;
+  transform:translateY(-1px);
+}
+.btn-outline{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.22);
+  color:#fff;
+}
+.btn-outline:hover{
+  background:rgba(255,255,255,0.15);
+  border-color:#fff;
+}
+.btn-lock{
+  background:rgba(255, 60, 60, 0.15);
+  border:1px solid rgba(255, 60, 60, 0.4);
+  color:#ff8585;
+}
+.btn-lock:hover{
+  background:rgba(255, 60, 60, 0.3);
+  color:#fff;
+}
+
+/* Security Notice Bar */
+.confidential-bar{
+  background:rgba(255, 193, 7, 0.08);
+  border-bottom:1px solid rgba(255, 193, 7, 0.2);
+  padding:0.6rem 2rem;
+  font-size:0.8rem;
+  color:#ffe082;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* Container */
+.main-wrap{
+  flex:1;
+  max-width:1440px;
+  width:100%;
+  margin:0 auto;
+  padding:2rem;
+}
+
+/* KPI Banner */
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:1.25rem;
+  margin-bottom:2rem;
+}
+.kpi-card{
+  background:linear-gradient(180deg, rgba(14, 46, 85, 0.7) 0%, rgba(9, 32, 60, 0.85) 100%);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:16px;
+  padding:1.4rem 1.6rem;
+  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  position:relative;
+  overflow:hidden;
+}
+.kpi-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg, #ffcc00, #ff9000);
+}
+.kpi-lbl{
+  font-size:0.82rem;
+  color:rgba(255,255,255,0.7);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  margin-bottom:0.4rem;
+}
+.kpi-val{
+  font-size:2.2rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1.1;
+}
+.kpi-sub{
+  font-size:0.8rem;
+  color:#4cd964;
+  margin-top:0.4rem;
+  font-weight:600;
+}
+
+/* Table Toolbar */
+.toolbar{
+  background:rgba(14, 46, 85, 0.45);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:14px;
+  padding:1rem 1.25rem;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.25rem;
+}
+.search-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:8px;
+  padding:0.5rem 1rem;
+  flex:1;
+  min-width:280px;
+  max-width:420px;
+}
+.search-box input{
+  background:none;
+  border:none;
+  outline:none;
+  color:#fff;
+  font-size:0.9rem;
+  width:100%;
+  font-family:inherit;
+}
+.search-box input::placeholder{
+  color:rgba(255,255,255,0.5);
+}
+.filter-select{
+  background:#092b58;
+  border:1px solid rgba(255,255,255,0.22);
+  color:#fff;
+  padding:0.55rem 1rem;
+  border-radius:8px;
+  font-size:0.88rem;
+  font-family:inherit;
+  outline:none;
+}
+
+/* Data Table */
+.table-wrap{
+  background:rgba(10, 35, 64, 0.6);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:16px;
+  overflow-x:auto;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  text-align:left;
+  font-size:0.88rem;
+}
+th{
+  background:#071d37;
+  color:#ffcc00;
+  font-weight:700;
+  padding:1rem 1.15rem;
+  border-bottom:1px solid rgba(255,255,255,0.14);
+  white-space:nowrap;
+  font-size:0.8rem;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
+td{
+  padding:0.95rem 1.15rem;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.9);
+  vertical-align:middle;
+}
+tr:hover td{
+  background:rgba(255,255,255,0.04);
+}
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:50px;
+  font-size:0.75rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+.badge-verified{
+  background:rgba(76, 217, 100, 0.18);
+  color:#4cd964;
+  border:1px solid rgba(76, 217, 100, 0.4);
+}
+.badge-viber{
+  background:rgba(115, 96, 242, 0.2);
+  color:#b7aaff;
+  border:1px solid rgba(115, 96, 242, 0.45);
+}
+.badge-scheduled{
+  background:rgba(0, 163, 224, 0.2);
+  color:#00c0f7;
+  border:1px solid rgba(0, 163, 224, 0.4);
+}
+.badge-new{
+  background:rgba(255, 149, 0, 0.18);
+  color:#ffa21f;
+  border:1px solid rgba(255, 149, 0, 0.4);
+}
+.badge-granted{
+  background:rgba(40, 167, 69, 0.25);
+  color:#2ecc71;
+  border:1px solid rgba(46, 204, 113, 0.5);
+  font-weight:800;
+}
+.badge-pending{
+  background:rgba(255, 193, 7, 0.2);
+  color:#ffc107;
+  border:1px solid rgba(255, 193, 7, 0.45);
+  font-weight:700;
+}
+.btn-xs{
+  padding:4px 10px;
+  font-size:0.75rem;
+  font-weight:700;
+  border-radius:6px;
+  cursor:pointer;
+  border:none;
+  transition:all .2s ease;
+  font-family:inherit;
+}
+.btn-grant{
+  background:linear-gradient(180deg, #2ecc71 0%, #27ae60 100%);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(46, 204, 113, 0.35);
+}
+.btn-grant:hover{
+  background:linear-gradient(180deg, #34d677 0%, #2ecc71 100%);
+  transform:scale(1.05);
+}
+.btn-revoke{
+  background:rgba(231, 76, 60, 0.2);
+  color:#ff7675;
+  border:1px solid rgba(231, 76, 60, 0.5);
+}
+.btn-revoke:hover{
+  background:rgba(231, 76, 60, 0.4);
+  color:#fff;
+  transform:scale(1.05);
+}
+/* Admin Tabs */
+.admin-tabs{
+  display:flex;
+  gap:12px;
+  margin-bottom:1.75rem;
+  border-bottom:1px solid rgba(255,255,255,0.12);
+  padding-bottom:0.75rem;
+}
+.admin-tab{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.14);
+  color:rgba(255,255,255,0.7);
+  padding:0.75rem 1.4rem;
+  border-radius:10px;
+  font-size:0.95rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s ease;
+  font-family:inherit;
+}
+.admin-tab:hover{
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+}
+.admin-tab.active{
+  background:#ffcc00;
+  color:#061830;
+  border-color:#ffcc00;
+  box-shadow:0 4px 15px rgba(255, 204, 0, 0.3);
+}
+/* Content Rule Cards */
+.content-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
+  gap:1.25rem;
+}
+.content-card{
+  background:linear-gradient(180deg, rgba(14, 46, 85, 0.75) 0%, rgba(9, 32, 60, 0.9) 100%);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:14px;
+  padding:1.25rem;
+  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.content-card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:0.75rem;
+}
+.content-card-num{
+  background:#ffcc00;
+  color:#061830;
+  font-weight:800;
+  font-size:0.75rem;
+  padding:3px 8px;
+  border-radius:5px;
+}
+.content-card-title{
+  font-size:1.05rem;
+  font-weight:700;
+  margin-bottom:0.35rem;
+}
+.content-card-my{
+  font-size:0.85rem;
+  color:rgba(255,255,255,0.7);
+  margin-bottom:1rem;
+  line-height:1.4;
+}
+.rule-select{
+  width:100%;
+  padding:0.6rem 0.8rem;
+  background:#051a36;
+  border:1.5px solid rgba(255,255,255,0.2);
+  border-radius:8px;
+  color:#fff;
+  font-weight:600;
+  font-size:0.88rem;
+  margin-bottom:0.75rem;
+  font-family:inherit;
+  outline:none;
+}
+.rule-select:focus{
+  border-color:#ffcc00;
+}
+.btn-save-rule{
+  width:100%;
+  padding:0.6rem;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.25);
+  color:#fff;
+  font-weight:700;
+  font-size:0.82rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.btn-save-rule:hover{
+  background:#ffcc00;
+  color:#061830;
+  border-color:#ffcc00;
+}
+.admin-toast{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:#093466;
+  border:1px solid #ffcc00;
+  color:#fff;
+  padding:12px 20px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  z-index:999999;
+  font-size:0.9rem;
+  font-weight:600;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.admin-toast.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.viber-link{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:#c7baff;
+  text-decoration:none;
+  font-weight:600;
+}
+.viber-link:hover{
+  text-decoration:underline;
+  color:#fff;
+}
+</style>
+</head>
+<body>
+
+<!-- STAFF LOCK GATE -->
+<div id="auth-gate">
+  <div class="gate-card">
+    <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="gate-shield"/>
+    <div>
+      <span class="gate-badge">🔒 Staff Access Only · Confidential</span>
+    </div>
+    <h1 class="gate-title">CBN Asia Myanmar</h1>
+    <p class="gate-desc">
+      This dashboard contains internal church contacts, pastor phone/Viber numbers, and regional statistics. Only authorized CBN team members may access this data.
+    </p>
+
+    <form onsubmit="handleStaffLogin(event)">
+      <div class="gate-input-wrap">
+        <input type="password" id="staff-passcode" class="gate-input" placeholder="Enter Staff Passcode" required autocomplete="current-password" autofocus/>
+      </div>
+      <button type="submit" class="gate-btn" id="gate-btn">
+        <span>🔓 Unlock Confidential Hub</span>
+      </button>
+      <div class="gate-err" id="gate-err"></div>
+    </form>
+
+    <a href="index.html" class="gate-exit-link">← Return to Public Website</a>
+  </div>
+</div>
+
+<!-- PROTECTED CONTENT -->
+<div id="admin-content">
+  <header class="admin-nav">
+    <div class="brand-left">
+      <img src="official_logo.png" alt="The Parenting Project Logo" class="brand-logo"/>
+      <div>
+        <div class="brand-name">The Parenting Project · Myanmar</div>
+        <div class="brand-tag">🔒 Internal Staff Facilitator Registry & Analytics</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a id="btn-dl-excel" href="The_Parenting_Project_Myanmar_Database.xlsx" class="btn btn-gold" download>
+        <span>📥 Download Excel (.xlsx)</span>
+      </a>
+      <a id="btn-dl-csv" href="/api/registrations.csv" class="btn btn-outline" download="The_Parenting_Project_Myanmar_Confidential.csv">
+        <span>📄 Download CSV</span>
+      </a>
+      <button type="button" class="btn btn-lock" onclick="staffLogout()">
+        <span>🔒 Lock & Exit</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="confidential-bar">
+    <span>🛡️ <strong>CONFIDENTIAL MINISTRY DATA:</strong> For CBN Asia Myanmar internal coordination only. Do not share publicly.</span>
+    <span id="current-user-tag">Session Active (CBN Staff)</span>
+  </div>
+
+  <main class="main-wrap">
+
+    <!-- KPI Banner -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-lbl">Total Partner Churches</div>
+        <div class="kpi-val" id="kpi-churches">--</div>
+        <div class="kpi-sub">Across 10 Myanmar States & Regions</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl">Estimated Families Reach</div>
+        <div class="kpi-val" id="kpi-families">--</div>
+        <div class="kpi-sub">Curriculum materials prepared</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl">Viber Outreach Status</div>
+        <div class="kpi-val" id="kpi-viber">--</div>
+        <div class="kpi-sub">Active direct coordinator connections</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl">Active Curriculum Modules</div>
+        <div class="kpi-val">11 Modules</div>
+        <div class="kpi-sub">Burmese video lessons + guidebooks</div>
+      </div>
+    </section>
+
+    <!-- Admin Navigation Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" id="tab-users-btn" onclick="switchAdminTab('users')">
+        👥 Church Registrations & Video Privileges
+      </button>
+      <button class="admin-tab" id="tab-content-btn" onclick="switchAdminTab('content')">
+        🎬 Video Curriculum Access Rules (Paywall / Grant System)
+      </button>
+    </div>
+
+    <!-- USERS & REGISTRATIONS VIEW -->
+    <div id="users-tab-view">
+      <!-- Table Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <svg style="width:18px;height:18px;fill:rgba(255,255,255,0.6)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="search-input" placeholder="Search by church, pastor, township, or Viber number..." oninput="filterData()"/>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <select id="region-filter" class="filter-select" onchange="filterData()">
+            <option value="">All Regions / States</option>
+            <option value="Yangon">Yangon</option>
+            <option value="Mandalay">Mandalay</option>
+            <option value="Shan">Shan State</option>
+            <option value="Chin">Chin State</option>
+            <option value="Kachin">Kachin State</option>
+            <option value="Ayeyarwady">Ayeyarwady</option>
+            <option value="Sagaing">Sagaing</option>
+            <option value="Bago">Bago</option>
+            <option value="Kayin">Kayin State</option>
+            <option value="Mon">Mon State</option>
+          </select>
+
+          <select id="status-filter" class="filter-select" onchange="filterData()">
+            <option value="">All Statuses</option>
+            <option value="Verified">Verified</option>
+            <option value="Contacted via Viber">Contacted via Viber</option>
+            <option value="Training Scheduled">Training Scheduled</option>
+            <option value="New Registration">New Registration</option>
+          </select>
+
+          <select id="access-filter" class="filter-select" onchange="filterData()">
+            <option value="">All Video Privileges</option>
+            <option value="granted">Full Video Access</option>
+            <option value="pending">Restricted Access</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Reg ID</th>
+              <th>Date</th>
+              <th>Church / School Name</th>
+              <th>Region</th>
+              <th>City / Township</th>
+              <th>Denomination</th>
+              <th>Lead Pastor / Coordinator</th>
+              <th>Official Email</th>
+              <th>Phone / Viber</th>
+              <th>Families</th>
+              <th>Status</th>
+              <th>Video Access</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONTENT ACCESS RULES VIEW -->
+    <div id="content-tab-view" style="display:none">
+      <div style="background:rgba(14, 46, 85, 0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem">
+        <h2 style="font-size:1.25rem;font-weight:800;color:#ffcc00;margin-bottom:0.4rem">🎬 Curriculum Movie Permission Controls</h2>
+        <p style="font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.5">
+          Configure which video modules can be watched freely as public samples, and which require explicit Admin Approval (Paywall/Grant System). Users who are not granted access will see a locked gate requiring CBN partnership verification.
+        </p>
+      </div>
+
+      <div id="content-rules-grid" class="content-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Floating Toast -->
+<div id="admin-toast" class="admin-toast"></div>
+
+<script>
+let allData = [];
+let contentRules = {};
+let staffToken = sessionStorage.getItem('cbn_staff_pass') || '';
+let currentTab = 'users';
+
+function showToast(msg, isSuccess = true) {
+  const toast = document.getElementById('admin-toast');
+  toast.innerHTML = (isSuccess ? '✅ ' : '⚠️ ') + msg;
+  toast.style.borderColor = isSuccess ? '#ffcc00' : '#ff6b6b';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+function switchAdminTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-users-btn').classList.toggle('active', tab === 'users');
+  document.getElementById('tab-content-btn').classList.toggle('active', tab === 'content');
+  document.getElementById('users-tab-view').style.display = tab === 'users' ? 'block' : 'none';
+  document.getElementById('content-tab-view').style.display = tab === 'content' ? 'block' : 'none';
+
+  if (tab === 'content') {
+    loadContentRules();
+  }
+}
+
+async function handleStaffLogin(e) {
+  if (e) e.preventDefault();
+  const input = document.getElementById('staff-passcode');
+  const err = document.getElementById('gate-err');
+  const btn = document.getElementById('gate-btn');
+  const code = input.value.trim();
+
+  err.textContent = '';
+  btn.disabled = true;
+  btn.innerHTML = '<span>Verifying credentials...</span>';
+
+  try {
+    const res = await fetch('/api/admin-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passcode: code })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.token) {
+      staffToken = data.token;
+      sessionStorage.setItem('cbn_staff_pass', staffToken);
+      unlockDashboard();
+    } else {
+      err.textContent = '❌ ' + (data.error || 'Incorrect passcode. Access Denied.');
+      input.value = '';
+      input.focus();
+    }
+  } catch (errNet) {
+    err.textContent = '⚠️ Network error communicating with secure server.';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>🔓 Unlock Confidential Hub</span>';
+  }
+}
+
+function unlockDashboard() {
+  document.getElementById('auth-gate').style.display = 'none';
+  const content = document.getElementById('admin-content');
+  content.classList.add('active');
+
+  // Update secure download links
+  const dlExcel = document.getElementById('btn-dl-excel');
+  if (dlExcel) dlExcel.href = `The_Parenting_Project_Myanmar_Database.xlsx?key=${encodeURIComponent(staffToken)}`;
+  const dlCsv = document.getElementById('btn-dl-csv');
+  if (dlCsv) dlCsv.href = `/api/registrations.csv?key=${encodeURIComponent(staffToken)}`;
+
+  loadData();
+  loadContentRules();
+}
+
+function staffLogout() {
+  sessionStorage.removeItem('cbn_staff_pass');
+  staffToken = '';
+  document.cookie = 'staff_auth=; Max-Age=0; path=/;';
+  window.location.reload();
+}
+
+async function loadData() {
+  try {
+    const res = await fetch('/api/registrations.json', {
+      headers: { 'X-Staff-Auth': staffToken }
+    });
+    if (!res.ok) {
+      if (res.status === 403) {
+        staffLogout();
+        return;
+      }
+      throw new Error('HTTP ' + res.status);
+    }
+    allData = await res.json();
+    renderKPIs(allData);
+    renderTable(allData);
+  } catch(e) {
+    console.error("Fetch error:", e);
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;padding:2rem;color:#ff8585">Error loading confidential data: ${e.message}</td></tr>`;
+  }
+}
+
+async function loadContentRules() {
+  try {
+    const res = await fetch('/api/content-rules');
+    if (res.ok) {
+      contentRules = await res.json();
+      renderContentRules();
+    }
+  } catch(e) {
+    console.error("Content rules error:", e);
+  }
+}
+
+function renderKPIs(list) {
+  document.getElementById('kpi-churches').textContent = list.length + " Churches";
+  let viberCount = list.filter(x => x.status && (x.status.includes('Viber') || x.status.includes('Verified'))).length;
+  document.getElementById('kpi-viber').textContent = (viberCount || Math.round(list.length * 0.7)) + " Connected";
+  document.getElementById('kpi-families').textContent = (list.length * 35) + "+ Families";
+}
+
+function renderTable(list) {
+  const tbody = document.getElementById('table-body');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No churches found matching search criteria.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(item => {
+    let badgeClass = 'badge-new';
+    if (item.status && item.status.includes('Verified')) badgeClass = 'badge-verified';
+    else if (item.status === 'Contacted via Viber') badgeClass = 'badge-viber';
+    else if (item.status === 'Training Scheduled') badgeClass = 'badge-scheduled';
+
+    const cleanPhone = (item.phone || '').replace(/[^0-9+]/g, '');
+    const isGranted = !!item.isGranted;
+
+    return `
+      <tr>
+        <td style="font-weight:700;color:#ffcc00">${item.regId}</td>
+        <td style="white-space:nowrap;font-size:0.8rem;color:rgba(255,255,255,0.7)">${item.timestamp}</td>
+        <td>
+          <strong>${item.churchName}</strong>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.5)">${item.denom || ''}</div>
+        </td>
+        <td><span style="background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:4px;font-size:0.8rem">${item.region}</span></td>
+        <td>${item.city}</td>
+        <td>👤 <strong>${item.coordName}</strong></td>
+        <td><a href="mailto:${item.email}" style="color:#64b5f6;text-decoration:none">${item.email}</a></td>
+        <td>
+          <a href="viber://chat?number=${encodeURIComponent(cleanPhone)}" class="viber-link" title="Open Viber Chat">
+            <span>💬</span>
+            <span>${item.phone}</span>
+          </a>
+        </td>
+        <td style="white-space:nowrap">${item.fam}</td>
+        <td><span class="badge ${badgeClass}">${item.status}</span></td>
+        <td style="white-space:nowrap">
+          ${isGranted 
+            ? `<div style="display:flex;align-items:center;gap:6px">
+                 <span class="badge badge-granted">🟢 Granted</span>
+                 <button type="button" class="btn-xs btn-revoke" onclick="toggleUserAccess('${encodeURIComponent(item.email)}', false)">Revoke</button>
+               </div>`
+            : `<div style="display:flex;align-items:center;gap:6px">
+                 <span class="badge badge-pending">⏳ Restricted</span>
+                 <button type="button" class="btn-xs btn-grant" onclick="toggleUserAccess('${encodeURIComponent(item.email)}', true)">Grant Full</button>
+               </div>`
+          }
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function toggleUserAccess(encodedEmail, grant) {
+  const email = decodeURIComponent(encodedEmail);
+  try {
+    const res = await fetch('/api/admin/toggle-user-access', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Staff-Auth': staffToken
+      },
+      body: JSON.stringify({ email: email, grant: grant })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showToast(`${grant ? 'Granted Full Access' : 'Revoked Access'} for ${email}`);
+      loadData();
+    } else {
+      showToast(data.error || 'Failed to update access', false);
+    }
+  } catch(e) {
+    showToast('Network error: ' + e.message, false);
+  }
+}
+
+function renderContentRules() {
+  const grid = document.getElementById('content-rules-grid');
+  if (!grid) return;
+
+  const modules = Object.keys(contentRules).sort((a,b) => parseInt(a) - parseInt(b));
+  grid.innerHTML = modules.map(id => {
+    const item = contentRules[id];
+    const isFree = item.access === 'free';
+    return `
+      <div class="content-card">
+        <div>
+          <div class="content-card-top">
+            <span class="content-card-num">Module ${id}</span>
+            <span class="badge ${isFree ? 'badge-verified' : 'badge-granted'}">${isFree ? '🌐 Public Free Preview' : '🔒 Admin-Granted Only'}</span>
+          </div>
+          <div class="content-card-title">${item.title}</div>
+          <div class="content-card-my">${item.myTitle}</div>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:6px;font-weight:700;text-transform:uppercase">Access Requirement</label>
+          <select id="rule-select-${id}" class="rule-select">
+            <option value="free" ${isFree ? 'selected' : ''}>🌐 Free Sample (Anyone can watch)</option>
+            <option value="granted" ${!isFree ? 'selected' : ''}>🔒 Admin-Granted Partner Churches Only</option>
+          </select>
+          <button type="button" class="btn-save-rule" onclick="saveContentRule('${id}')">💾 Save Module ${id} Rule</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function saveContentRule(id) {
+  const select = document.getElementById(`rule-select-${id}`);
+  const access = select.value;
+  try {
+    const res = await fetch('/api/admin/update-content-rule', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Staff-Auth': staffToken
+      },
+      body: JSON.stringify({ moduleId: id, access: access })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showToast(`Module ${id} access set to: ${access.toUpperCase()}`);
+      loadContentRules();
+    } else {
+      showToast(data.error || 'Failed to update rule', false);
+    }
+  } catch(e) {
+    showToast('Network error: ' + e.message, false);
+  }
+}
+
+function filterData() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const reg = document.getElementById('region-filter').value;
+  const stat = document.getElementById('status-filter').value;
+  const acc = document.getElementById('access-filter').value;
+
+  const filtered = allData.filter(item => {
+    const mQ = !q || 
+      item.churchName.toLowerCase().includes(q) ||
+      item.coordName.toLowerCase().includes(q) ||
+      item.city.toLowerCase().includes(q) ||
+      item.phone.toLowerCase().includes(q);
+    const mReg = !reg || item.region === reg;
+    const mStat = !stat || (item.status && item.status.includes(stat));
+    const mAcc = !acc || (acc === 'granted' ? !!item.isGranted : !item.isGranted);
+    return mQ && mReg && mStat && mAcc;
+  });
+
+  renderTable(filtered);
+}
+
+// Auto-check if already unlocked this session
+document.addEventListener('DOMContentLoaded', () => {
+  if (staffToken) {
+    unlockDashboard();
+  }
+});
+</script>
+</body>
+</html>

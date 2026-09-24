@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Register Church — The Parenting Project Myanmar</title>
+<meta name="description" content="Register your church or school for The Parenting Project Myanmar. 100% free discipleship curriculum by CBN Asia."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:'Plus Jakarta Sans','Noto Sans Myanmar',sans-serif;-webkit-font-smoothing:antialiased}
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  background:#0a192f;
+  min-height:100vh;
+  padding:2rem 1rem;
+  overflow-x:hidden;
+}
+body.lang-my{
+  font-family:'Noto Sans Myanmar','Plus Jakarta Sans',sans-serif;
+}
+
+/* Background */
+.reg-bg{
+  position:fixed;
+  inset:0;
+  background-image:url('login_bg.jpg');
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  filter:brightness(1.02);
+  z-index:1;
+}
+.reg-bg-overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg, rgba(2, 10, 24, 0.12) 0%, rgba(2, 10, 24, 0.32) 100%);
+  z-index:2;
+}
+
+/* Top Right Language Switcher Pill */
+.reg-top-bar{
+  position:fixed;
+  top:24px;
+  right:32px;
+  z-index:50;
+}
+.reg-lang-pill{
+  background:rgba(26, 38, 57, 0.88);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1.5px solid rgba(255,255,255,0.22);
+  color:#fff;
+  padding:8px 18px;
+  border-radius:50px;
+  font-size:0.88rem;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
+  transition:all .25s ease;
+  font-family:inherit;
+}
+.reg-lang-pill:hover{
+  background:rgba(35, 52, 78, 0.95);
+  border-color:rgba(245,168,0,0.6);
+  transform:translateY(-1px);
+  box-shadow:0 8px 25px rgba(0,0,0,0.35);
+}
+
+/* Bottom Left Accessibility Widget */
+.reg-access-pill{
+  position:fixed;
+  bottom:26px;
+  left:28px;
+  z-index:50;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#004ac2;
+  color:#fff;
+  border:2.5px solid #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.reg-access-pill:hover{
+  transform:scale(1.1);
+  background:#003087;
+  box-shadow:0 8px 25px rgba(0,48,135,0.5);
+}
+.reg-access-pill svg{
+  width:22px;
+  height:22px;
+  fill:currentColor;
+}
+
+/* Center Registration Card */
+.reg-container{
+  position:relative;
+  z-index:20;
+  width:100%;
+  max-width:520px;
+  margin:auto;
+}
+.reg-card{
+  background:linear-gradient(180deg, #093e7d 0%, #062b58 100%);
+  border-radius:24px;
+  padding:2.5rem 2.25rem 2.25rem;
+  box-shadow:0 25px 60px rgba(0, 15, 35, 0.55), 0 0 35px rgba(0, 48, 135, 0.28);
+  border:1px solid rgba(255,255,255,0.16);
+  color:#fff;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  transition:transform .3s ease;
+}
+
+/* Shield Logo */
+.reg-logo-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:1.25rem;
+}
+.reg-shield-img{
+  width:105px;
+  height:auto;
+  filter:drop-shadow(0 8px 20px rgba(0,0,0,0.45));
+  transition:transform .3s ease;
+}
+.reg-shield-img:hover{
+  transform:scale(1.05);
+}
+
+/* Badge & Headings */
+.reg-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(245,168,0,0.18);
+  border:1px solid rgba(245,168,0,0.45);
+  color:#ffcc00;
+  font-size:0.75rem;
+  font-weight:700;
+  padding:4px 12px;
+  border-radius:50px;
+  margin-bottom:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
+.reg-title{
+  color:#ffffff;
+  font-size:1.85rem;
+  font-weight:800;
+  line-height:1.2;
+  margin-bottom:0.4rem;
+  text-align:left;
+  letter-spacing:-0.01em;
+}
+body.lang-my .reg-title{
+  font-size:1.6rem;
+  line-height:1.35;
+}
+.reg-sub{
+  color:rgba(255,255,255,0.76);
+  font-size:0.88rem;
+  line-height:1.5;
+  margin-bottom:1.5rem;
+  text-align:left;
+}
+body.lang-my .reg-sub{
+  font-size:0.82rem;
+  line-height:1.65;
+}
+
+/* Stepper Indicator */
+.stepper{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:1.75rem;
+  padding:0.75rem 1rem;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:14px;
+}
+.step-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.82rem;
+  font-weight:700;
+  color:rgba(255,255,255,0.5);
+  transition:all .3s ease;
+}
+.step-item.active{
+  color:#ffcc00;
+}
+.step-item.done{
+  color:#4cd964;
+}
+.step-bubble{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.75rem;
+  font-weight:800;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  border:1.5px solid transparent;
+}
+.step-item.active .step-bubble{
+  background:#ffcc00;
+  color:#040c1a;
+  border-color:#fff;
+  box-shadow:0 0 10px rgba(245,168,0,0.5);
+}
+.step-item.done .step-bubble{
+  background:#4cd964;
+  color:#fff;
+}
+.step-divider{
+  flex:1;
+  height:2px;
+  background:rgba(255,255,255,0.14);
+  margin:0 12px;
+  border-radius:2px;
+}
+
+/* Form Groups */
+.form-step{
+  display:none;
+}
+.form-step.active{
+  display:block;
+  animation:fadeIn .3s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.form-grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.form-group{
+  margin-bottom:1.1rem;
+}
+.form-label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#ffffff;
+  font-size:0.82rem;
+  font-weight:700;
+  margin-bottom:0.42rem;
+  letter-spacing:0.01em;
+}
+body.lang-my .form-label{
+  font-size:0.8rem;
+}
+.lbl-ico{
+  font-size:0.95rem;
+}
+.form-input, .form-select{
+  width:100%;
+  padding:0.82rem 1rem;
+  font-size:0.92rem;
+  font-family:inherit;
+  background:#ffffff;
+  color:#131e33;
+  border:1.5px solid transparent;
+  border-radius:8px;
+  outline:none;
+  transition:all .2s ease;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,0.08);
+}
+.form-input::placeholder{
+  color:#8a9bb2;
+  font-size:0.88rem;
+}
+.form-input:focus, .form-select:focus{
+  border-color:#ffcc00;
+  box-shadow:0 0 0 3px rgba(245,168,0,0.35);
+  background:#ffffff;
+}
+
+/* Action Buttons */
+.btn-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:1.5rem;
+}
+.btn-primary{
+  flex:1;
+  background:#ffcc00;
+  color:#07162c;
+  font-weight:800;
+  font-size:0.95rem;
+  padding:0.95rem 1.4rem;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(245,168,0,0.35);
+  transition:all .25s ease;
+  font-family:inherit;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-decoration:none;
+}
+.btn-primary:hover{
+  background:#ffd83b;
+  transform:translateY(-1.5px);
+  box-shadow:0 10px 28px rgba(245,168,0,0.45);
+}
+.btn-primary:active{
+  transform:translateY(0);
+}
+.btn-secondary{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.22);
+  color:#fff;
+  font-weight:700;
+  font-size:0.9rem;
+  padding:0.95rem 1.2rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .2s ease;
+  font-family:inherit;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+.btn-secondary:hover{
+  background:rgba(255,255,255,0.16);
+  border-color:#fff;
+}
+
+/* Success Card */
+.success-box{
+  text-align:center;
+  padding:1rem 0.5rem;
+}
+.success-icon{
+  font-size:3.5rem;
+  margin-bottom:1rem;
+  animation:bounce .6s ease;
+}
+@keyframes bounce{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+}
+.success-title{
+  font-size:1.75rem;
+  font-weight:800;
+  margin-bottom:0.5rem;
+  color:#ffffff;
+}
+.success-desc{
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.85);
+  line-height:1.6;
+  margin-bottom:1.5rem;
+}
+.summary-chip{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:12px;
+  padding:1rem;
+  text-align:left;
+  margin-bottom:1.5rem;
+  font-size:0.86rem;
+  line-height:1.7;
+}
+
+/* Footer Links */
+.reg-footer{
+  margin-top:1.65rem;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.12);
+  padding-top:1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.reg-link{
+  color:rgba(255,255,255,0.82);
+  font-size:0.86rem;
+  text-decoration:none;
+  font-weight:600;
+  transition:color .2s ease;
+}
+.reg-link:hover{
+  color:#ffcc00;
+}
+.reg-link.highlight{
+  color:#ffcc00;
+  font-weight:700;
+}
+
+/* Toast */
+.reg-toast{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#102a4d;
+  color:#ffffff;
+  padding:12px 22px;
+  border-radius:50px;
+  font-size:0.9rem;
+  font-weight:600;
+  border:1.5px solid rgba(245,168,0,0.6);
+  box-shadow:0 12px 35px rgba(0,0,0,0.4);
+  z-index:9999;
+  opacity:0;
+  transform:translateY(20px);
+  pointer-events:none;
+  transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reg-toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:540px){
+  body{padding:1rem 0.75rem}
+  .reg-card{padding:2rem 1.25rem 1.75rem;border-radius:20px}
+  .form-grid-2{grid-template-columns:1fr;gap:0}
+  .reg-top-bar{top:16px;right:16px}
+  .reg-access-pill{bottom:16px;left:16px;width:38px;height:38px}
+  .stepper{padding:0.6rem 0.75rem}
+}
+</style>
+</head>
+<body>
+
+<div class="reg-bg"></div>
+<div class="reg-bg-overlay"></div>
+
+<!-- Top Right Language Switcher Pill -->
+<div class="reg-top-bar">
+  <button id="lang-btn" class="reg-lang-pill" onclick="toggleLang()" aria-label="Switch Language">
+    <span id="lang-flag">🇺🇸</span>
+    <span id="lang-txt">English</span>
+  </button>
+</div>
+
+<!-- Bottom Left Accessibility Widget -->
+<div class="reg-access-pill" title="Accessibility Options" onclick="showAccessibilityTip()">
+  <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-1 6v14h2V16h2v-6c0-1.1-.9-2-2-2h-2z"/></svg>
+</div>
+
+<!-- Main Card Container -->
+<main class="reg-container">
+  <div class="reg-card">
+    <div class="reg-logo-wrap">
+      <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="reg-shield-img"/>
+    </div>
+
+    <div style="text-align:left">
+      <div class="reg-badge" id="r-badge">✦ Free Church Partnership</div>
+      <h1 class="reg-title" id="r-title">Register Your Church</h1>
+      <p class="reg-sub" id="r-sub">Empower your families with Myanmar's 11-module biblical discipleship curriculum — 100% free by CBN Asia.</p>
+    </div>
+
+    <!-- Stepper Indicator -->
+    <div class="stepper" id="stepper-bar">
+      <div class="step-item active" id="st-1">
+        <span class="step-bubble">1</span>
+        <span id="st-1-txt">Church Details</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="st-2">
+        <span class="step-bubble">2</span>
+        <span id="st-2-txt">Coordinator & Account</span>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="reg-form" onsubmit="event.preventDefault()">
+      
+      <!-- STEP 1: Church Details -->
+      <div class="form-step active" id="step-1">
+        <div class="form-group">
+          <label class="form-label" for="church-name">
+            <span class="lbl-ico">🏛️</span>
+            <span id="lbl-cname">Church or School Name *</span>
+          </label>
+          <input type="text" id="church-name" class="form-input" placeholder="e.g. Yangon Grace Baptist Church" required/>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="church-city">
+              <span class="lbl-ico">📍</span>
+              <span id="lbl-city">City / Township *</span>
+            </label>
+            <input type="text" id="church-city" class="form-input" placeholder="e.g. Yangon / Mandalay" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="church-region">
+              <span class="lbl-ico">🗺️</span>
+              <span id="lbl-region">State / Region *</span>
+            </label>
+            <select id="church-region" class="form-select">
+              <option value="Yangon">Yangon Region</option>
+              <option value="Mandalay">Mandalay Region</option>
+              <option value="Shan">Shan State</option>
+              <option value="Kachin">Kachin State</option>
+              <option value="Chin">Chin State</option>
+              <option value="Kayin">Kayin State</option>
+              <option value="Mon">Mon State</option>
+              <option value="Ayeyarwady">Ayeyarwady Region</option>
+              <option value="Sagaing">Sagaing Region</option>
+              <option value="Bago">Bago Region</option>
+              <option value="Magway">Magway Region</option>
+              <option value="Tanintharyi">Tanintharyi Region</option>
+              <option value="Naypyidaw">Naypyidaw</option>
+              <option value="Other">Other / International</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="church-denom">
+            <span class="lbl-ico">⛪</span>
+            <span id="lbl-denom">Denomination / Network (Optional)</span>
+          </label>
+          <input type="text" id="church-denom" class="form-input" placeholder="e.g. Baptist, Methodist, Pentecostal, Independent"/>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-primary" onclick="goToStep(2)">
+            <span id="btn-next-txt">Continue to Facilitator Info →</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Coordinator & Account -->
+      <div class="form-step" id="step-2">
+        <div class="form-group">
+          <label class="form-label" for="coord-name">
+            <span class="lbl-ico">👤</span>
+            <span id="lbl-lead">Lead Pastor / Facilitator Name *</span>
+          </label>
+          <input type="text" id="coord-name" class="form-input" placeholder="Full name of church coordinator" required/>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="coord-email">
+              <span class="lbl-ico">✉️</span>
+              <span id="lbl-email">Official Email *</span>
+            </label>
+            <input type="email" id="coord-email" class="form-input" placeholder="church@gmail.com" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="coord-phone">
+              <span class="lbl-ico">📞</span>
+              <span id="lbl-phone">Phone / Viber *</span>
+            </label>
+            <input type="tel" id="coord-phone" class="form-input" placeholder="+95 9..." required/>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="coord-pass">
+              <span class="lbl-ico">🔑</span>
+              <span id="lbl-pass">Create Facilitator Password *</span>
+            </label>
+            <input type="password" id="coord-pass" class="form-input" placeholder="At least 6 characters" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="church-fam">
+              <span class="lbl-ico">👨‍👩‍👧‍👦</span>
+              <span id="lbl-fam">Families to Train *</span>
+            </label>
+            <select id="church-fam" class="form-select">
+              <option value="1–20">10 – 25 Families</option>
+              <option value="26–50">26 – 50 Families</option>
+              <option value="51–100">51 – 100 Families</option>
+              <option value="100+">100+ Families</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" onclick="goToStep(1)">
+            <span id="btn-back-txt">← Back</span>
+          </button>
+          <button type="button" class="btn-primary" id="btn-submit" onclick="submitRegistration()">
+            <span id="btn-sub-txt">Complete Free Registration 🎉</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Complete / Success Screen -->
+      <div class="form-step" id="step-3">
+        <div class="success-box">
+          <div class="success-icon">🎉</div>
+          <h2 class="success-title" id="sc-title">Registration Submitted!</h2>
+          <p class="success-desc" id="sc-desc">Welcome to The Parenting Project Myanmar network. Our CBN Asia team will verify your church credentials within 24 hours.</p>
+
+          <div class="summary-chip" id="sc-summary">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="btn-row" style="flex-direction:column;gap:10px">
+            <a href="login.html" class="btn-primary" style="width:100%">
+              <span id="sc-btn-login">Go to Facilitator Sign In →</span>
+            </a>
+            <a href="index.html" class="btn-secondary" style="width:100%">
+              <span id="sc-btn-home">← Return to Homepage</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- Footer Links -->
+    <div class="reg-footer">
+      <a href="login.html" class="reg-link" id="r-signin-link">
+        <span id="r-have-acc">Already registered your church?</span>
+        <strong class="highlight" id="r-signin-btn">Sign In</strong>
+      </a>
+      <a href="index.html" class="reg-link" id="r-back-link">← Back to Main Site</a>
+    </div>
+
+  </div>
+</main>
+
+<div id="toast" class="reg-toast"></div>
+
+<script>
+let currentLang = 'en';
+let formData = {};
+
+const REG_TRANSLATIONS = {
+  en: {
+    flag: "🇺🇸",
+    langName: "English",
+    badge: "✦ Free Church Partnership",
+    title: "Register Your Church",
+    sub: "Empower your families with Myanmar's 11-module biblical discipleship curriculum — 100% free by CBN Asia.",
+    st1: "Church Details",
+    st2: "Coordinator & Account",
+    lblCname: "Church or School Name *",
+    lblCity: "City / Township *",
+    lblRegion: "State / Region *",
+    lblDenom: "Denomination / Network (Optional)",
+    lblLead: "Lead Pastor / Facilitator Name *",
+    lblEmail: "Official Email *",
+    lblPhone: "Phone / Viber *",
+    lblPass: "Create Facilitator Password *",
+    lblFam: "Families to Train *",
+    phCname: "e.g. Yangon Grace Baptist Church",
+    phCity: "e.g. Yangon / Mandalay",
+    phDenom: "e.g. Baptist, Methodist, Pentecostal, Independent",
+    phLead: "Full name of church coordinator",
+    phEmail: "church@gmail.com",
+    phPhone: "+95 9...",
+    phPass: "At least 6 characters",
+    btnNext: "Continue to Facilitator Info →",
+    btnBack: "← Back",
+    btnSubmit: "Complete Free Registration 🎉",
+    haveAcc: "Already registered your church?",
+    signIn: "Sign In",
+    backMain: "← Back to Main Site",
+    valStep1: "⚠️ Please enter your church name and city.",
+    valStep2: "⚠️ Please fill in coordinator name, email, phone, and password.",
+    scTitle: "Registration Submitted!",
+    scDesc: "Welcome to The Parenting Project Myanmar network. Our CBN Asia team will verify your church credentials within 24 hours.",
+    scBtnLogin: "Go to Facilitator Sign In →",
+    scBtnHome: "← Return to Homepage",
+    accessTip: "Accessibility Mode active. High contrast borders enabled."
+  },
+  my: {
+    flag: "🇲🇲",
+    langName: "မြန်မာ",
+    badge: "✦ အသင်းတော် မိတ်ဖက်လက်တွဲမှု (အခမဲ့)",
+    title: "အသင်းတော် စာရင်းသွင်းရန်",
+    sub: "CBN Asia ၏ သမ္မာကျမ်းစာအခြေပြု မော်ဂျူး (၁၁) ခု မိသားစုတပည့်တော်ဖြစ်စေခြင်း သင်ရိုးညွှန်းတမ်းဖြင့် မိဘများကို ခွန်အားဖြည့်ပေးပါ — လုံးဝအခမဲ့ (၁၀၀%)။",
+    st1: "အသင်းတော် အချက်အလက်",
+    st2: "တာဝန်ခံနှင့် အကောင့်ဖွင့်ခြင်း",
+    lblCname: "အသင်းတော် သို့မဟုတ် ကျောင်း အမည် *",
+    lblCity: "မြို့နယ် / မြို့ *",
+    lblRegion: "ပြည်နယ် / တိုင်းဒေသကြီး *",
+    lblDenom: "ဂိုဏ်းဂဏ / ကွန်ရက် အဖွဲ့အစည်း (ဖြည့်စွက်လိုပါက)",
+    lblLead: "သင်းအုပ်ဆရာ သို့မဟုတ် တာဝန်ခံ အမည် *",
+    lblEmail: "ရုံးသုံး အီးမေးလ်လိပ်စာ *",
+    lblPhone: "ဖုန်းနံပါတ် / Viber *",
+    lblPass: "သင်တန်းဦးဆောင်သူ စကားဝှက် ဖန်တီးပါ *",
+    lblFam: "ပါဝင်တက်ရောက်မည့် ခန့်မှန်း မိသားစုဦးရေ *",
+    phCname: "ဥပမာ - ရန်ကုန် ကျေးဇူးတော် နှစ်ခြင်းအသင်းတော်",
+    phCity: "ဥပမာ - ရန်ကုန်မြို့၊ မန္တလေးမြို့...",
+    phDenom: "ဥပမာ - နှစ်ခြင်း၊ မက်သဒစ်၊ ပင်တေကုတ္တေ...",
+    phLead: "တာဝန်ခံ အမည်အပြည့်အစုံ",
+    phEmail: "church@gmail.com",
+    phPhone: "+95 9...",
+    phPass: "အနည်းဆုံး စာလုံး ၆ လုံး",
+    btnNext: "တာဝန်ခံ အချက်အလက်သို့ ဆက်သွားမည် →",
+    btnBack: "← နောက်သို့",
+    btnSubmit: "အသင်းတော် အခမဲ့ စာရင်းသွင်းမည် 🎉",
+    haveAcc: "အသင်းတော် စာရင်းသွင်းပြီးသား ဖြစ်ပါသလား။",
+    signIn: "အကောင့်ဝင်ရန်",
+    backMain: "← ပင်မစာမျက်နှာသို့ ပြန်သွားရန်",
+    valStep1: "⚠️ ကျေးဇူးပြု၍ အသင်းတော်အမည်နှင့် မြို့ကို ထည့်သွင်းပေးပါ။",
+    valStep2: "⚠️ ကျေးဇူးပြု၍ တာဝန်ခံအမည်၊ အီးမေးလ်၊ ဖုန်းနှင့် စကားဝှက်ကို ဖြည့်စွက်ပေးပါ။",
+    scTitle: "စာရင်းသွင်းမှု အောင်မြင်ပါသည်!",
+    scDesc: "The Parenting Project Myanmar မိတ်ဖက်ကွန်ရက်သို့ ကြိုဆိုပါသည်။ CBN Asia အဖွဲ့က သင့်အသင်းတော်အား ၂၄ နာရီအတွင်း အတည်ပြုပေးပါမည်။",
+    scBtnLogin: "အကောင့်ဝင်ရောက်ရန် စာမျက်နှာသို့ →",
+    scBtnHome: "← ပင်မစာမျက်နှာသို့ ပြန်သွားရန်",
+    accessTip: "အမြင်အာရုံ အထောက်အကူပြု စနစ် ဖွင့်ထားပါသည်။"
+  }
+};
+
+function applyTranslations(l) {
+  const t = REG_TRANSLATIONS[l];
+  document.body.classList.toggle('lang-my', l === 'my');
+  document.getElementById('lang-flag').textContent = t.flag;
+  document.getElementById('lang-txt').textContent = t.langName;
+  document.getElementById('r-badge').textContent = t.badge;
+  document.getElementById('r-title').textContent = t.title;
+  document.getElementById('r-sub').textContent = t.sub;
+  document.getElementById('st-1-txt').textContent = t.st1;
+  document.getElementById('st-2-txt').textContent = t.st2;
+  
+  document.getElementById('lbl-cname').textContent = t.lblCname;
+  document.getElementById('lbl-city').textContent = t.lblCity;
+  document.getElementById('lbl-region').textContent = t.lblRegion;
+  document.getElementById('lbl-denom').textContent = t.lblDenom;
+  document.getElementById('lbl-lead').textContent = t.lblLead;
+  document.getElementById('lbl-email').textContent = t.lblEmail;
+  document.getElementById('lbl-phone').textContent = t.lblPhone;
+  document.getElementById('lbl-pass').textContent = t.lblPass;
+  document.getElementById('lbl-fam').textContent = t.lblFam;
+
+  document.getElementById('church-name').placeholder = t.phCname;
+  document.getElementById('church-city').placeholder = t.phCity;
+  document.getElementById('church-denom').placeholder = t.phDenom;
+  document.getElementById('coord-name').placeholder = t.phLead;
+  document.getElementById('coord-email').placeholder = t.phEmail;
+  document.getElementById('coord-phone').placeholder = t.phPhone;
+  document.getElementById('coord-pass').placeholder = t.phPass;
+
+  document.getElementById('btn-next-txt').textContent = t.btnNext;
+  document.getElementById('btn-back-txt').textContent = t.btnBack;
+  document.getElementById('btn-sub-txt').textContent = t.btnSubmit;
+  document.getElementById('r-have-acc').textContent = t.haveAcc;
+  document.getElementById('r-signin-btn').textContent = t.signIn;
+  document.getElementById('r-back-link').textContent = t.backMain;
+
+  const scTitle = document.getElementById('sc-title');
+  if (scTitle) scTitle.textContent = t.scTitle;
+  const scDesc = document.getElementById('sc-desc');
+  if (scDesc) scDesc.textContent = t.scDesc;
+  const scBtnLogin = document.getElementById('sc-btn-login');
+  if (scBtnLogin) scBtnLogin.textContent = t.scBtnLogin;
+  const scBtnHome = document.getElementById('sc-btn-home');
+  if (scBtnHome) scBtnHome.textContent = t.scBtnHome;
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'my' : 'en';
+  applyTranslations(currentLang);
+  showToast(currentLang === 'my' ? "မြန်မာဘာသာသို့ ပြောင်းလဲပြီးပါပြီ" : "Switched to English");
+}
+
+function goToStep(step) {
+  const t = REG_TRANSLATIONS[currentLang];
+  if (step === 2) {
+    const cName = document.getElementById('church-name').value.trim();
+    const cCity = document.getElementById('church-city').value.trim();
+    if (!cName || !cCity) {
+      showToast(t.valStep1);
+      return;
+    }
+    formData.churchName = cName;
+    formData.city = cCity;
+    formData.region = document.getElementById('church-region').value;
+    formData.denom = document.getElementById('church-denom').value.trim();
+  }
+
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + step).classList.add('active');
+
+  const st1 = document.getElementById('st-1');
+  const st2 = document.getElementById('st-2');
+  if (step === 1) {
+    st1.className = "step-item active";
+    st2.className = "step-item";
+  } else if (step === 2) {
+    st1.className = "step-item done";
+    st2.className = "step-item active";
+  }
+}
+
+function submitRegistration() {
+  const t = REG_TRANSLATIONS[currentLang];
+  const name = document.getElementById('coord-name').value.trim();
+  const email = document.getElementById('coord-email').value.trim();
+  const phone = document.getElementById('coord-phone').value.trim();
+  const pass = document.getElementById('coord-pass').value.trim();
+  const fam = document.getElementById('church-fam').value;
+
+  if (!name || !email || !phone || !pass) {
+    showToast(t.valStep2);
+    return;
+  }
+
+  formData.coordName = name;
+  formData.email = email;
+  formData.phone = phone;
+  formData.fam = fam;
+  formData.timestamp = new Date().toISOString();
+
+  // Send to Microsoft Excel and Local Storage Backup
+  sendToDataDestination(formData);
+
+  const btn = document.getElementById('btn-submit');
+  const btnTxt = document.getElementById('btn-sub-txt');
+  btn.disabled = true;
+  btnTxt.textContent = currentLang === 'my' ? "စာရင်းသွင်းနေပါသည်..." : "Registering...";
+
+  setTimeout(() => {
+    btn.disabled = false;
+    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-3').classList.add('active');
+    document.getElementById('stepper-bar').style.display = 'none';
+
+    const isMy = currentLang === 'my';
+    document.getElementById('sc-summary').innerHTML = `
+      <div>🏛️ <strong>${formData.churchName}</strong> (${formData.city}, ${formData.region})</div>
+      <div>👤 <strong>${isMy ? 'တာဝန်ခံ' : 'Coordinator'}:</strong> ${formData.coordName}</div>
+      <div>✉️ <strong>${isMy ? 'အီးမေးလ်' : 'Email'}:</strong> ${formData.email}</div>
+      <div>📞 <strong>${isMy ? 'ဖုန်း / Viber' : 'Phone / Viber'}:</strong> ${formData.phone}</div>
+      <div>👨‍👩‍👧‍👦 <strong>${isMy ? 'ခန့်မှန်း မိသားစု' : 'Estimated Families'}:</strong> ${formData.fam}</div>
+    `;
+
+    showToast(isMy ? "✅ အသင်းတော် စာရင်းသွင်းမှု အောင်မြင်ပါသည်!" : "✅ Registration Successful!");
+  }, 900);
+}
+
+// ==========================================
+// SECURE DATA COLLECTION HOOK (Write-Only)
+// ==========================================
+// Direct Local Excel file sync (Appends directly to The_Parenting_Project_Myanmar_Database.xlsx)
+function sendToExcelBackend(data) {
+  fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(r => r.json()).then(res => {
+    console.log("✓ Saved securely to Excel:", res);
+  }).catch(e => {
+    console.log("Backend note:", e);
+  });
+}
+
+// Google Sheets Webhook URL from CBN Myanmar Apps Script
+const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+
+function sendToGoogleSheets(data) {
+  if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
+  fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(() => {
+    console.log("✓ Dispatched to Google Sheet");
+  }).catch(e => {
+    console.warn("Google Sheet sync note:", e);
+  });
+}
+
+function sendToDataDestination(data) {
+  sendToExcelBackend(data);
+  sendToGoogleSheets(data);
+}
+
+function showAccessibilityTip() {
+  showToast(REG_TRANSLATIONS[currentLang].accessTip);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Check URL query for ?lang=my
+const urlP = new URLSearchParams(window.location.search);
+if (urlP.get('lang') === 'my') {
+  currentLang = 'my';
+  applyTranslations('my');
+}
+</script>
+</body>
+</html>

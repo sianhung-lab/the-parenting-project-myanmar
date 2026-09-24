@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>The Parenting Project Myanmar — CBN Asia</title>
+<meta name="description" content="The Parenting Project Myanmar by CBN Asia. 11 practical parenting modules for local churches. 100% Free."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="navbar">
+  <div class="container nav-inner">
+    <a href="#home" class="logo">
+      <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="brand-logo-img"/>
+      <div class="logo-words">
+        <span class="logo-main">The Parenting Project</span>
+        <span class="logo-sub">Myanmar · CBN Asia</span>
+      </div>
+    </a>
+    <nav id="nav-links">
+      <a href="#videos" class="nav-link" id="nav-m">11 Modules</a>
+      <a href="#church" class="nav-link" id="nav-ch">For Churches</a>
+      <a href="#quiz" class="nav-link" id="nav-qz">Parenting Quiz</a>
+      <a href="#about" class="nav-link" id="nav-ab">About</a>
+      <a href="#testimonials" class="nav-link" id="nav-ts">Stories</a>
+      <a href="#faq" class="nav-link" id="nav-fq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <button id="lang-btn" class="lang-btn">🇲🇲 မြန်မာ</button>
+      
+      <!-- Guest Settings / Admin Unlock Button -->
+      <button type="button" class="btn-nav-settings-guest" id="guest-settings-btn" onclick="openSettingsModal()" title="Settings & Admin Unlock">
+        <span>⚙️</span>
+      </button>
+
+      <!-- Logged-Out Action Links -->
+      <a href="login.html" class="nav-signin-link" id="nav-login">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        <span id="nav-login-txt">Sign In</span>
+      </a>
+      <a href="register.html" class="btn btn-gold btn-nav" id="nav-reg">Register Church</a>
+
+      <!-- Logged-In User Profile, Admin & Settings Actions -->
+      <div class="nav-user-wrap" id="nav-user">
+        <div class="nav-user-badge" id="nav-user-badge-btn" onclick="handleUserBadgeClick()" title="Profile & Ministry Privileges">
+          <span class="nav-user-dot"></span>
+          <span id="user-display-name">Facilitator Portal</span>
+        </div>
+        <button type="button" class="btn-nav-admin" id="nav-admin-btn" onclick="openAdminHub()" title="Open Ministry Admin Hub" style="display:none">
+          <span>🛡️ Admin Hub</span>
+        </button>
+        <button type="button" class="btn-nav-settings" id="nav-settings-btn" onclick="openSettingsModal()" title="Settings & Admin Controls">
+          <span>⚙️ Settings</span>
+        </button>
+        <button type="button" class="btn-nav-logout" id="nav-logout-btn" onclick="logoutUser()">
+          <span id="nav-logout-txt">Sign Out</span>
+        </button>
+      </div>
+
+      <button id="hamburger" class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE DRAWER -->
+<div id="drawer" class="drawer">
+  <button id="drawer-close" class="drawer-close">✕</button>
+  <div class="drawer-logo">THE PARENTING PROJECT · Myanmar</div>
+  <nav class="drawer-nav">
+    <a href="#videos" class="drawer-link" id="drw-m">11 Modules</a>
+    <a href="#church" class="drawer-link" id="drw-ch">For Churches</a>
+    <a href="#quiz" class="drawer-link" id="drw-qz">Parenting Quiz</a>
+    <a href="#about" class="drawer-link" id="drw-ab">About</a>
+    <a href="#testimonials" class="drawer-link" id="drw-ts">Stories</a>
+    <a href="#faq" class="drawer-link" id="drw-fq">FAQ</a>
+    
+    <!-- Logged-Out Drawer Link -->
+    <a href="login.html" class="drawer-link" id="drw-login" style="color:var(--gold);font-weight:700">🔐 <span id="drw-login-txt">Facilitator Sign In</span></a>
+    
+    <!-- Logged-In Drawer Profile -->
+    <div id="drw-user-box" style="display:none;padding:12px 14px;background:rgba(255,255,255,0.06);border-radius:10px;margin-top:10px;border:1px solid rgba(245,168,0,0.3)">
+      <div style="font-size:0.85rem;color:#4cd964;font-weight:700;display:flex;align-items:center;gap:6px">
+        <span style="width:8px;height:8px;border-radius:50%;background:#4cd964;display:inline-block"></span>
+        <span id="drw-user-name">Facilitator Active</span>
+      </div>
+      <button type="button" id="drw-admin-btn" onclick="openAdminHub()" style="display:none;margin-top:8px;width:100%;padding:8px;border-radius:8px;background:linear-gradient(135deg,#ffd700,#ff9900);color:#061830;font-weight:800;border:none;cursor:pointer;font-family:inherit">🛡️ Open Admin Hub</button>
+      <button type="button" onclick="openSettingsModal()" style="margin-top:6px;width:100%;padding:8px;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#fff;font-weight:700;cursor:pointer;font-family:inherit">⚙️ Settings</button>
+      <button onclick="logoutUser()" style="margin-top:6px;width:100%;padding:8px;border-radius:8px;background:rgba(255,60,60,0.2);border:1px solid rgba(255,60,60,0.4);color:#ff9999;font-weight:700;cursor:pointer;font-family:inherit">Sign Out</button>
+    </div>
+  </nav>
+  <a href="register.html" class="btn btn-gold" id="drw-reg" style="margin-top:auto">Register Church</a>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-ambient-glow"></div>
+  <div class="container hero-content">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="gold-sparkle">✦</span>
+          <span id="h-badge">CBN Asia Family Discipleship Initiative · Myanmar</span>
+        </div>
+        <h1 class="hero-title">
+          <span id="h-title1">Equipping Parents,</span><br/>
+          <span class="gold-text-luxury" id="h-title2">Building the Next Generation</span>
+        </h1>
+        <p class="hero-desc" id="h-desc">
+          A values-based parenting curriculum for local churches across Myanmar. Helping parents shape their children's character, faith, and emotional health — completely free.
+        </p>
+        <div class="hero-btns">
+          <a href="#modules" class="btn btn-gold btn-lg" id="h-btn1">Explore 11 Modules</a>
+          <button class="btn btn-glass-gold btn-lg" id="h-btn-trailer" onclick="openTrailerModal()">
+            <span class="btn-play-icon" style="margin-right:6px">▶</span>
+            <span id="h-btn-trailer-txt">Watch 2025 Trailer</span>
+          </button>
+          <a href="register.html" class="btn btn-outline-gold btn-lg" id="h-btn2">Register Your Church — Free</a>
+        </div>
+        <div class="hero-features">
+          <div class="hf-item"><span>🏛️</span><span id="hf-1">Official CBN Asia Initiative</span></div>
+          <div class="hf-item"><span>🇲🇲</span><span id="hf-2">Burmese & English Materials</span></div>
+          <div class="hf-item"><span>✨</span><span id="h-free">100% Free for Myanmar Churches</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-portal-wrap">
+          <div class="hero-portal-glow"></div>
+          <div class="hero-portal-border">
+            <div class="hero-portal-inner">
+              <img src="brand_hero_zoomed.jpg" alt="The Parenting Project Myanmar Hosts" class="hero-img"/>
+              <div class="hero-img-gradient"></div>
+            </div>
+          </div>
+
+          <!-- Floating Luxury Badges -->
+          <div class="floating-badge badge-top-left">
+            <div class="fb-icon">⭐</div>
+            <div class="fb-content">
+              <strong id="fb-t1">4.9 / 5 Rating</strong>
+              <span id="fb-s1">Church Leaders in Myanmar</span>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-bottom-right">
+            <div class="fb-icon">🇲🇲</div>
+            <div class="fb-content">
+              <strong id="fb-t2">11 Practical Modules</strong>
+              <span id="fb-s2">Facilitator Kit & App</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="container stats-row">
+      <div class="stat"><div class="stat-n" data-target="11">0</div><div class="stat-l" id="s1">Practical Modules</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-n" data-target="200">0</div><div class="stat-l" id="s2">Partner Churches</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-n" data-target="8000">0</div><div class="stat-l" id="s3">Parents Trained</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l" id="s4">Family Satisfaction</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES ANCHOR (Smooth scroll target for 11 Modules) -->
+<div id="modules" style="scroll-margin-top:80px"></div>
+
+<!-- MODULE MODAL -->
+<div id="mod-overlay" class="modal-bg">
+  <div class="modal" id="mod-modal">
+    <button class="modal-x" id="mod-close">✕</button>
+    <div id="mod-body"></div>
+  </div>
+</div>
+
+<!-- VIDEO SHOWCASE (3D COVER-FLOW CAROUSEL) -->
+<section id="videos" class="section video-sec">
+  <div class="video-bg-glow"></div>
+  <div class="container">
+    <div class="sec-head light">
+      <div class="sec-tag tag-light" id="v-tag">Official Video Library</div>
+      <h2 class="white" id="v-title">Watch The Parenting Project in Action</h2>
+      <p class="light-p" id="v-sub">
+        Explore 11 curriculum module trailers and real transformation stories from @TheParentingProject.
+      </p>
+    </div>
+
+    <!-- 3D Carousel Stage Wrapper -->
+    <div class="ppr-vc-outer" id="ppr-vc-outer">
+      <!-- Arrow Navigation -->
+      <button class="ppr-vc-arrow ppr-vc-prev" id="ppr-vc-prev" aria-label="Previous Video">❮</button>
+      <button class="ppr-vc-arrow ppr-vc-next" id="ppr-vc-next" aria-label="Next Video">❯</button>
+
+      <!-- 3D Stage -->
+      <div class="ppr-vc-stage" id="ppr-vc-stage"></div>
+
+      <!-- Dot Indicators -->
+      <div class="ppr-vc-nav" id="ppr-vc-nav"></div>
+
+      <!-- Auto Progress Bar -->
+      <div class="ppr-vc-progress">
+        <div class="ppr-vc-progress-bar" id="ppr-vc-progress-bar"></div>
+      </div>
+
+      <!-- Mobile / Quick Strip -->
+      <div class="ppr-vc-strip" id="ppr-vc-strip"></div>
+    </div>
+
+    <div class="video-channel-note">
+      <span id="v-note">Official YouTube Channel:</span>
+      <a href="https://www.youtube.com/@TheParentingProject" target="_blank" rel="noopener" class="yt-channel-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>@TheParentingProject on YouTube</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PARENTING QUIZ -->
+<section id="quiz" class="section quiz-sec">
+  <div class="quiz-glow"></div>
+  <div class="container">
+    <div class="sec-head light">
+      <div class="sec-tag tag-light">Interactive Assessment</div>
+      <h2 class="white" id="q-title">Parenting Health Check</h2>
+      <p class="light-p" id="q-sub">Answer 5 questions and get your parenting archetype + personalised module recommendations.</p>
+    </div>
+    <div class="quiz-box" id="quiz-box">
+      <div id="quiz-start-screen">
+        <div style="font-size:3.5rem;margin-bottom:1rem">🧭</div>
+        <h3 class="white" style="margin-bottom:.75rem" id="qs-title">Parenting Health Check</h3>
+        <p class="light-p" style="margin-bottom:1.5rem" id="qs-sub">Takes only 3 minutes</p>
+        <button class="btn btn-gold btn-lg" id="quiz-start-btn">Start Quiz</button>
+      </div>
+      <div id="quiz-q-screen" class="hidden">
+        <div class="quiz-prog">
+          <span id="q-num-label">Question 1 of 5</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:20%"></div></div>
+        </div>
+        <div id="q-card">
+          <div class="q-num" id="q-num">01</div>
+          <div class="q-text" id="q-text"></div>
+          <div id="q-opts"></div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn btn-ghost-w" id="q-prev">← Back</button>
+          <button class="btn btn-gold" id="q-next" disabled>Next →</button>
+        </div>
+      </div>
+      <div id="quiz-result-screen" class="hidden">
+        <div class="result-icon" id="r-icon">🌟</div>
+        <h3 class="white" id="r-title-label">Your Parenting Profile</h3>
+        <div class="result-chip" id="r-archetype"></div>
+        <p class="light-p" id="r-desc"></p>
+        <div class="rec-mods">
+          <div class="rec-label" id="rec-label">Recommended Modules</div>
+          <div id="rec-list"></div>
+        </div>
+        <button class="btn btn-ghost-w" id="q-retake">Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHURCH SECTION -->
+<section id="church" class="section church-sec">
+  <div class="container">
+    <div class="church-grid">
+      <div class="church-content">
+        <div class="sec-tag" id="ch-tag">Church Partnership</div>
+        <h2 id="ch-title">Bring The Parenting Project to Your Church</h2>
+        <p id="ch-sub">CBN Asia provides the complete 11-module curriculum, facilitator training, and mobile app access — 100% FREE for local churches across Myanmar.</p>
+        <div class="benefits" id="benefits-list"></div>
+        <div class="church-btns">
+          <a href="register.html" class="btn btn-blue btn-lg" id="open-reg-btn">Register Your Church Now</a>
+          <button class="btn btn-ghost-b btn-lg" id="dl-kit-btn">Download Info Pack</button>
+        </div>
+      </div>
+      <div class="church-img-col">
+        <img src="church_couple_welcoming.jpg" alt="The Parenting Project Myanmar Welcome" class="church-img"/>
+        <div class="church-badge">
+          <span class="cb-icon">🏆</span>
+          <div><strong>200+</strong><br><span id="cb-label">Partner Churches in Myanmar</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHURCH REG MODAL -->
+<div id="reg-overlay" class="modal-bg">
+  <div class="modal" id="reg-modal">
+    <button class="modal-x" id="reg-close">✕</button>
+    <div class="reg-head">
+      <div style="font-size:2.5rem">⛪</div>
+      <h3 id="rm-title">Register Your Church</h3>
+      <p id="rm-sub">Join The Parenting Project Myanmar as a partner church.</p>
+    </div>
+    <div class="steps-row" id="steps-row">
+      <div class="step-dot active" data-s="1">1</div>
+      <div class="step-line"></div>
+      <div class="step-dot" data-s="2">2</div>
+      <div class="step-line"></div>
+      <div class="step-dot" data-s="3">3</div>
+    </div>
+    <div id="reg-body"></div>
+    <div id="reg-actions"></div>
+  </div>
+</div>
+
+<!-- ABOUT / HOW IT WORKS -->
+<section id="about" class="section about-sec">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag" id="ab-tag">Community Model</div>
+      <h2 id="ab-title">How It Works in Your Church</h2>
+      <p id="ab-sub">A flexible small-group model for 6–12 parent couples, running over 11 weekly sessions.</p>
+    </div>
+    <div class="steps-grid" id="steps-grid"></div>
+  </div>
+</section>
+
+<!-- HOST BANNER -->
+<section class="host-sec">
+  <img src="banner.jpg" alt="The Parenting Project Hosts" class="host-img"/>
+  <div class="host-overlay">
+    <div class="container host-content">
+      <div class="host-logo-shield-wrap">
+        <img src="official_logo.png" alt="CBN Asia Logo" class="host-shield-img"/>
+      </div>
+      <div>
+        <h2 class="host-heading" id="hb-title">Welcome to The Parenting Project</h2>
+        <p class="host-sub" id="hb-sub">Building Christ-centred families through the local church — across Myanmar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag" id="t-tag">Real Stories</div>
+      <h2 id="t-title">What Pastors & Parents Say</h2>
+      <p id="t-sub">Families across Myanmar share how The Parenting Project transformed their homes.</p>
+    </div>
+    <div class="testi-grid" id="testi-grid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section faq-sec">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag" id="faq-tag">FAQ</div>
+      <h2 id="faq-title">Frequently Asked Questions</h2>
+      <p id="faq-sub">Everything you need to know about running The Parenting Project in your church.</p>
+    </div>
+    <div class="faq-list" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-logo-row">
+          <img src="official_logo.png" alt="The Parenting Project" class="footer-shield-img"/>
+          <span class="footer-brand-name">The Parenting Project</span>
+        </div>
+        <p class="footer-about" id="f-about">A values-based family discipleship programme initiated by CBN Asia to empower local churches in Myanmar in equipping parents.</p>
+        <div class="socials">
+          <a href="#" class="social">📘</a>
+          <a href="#" class="social">▶️</a>
+          <a href="#" class="social">📸</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="fcol-title" id="f-ql">Quick Links</h4>
+        <ul class="flinks">
+          <li><a href="#videos" id="fl-m">11 Modules</a></li>
+          <li><a href="#church" id="fl-ch">For Churches</a></li>
+          <li><a href="#quiz" id="fl-qz">Parenting Quiz</a></li>
+          <li><a href="#about" id="fl-ab">How It Works</a></li>
+          <li><a href="#faq" id="fl-fq">FAQ</a></li>
+          <li><a href="login.html" id="fl-login" style="color:var(--gold);font-weight:700">🔐 <span id="fl-login-txt">Facilitator Sign In</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="fcol-title" id="f-ct">Contact Myanmar</h4>
+        <ul class="flinks">
+          <li>📍 <span id="f-addr">Yangon, Myanmar</span></li>
+          <li>✉️ <a href="mailto:myanmar@theparentingproject.asia">myanmar@theparentingproject.asia</a></li>
+          <li>📞 <a href="tel:+959123456789">+95 9 123 456 789</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="fcol-title" id="f-nl">Newsletter</h4>
+        <p class="footer-about" id="f-nl-sub">Get weekly parenting tips and module updates.</p>
+        <form id="nl-form" onsubmit="return nlSubmit(event)">
+          <input type="email" id="nl-email" class="nl-input" placeholder="Your email..." required/>
+          <button type="submit" id="nl-btn" class="btn btn-gold" style="margin-top:.5rem;width:100%">Subscribe</button>
+        </form>
+        <div id="nl-ok" class="hidden nl-ok">🎉 Subscribed! Thank you.</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <div class="container footer-bot-inner">
+      <p id="f-copy">© 2026 The Parenting Project Myanmar · An initiative of CBN Asia · All rights reserved.</p>
+      <p class="powered">Powered by <strong>CBN Asia</strong></p>
+    </div>
+  </div>
+</footer>
+
+<!-- CINEMA VIDEO LIGHTBOX MODAL -->
+<div id="videoModal" class="ppr-modal" role="dialog" aria-modal="true" aria-labelledby="ppr-m-title">
+  <div class="ppr-modal-topbar">
+    <div class="ppr-modal-counter" id="ppr-m-counter">Video <span>1</span> of <span>12</span></div>
+    <div class="ppr-modal-title" id="ppr-m-title">Official 2025 Trailer</div>
+    <button class="ppr-modal-close" onclick="closeVideoModal()" aria-label="Close video player">✕</button>
+  </div>
+  <div class="ppr-modal-body">
+    <iframe class="ppr-modal-frame" id="ppr-modal-iframe" src="" title="The Parenting Project Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <video class="ppr-modal-frame" id="ppr-modal-video" controls playsinline style="display:none;width:100%;height:100%;object-fit:contain;background:#000;border:none;"></video>
+  </div>
+  <div class="ppr-modal-controls">
+    <button class="ppr-modal-btn ppr-modal-prev" id="ppr-m-prev" onclick="prevModalVideo()">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      <span id="ppr-m-prev-txt">Previous</span>
+    </button>
+    <button class="ppr-modal-btn ppr-modal-guide-btn" id="ppr-m-guide" onclick="openModuleGuideFromVideo()">
+      <svg viewBox="0 0 24 24" style="stroke-width:2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <span id="ppr-m-guide-txt">View Curriculum Guide</span>
+    </button>
+    <a class="ppr-modal-btn yt-direct-btn" id="ppr-m-yt" href="https://www.youtube.com/@TheParentingProject" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      <span id="ppr-m-yt-txt">Watch on YouTube</span>
+    </a>
+    <button class="ppr-modal-btn ppr-modal-next" id="ppr-m-next" onclick="nextModalVideo()">
+      <span id="ppr-m-next-txt">Next</span>
+      <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ACCESS GATE MODAL (PAYWALL / PERMISSION GATE) -->
+<div id="accessGateModal" class="access-gate-modal" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-modal-card">
+    <button class="gate-modal-close" onclick="closeAccessGateModal()" aria-label="Close modal">✕</button>
+    <img src="official_logo.png" alt="The Parenting Project" class="gate-modal-shield"/>
+    <div>
+      <span class="gate-modal-tag" id="gate-tag">🔒 Partner Church Privilege</span>
+    </div>
+    <h2 class="gate-modal-title" id="gate-title">Full Movie Access Restricted</h2>
+    <div class="gate-modal-module" id="gate-module-name">Module 2: Building Deep Connection</div>
+    <p class="gate-modal-desc" id="gate-desc">
+      This curriculum video is reserved for authorized partner churches and certified facilitators. Please sign in or register your church to access all 11 full curriculum movies.
+    </p>
+
+    <div class="gate-modal-actions" id="gate-actions">
+      <!-- Injected dynamically based on guest vs pending church -->
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS & ADMIN ACCESS MODAL -->
+<div id="settingsModal" class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+  <div class="settings-card">
+    <button class="gate-modal-close" onclick="closeSettingsModal()" aria-label="Close settings">✕</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
+      <span style="font-size:1.6rem">⚙️</span>
+      <div>
+        <h2 id="settings-title" style="font-size:1.3rem;font-weight:800;letter-spacing:-0.01em">Settings & Access Control</h2>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.65)">The Parenting Project · Myanmar</div>
+      </div>
+    </div>
+
+    <!-- Active Profile Section -->
+    <div class="settings-sec">
+      <div class="settings-lbl">Current Account & Role</div>
+      <div class="settings-val" id="settings-user-info">Guest Visitor</div>
+      <div id="settings-role-badge" style="margin-top:6px;font-size:0.8rem;color:#4cd964;font-weight:700">● Public Guest Mode</div>
+    </div>
+
+    <!-- Admin / Owner Privilege Unlock Section -->
+    <div class="settings-sec" style="border-color:rgba(255,204,0,0.3);background:rgba(255,204,0,0.05)">
+      <div class="settings-lbl" style="color:#ffcc00">🛡️ Ministry Owner & Administrator Hub</div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.75);margin-bottom:0.85rem;line-height:1.45">
+        Authorized CBN Asia Myanmar coordinators and portal owners can manage church video permissions, modify curriculum access rules, and export data directly on this website.
+      </p>
+
+      <div id="settings-admin-unlocked" style="display:none">
+        <div style="color:#4cd964;font-weight:700;font-size:0.85rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:6px">
+          <span>✓</span> <span>Admin Mode Active (Full Permissions)</span>
+        </div>
+        <button type="button" class="btn btn-gold" style="width:100%;justify-content:center;margin-bottom:0.5rem" onclick="closeSettingsModal();openAdminHub()">
+          <span>🚀 Launch Admin Hub Panel</span>
+        </button>
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;font-size:0.8rem;color:#ff9999" onclick="lockAdminSession()">
+          <span>🔒 Lock Admin Session</span>
+        </button>
+      </div>
+
+      <div id="settings-admin-locked">
+        <div style="margin-bottom:0.6rem">
+          <input type="password" id="settings-staff-passcode" placeholder="Enter Staff Passcode" style="width:100%;padding:0.75rem 0.9rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-family:inherit;font-size:0.9rem;outline:none" onkeydown="if(event.key==='Enter')verifySettingsAdmin()"/>
+        </div>
+        <button type="button" class="btn btn-gold" style="width:100%;justify-content:center" onclick="verifySettingsAdmin()">
+          <span>🔓 Unlock Admin Hub</span>
+        </button>
+        <div id="settings-pass-err" style="color:#ff6b6b;font-size:0.78rem;font-weight:600;margin-top:0.4rem;min-height:1rem"></div>
+      </div>
+    </div>
+
+    <!-- Quick Preferences -->
+    <div style="display:flex;gap:10px;justify-content:space-between;align-items:center;padding-top:0.5rem">
+      <span style="font-size:0.82rem;color:rgba(255,255,255,0.7)">Portal Language:</span>
+      <button type="button" class="btn btn-outline btn-xs" onclick="toggleLang();updateSettingsModalUI()">
+        <span id="settings-lang-txt">🇲🇲 မြန်မာဘာသာ သို့ ပြောင်းရန်</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- IN-PAGE FULL ADMIN HUB MODAL -->
+<div id="adminHubModal" class="admin-hub-modal" role="dialog" aria-modal="true" aria-labelledby="inpage-admin-title">
+  <div class="admin-hub-container">
+    <div class="admin-hub-header">
+      <div class="admin-hub-brand">
+        <img src="official_logo.png" alt="The Parenting Project Logo" class="admin-hub-logo"/>
+        <div>
+          <h2 id="inpage-admin-title" style="font-size:1.15rem;font-weight:800;color:#fff">The Parenting Project · Ministry Admin Hub</h2>
+          <div style="font-size:0.75rem;color:#ffcc00;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">🔒 Integrated Church Registry & Video Privilege System</div>
+        </div>
+      </div>
+      <div class="admin-hub-actions">
+        <a id="inpage-btn-dl-excel" href="The_Parenting_Project_Myanmar_Database.xlsx" class="btn btn-gold btn-xs" download>
+          <span>📥 Download Excel</span>
+        </a>
+        <a id="inpage-btn-dl-csv" href="/api/registrations.csv" class="btn btn-outline btn-xs" download="The_Parenting_Project_Myanmar_Confidential.csv">
+          <span>📄 CSV</span>
+        </a>
+        <button type="button" class="admin-hub-close" onclick="closeAdminHub()" aria-label="Close Admin Hub" title="Return to Main Website">
+          <span>✕</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-hub-body">
+      <!-- KPIs -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-lbl">Total Partner Churches</div>
+          <div class="kpi-val" id="inpage-kpi-churches">--</div>
+          <div class="kpi-sub">Across 10 Myanmar States & Regions</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Estimated Families Reach</div>
+          <div class="kpi-val" id="inpage-kpi-families">--</div>
+          <div class="kpi-sub">Curriculum materials prepared</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Viber Outreach Status</div>
+          <div class="kpi-val" id="inpage-kpi-viber">--</div>
+          <div class="kpi-sub">Direct coordinator connections</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-lbl">Active Curriculum Modules</div>
+          <div class="kpi-val">11 Modules</div>
+          <div class="kpi-sub">Burmese video lessons + guidebooks</div>
+        </div>
+      </section>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="inpage-tab-users-btn" onclick="switchInpageAdminTab('users')">
+          👥 Church Registrations & Video Privileges
+        </button>
+        <button class="admin-tab" id="inpage-tab-content-btn" onclick="switchInpageAdminTab('content')">
+          🎬 Video Curriculum Access Rules (Paywall / Grant System)
+        </button>
+        <button class="admin-tab" id="inpage-tab-upload-btn" onclick="switchInpageAdminTab('upload')">
+          📤 Video & Content Upload Manager
+        </button>
+      </div>
+
+      <!-- Tab 1: Users & Registrations -->
+      <div id="inpage-users-view">
+        <div class="admin-toolbar">
+          <div class="admin-search-box">
+            <svg style="width:16px;height:16px;fill:rgba(255,255,255,0.6)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="inpage-search-input" placeholder="Search by church, pastor, township, or Viber..." oninput="filterInpageData()"/>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <select id="inpage-region-filter" class="admin-filter-select" onchange="filterInpageData()">
+              <option value="">All Regions / States</option>
+              <option value="Yangon">Yangon</option>
+              <option value="Mandalay">Mandalay</option>
+              <option value="Shan">Shan State</option>
+              <option value="Chin">Chin State</option>
+              <option value="Kachin">Kachin State</option>
+              <option value="Ayeyarwady">Ayeyarwady</option>
+              <option value="Sagaing">Sagaing</option>
+              <option value="Bago">Bago</option>
+              <option value="Kayin">Kayin State</option>
+              <option value="Mon">Mon State</option>
+            </select>
+
+            <select id="inpage-status-filter" class="admin-filter-select" onchange="filterInpageData()">
+              <option value="">All Statuses</option>
+              <option value="Verified">Verified</option>
+              <option value="Contacted via Viber">Contacted via Viber</option>
+              <option value="Training Scheduled">Training Scheduled</option>
+              <option value="New Registration">New Registration</option>
+            </select>
+
+            <select id="inpage-access-filter" class="admin-filter-select" onchange="filterInpageData()">
+              <option value="">All Video Privileges</option>
+              <option value="granted">Full Video Access</option>
+              <option value="pending">Restricted Access</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Reg ID</th>
+                <th>Date</th>
+                <th>Church / Organization</th>
+                <th>Region</th>
+                <th>Township</th>
+                <th>Coordinator / Pastor</th>
+                <th>Email</th>
+                <th>Viber / Phone</th>
+                <th>Families</th>
+                <th>Status</th>
+                <th>Video Access</th>
+              </tr>
+            </thead>
+            <tbody id="inpage-table-body">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Content Rules -->
+      <div id="inpage-content-view" style="display:none">
+        <div style="background:rgba(14, 46, 85, 0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem">
+          <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.35rem">🎬 Curriculum Movie Permission Controls</h3>
+          <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.5">
+            Configure which video modules can be watched freely by public visitors, and which require explicit Admin-Granted Church verification. Changes apply immediately across the portal without restarting servers.
+          </p>
+        </div>
+
+        <div id="inpage-content-rules-grid" class="content-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Tab 3: Video & Content Upload Manager -->
+      <div id="inpage-upload-view" style="display:none">
+        <div style="display:grid;grid-template-columns:minmax(350px, 460px) 1fr;gap:1.5rem;align-items:start">
+          
+          <!-- Upload / Edit Form -->
+          <div style="background:linear-gradient(180deg, rgba(14,46,85,0.75) 0%, rgba(9,32,60,0.9) 100%);border:1px solid rgba(255,204,0,0.35);border-radius:18px;padding:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.35)">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+              <span style="font-size:1.6rem">📤</span>
+              <div>
+                <h3 id="upload-form-heading" style="font-size:1.15rem;font-weight:800;color:#ffcc00">Upload / Publish Video</h3>
+                <div style="font-size:0.75rem;color:rgba(255,255,255,0.65)">Direct File Upload or YouTube Stream URL</div>
+              </div>
+            </div>
+
+            <form id="video-upload-form" onsubmit="handleVideoUploadSubmit(event)">
+              <!-- Target Module Selection -->
+              <div style="margin-bottom:0.9rem">
+                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Assign to Module / Curriculum Lesson</label>
+                <select id="up-module-target" class="rule-select" onchange="handleTargetModuleChange()" style="margin-bottom:0">
+                  <option value="1">Module 1: Being a Positive Role Model</option>
+                  <option value="2">Module 2: Building Deep Connection</option>
+                  <option value="3">Module 3: Healthy Parental Authority</option>
+                  <option value="4">Module 4: Filling the Emotional Tank</option>
+                  <option value="5">Module 5: Navigating the Digital Household</option>
+                  <option value="6">Module 6: Boundaries & Positive Discipline</option>
+                  <option value="7">Module 7: The Father's Heart & Presence</option>
+                  <option value="8">Module 8: Working Parents: Career & Home</option>
+                  <option value="9">Module 9: Nurturing Foundational Faith</option>
+                  <option value="10">Module 10: Healthy Sexuality in the Family</option>
+                  <option value="11">Module 11: Parenting Through Every Life Stage</option>
+                  <option value="trailer">Official 2025 Trailer</option>
+                  <option value="new_bonus">+ Add New Bonus Video / Testimonial Lesson</option>
+                </select>
+              </div>
+
+              <!-- Video Source Toggle: URL vs File -->
+              <div style="margin-bottom:0.9rem">
+                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:6px">Video Source Method</label>
+                <div style="display:flex;gap:8px">
+                  <button type="button" class="btn btn-xs" id="src-type-url-btn" onclick="setVideoSourceType('url')" style="flex:1;background:#ffcc00;color:#061830;font-weight:800">
+                    🔗 YouTube / Stream URL
+                  </button>
+                  <button type="button" class="btn btn-xs btn-outline" id="src-type-file-btn" onclick="setVideoSourceType('file')" style="flex:1">
+                    📁 Direct Video File (.mp4/.webm)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Container: URL Input -->
+              <div id="box-video-url" style="margin-bottom:0.9rem">
+                <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">YouTube Video URL or 11-char Video ID</label>
+                <input type="text" id="up-video-url" placeholder="e.g. https://www.youtube.com/watch?v=hKSMxbFee1U" class="gate-input" style="padding:0.6rem 0.8rem;text-align:left;letter-spacing:normal;font-size:0.85rem" oninput="autoDetectYtThumb()"/>
+              </div>
+
+              <!-- Container: Direct File Upload -->
+              <div id="box-video-file" style="display:none;margin-bottom:0.9rem">
+                <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Upload Video File (.mp4, .webm, .mov — max 500MB)</label>
+                <div style="position:relative;border:1.5px dashed rgba(255,204,0,0.5);border-radius:10px;padding:1rem;text-align:center;background:rgba(255,255,255,0.03);cursor:pointer" onclick="document.getElementById('up-video-file-input').click()">
+                  <input type="file" id="up-video-file-input" accept="video/mp4,video/webm,video/quicktime" style="display:none" onchange="handleVideoFileSelect(event)"/>
+                  <div style="font-size:1.6rem;margin-bottom:4px">🎬</div>
+                  <div id="up-video-file-lbl" style="font-size:0.82rem;font-weight:700;color:#ffcc00">Click or Drag Video File Here</div>
+                  <div id="up-video-file-size" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px">MP4, WebM or MOV</div>
+                </div>
+              </div>
+
+              <!-- Thumbnail Selection -->
+              <div style="margin-bottom:0.9rem">
+                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Thumbnail Poster Image</label>
+                <div style="display:flex;gap:10px;align-items:center">
+                  <div style="width:75px;height:45px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.2);background:#000;flex-shrink:0">
+                    <img id="up-thumb-preview" src="https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover"/>
+                  </div>
+                  <div style="flex:1">
+                    <input type="text" id="up-thumb-url" placeholder="Thumbnail Image URL" class="gate-input" style="padding:0.45rem 0.7rem;text-align:left;letter-spacing:normal;font-size:0.8rem;margin-bottom:4px"/>
+                    <label class="btn btn-outline btn-xs" style="cursor:pointer;display:inline-flex;align-items:center;gap:4px">
+                      <span>🖼️ Upload Custom Image</span>
+                      <input type="file" id="up-thumb-file-input" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="handleThumbFileSelect(event)"/>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bilingual Titles -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.9rem">
+                <div>
+                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">English Title</label>
+                  <input type="text" id="up-title-en" placeholder="Title in English" class="gate-input" style="padding:0.55rem 0.75rem;text-align:left;letter-spacing:normal;font-size:0.85rem" required/>
+                </div>
+                <div>
+                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Myanmar Title (ခေါင်းစဉ်)</label>
+                  <input type="text" id="up-title-my" placeholder="မြန်မာခေါင်းစဉ်" class="gate-input" style="padding:0.55rem 0.75rem;text-align:left;letter-spacing:normal;font-size:0.85rem" required/>
+                </div>
+              </div>
+
+              <!-- Bilingual Captions / Subtitles -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.9rem">
+                <div>
+                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">English Caption / Description</label>
+                  <textarea id="up-caption-en" rows="2" placeholder="Brief lesson overview..." style="width:100%;padding:0.5rem 0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-family:inherit;font-size:0.82rem;outline:none"></textarea>
+                </div>
+                <div>
+                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Myanmar Caption (ရှင်းလင်းချက်)</label>
+                  <textarea id="up-caption-my" rows="2" placeholder="သင်ခန်းစာ အနှစ်ချုပ်..." style="width:100%;padding:0.5rem 0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-family:inherit;font-size:0.82rem;outline:none"></textarea>
+                </div>
+              </div>
+
+              <!-- Access Requirement -->
+              <div style="margin-bottom:1.25rem">
+                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Access Requirement (Paywall / Grant Rule)</label>
+                <select id="up-access" class="rule-select" style="margin-bottom:0">
+                  <option value="free">🌐 Public Free Preview (Anyone can watch)</option>
+                  <option value="granted" selected>🔒 Admin-Granted Partner Churches Only</option>
+                </select>
+              </div>
+
+              <!-- Upload Progress Bar -->
+              <div id="up-progress-wrap" style="display:none;margin-bottom:1rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-weight:700;color:#ffcc00;margin-bottom:4px">
+                  <span id="up-progress-status">Uploading media file...</span>
+                  <span id="up-progress-percent">0%</span>
+                </div>
+                <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden">
+                  <div id="up-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#ffcc00,#4cd964);transition:width .2s ease"></div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="up-submit-btn" class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem">
+                <span>🚀 Save & Publish Video to Portal</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Video Library List -->
+          <div>
+            <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <h4 style="font-size:1.05rem;font-weight:800;color:#fff">Active Video Library (<span id="up-video-count">12</span> Items)</h4>
+                <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">All live streamed & locally uploaded curriculum movies</div>
+              </div>
+              <button type="button" class="btn btn-outline btn-xs" onclick="resetVideoUploadForm()">
+                <span>+ New Video</span>
+              </button>
+            </div>
+
+            <div id="inpage-video-library-list" style="display:flex;flex-direction:column;gap:10px;max-height:680px;overflow-y:auto;padding-right:4px">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
