@@ -3112,8 +3112,54 @@ window.editInpageVideo = editInpageVideo;
 window.deleteInpageVideo = deleteInpageVideo;
 window.loadDynamicVideos = loadDynamicVideos;
 
+// ==========================================
+// MOBILE APP MODE LOGIC (?app=true or Native App)
+// ==========================================
+function checkAppMode() {
+  const isAppUrl = window.location.search.includes('app=true') || window.location.search.includes('mode=app');
+  const isAppUA = navigator.userAgent && navigator.userAgent.includes('ParentingApp');
+
+  if (isAppUrl || isAppUA) {
+    document.body.classList.add('is-mobile-app');
+    document.documentElement.classList.add('is-mobile-app');
+  }
+}
+
+function switchAppTab(tab) {
+  const tabs = ['lessons', 'cinema', 'church', 'account', 'quiz'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`btn-app-tab-${t}`);
+    if (btn) btn.classList.toggle('active', t === tab);
+    const pill = document.getElementById(`pill-${t}`);
+    if (pill) pill.classList.toggle('active', t === tab);
+  });
+
+  if (tab === 'lessons') {
+    const el = document.getElementById('modules');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  } else if (tab === 'cinema') {
+    const el = document.getElementById('videos');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  } else if (tab === 'church') {
+    openRegModal();
+  } else if (tab === 'account') {
+    if (isAdminOrOwner()) {
+      openAdminHub();
+    } else {
+      openSettingsModal();
+    }
+  } else if (tab === 'quiz') {
+    const el = document.getElementById('quiz');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+window.checkAppMode = checkAppMode;
+window.switchAppTab = switchAppTab;
+
 // INIT
 function initApp() {
+  checkAppMode();
   storeEn();
   initNav();
   initScrollAnim();

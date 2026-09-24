@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
 
-    private static final String APP_URL = "https://parenting-project-myanmar.penglambot.workers.dev";
+    private static final String APP_URL = "https://parenting-project-myanmar.penglambot.workers.dev?app=true";
     private WebView webView;
     private ProgressBar progressBar;
     private FrameLayout customViewContainer;
@@ -35,6 +35,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set status bar color to luxury navy
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(android.graphics.Color.parseColor("#061830"));
+        }
 
         // Make window hardware accelerated
         getWindow().setFlags(
@@ -76,6 +82,7 @@ public class MainActivity extends Activity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setSupportZoom(false);
+        settings.setUserAgentString(settings.getUserAgentString() + " ParentingApp/1.0 MobileNativeApp");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override

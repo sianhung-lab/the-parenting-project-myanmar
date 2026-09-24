@@ -127,6 +127,11 @@ export default {{
       }});
     }}
 
+    // Download APK route
+    if (path === "/apk" || path === "/download" || path === "/ParentingProjectMyanmar.apk") {{
+      return Response.redirect("https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.0.0/ParentingProjectMyanmar.apk", 302);
+    }}
+
     // 1. Static Pages
     if (path === "/" || path === "/index.html") {{
       return new Response(INDEX_HTML, {{
