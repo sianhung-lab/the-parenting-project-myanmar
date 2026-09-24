@@ -21,13 +21,14 @@ jobs:
 
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v3
-      with:
-        gradle-version: '8.5'
+
+    - name: Make gradlew executable
+      run: chmod +x android/gradlew
 
     - name: Build Android APK & Google Play App Bundle (AAB)
       run: |
         cd android
-        gradle assembleDebug bundleRelease --stacktrace
+        ./gradlew assembleDebug bundleRelease --stacktrace --no-daemon
 
     - name: Upload Test APK (For Phones & Viber)
       uses: actions/upload-artifact@v4
