@@ -110,19 +110,6 @@ public class MainActivity extends Activity {
                 }
                 return false;
             }
-        });
-
-        // Native Download Manager integration for in-app downloads
-        webView.setDownloadListener(new android.webkit.DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
-                } catch (Exception ignored) {}
-            }
-        });
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -138,13 +125,25 @@ public class MainActivity extends Activity {
             public void onReceivedError(WebView view, WebResourceRequest request, android.webkit.WebResourceError error) {
                 if (request.isForMainFrame()) {
                     String offlineHtml = "<html><body style='background:#061830;color:#fff;font-family:sans-serif;text-align:center;padding:60px 20px;'>"
-                        + "<div style='font-size:52px;margin-bottom:16px;'>📡</div>"
-                        + "<h2 style='color:#ffcc00;margin-bottom:10px;'>အင်တာနက် လိုင်းချိတ်ဆက်မှု ပြတ်တောက်နေပါသည်</h2>"
+                        + "<div style='font-size:52px;margin-bottom:16px;'>\uD83D\uDCE1</div>"
+                        + "<h2 style='color:#ffcc00;margin-bottom:10px;'>\u1021\u1004\u103A\u1000\u1031\u1031 \u101C\u102D\u102F\u1004\u103A\u1038\u1001\u103B\u102D\u1010\u103A\u1006\u1000\u103A\u1019\u103E\u102F \u1015\u103C\u1010\u103A\u1010\u1031\u102C\u1000\u1014\u1031\u1015\u102B\u101E\u100A\u100A\u104B</h2>"
                         + "<p style='color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:28px;'>No internet connection detected. Please verify your Wi-Fi or mobile data.</p>"
-                        + "<button onclick='location.reload()' style='background:#ffcc00;color:#061830;border:none;padding:14px 32px;border-radius:24px;font-weight:bold;font-size:16px;cursor:pointer;'>ပြန်လည်ကြိုးစားမည် (Retry)</button>"
+                        + "<button onclick='location.reload()' style='background:#ffcc00;color:#061830;border:none;padding:14px 32px;border-radius:24px;font-weight:bold;font-size:16px;cursor:pointer;'>\u1015\u103C\u1014\u103A\u101C\u100A\u103A\u1000\u103C\u102D\u102F\u1038\u1005\u102C\u1019\u100A\u1037 (Retry)</button>"
                         + "</body></html>";
                     view.loadDataWithBaseURL(null, offlineHtml, "text/html", "UTF-8", null);
                 }
+            }
+        });
+
+        // Native Download Manager integration for in-app downloads
+        webView.setDownloadListener(new android.webkit.DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception ignored) {}
             }
         });
 
