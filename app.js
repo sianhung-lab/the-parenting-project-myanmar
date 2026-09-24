@@ -3113,15 +3113,106 @@ window.deleteInpageVideo = deleteInpageVideo;
 window.loadDynamicVideos = loadDynamicVideos;
 
 // ==========================================
-// MOBILE APP MODE LOGIC (?app=true or Native App)
+// MOBILE APP MODE LOGIC & LIVE UPGRADE NOTI
 // ==========================================
 function checkAppMode() {
   const isAppUrl = window.location.search.includes('app=true') || window.location.search.includes('mode=app');
   const isAppUA = navigator.userAgent && navigator.userAgent.includes('ParentingApp');
+  
+  // Detect Android WebView (wv, Version/4.0) or standalone mobile app
+  const isAndroidWebView = /;\s*wv/i.test(navigator.userAgent) || 
+                           (navigator.userAgent.includes('Android') && (navigator.userAgent.includes('Version/') || navigator.userAgent.includes('Crosswalk')));
+  const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  
+  // Detect phone screen on mobile devices
+  const isMobileDevice = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isPhoneWidth = window.innerWidth <= 820;
 
-  if (isAppUrl || isAppUA) {
+  // App mode activates if inside APK / WebView / standalone OR on mobile phone screen
+  // Regular desktop browsers (Mac/PC/Laptops with screen > 820px) stay 100% UNTOUCHED!
+  const isPhoneMode = isAppUrl || isAppUA || isAndroidWebView || isStandalone || (isMobileDevice && isPhoneWidth);
+
+  if (isPhoneMode) {
     document.body.classList.add('is-mobile-app');
     document.documentElement.classList.add('is-mobile-app');
+    
+    // Trigger in-app live upgrade notification
+    setTimeout(() => {
+      showUpgradeNotification();
+    }, 500);
+  }
+}
+
+function playUpgradeChime() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 celebratory chord
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+      gain.gain.setValueAtTime(0, ctx.currentTime + idx * 0.08);
+      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + idx * 0.08 + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.6);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + idx * 0.08);
+      osc.stop(ctx.currentTime + idx * 0.08 + 0.6);
+    });
+  } catch (e) {
+    // Audio context may require user interaction
+  }
+}
+
+function showUpgradeNotification() {
+  if (document.getElementById('upgrade-noti-banner')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'upgrade-noti-banner';
+  banner.innerHTML = `
+    <div class="upgrade-noti-icon-wrap">⚡</div>
+    <div class="upgrade-noti-content">
+      <span class="upgrade-noti-badge">Upgraded v1.1.0 Phone Edition</span>
+      <div class="upgrade-noti-title">ဗားရှင်းသစ်သို့ အဆင့်မြှင့်တင်ပြီးပါပြီ</div>
+      <div class="upgrade-noti-sub">ဖုန်းမျက်နှာပြင်နှင့် အဆင်ပြေစေရန် ပြောင်းလဲပြီးပါပြီ (No download needed)</div>
+    </div>
+    <button class="upgrade-noti-close-btn" onclick="dismissUpgradeNoti()" aria-label="Close">✕</button>
+  `;
+  document.body.appendChild(banner);
+
+  playUpgradeChime();
+  if (navigator.vibrate) {
+    try { navigator.vibrate([80, 50, 80]); } catch (e) {}
+  }
+
+  // System notification if permission was already granted
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      new Notification('The Parenting Project Myanmar', {
+        body: 'ဖုန်းအရွယ်အစား ဗားရှင်းသစ်သို့ တိုက်ရိုက် အဆင့်မြှင့်တင်ပြီးပါပြီ (v1.1.0)!',
+        icon: 'official_logo.png'
+      });
+    } catch (e) {}
+  }
+
+  // Auto dismiss after 8.5 seconds
+  setTimeout(() => {
+    dismissUpgradeNoti();
+  }, 8500);
+}
+
+function dismissUpgradeNoti() {
+  const b = document.getElementById('upgrade-noti-banner');
+  if (b) {
+    b.style.transition = 'all 0.35s ease';
+    b.style.transform = 'translateY(-140%)';
+    b.style.opacity = '0';
+    setTimeout(() => {
+      if (b && b.parentNode) b.remove();
+    }, 400);
   }
 }
 
@@ -3154,8 +3245,17 @@ function switchAppTab(tab) {
   }
 }
 
+// Re-check when app is resumed from background
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    checkAppMode();
+  }
+});
+
 window.checkAppMode = checkAppMode;
 window.switchAppTab = switchAppTab;
+window.showUpgradeNotification = showUpgradeNotification;
+window.dismissUpgradeNoti = dismissUpgradeNoti;
 
 // INIT
 function initApp() {
