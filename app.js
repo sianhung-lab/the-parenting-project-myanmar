@@ -2516,8 +2516,8 @@ function switchCbnAdminView(view) {
     'rules': 'cbn-view-rules',
     'upload': 'cbn-view-upload',
     'live-portal': 'cbn-view-live-portal',
-    'del-req': 'cbn-view-organisations',
-    'recycle': 'cbn-view-organisations'
+    'del-req': 'cbn-view-del-req',
+    'recycle': 'cbn-view-recycle'
   };
 
   const navIds = {
@@ -2568,9 +2568,44 @@ function switchCbnAdminView(view) {
     renderCbnLessonsGrid();
   } else if (view === 'logs') {
     renderCbnLogs();
+  } else if (view === 'surveys') {
+    renderCbnSurveys();
+  } else if (view === 'recycle') {
+    renderCbnRecycleBin();
+  } else if (view === 'del-req') {
+    renderCbnDelReqs();
   }
 }
 window.switchCbnAdminView = switchCbnAdminView;
+
+function toggleAdminFullscreen() {
+  const modal = document.getElementById('adminHubModal');
+  const btn = document.getElementById('btn-admin-fullscreen');
+  if (!document.fullscreenElement) {
+    if (modal && modal.requestFullscreen) {
+      modal.requestFullscreen().catch(() => {});
+    } else if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+    if (btn) btn.innerHTML = '<span>⛶ Exit Full Screen</span>';
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+    if (btn) btn.innerHTML = '<span>⛶ Full Screen</span>';
+  }
+}
+window.toggleAdminFullscreen = toggleAdminFullscreen;
+
+function filterCbnOrgsByAccess(type) {
+  switchCbnAdminView('organisations');
+  const filter = document.getElementById('inpage-access-filter');
+  if (filter) {
+    filter.value = type;
+    filterInpageData();
+  }
+}
+window.filterCbnOrgsByAccess = filterCbnOrgsByAccess;
 
 function switchCbnTableTab(tab) {
   const btnPending = document.getElementById('cbn-tab-pending-btn');
@@ -2843,6 +2878,171 @@ function renderCbnLogs() {
     </tr>
   `).join('');
 }
+window.renderCbnLogs = renderCbnLogs;
+
+// Surveys Handler
+function renderCbnSurveys() {
+  const tbody = document.getElementById('cbn-surveys-tbody');
+  if (!tbody) return;
+
+  const surveyData = [
+    { church: 'Grace Baptist Church (Yangon)', count: 42, score: '4.95 / 5.0', growth: 'Positive Discipline & Father Presence', date: '2026-09-24' },
+    { church: 'Living Hope Assembly (Mandalay)', count: 35, score: '4.88 / 5.0', growth: 'Emotional Connection & Communication', date: '2026-09-20' },
+    { church: 'Calvary Community (Taunggyi, Shan)', count: 28, score: '4.92 / 5.0', growth: 'Biblical Authority & Faith at Home', date: '2026-09-18' },
+    { church: 'Bethel Gospel Church (Hpa-an, Kayin)', count: 19, score: '4.90 / 5.0', growth: 'Navigating Digital Screen Habits', date: '2026-09-15' }
+  ];
+
+  tbody.innerHTML = surveyData.map(s => `
+    <tr>
+      <td><strong>${s.church}</strong></td>
+      <td>${s.count} Parents</td>
+      <td><span style="color:#2dce89;font-weight:700">★ ${s.score}</span></td>
+      <td style="color:#ffcc00">${s.growth}</td>
+      <td style="font-size:0.78rem;color:rgba(255,255,255,0.6)">${s.date}</td>
+      <td>
+        <button type="button" class="btn btn-outline btn-xs" onclick="showToast('📄 Detailed survey report for ${s.church.replace("'", "")} opened!')">
+          View Batch
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+window.renderCbnSurveys = renderCbnSurveys;
+
+function exportSurveysCsv() {
+  const csvContent = "data:text/csv;charset=utf-8," + 
+    "Church,Region,Respondents,Satisfaction_Score,Key_Growth_Area,Survey_Date\n" +
+    "Grace Baptist Church,Yangon,42,4.95,Positive Discipline,2026-09-24\n" +
+    "Living Hope Assembly,Mandalay,35,4.88,Emotional Connection,2026-09-20\n" +
+    "Calvary Community,Shan State,28,4.92,Biblical Authority,2026-09-18\n" +
+    "Bethel Gospel Church,Kayin State,19,4.90,Digital Household,2026-09-15\n";
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "The_Parenting_Project_CA_Surveys_Summary.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast("📥 Survey Summary CSV downloaded!");
+}
+window.exportSurveysCsv = exportSurveysCsv;
+
+// Recycle Bin Store
+let cbnRecycleItems = [
+  { id: 'rec_1', name: 'Sample Fellowship Bago', type: 'Church Registration', date: '2026-08-14', by: 'Super Admin', reason: 'Duplicate entry submitted' },
+  { id: 'rec_2', name: 'Faith Fellowship Yangon (Draft)', type: 'Incomplete Form', date: '2026-07-29', by: 'System Auto-Clean', reason: 'Unverified test registration' }
+];
+
+function renderCbnRecycleBin() {
+  const tbody = document.getElementById('cbn-recycle-tbody');
+  if (!tbody) return;
+
+  if (!cbnRecycleItems.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">Recycle Bin is empty. No archived records.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = cbnRecycleItems.map(item => `
+    <tr>
+      <td><strong>${item.name}</strong></td>
+      <td><span style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:10px;font-size:0.75rem">${item.type}</span></td>
+      <td style="font-size:0.78rem;color:rgba(255,255,255,0.6)">${item.date}</td>
+      <td style="color:#ffcc00">${item.by}</td>
+      <td style="font-size:0.78rem;color:rgba(255,255,255,0.7)">${item.reason}</td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn btn-outline btn-xs" onclick="restoreRecycleItem('${item.id}')" style="color:#2dce89;border-color:rgba(45,206,137,0.4)">
+            ♻️ Restore
+          </button>
+          <button type="button" class="btn btn-outline btn-xs" onclick="deleteRecycleItem('${item.id}')" style="color:#ff9999;border-color:rgba(255,100,100,0.3)">
+            🗑️ Purge
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+window.renderCbnRecycleBin = renderCbnRecycleBin;
+
+function restoreRecycleItem(id) {
+  const item = cbnRecycleItems.find(x => x.id === id);
+  cbnRecycleItems = cbnRecycleItems.filter(x => x.id !== id);
+  renderCbnRecycleBin();
+  showToast(`♻️ Restored ${item ? item.name : 'record'} back to active database!`);
+}
+window.restoreRecycleItem = restoreRecycleItem;
+
+function deleteRecycleItem(id) {
+  const item = cbnRecycleItems.find(x => x.id === id);
+  cbnRecycleItems = cbnRecycleItems.filter(x => x.id !== id);
+  renderCbnRecycleBin();
+  showToast(`🗑️ Permanently deleted ${item ? item.name : 'record'}.`);
+}
+window.deleteRecycleItem = deleteRecycleItem;
+
+function emptyRecycleBin() {
+  if (!cbnRecycleItems.length) {
+    showToast('Recycle Bin is already empty.');
+    return;
+  }
+  cbnRecycleItems = [];
+  renderCbnRecycleBin();
+  showToast('🗑️ Recycle Bin permanently emptied.');
+}
+window.emptyRecycleBin = emptyRecycleBin;
+
+// Delete Account Requests Store
+let cbnDelReqs = [
+  { id: 'del_1', user: 'Maung Maung (Parent)', contact: 'parent.test@mail.com', date: '2026-09-22', reason: 'Completed all 11 modules and requested personal data wipe', status: 'Pending Review' }
+];
+
+function renderCbnDelReqs() {
+  const tbody = document.getElementById('cbn-delreq-tbody');
+  if (!tbody) return;
+
+  if (!cbnDelReqs.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No pending account deletion requests.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = cbnDelReqs.map(r => `
+    <tr>
+      <td><strong>${r.user}</strong></td>
+      <td>${r.contact}</td>
+      <td style="font-size:0.78rem;color:rgba(255,255,255,0.6)">${r.date}</td>
+      <td style="font-size:0.8rem;color:rgba(255,255,255,0.8)">${r.reason}</td>
+      <td><span style="color:#ffcc00;font-weight:700">${r.status}</span></td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn btn-outline btn-xs" onclick="approveDelReq('${r.id}')" style="color:#ff9999;border-color:rgba(255,100,100,0.4)">
+            Approve Deletion
+          </button>
+          <button type="button" class="btn btn-outline btn-xs" onclick="rejectDelReq('${r.id}')">
+            Reject
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+window.renderCbnDelReqs = renderCbnDelReqs;
+
+function approveDelReq(id) {
+  const req = cbnDelReqs.find(x => x.id === id);
+  cbnDelReqs = cbnDelReqs.filter(x => x.id !== id);
+  renderCbnDelReqs();
+  showToast(`✅ Approved data wipe for ${req ? req.user : 'account'}.`);
+}
+window.approveDelReq = approveDelReq;
+
+function rejectDelReq(id) {
+  const req = cbnDelReqs.find(x => x.id === id);
+  cbnDelReqs = cbnDelReqs.filter(x => x.id !== id);
+  renderCbnDelReqs();
+  showToast(`Account retention confirmed for ${req ? req.user : 'account'}.`);
+}
+window.rejectDelReq = rejectDelReq;
 window.renderCbnLogs = renderCbnLogs;
 
 function renderInpageKPIs(list) {

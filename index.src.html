@@ -1107,6 +1107,9 @@
         </div>
 
         <div class="cbn-top-actions">
+          <button type="button" class="btn btn-outline btn-xs" id="btn-admin-fullscreen" onclick="toggleAdminFullscreen()" style="color:#ffcc00;border-color:rgba(255,204,0,0.4)">
+            <span>⛶ Full Screen</span>
+          </button>
           <button type="button" class="btn btn-outline btn-xs" onclick="openLiveCbnPortal()" style="color:#ffcc00;border-color:rgba(255,204,0,0.4)">
             <span>🌐 Live CBN Portal ↗</span>
           </button>
@@ -1182,7 +1185,7 @@
               </div>
               <div class="cbn-kpi-footer">
                 <span style="color:rgba(255,255,255,0.6)">Recent registrations</span>
-                <a class="cbn-kpi-link" onclick="switchCbnTableTab('pending')">Show All ➔</a>
+                <a class="cbn-kpi-link" onclick="switchCbnTableTab('pending');document.getElementById('pending-approval-tabs').scrollIntoView({behavior:'smooth'})">Show All ➔</a>
               </div>
             </div>
 
@@ -1199,7 +1202,7 @@
               </div>
               <div class="cbn-kpi-footer">
                 <span style="color:rgba(255,255,255,0.6)">Video access granted</span>
-                <a class="cbn-kpi-link" onclick="switchCbnAdminView('organisations')">Show All ➔</a>
+                <a class="cbn-kpi-link" onclick="filterCbnOrgsByAccess('granted')">Show All ➔</a>
               </div>
             </div>
 
@@ -1216,7 +1219,7 @@
               </div>
               <div class="cbn-kpi-footer">
                 <span style="color:rgba(255,255,255,0.6)">Pending verification</span>
-                <a class="cbn-kpi-link" onclick="switchCbnAdminView('organisations')">Show All ➔</a>
+                <a class="cbn-kpi-link" onclick="filterCbnOrgsByAccess('pending')">Show All ➔</a>
               </div>
             </div>
           </div>
@@ -1375,6 +1378,132 @@
                 <!-- Populated by JS -->
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <!-- VIEW: CA SURVEY MANAGEMENT & SUMMARY -->
+        <section id="cbn-view-surveys" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.25rem">📊 CA Survey Management & Impact Summary</h3>
+              <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+                Pre-training and post-training biblical parenting surveys collected from church participants across Myanmar.
+              </p>
+            </div>
+            <button type="button" class="btn btn-gold btn-xs" onclick="exportSurveysCsv()">
+              <span>📥 Export Survey CSV</span>
+            </button>
+          </div>
+
+          <div class="cbn-kpi-grid">
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Total Parent Responses</div>
+              <div class="cbn-kpi-num">124</div>
+              <div class="cbn-kpi-sub">Across 4 partner networks</div>
+            </div>
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Family Impact Score</div>
+              <div class="cbn-kpi-num" style="color:#2dce89">96.4%</div>
+              <div class="cbn-kpi-sub">Positive biblical transformation</div>
+            </div>
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Confidence Growth</div>
+              <div class="cbn-kpi-num" style="color:#ffcc00">+42.8%</div>
+              <div class="cbn-kpi-sub">Pre-survey vs Post-survey</div>
+            </div>
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Course Completion Rate</div>
+              <div class="cbn-kpi-num">91.2%</div>
+              <div class="cbn-kpi-sub">Completed all 11 modules</div>
+            </div>
+          </div>
+
+          <div class="cbn-panel-card">
+            <div class="cbn-panel-header">
+              <h4 style="font-size:1.05rem;font-weight:800;color:#fff">Recent Church Survey Feedback</h4>
+              <div style="font-size:0.8rem;color:rgba(255,255,255,0.6)">Showing 4 Recent Church Batches</div>
+            </div>
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Church / Region</th>
+                    <th>Respondents</th>
+                    <th>Avg Satisfaction</th>
+                    <th>Key Growth Area</th>
+                    <th>Survey Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-surveys-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: RECYCLE BIN -->
+        <section id="cbn-view-recycle" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,100,100,0.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#ff9999;margin-bottom:0.25rem">🗑️ Recycle Bin (Archived Items)</h3>
+              <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+                Archived registrations or deleted records. Items can be restored to active registry or permanently purged.
+              </p>
+            </div>
+            <button type="button" class="btn btn-outline btn-xs" onclick="emptyRecycleBin()" style="color:#ff9999;border-color:rgba(255,100,100,0.4)">
+              <span>Empty Recycle Bin</span>
+            </button>
+          </div>
+
+          <div class="cbn-panel-card">
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Type</th>
+                    <th>Archived Date</th>
+                    <th>Archived By</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-recycle-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: DELETE ACCOUNT REQUESTS -->
+        <section id="cbn-view-del-req" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem">
+            <h3 style="font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:0.25rem">🚫 Delete Account Requests</h3>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+              Users or churches requesting data removal or account deletion in accordance with privacy compliance.
+            </p>
+          </div>
+          <div class="cbn-panel-card">
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Requester</th>
+                    <th>Account Email / Phone</th>
+                    <th>Requested On</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-delreq-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 

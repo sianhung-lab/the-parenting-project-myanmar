@@ -2333,38 +2333,40 @@ body.lang-my .nav-link{
 .admin-hub-modal {
   position: fixed;
   inset: 0;
-  background: rgba(3, 12, 26, 0.94);
-  backdrop-filter: blur(20px);
+  background: #041226;
   z-index: 100000;
   display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
 }
 .admin-hub-modal.open {
   display: flex;
 }
 .admin-hub-container {
   background: linear-gradient(180deg, #071f3d 0%, #041226 100%);
-  border: 1.5px solid rgba(255, 204, 0, 0.45);
-  border-radius: 20px;
-  width: 98vw;
-  max-width: 1520px;
-  height: 94vh;
+  border: none;
+  border-radius: 0;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: row;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 50px rgba(255,204,0,0.15);
   overflow: hidden;
-  animation: hubFadeIn .25s ease-out;
+  animation: hubFadeIn .2s ease-out;
   color: #fff;
   position: relative;
 }
 @media (max-width: 960px) {
   .admin-hub-container {
     flex-direction: column;
-    height: 96vh;
-    width: 99vw;
-    border-radius: 12px;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 0;
   }
 }
 @keyframes hubFadeIn {
