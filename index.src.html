@@ -532,23 +532,11 @@
 </div>
 <div id="overlay" class="overlay"></div>
 
-<!-- HERO (BALANCED 50/50 SHOWCASE - FULL COUPLE BODY VISIBLE WITH LUXURY GLASS LAYERS) -->
-<section id="home" class="hero hero-balanced-showcase">
-  <!-- Subtle Ambient Background Light & Floating Sparks -->
-  <div class="hero-ambient-lights" aria-hidden="true">
-    <div class="hero-light-radial"></div>
-    <div class="hero-sparks">
-      <div class="spark s-1"></div>
-      <div class="spark s-2"></div>
-      <div class="spark s-3"></div>
-      <div class="spark s-4"></div>
-      <div class="spark s-5"></div>
-    </div>
-  </div>
-
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-ambient-glow"></div>
   <div class="container hero-content">
-    <div class="hero-grid hero-balanced-grid">
-      <!-- Left Column: Editorial Luxury Typography, Badges & CTAs -->
+    <div class="hero-grid">
       <div class="hero-text">
         <div class="hero-badge">
           <span class="gold-sparkle">✦</span>
@@ -562,10 +550,7 @@
           A values-based parenting curriculum for local churches across Myanmar. Helping parents shape their children's character, faith, and emotional health — completely free.
         </p>
         <div class="hero-btns">
-          <a href="#modules" class="btn btn-gold btn-lg btn-glow-gold" id="h-btn1">
-            <span>Explore 11 Modules</span>
-            <span class="btn-arrow">→</span>
-          </a>
+          <a href="#modules" class="btn btn-gold btn-lg" id="h-btn1">Explore 11 Modules</a>
           <button class="btn btn-glass-gold btn-lg" id="h-btn-trailer" onclick="openTrailerModal()">
             <span class="btn-play-icon" style="margin-right:6px">▶</span>
             <span id="h-btn-trailer-txt">Watch 2025 Trailer</span>
@@ -577,65 +562,33 @@
           <div class="hf-item"><span>🇲🇲</span><span id="hf-2">Burmese & English Materials</span></div>
           <div class="hf-item"><span>✨</span><span id="h-free">100% Free for Myanmar Churches</span></div>
         </div>
-
-        <!-- Left Sub-Metrics Bar -->
-        <div class="hero-left-metrics">
-          <div class="hl-metric-item">
-            <div class="hl-icon">📊</div>
-            <div>
-              <div class="hl-val">10,000+</div>
-              <div class="hl-lbl">Active Parents</div>
-            </div>
-          </div>
-          <div class="hl-metric-sep"></div>
-          <div class="hl-metric-item">
-            <div class="hl-icon">🌿</div>
-            <div>
-              <div class="hl-val">98%</div>
-              <div class="hl-lbl">Positive Impact</div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <!-- Right Column: 16:9 Showcase Frame (Full Couple Body 100% Visible with Glass Layers) -->
-      <div class="hero-stage-col">
-        <div class="hero-stage-wrapper">
-          <!-- Ambient Golden Glow behind frame -->
-          <div class="hero-stage-aura"></div>
-
-          <!-- Master Glass Frame with Full 16:9 Photo -->
-          <div class="hero-stage-card">
-            <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-stage-img" />
-            <div class="hero-stage-inner-glow"></div>
-            
-            <!-- Interactive Center-Bottom Play Trailer Badge -->
-            <button type="button" class="hero-stage-play-badge" onclick="openTrailerModal()" title="Watch Trailer">
-              <div class="stage-play-circle">
-                <span class="stage-play-arrow">▶</span>
-                <span class="stage-play-pulse"></span>
-              </div>
-              <div class="stage-play-label">
-                <span class="stage-play-title">Watch 2025 Trailer</span>
-                <span class="stage-play-sub">2 Min · Burmese Audio</span>
-              </div>
-            </button>
-          </div>
-
-          <!-- Floating Glass Chip: Top-Left Modules -->
-          <div class="hero-float-chip chip-top-left">
-            <span class="float-chip-icon">🎓</span>
-            <div>
-              <div class="float-chip-title">11 Video Modules</div>
-              <div class="float-chip-sub">Biblical Guidance</div>
+      <div class="hero-visual">
+        <div class="hero-portal-wrap">
+          <div class="hero-portal-glow"></div>
+          <div class="hero-portal-border">
+            <div class="hero-portal-inner">
+              <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-img"/>
+              <div class="hero-img-gradient"></div>
             </div>
           </div>
 
-          <!-- Floating Glass Chip: Bottom-Right Rating -->
-          <div class="hero-float-chip chip-bottom-right">
-            <div class="float-chip-stars">★★★★★</div>
-            <div class="float-chip-title">4.9 / 5.0 Rating</div>
-            <div class="float-chip-sub">200+ Partner Churches</div>
+          <!-- Floating Luxury Badges -->
+          <div class="floating-badge badge-top-left">
+            <div class="fb-icon">⭐</div>
+            <div class="fb-content">
+              <strong id="fb-t1">4.9 / 5 Rating</strong>
+              <span id="fb-s1">Church Leaders in Myanmar</span>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-bottom-right">
+            <div class="fb-icon">🇲🇲</div>
+            <div class="fb-content">
+              <strong id="fb-t2">11 Practical Modules</strong>
+              <span id="fb-s2">Facilitator Kit & App</span>
+            </div>
           </div>
         </div>
       </div>
@@ -654,6 +607,7 @@
     </div>
   </div>
 </section>
+
 
 <!-- MODULES ANCHOR (Smooth scroll target for 11 Modules) -->
 <div id="modules" style="scroll-margin-top:80px"></div>
