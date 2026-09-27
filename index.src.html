@@ -532,143 +532,119 @@
 </div>
 <div id="overlay" class="overlay"></div>
 
-<!-- HERO (OPTION 3: DYNAMIC DIAGONAL CUT - ENGINEERED FOR PERFECT FIT & UNBROKEN VISIBILITY) -->
-<section id="home" class="hero hero-diagonal-opt3">
-  <!-- Dynamic Diagonal Photo Stage (Right 55% Desktop) -->
-  <div class="hero-diagonal-stage" aria-hidden="true">
-    <div class="hero-diagonal-clip">
-      <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-diagonal-img"/>
-      <div class="hero-diagonal-overlay"></div>
-    </div>
-    <!-- Vector Glowing Gold Laser Divider Line -->
-    <svg class="hero-diagonal-svg-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+<!-- HERO (OPTION 12: GRAND HORIZON 24K LASER BAR) -->
+<section id="home" class="hero hero-opt12">
+  <!-- Full-bleed Right Photo Stage — clean, no overlapping UI -->
+  <div class="h12-photo-stage" aria-hidden="true">
+    <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="h12-photo-img"/>
+    <div class="h12-photo-overlay"></div>
+    <!-- Vector Glowing Gold Laser Divider -->
+    <svg class="h12-laser-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="goldLaserGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#FFD700" stop-opacity="0" />
-          <stop offset="20%" stop-color="#FFD700" stop-opacity="0.95" />
-          <stop offset="55%" stop-color="#F59E0B" stop-opacity="1" />
-          <stop offset="85%" stop-color="#D97706" stop-opacity="0.9" />
-          <stop offset="100%" stop-color="#FFD700" stop-opacity="0" />
+        <linearGradient id="h12GoldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stop-color="#FFD700" stop-opacity="0"/>
+          <stop offset="15%"  stop-color="#FFD700" stop-opacity="0.9"/>
+          <stop offset="50%"  stop-color="#F5A800" stop-opacity="1"/>
+          <stop offset="85%"  stop-color="#D97706" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
         </linearGradient>
-        <filter id="goldLaserGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+        <filter id="h12LaserGlow">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <line x1="18" y1="0" x2="0" y2="100" stroke="url(#goldLaserGrad)" stroke-width="0.85" filter="url(#goldLaserGlow)" />
+      <line x1="20" y1="0" x2="0" y2="100"
+            stroke="url(#h12GoldGrad)" stroke-width="0.9"
+            filter="url(#h12LaserGlow)"/>
     </svg>
-    <!-- Floating Gold Particle Sparks -->
-    <div class="hero-sparks">
-      <div class="spark s-1"></div>
-      <div class="spark s-2"></div>
-      <div class="spark s-3"></div>
-      <div class="spark s-4"></div>
-      <div class="spark s-5"></div>
+    <!-- Ambient gold sparks -->
+    <div class="h12-sparks">
+      <div class="h12-spark sp1"></div>
+      <div class="h12-spark sp2"></div>
+      <div class="h12-spark sp3"></div>
     </div>
   </div>
 
-  <div class="container hero-content">
-    <div class="hero-grid hero-diagonal-grid">
-      <!-- Left Column: Editorial Luxury Typography, Badges, CTAs & Metrics -->
-      <div class="hero-text">
-        <div class="hero-badge">
-          <span class="gold-sparkle">✦</span>
-          <span id="h-badge">CBN Asia Family Discipleship Initiative · Myanmar</span>
-        </div>
-        <h1 class="hero-title">
-          <span id="h-title1">Equipping Parents,</span><br/>
-          <span class="gold-text-luxury" id="h-title2">Building the Next Generation</span>
-        </h1>
-        <p class="hero-desc" id="h-desc">
-          A values-based parenting curriculum for local churches across Myanmar. Helping parents shape their children's character, faith, and emotional health — completely free.
-        </p>
-        <div class="hero-btns">
-          <a href="#modules" class="btn btn-gold btn-lg btn-glow-gold" id="h-btn1">
-            <span>Explore 11 Modules</span>
-            <span class="btn-arrow">→</span>
-          </a>
-          <button class="btn btn-glass-gold btn-lg" id="h-btn-trailer" onclick="openTrailerModal()">
-            <span class="btn-play-icon" style="margin-right:6px">▶</span>
-            <span id="h-btn-trailer-txt">Watch 2025 Trailer</span>
-          </button>
-          <a href="register.html" class="btn btn-outline-gold btn-lg" id="h-btn2">Register Your Church — Free</a>
-        </div>
-        <div class="hero-features">
-          <div class="hf-item"><span>🏛️</span><span id="hf-1">Official CBN Asia Initiative</span></div>
-          <div class="hf-item"><span>🇲🇲</span><span id="hf-2">Burmese & English Materials</span></div>
-          <div class="hf-item"><span>✨</span><span id="h-free">100% Free for Myanmar Churches</span></div>
-        </div>
 
-        <!-- Left Sub-Metrics Bar (Option 3 Signature) -->
-        <div class="hero-left-metrics">
-          <div class="hl-metric-item">
-            <div class="hl-icon">📊</div>
-            <div>
-              <div class="hl-val">10,000+</div>
-              <div class="hl-lbl">Active Parents</div>
-            </div>
-          </div>
-          <div class="hl-metric-sep"></div>
-          <div class="hl-metric-item">
-            <div class="hl-icon">🌿</div>
-            <div>
-              <div class="hl-val">98%</div>
-              <div class="hl-lbl">Positive Impact</div>
-            </div>
-          </div>
-        </div>
+  <!-- Main editorial content — left aligned -->
+  <div class="container h12-content">
+    <div class="h12-text-col">
+      <div class="hero-badge">
+        <span class="gold-sparkle">✦</span>
+        <span id="h-badge">CBN Asia Family Discipleship Initiative · Myanmar</span>
       </div>
-
-      <!-- Right Column: Interactive Frosted Glass Floating Cards over the Photo -->
-      <div class="hero-glass-interactive-col">
-        <!-- Floating Glass Card 1: Curriculum Overview -->
-        <div class="hero-glass-chip chip-curriculum">
-          <div class="glass-chip-icon">🎓</div>
-          <div>
-            <div class="glass-chip-title">Parenting Curriculum</div>
-            <div class="glass-chip-desc">11 Practical Video Modules</div>
-          </div>
-        </div>
-
-        <!-- Floating Glass Card 2: Interactive Video Trailer Trigger -->
-        <div class="hero-glass-action-card" onclick="openTrailerModal()">
-          <div class="glass-action-tag">
-            <span class="glass-pulse-dot"></span>
-            <span>2025 OFFICIAL PREVIEW · 2 MIN</span>
-          </div>
-          <div class="glass-action-title">Watch the Story Unfold</div>
-          <p class="glass-action-desc">Experience how 11 interactive video sessions renew marriages and bring families closer to God.</p>
-          <div class="glass-action-btn-row">
-            <div class="glass-play-circle">▶</div>
-            <div>
-              <div class="glass-play-main">Play Full Trailer</div>
-              <div class="glass-play-sub">Burmese Audio & Subtitles</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating Glass Card 3: Community & Church Endorsement -->
-        <div class="hero-glass-chip chip-endorse">
-          <div class="glass-chip-stars">★★★★★</div>
-          <div class="glass-chip-title">4.9 / 5.0 Rating</div>
-          <div class="glass-chip-desc">200+ Partner Churches Endorsed</div>
-        </div>
+      <h1 class="hero-title">
+        <span id="h-title1">Equipping Parents,</span><br/>
+        <span class="gold-text-luxury" id="h-title2">Building the Next Generation</span>
+      </h1>
+      <p class="hero-desc" id="h-desc">
+        A values-based parenting curriculum for local churches across Myanmar — helping parents shape their children's character, faith, and emotional health. Completely free.
+      </p>
+      <div class="hero-btns">
+        <a href="#modules" class="btn btn-gold btn-lg btn-glow-gold" id="h-btn1">
+          <span>Explore 11 Modules</span>
+          <span class="btn-arrow">→</span>
+        </a>
+        <button class="btn btn-glass-gold btn-lg" id="h-btn-trailer" onclick="openTrailerModal()">
+          <span class="btn-play-icon" style="margin-right:6px">▶</span>
+          <span id="h-btn-trailer-txt">Watch 2025 Trailer</span>
+        </button>
+        <a href="register.html" class="btn btn-outline-gold btn-lg" id="h-btn2">Register Free</a>
+      </div>
+      <div class="hero-features">
+        <div class="hf-item"><span>🏛️</span><span id="hf-1">Official CBN Asia Initiative</span></div>
+        <div class="hf-item"><span>🇲🇲</span><span id="hf-2">Burmese &amp; English</span></div>
+        <div class="hf-item"><span>✨</span><span id="h-free">100% Free</span></div>
       </div>
     </div>
   </div>
 
-  <div class="hero-stats">
-    <div class="container stats-row">
-      <div class="stat"><div class="stat-n" data-target="11">0</div><div class="stat-l" id="s1">Practical Modules</div></div>
-      <div class="stat-div"></div>
-      <div class="stat"><div class="stat-n" data-target="200">0</div><div class="stat-l" id="s2">Partner Churches</div></div>
-      <div class="stat-div"></div>
-      <div class="stat"><div class="stat-n" data-target="8000">0</div><div class="stat-l" id="s3">Parents Trained</div></div>
-      <div class="stat-div"></div>
-      <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l" id="s4">Family Satisfaction</div></div>
+  <!-- ══ GRAND HORIZON BAR ══ The 24K laser command panel at the hero base -->
+  <div class="h12-horizon-bar">
+    <div class="h12-horizon-top-line"></div>
+    <div class="container h12-horizon-inner">
+
+      <!-- Panel 1: Curriculum -->
+      <div class="h12-panel h12-panel-curriculum">
+        <div class="h12-panel-icon-wrap">🎓</div>
+        <div class="h12-panel-body">
+          <div class="h12-panel-label">CURRICULUM</div>
+          <div class="h12-panel-value">11 Practical Modules</div>
+          <div class="h12-panel-sub">Video · Workbook · Discussion</div>
+        </div>
+        <a href="#modules" class="h12-panel-cta">View All →</a>
+      </div>
+
+      <div class="h12-horizon-divider"></div>
+
+      <!-- Panel 2: Trailer -->
+      <div class="h12-panel h12-panel-trailer" onclick="openTrailerModal()" role="button" tabindex="0">
+        <div class="h12-play-orb">
+          <div class="h12-play-ring"></div>
+          <span>▶</span>
+        </div>
+        <div class="h12-panel-body">
+          <div class="h12-panel-label">
+            <span class="h12-live-dot"></span>
+            2025 OFFICIAL PREVIEW
+          </div>
+          <div class="h12-panel-value">Watch the Trailer</div>
+          <div class="h12-panel-sub">2 Min · Burmese Audio &amp; Subtitles</div>
+        </div>
+      </div>
+
+      <div class="h12-horizon-divider"></div>
+
+      <!-- Panel 3: Rating -->
+      <div class="h12-panel h12-panel-rating">
+        <div class="h12-stars">★★★★★</div>
+        <div class="h12-panel-body">
+          <div class="h12-panel-label">CHURCH RATING</div>
+          <div class="h12-panel-value">4.9 / 5.0</div>
+          <div class="h12-panel-sub">200+ Partner Churches Endorsed</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
