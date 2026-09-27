@@ -532,11 +532,35 @@
 </div>
 <div id="overlay" class="overlay"></div>
 
-<!-- HERO (BALANCED 50/50 SHOWCASE - FULL COUPLE BODY VISIBLE WITH LUXURY GLASS LAYERS) -->
-<section id="home" class="hero hero-balanced-showcase">
-  <!-- Subtle Ambient Background Light & Floating Sparks -->
-  <div class="hero-ambient-lights" aria-hidden="true">
-    <div class="hero-light-radial"></div>
+<!-- HERO (OPTION 3: DYNAMIC DIAGONAL CUT - ENGINEERED FOR PERFECT FIT & UNBROKEN VISIBILITY) -->
+<section id="home" class="hero hero-diagonal-opt3">
+  <!-- Dynamic Diagonal Photo Stage (Right 55% Desktop) -->
+  <div class="hero-diagonal-stage" aria-hidden="true">
+    <div class="hero-diagonal-clip">
+      <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-diagonal-img"/>
+      <div class="hero-diagonal-overlay"></div>
+    </div>
+    <!-- Vector Glowing Gold Laser Divider Line -->
+    <svg class="hero-diagonal-svg-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="goldLaserGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFD700" stop-opacity="0" />
+          <stop offset="20%" stop-color="#FFD700" stop-opacity="0.95" />
+          <stop offset="55%" stop-color="#F59E0B" stop-opacity="1" />
+          <stop offset="85%" stop-color="#D97706" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#FFD700" stop-opacity="0" />
+        </linearGradient>
+        <filter id="goldLaserGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <line x1="14" y1="0" x2="0" y2="100" stroke="url(#goldLaserGrad)" stroke-width="0.8" filter="url(#goldLaserGlow)" />
+    </svg>
+    <!-- Floating Gold Particle Sparks -->
     <div class="hero-sparks">
       <div class="spark s-1"></div>
       <div class="spark s-2"></div>
@@ -547,8 +571,8 @@
   </div>
 
   <div class="container hero-content">
-    <div class="hero-grid hero-balanced-grid">
-      <!-- Left Column: Editorial Luxury Typography, Badges & CTAs -->
+    <div class="hero-grid hero-diagonal-grid">
+      <!-- Left Column: Editorial Luxury Typography, Badges, CTAs & Metrics -->
       <div class="hero-text">
         <div class="hero-badge">
           <span class="gold-sparkle">✦</span>
@@ -578,7 +602,7 @@
           <div class="hf-item"><span>✨</span><span id="h-free">100% Free for Myanmar Churches</span></div>
         </div>
 
-        <!-- Left Sub-Metrics Bar -->
+        <!-- Left Sub-Metrics Bar (Option 3 Signature) -->
         <div class="hero-left-metrics">
           <div class="hl-metric-item">
             <div class="hl-icon">📊</div>
@@ -598,45 +622,39 @@
         </div>
       </div>
 
-      <!-- Right Column: 16:9 Showcase Frame (Full Couple Body 100% Visible with Glass Layers) -->
-      <div class="hero-stage-col">
-        <div class="hero-stage-wrapper">
-          <!-- Ambient Golden Glow behind frame -->
-          <div class="hero-stage-aura"></div>
-
-          <!-- Master Glass Frame with Full 16:9 Photo -->
-          <div class="hero-stage-card">
-            <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-stage-img" />
-            <div class="hero-stage-inner-glow"></div>
-            
-            <!-- Interactive Center-Bottom Play Trailer Badge -->
-            <button type="button" class="hero-stage-play-badge" onclick="openTrailerModal()" title="Watch Trailer">
-              <div class="stage-play-circle">
-                <span class="stage-play-arrow">▶</span>
-                <span class="stage-play-pulse"></span>
-              </div>
-              <div class="stage-play-label">
-                <span class="stage-play-title">Watch 2025 Trailer</span>
-                <span class="stage-play-sub">2 Min · Burmese Audio</span>
-              </div>
-            </button>
+      <!-- Right Column: Interactive Frosted Glass Floating Cards over the Photo -->
+      <div class="hero-glass-interactive-col">
+        <!-- Floating Glass Card 1: Curriculum Overview -->
+        <div class="hero-glass-chip chip-curriculum">
+          <div class="glass-chip-icon">🎓</div>
+          <div>
+            <div class="glass-chip-title">Parenting Curriculum</div>
+            <div class="glass-chip-desc">11 Practical Video Modules</div>
           </div>
+        </div>
 
-          <!-- Floating Glass Chip: Top-Left Modules -->
-          <div class="hero-float-chip chip-top-left">
-            <span class="float-chip-icon">🎓</span>
+        <!-- Floating Glass Card 2: Interactive Video Trailer Trigger -->
+        <div class="hero-glass-action-card" onclick="openTrailerModal()">
+          <div class="glass-action-tag">
+            <span class="glass-pulse-dot"></span>
+            <span>2025 OFFICIAL PREVIEW · 2 MIN</span>
+          </div>
+          <div class="glass-action-title">Watch the Story Unfold</div>
+          <p class="glass-action-desc">Experience how 11 interactive video sessions renew marriages and bring families closer to God.</p>
+          <div class="glass-action-btn-row">
+            <div class="glass-play-circle">▶</div>
             <div>
-              <div class="float-chip-title">11 Video Modules</div>
-              <div class="float-chip-sub">Biblical Guidance</div>
+              <div class="glass-play-main">Play Full Trailer</div>
+              <div class="glass-play-sub">Burmese Audio & Subtitles</div>
             </div>
           </div>
+        </div>
 
-          <!-- Floating Glass Chip: Bottom-Right Rating -->
-          <div class="hero-float-chip chip-bottom-right">
-            <div class="float-chip-stars">★★★★★</div>
-            <div class="float-chip-title">4.9 / 5.0 Rating</div>
-            <div class="float-chip-sub">200+ Partner Churches</div>
-          </div>
+        <!-- Floating Glass Card 3: Community & Church Endorsement -->
+        <div class="hero-glass-chip chip-endorse">
+          <div class="glass-chip-stars">★★★★★</div>
+          <div class="glass-chip-title">4.9 / 5.0 Rating</div>
+          <div class="glass-chip-desc">200+ Partner Churches Endorsed</div>
         </div>
       </div>
     </div>
