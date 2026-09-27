@@ -354,6 +354,21 @@ export default {
       }
     }
 
+    // Admin Passcode Authentication Check
+    if (path === "/api/admin-auth" && method === "POST") {
+      try {
+        const body = await request.json();
+        const passcode = (body.passcode || "").trim();
+        if (passcode === STAFF_PASSCODE) {
+          return jsonResponse({ status: "success", token: STAFF_PASSCODE });
+        } else {
+          return jsonResponse({ status: "error", error: "Invalid passcode" }, 401);
+        }
+      } catch (err) {
+        return jsonResponse({ error: err.message }, 400);
+      }
+    }
+
     // Staff Authentication Check
     const staffAuth = request.headers.get("X-Staff-Auth") || url.searchParams.get("key");
     const isStaff = staffAuth === STAFF_PASSCODE;
