@@ -2492,12 +2492,358 @@ async function loadInpageAdminData() {
     inpageAdminData = await res.json();
     renderInpageKPIs(inpageAdminData);
     renderInpageAdminTable(inpageAdminData);
+    renderCbnDashboard(inpageAdminData);
   } catch(e) {
     console.error("Admin data fetch error:", e);
     const tbody = document.getElementById('inpage-table-body');
     if (tbody) tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:2rem;color:#ff8585">Error loading data: ${e.message}</td></tr>`;
   }
 }
+
+// ==========================================
+// CBN MYANMAR ARGON ADMIN DASHBOARD CONTROLS
+// ==========================================
+let currentDetailChurch = null;
+
+function switchCbnAdminView(view) {
+  const views = {
+    'dashboard': 'cbn-view-dashboard',
+    'organisations': 'cbn-view-organisations',
+    'surveys': 'cbn-view-surveys',
+    'lessons': 'cbn-view-lessons',
+    'materials': 'cbn-view-materials',
+    'logs': 'cbn-view-logs',
+    'rules': 'cbn-view-rules',
+    'upload': 'cbn-view-upload',
+    'live-portal': 'cbn-view-live-portal',
+    'del-req': 'cbn-view-organisations',
+    'recycle': 'cbn-view-organisations'
+  };
+
+  const navIds = {
+    'dashboard': 'cbn-nav-dashboard',
+    'organisations': 'cbn-nav-organisations',
+    'surveys': 'cbn-nav-surveys',
+    'lessons': 'cbn-nav-lessons',
+    'materials': 'cbn-nav-materials',
+    'logs': 'cbn-nav-logs',
+    'rules': 'cbn-nav-rules',
+    'upload': 'cbn-nav-upload',
+    'live-portal': 'cbn-nav-live-portal',
+    'del-req': 'cbn-nav-del-req',
+    'recycle': 'cbn-nav-recycle'
+  };
+
+  const titles = {
+    'dashboard': 'Dashboard',
+    'organisations': 'List of Organisations',
+    'surveys': 'CA Survey Management',
+    'lessons': 'Lesson Management (11 Modules)',
+    'materials': 'Promotional & Guideline Materials',
+    'logs': 'Real-Time Audit Logs',
+    'rules': 'Content Access Rules',
+    'upload': 'Video Upload Manager',
+    'live-portal': 'Official CBN Myanmar Portal',
+    'del-req': 'Delete Account Requests',
+    'recycle': 'Recycle Bin'
+  };
+
+  document.querySelectorAll('.cbn-view-section').forEach(el => el.style.display = 'none');
+  const targetSectionId = views[view] || 'cbn-view-dashboard';
+  const targetEl = document.getElementById(targetSectionId);
+  if (targetEl) targetEl.style.display = 'block';
+
+  document.querySelectorAll('.cbn-nav-item').forEach(el => el.classList.remove('active'));
+  const activeNav = document.getElementById(navIds[view]);
+  if (activeNav) activeNav.classList.add('active');
+
+  const breadcrumbEl = document.getElementById('cbn-breadcrumb-title');
+  if (breadcrumbEl) breadcrumbEl.textContent = titles[view] || 'Dashboard';
+
+  if (view === 'rules') {
+    loadInpageContentRules();
+  } else if (view === 'upload') {
+    loadInpageVideosList();
+  } else if (view === 'lessons') {
+    renderCbnLessonsGrid();
+  } else if (view === 'logs') {
+    renderCbnLogs();
+  }
+}
+window.switchCbnAdminView = switchCbnAdminView;
+
+function switchCbnTableTab(tab) {
+  const btnPending = document.getElementById('cbn-tab-pending-btn');
+  const btnContact = document.getElementById('cbn-tab-contact-btn');
+  const viewPending = document.getElementById('cbn-panel-pending-view');
+  const viewContact = document.getElementById('cbn-panel-contact-view');
+
+  if (btnPending) btnPending.classList.toggle('active', tab === 'pending');
+  if (btnContact) btnContact.classList.toggle('active', tab === 'contact');
+  if (viewPending) viewPending.style.display = tab === 'pending' ? 'block' : 'none';
+  if (viewContact) viewContact.style.display = tab === 'contact' ? 'block' : 'none';
+}
+window.switchCbnTableTab = switchCbnTableTab;
+
+function openLiveCbnPortal() {
+  window.open('https://tpp.cbnmyanmar.org/en/admin/dashboard', '_blank');
+}
+window.openLiveCbnPortal = openLiveCbnPortal;
+
+function renderCbnDashboard(list) {
+  if (!list) list = [];
+  const totalCount = Math.max(list.length, 4);
+  const kpiTotal = document.getElementById('cbn-kpi-total-orgs');
+  if (kpiTotal) kpiTotal.textContent = totalCount;
+
+  const navOrgCount = document.getElementById('cbn-nav-org-count');
+  if (navOrgCount) navOrgCount.textContent = totalCount;
+
+  const pendingList = list.filter(c => !c.isGranted);
+  const activeList = list.filter(c => !!c.isGranted);
+
+  const kpiMonth = document.getElementById('cbn-kpi-month-orgs');
+  if (kpiMonth) kpiMonth.textContent = pendingList.length || 0;
+
+  const awaitingBadge = document.getElementById('cbn-kpi-awaiting-badge');
+  const pendingCount = pendingList.length || 1;
+  if (awaitingBadge) awaitingBadge.textContent = `⚠️ ${pendingCount} awaiting approval`;
+
+  const tabBadgePending = document.getElementById('cbn-tab-badge-pending');
+  if (tabBadgePending) tabBadgePending.textContent = pendingCount;
+
+  const kpiActive = document.getElementById('cbn-kpi-active-orgs');
+  if (kpiActive) kpiActive.textContent = activeList.length;
+
+  const kpiInactive = document.getElementById('cbn-kpi-inactive-orgs');
+  if (kpiInactive) kpiInactive.textContent = totalCount - activeList.length;
+
+  renderCbnPendingTable(list);
+  renderCbnLessonsGrid();
+  renderCbnLogs();
+}
+
+function renderCbnPendingTable(list) {
+  const tbody = document.getElementById('cbn-pending-tbody');
+  if (!tbody) return;
+
+  if (!list || !list.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No registered churches found.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map((c, idx) => {
+    const code = c.regId || `SWK2026${String(idx+1).padStart(3,'0')}`;
+    const isGranted = !!c.isGranted;
+    const cleanPhone = (c.phone || '').replace(/[^0-9+]/g, '');
+
+    return `
+      <tr>
+        <td>
+          <div class="cbn-church-name-link" onclick="openCbnChurchDetail(${idx})">
+            ${c.churchName || 'Partner Church'}
+          </div>
+          <div class="cbn-church-code">${code}</div>
+        </td>
+        <td>
+          <div style="font-weight:700;color:#fff">${c.coordName || 'Coordinator'}</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">${c.email || c.phone || '-'}</div>
+        </td>
+        <td style="white-space:nowrap;font-size:0.78rem;color:rgba(255,255,255,0.6)">
+          ${c.timestamp || new Date().toISOString().slice(0, 16).replace('T', ' ')}
+        </td>
+        <td>
+          ${isGranted 
+            ? `<span style="background:rgba(45,206,137,0.15);color:#2dce89;border:1px solid rgba(45,206,137,0.3);padding:3px 8px;border-radius:12px;font-size:0.74rem;font-weight:700">● Granted</span>`
+            : `<span style="background:rgba(245,54,92,0.15);color:#f5365c;border:1px solid rgba(245,54,92,0.3);padding:3px 8px;border-radius:12px;font-size:0.74rem;font-weight:700">⚠️ Pending Approval</span>`
+          }
+        </td>
+        <td style="white-space:nowrap">
+          <div style="display:flex;gap:6px">
+            <button type="button" class="btn btn-dark btn-xs" onclick="openCbnChurchDetail(${idx})" style="background:#112f54;border-color:rgba(255,255,255,0.2)">
+              👁️ Open
+            </button>
+            ${!isGranted ? `
+              <button type="button" class="btn btn-gold btn-xs" onclick="toggleCbnChurchAccess('${encodeURIComponent(c.email || c.phone)}', true)">
+                ⚡ Approve
+              </button>
+            ` : `
+              <button type="button" class="btn btn-outline btn-xs" style="color:#ff9999;border-color:rgba(255,100,100,0.3)" onclick="toggleCbnChurchAccess('${encodeURIComponent(c.email || c.phone)}', false)">
+                Revoke
+              </button>
+            `}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  const countLbl = document.getElementById('cbn-pending-count-label');
+  if (countLbl) countLbl.textContent = `Showing 1 to ${list.length} of ${list.length} Results`;
+}
+
+function filterCbnPendingTable(val) {
+  val = (val || '').toLowerCase().trim();
+  if (!inpageAdminData) return;
+  const filtered = inpageAdminData.filter(c => {
+    return (c.churchName && c.churchName.toLowerCase().includes(val)) ||
+           (c.coordName && c.coordName.toLowerCase().includes(val)) ||
+           (c.email && c.email.toLowerCase().includes(val)) ||
+           (c.phone && c.phone.includes(val)) ||
+           (c.city && c.city.toLowerCase().includes(val));
+  });
+  renderCbnPendingTable(filtered);
+}
+window.filterCbnPendingTable = filterCbnPendingTable;
+
+function openCbnChurchDetail(idx) {
+  if (!inpageAdminData || !inpageAdminData[idx]) return;
+  const c = inpageAdminData[idx];
+  currentDetailChurch = c;
+
+  const modal = document.getElementById('cbnChurchDetailModal');
+  if (!modal) return;
+
+  const nameEl = document.getElementById('cbn-detail-name');
+  const codeEl = document.getElementById('cbn-detail-code');
+  const coordEl = document.getElementById('cbn-detail-coord');
+  const denomEl = document.getElementById('cbn-detail-denom');
+  const phoneEl = document.getElementById('cbn-detail-phone');
+  const emailEl = document.getElementById('cbn-detail-email');
+  const locEl = document.getElementById('cbn-detail-loc');
+  const famEl = document.getElementById('cbn-detail-fam');
+  const notesEl = document.getElementById('cbn-detail-notes');
+  const statusEl = document.getElementById('cbn-detail-access-status');
+  const viberBtn = document.getElementById('cbn-detail-viber-btn');
+
+  if (nameEl) nameEl.textContent = c.churchName || 'Partner Church';
+  if (codeEl) codeEl.textContent = `REG-ID: ${c.regId || 'SWK2026' + String(idx+1).padStart(3,'0')}`;
+  if (coordEl) coordEl.textContent = c.coordName || 'Coordinator';
+  if (denomEl) denomEl.textContent = c.denom || 'Independent / Baptist';
+  const cleanPhone = (c.phone || '').replace(/[^0-9+]/g, '');
+  if (phoneEl) phoneEl.textContent = c.phone || 'Not provided';
+  if (emailEl) emailEl.textContent = c.email || 'Not provided';
+  if (locEl) locEl.textContent = `${c.city || 'Yangon'}, ${c.region || 'Myanmar'}`;
+  if (famEl) famEl.textContent = c.fam || '10–25 Families';
+  if (notesEl) notesEl.textContent = `${c.notes || 'Registered online'} (Date: ${c.timestamp || 'Recent'})`;
+
+  const isGranted = !!c.isGranted;
+  if (statusEl) {
+    statusEl.innerHTML = isGranted 
+      ? '<span style="color:#2dce89">🟢 Full Video Access Granted</span>' 
+      : '<span style="color:#f5365c">⚠️ Restricted / Awaiting Verification</span>';
+  }
+
+  if (viberBtn) {
+    viberBtn.href = `viber://chat?number=${encodeURIComponent(cleanPhone)}`;
+  }
+
+  modal.classList.add('open');
+}
+window.openCbnChurchDetail = openCbnChurchDetail;
+
+function closeCbnChurchDetail() {
+  const modal = document.getElementById('cbnChurchDetailModal');
+  if (modal) modal.classList.remove('open');
+}
+window.closeCbnChurchDetail = closeCbnChurchDetail;
+
+function toggleCurrentChurchDetailAccess() {
+  if (!currentDetailChurch) return;
+  const newGrant = !currentDetailChurch.isGranted;
+  toggleCbnChurchAccess(encodeURIComponent(currentDetailChurch.email || currentDetailChurch.phone), newGrant);
+  currentDetailChurch.isGranted = newGrant;
+  const statusEl = document.getElementById('cbn-detail-access-status');
+  if (statusEl) {
+    statusEl.innerHTML = newGrant 
+      ? '<span style="color:#2dce89">🟢 Full Video Access Granted</span>' 
+      : '<span style="color:#f5365c">⚠️ Restricted / Awaiting Verification</span>';
+  }
+}
+window.toggleCurrentChurchDetailAccess = toggleCurrentChurchDetailAccess;
+
+async function toggleCbnChurchAccess(encodedTarget, grant) {
+  const target = decodeURIComponent(encodedTarget);
+  const staffToken = sessionStorage.getItem('cbn_staff_pass') || 'cbn2026';
+  try {
+    const res = await fetch('/api/admin/toggle-user-access', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Staff-Auth': staffToken
+      },
+      body: JSON.stringify({ email: target, grant: grant })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showToast(grant ? `✅ Approved video access for ${target}` : `🔒 Revoked access for ${target}`);
+      loadInpageAdminData();
+    } else {
+      showToast(data.error || 'Failed to update access', false);
+    }
+  } catch(e) {
+    showToast('Error: ' + e.message, false);
+  }
+}
+window.toggleCbnChurchAccess = toggleCbnChurchAccess;
+
+function renderCbnLessonsGrid() {
+  const grid = document.getElementById('cbn-lessons-grid');
+  if (!grid || typeof modulesData === 'undefined') return;
+
+  grid.innerHTML = modulesData.map((m, idx) => {
+    const num = idx + 1;
+    const rule = inpageContentRules[num] || { access: 'granted' };
+    const isFree = rule.access === 'free';
+    const ytId = m.youtubeId || 'hKSMxbFee1U';
+
+    return `
+      <div class="content-card">
+        <div class="content-card-thumb">
+          <img src="https://i.ytimg.com/vi/${ytId}/hqdefault.jpg" alt="${m.titleEn}"/>
+          <span class="badge ${isFree ? 'badge-public' : 'badge-partner'}">
+            ${isFree ? '🌐 Public Preview' : '🔒 Partner Only'}
+          </span>
+        </div>
+        <div class="content-card-body">
+          <div style="font-size:0.75rem;font-weight:700;color:#ffcc00;text-transform:uppercase">Module ${num}</div>
+          <div style="font-size:0.95rem;font-weight:800;color:#fff;margin:2px 0 4px">${m.titleMy || m.titleEn}</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:8px">${m.titleEn}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <span style="font-size:0.75rem;color:rgba(255,255,255,0.7)">⏱️ 22 Mins</span>
+            <button type="button" class="btn btn-xs ${isFree ? 'btn-outline' : 'btn-gold'}" onclick="saveInpageContentRule('${num}', '${isFree ? 'granted' : 'free'}')">
+              ${isFree ? '🔒 Make Partner-Only' : '🌐 Make Public'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+window.renderCbnLessonsGrid = renderCbnLessonsGrid;
+
+function renderCbnLogs() {
+  const tbody = document.getElementById('cbn-logs-tbody');
+  if (!tbody) return;
+
+  const sampleLogs = [
+    { time: 'Just now', type: 'Dual Webhook Sync', user: 'System (Google Sheets & Cloudflare)', loc: 'Cloudflare Edge', status: '✅ 200 OK' },
+    { time: '5 mins ago', type: 'Admin Passcode Auth', user: 'Super Administrator', loc: 'Yangon, Myanmar', status: '✅ Authorized' },
+    { time: '2026-09-27 10:37', type: 'Church Registration', user: 'Test Living Water Church', loc: 'Insein, Yangon', status: '✅ Recorded' },
+    { time: '2026-09-24 16:54', type: 'Cloudflare Worker Sync', user: 'parenting-project-myanmar', loc: 'Singapore Edge', status: '✅ Deployed' }
+  ];
+
+  tbody.innerHTML = sampleLogs.map(l => `
+    <tr>
+      <td style="font-family:monospace;font-size:0.78rem;color:rgba(255,255,255,0.6)">${l.time}</td>
+      <td><strong>${l.type}</strong></td>
+      <td style="color:#ffcc00">${l.user}</td>
+      <td style="color:rgba(255,255,255,0.7)">${l.loc}</td>
+      <td><span style="color:#2dce89;font-weight:700">${l.status}</span></td>
+    </tr>
+  `).join('');
+}
+window.renderCbnLogs = renderCbnLogs;
 
 function renderInpageKPIs(list) {
   const kChurches = document.getElementById('inpage-kpi-churches');

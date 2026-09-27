@@ -984,297 +984,695 @@
   </div>
 </div>
 
-<!-- IN-PAGE FULL ADMIN HUB MODAL -->
-<div id="adminHubModal" class="admin-hub-modal" role="dialog" aria-modal="true" aria-labelledby="inpage-admin-title">
+<!-- IN-PAGE FULL CBN MYANMAR ARGON ADMIN HUB MODAL -->
+<div id="adminHubModal" class="admin-hub-modal" role="dialog" aria-modal="true" aria-labelledby="cbn-breadcrumb-title">
   <div class="admin-hub-container">
-    <div class="admin-hub-header">
-      <div class="admin-hub-brand">
-        <img src="official_logo.png" alt="The Parenting Project Logo" class="admin-hub-logo"/>
+    
+    <!-- Left Argon Sidenav -->
+    <aside class="cbn-sidenav">
+      <div class="cbn-sidenav-brand">
+        <img src="official_logo.png" alt="The Parenting Project" class="cbn-sidenav-logo"/>
         <div>
-          <h2 id="inpage-admin-title" style="font-size:1.15rem;font-weight:800;color:#fff">The Parenting Project · Ministry Admin Hub</h2>
-          <div style="font-size:0.75rem;color:#ffcc00;font-weight:700;text-transform:uppercase;letter-spacing:0.04em">🔒 Integrated Church Registry & Video Privilege System</div>
+          <div class="cbn-sidenav-brand-text">The Parenting Project</div>
+          <div class="cbn-sidenav-sub">Ministry Admin Hub</div>
         </div>
       </div>
-      <div class="admin-hub-actions">
-        <a id="inpage-btn-dl-excel" href="The_Parenting_Project_Myanmar_Database.xlsx" class="btn btn-gold btn-xs" download>
-          <span>📥 Download Excel</span>
+
+      <div class="cbn-sidenav-menu">
+        <div class="cbn-nav-section-title">Main Menu</div>
+        <a class="cbn-nav-item active" id="cbn-nav-dashboard" onclick="switchCbnAdminView('dashboard')">
+          <div class="cbn-nav-icon">🏠</div>
+          <span>Dashboard</span>
         </a>
-        <a id="inpage-btn-dl-csv" href="/api/registrations.csv" class="btn btn-outline btn-xs" download="The_Parenting_Project_Myanmar_Confidential.csv">
-          <span>📄 CSV</span>
+
+        <div class="cbn-nav-section-title">Project</div>
+        <a class="cbn-nav-item" id="cbn-nav-organisations" onclick="switchCbnAdminView('organisations')">
+          <div class="cbn-nav-icon">⛪</div>
+          <span>List of Organisations</span>
+          <span class="cbn-badge-nav" id="cbn-nav-org-count">4</span>
         </a>
-        <button type="button" class="admin-hub-close" onclick="closeAdminHub()" aria-label="Close Admin Hub" title="Return to Main Website">
-          <span>✕</span>
+        <a class="cbn-nav-item" id="cbn-nav-org-manage" onclick="switchCbnAdminView('organisations')">
+          <div class="cbn-nav-icon">⚙️</div>
+          <span>Organisation Management</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-surveys" onclick="switchCbnAdminView('surveys')">
+          <div class="cbn-nav-icon">📊</div>
+          <span>CA Survey Management</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-survey-summary" onclick="switchCbnAdminView('surveys')">
+          <div class="cbn-nav-icon">📈</div>
+          <span>Survey Summary</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-recycle" onclick="switchCbnAdminView('recycle')">
+          <div class="cbn-nav-icon">🗑️</div>
+          <span>Recycle Bin</span>
+        </a>
+
+        <div class="cbn-nav-section-title">Users</div>
+        <a class="cbn-nav-item" id="cbn-nav-users" onclick="switchCbnAdminView('organisations')">
+          <div class="cbn-nav-icon">👥</div>
+          <span>Users & Facilitators</span>
+        </a>
+
+        <div class="cbn-nav-section-title">Lessons & Curriculum</div>
+        <a class="cbn-nav-item" id="cbn-nav-lessons" onclick="switchCbnAdminView('lessons')">
+          <div class="cbn-nav-icon">📖</div>
+          <span>Lesson Management</span>
+          <span class="cbn-badge-nav" style="background:#5e72e4">11</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-materials" onclick="switchCbnAdminView('materials')">
+          <div class="cbn-nav-icon">🎨</div>
+          <span>Promotional Materials</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-guidelines" onclick="switchCbnAdminView('materials')">
+          <div class="cbn-nav-icon">📘</div>
+          <span>Guideline Materials</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-testimonies" onclick="switchCbnAdminView('materials')">
+          <div class="cbn-nav-icon">💬</div>
+          <span>Testimonies & Behind Scenes</span>
+        </a>
+
+        <div class="cbn-nav-section-title">System & Security</div>
+        <a class="cbn-nav-item" id="cbn-nav-del-req" onclick="switchCbnAdminView('del-req')">
+          <div class="cbn-nav-icon">🚫</div>
+          <span>Delete Account Requests</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-logs" onclick="switchCbnAdminView('logs')">
+          <div class="cbn-nav-icon">📋</div>
+          <span>Audit Logs</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-rules" onclick="switchCbnAdminView('rules')">
+          <div class="cbn-nav-icon">🎬</div>
+          <span>Content Rules (Paywall)</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-upload" onclick="switchCbnAdminView('upload')">
+          <div class="cbn-nav-icon">📤</div>
+          <span>Video Upload Manager</span>
+        </a>
+
+        <div class="cbn-nav-section-title">Live CBN Portal</div>
+        <a class="cbn-nav-item" onclick="openLiveCbnPortal()" title="Open official tpp.cbnmyanmar.org in new tab" style="color:#ffcc00">
+          <div class="cbn-nav-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00">🌐</div>
+          <span>Open Live CBN Portal ↗</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-live-portal" onclick="switchCbnAdminView('live-portal')">
+          <div class="cbn-nav-icon">🖥️</div>
+          <span>Live Portal Bridge</span>
+        </a>
+      </div>
+
+      <!-- Sidenav Profile Footer -->
+      <div class="cbn-sidenav-profile">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:34px;height:34px;border-radius:50%;background:#ffcc00;color:#061830;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem">🛡️</div>
+          <div style="flex:1;overflow:hidden">
+            <div style="font-size:0.82rem;font-weight:800;color:#fff;white-space:nowrap;text-overflow:ellipsis;overflow:hidden">Super Administrator</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.6)">CBN Asia Myanmar</div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline btn-xs" style="width:100%;justify-content:center;color:#ff9999;border-color:rgba(255,100,100,0.3);margin-top:4px" onclick="lockAdminSession()">
+          <span>🔒 Lock Admin Session</span>
         </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="cbn-main-wrapper">
+      
+      <!-- Top Navbar -->
+      <header class="cbn-top-navbar">
+        <div class="cbn-breadcrumb">
+          <span>Pages</span> / <span>Admin</span> / <strong id="cbn-breadcrumb-title">Dashboard</strong>
+        </div>
+
+        <div class="cbn-top-actions">
+          <button type="button" class="btn btn-outline btn-xs" onclick="openLiveCbnPortal()" style="color:#ffcc00;border-color:rgba(255,204,0,0.4)">
+            <span>🌐 Live CBN Portal ↗</span>
+          </button>
+          <a id="inpage-btn-dl-excel" href="The_Parenting_Project_Myanmar_Database.xlsx" class="btn btn-gold btn-xs" download>
+            <span>📥 Excel</span>
+          </a>
+          <a id="inpage-btn-dl-csv" href="/api/registrations.csv" class="btn btn-outline btn-xs" download="The_Parenting_Project_Myanmar_Confidential.csv">
+            <span>📄 CSV</span>
+          </a>
+          <button type="button" class="btn btn-outline btn-xs" onclick="toggleLang();updateSettingsModalUI()">
+            <span id="cbn-lang-toggle-text">🇲🇲 မြန်မာ</span>
+          </button>
+          <button type="button" class="admin-hub-close" onclick="closeAdminHub()" aria-label="Close Admin Hub" title="Return to Main Website" style="display:flex">
+            <span>✕</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Body Views -->
+      <div class="cbn-body-scroll">
+
+        <!-- VIEW 1: DASHBOARD (Exact Replica of tpp.cbnmyanmar.org/en/admin/dashboard) -->
+        <section id="cbn-view-dashboard" class="cbn-view-section">
+          
+          <!-- Hero Banner -->
+          <div class="cbn-hero-card">
+            <div class="cbn-hero-info">
+              <h2 class="cbn-hero-title">Welcome to The Parenting Project</h2>
+              <p class="cbn-hero-subtitle">Together we equip every parent to become a good example for their children.</p>
+              <div>
+                <button type="button" class="cbn-hero-btn" onclick="switchCbnAdminView('organisations')">
+                  <span>🚀 START THE PARENTING PROJECT / VIEW SESSIONS</span>
+                </button>
+              </div>
+            </div>
+            <div class="cbn-hero-img-wrap">
+              <img src="https://tpp.cbnmyanmar.org/img/slideshow/LMS-dashboard1.png" onerror="this.onerror=null;this.src='cbn_lms_dashboard.png';" alt="The Parenting Project Slideshow"/>
+            </div>
+          </div>
+
+          <!-- 4 Argon Metric Cards -->
+          <div class="cbn-kpi-grid">
+            <!-- Card 1: Total Organizations -->
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-card-top">
+                <div>
+                  <div class="cbn-kpi-title">Total Organizations</div>
+                  <div class="cbn-kpi-num" id="cbn-kpi-total-orgs">4</div>
+                </div>
+                <div class="cbn-kpi-icon-circle bg-grad-danger">
+                  <span>⛪</span>
+                </div>
+              </div>
+              <div class="cbn-kpi-footer">
+                <span style="color:rgba(255,255,255,0.6)">Across Myanmar</span>
+                <a class="cbn-kpi-link" onclick="switchCbnAdminView('organisations')">Show All ➔</a>
+              </div>
+            </div>
+
+            <!-- Card 2: Organizations Joined This Month -->
+            <div class="cbn-kpi-card has-alert">
+              <div class="cbn-kpi-card-top">
+                <div>
+                  <div class="cbn-kpi-title">Joined This Month</div>
+                  <div class="cbn-kpi-num" id="cbn-kpi-month-orgs">0</div>
+                  <div style="margin-top:6px">
+                    <span class="cbn-pulse-badge" id="cbn-kpi-awaiting-badge">⚠️ 1 awaiting approval</span>
+                  </div>
+                </div>
+                <div class="cbn-kpi-icon-circle bg-grad-primary">
+                  <span>📅</span>
+                </div>
+              </div>
+              <div class="cbn-kpi-footer">
+                <span style="color:rgba(255,255,255,0.6)">Recent registrations</span>
+                <a class="cbn-kpi-link" onclick="switchCbnTableTab('pending')">Show All ➔</a>
+              </div>
+            </div>
+
+            <!-- Card 3: Active Organizations -->
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-card-top">
+                <div>
+                  <div class="cbn-kpi-title">Active Organizations</div>
+                  <div class="cbn-kpi-num" id="cbn-kpi-active-orgs">0</div>
+                </div>
+                <div class="cbn-kpi-icon-circle bg-grad-warning">
+                  <span>✨</span>
+                </div>
+              </div>
+              <div class="cbn-kpi-footer">
+                <span style="color:rgba(255,255,255,0.6)">Video access granted</span>
+                <a class="cbn-kpi-link" onclick="switchCbnAdminView('organisations')">Show All ➔</a>
+              </div>
+            </div>
+
+            <!-- Card 4: Inactive Organizations -->
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-card-top">
+                <div>
+                  <div class="cbn-kpi-title">Inactive Organizations</div>
+                  <div class="cbn-kpi-num" id="cbn-kpi-inactive-orgs">4</div>
+                </div>
+                <div class="cbn-kpi-icon-circle bg-grad-danger">
+                  <span>⏳</span>
+                </div>
+              </div>
+              <div class="cbn-kpi-footer">
+                <span style="color:rgba(255,255,255,0.6)">Pending verification</span>
+                <a class="cbn-kpi-link" onclick="switchCbnAdminView('organisations')">Show All ➔</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Registrations & Contact Requests Panel -->
+          <div class="cbn-panel-card" id="pending-approval-tabs">
+            <div class="cbn-tabs-header">
+              <button type="button" class="cbn-tab-btn active" id="cbn-tab-pending-btn" onclick="switchCbnTableTab('pending')">
+                <span>🕒 Pending Registrations</span>
+                <span class="cbn-pulse-badge" id="cbn-tab-badge-pending" style="font-size:0.65rem;padding:1px 6px">1</span>
+              </button>
+              <button type="button" class="cbn-tab-btn" id="cbn-tab-contact-btn" onclick="switchCbnTableTab('contact')">
+                <span>💬 Contact Requests</span>
+                <span style="background:rgba(255,255,255,0.15);padding:1px 6px;border-radius:10px;font-size:0.65rem" id="cbn-tab-badge-contact">0</span>
+              </button>
+            </div>
+
+            <!-- Toolbar: Search & Records count -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
+              <div class="admin-search-box" style="margin-bottom:0">
+                <svg style="width:16px;height:16px;fill:rgba(255,255,255,0.6)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
+                <input type="text" id="cbn-pending-search" placeholder="Search organisation, coordinator, email..." oninput="filterCbnPendingTable(this.value)"/>
+              </div>
+              <div style="font-size:0.8rem;color:rgba(255,255,255,0.65)" id="cbn-pending-count-label">
+                Showing 1 to 1 of 1 Results
+              </div>
+            </div>
+
+            <!-- Table: Pending Registrations -->
+            <div id="cbn-panel-pending-view" class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Organisation Name</th>
+                    <th>Leadership / Email / Contact</th>
+                    <th>Created At</th>
+                    <th>Video Privileges</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-pending-tbody">
+                  <!-- Rendered dynamically by app.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table: Contact Requests -->
+            <div id="cbn-panel-contact-view" class="cbn-table-wrap" style="display:none">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Church / Inquirer Name</th>
+                    <th>Contact Phone / Viber</th>
+                    <th>Township / State</th>
+                    <th>Topic / Message</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-contact-tbody">
+                  <tr>
+                    <td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No unread contact requests.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Extension Request Table Card -->
+          <div class="cbn-panel-card">
+            <div class="cbn-panel-header">
+              <div>
+                <h4 style="font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:2px">Extension Request</h4>
+                <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">Churches requesting additional study session timeline</div>
+              </div>
+              <div style="font-size:0.8rem;color:rgba(255,255,255,0.5)">Showing 0 to 0 of 0 Results</div>
+            </div>
+
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Church Name</th>
+                    <th>Project End Date</th>
+                    <th>Requested On</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-extension-tbody">
+                  <tr>
+                    <td colspan="4" style="text-align:center;padding:1.5rem;color:rgba(255,255,255,0.5)">No records found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 2: ORGANISATIONS DIRECTORY (Full Search & Filters) -->
+        <section id="cbn-view-organisations" class="cbn-view-section" style="display:none">
+          <div class="admin-toolbar">
+            <div class="admin-search-box">
+              <svg style="width:16px;height:16px;fill:rgba(255,255,255,0.6)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
+              <input type="text" id="inpage-search-input" placeholder="Search by church, pastor, township, or Viber..." oninput="filterInpageData()"/>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <select id="inpage-region-filter" class="admin-filter-select" onchange="filterInpageData()">
+                <option value="">All Regions / States</option>
+                <option value="Yangon">Yangon</option>
+                <option value="Mandalay">Mandalay</option>
+                <option value="Shan">Shan State</option>
+                <option value="Chin">Chin State</option>
+                <option value="Kachin">Kachin State</option>
+                <option value="Ayeyarwady">Ayeyarwady</option>
+                <option value="Sagaing">Sagaing</option>
+                <option value="Bago">Bago</option>
+                <option value="Kayin">Kayin State</option>
+                <option value="Mon">Mon State</option>
+              </select>
+
+              <select id="inpage-status-filter" class="admin-filter-select" onchange="filterInpageData()">
+                <option value="">All Statuses</option>
+                <option value="Verified">Verified</option>
+                <option value="Contacted via Viber">Contacted via Viber</option>
+                <option value="Training Scheduled">Training Scheduled</option>
+                <option value="New Registration">New Registration</option>
+              </select>
+
+              <select id="inpage-access-filter" class="admin-filter-select" onchange="filterInpageData()">
+                <option value="">All Video Privileges</option>
+                <option value="granted">Full Video Access</option>
+                <option value="pending">Restricted Access</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cbn-table-wrap">
+            <table class="cbn-table">
+              <thead>
+                <tr>
+                  <th>Reg ID</th>
+                  <th>Date</th>
+                  <th>Church / Organization</th>
+                  <th>Region</th>
+                  <th>Township</th>
+                  <th>Coordinator / Pastor</th>
+                  <th>Email</th>
+                  <th>Viber / Phone</th>
+                  <th>Families</th>
+                  <th>Status</th>
+                  <th>Video Access</th>
+                </tr>
+              </thead>
+              <tbody id="inpage-table-body">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- VIEW 3: LESSON MANAGEMENT (11 Modules & Video Paywalls) -->
+        <section id="cbn-view-lessons" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem">
+            <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.35rem">📖 11 Biblical Parenting Curriculum Modules</h3>
+            <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.5">
+              Manage video streaming permissions, Burmese subtitles, and paywall rules. Approved partner churches unlock all 11 modules immediately.
+            </p>
+          </div>
+          <div id="cbn-lessons-grid" class="content-grid">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- VIEW 4: PROMOTIONAL & GUIDELINE MATERIALS -->
+        <section id="cbn-view-materials" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem">
+            <h3 style="font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:0.35rem">🎨 CBN Myanmar Official Ministry Materials</h3>
+            <p style="font-size:0.85rem;color:rgba(255,255,255,0.75)">
+              High-resolution promotional flyers, social media banners, and facilitator guidebooks.
+            </p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem">
+            <div class="cbn-kpi-card">
+              <div style="font-size:1.5rem;margin-bottom:8px">📘</div>
+              <h4 style="font-size:0.95rem;font-weight:800;color:#ffcc00">Facilitator's Implementation Handbook</h4>
+              <p style="font-size:0.78rem;color:rgba(255,255,255,0.7);margin:6px 0 12px">Complete 11-session biblical guide for pastors and small-group facilitators in Burmese.</p>
+              <a href="The_Parenting_Project_Myanmar_Facilitator_Guide.pdf" class="btn btn-outline btn-xs" download style="color:#ffcc00;border-color:#ffcc00">📥 Download Guide (PDF)</a>
+            </div>
+            <div class="cbn-kpi-card">
+              <div style="font-size:1.5rem;margin-bottom:8px">🖼️</div>
+              <h4 style="font-size:0.95rem;font-weight:800;color:#ffcc00">Promotional Ministry Posters & Flyers</h4>
+              <p style="font-size:0.78rem;color:rgba(255,255,255,0.7);margin:6px 0 12px">Print-ready church noticeboard posters and Viber/Facebook announcement cards.</p>
+              <a href="banner.jpg" class="btn btn-outline btn-xs" download style="color:#ffcc00;border-color:#ffcc00">📥 Download Posters Pack</a>
+            </div>
+            <div class="cbn-kpi-card">
+              <div style="font-size:1.5rem;margin-bottom:8px">🎓</div>
+              <h4 style="font-size:0.95rem;font-weight:800;color:#ffcc00">Family Discipleship Certificate</h4>
+              <p style="font-size:0.78rem;color:rgba(255,255,255,0.7);margin:6px 0 12px">Official certificate template awarded to graduating parents completing all 11 lessons.</p>
+              <button type="button" class="btn btn-outline btn-xs" onclick="openCertificateModal()" style="color:#ffcc00;border-color:#ffcc00">🎓 Preview Certificate</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 5: AUDIT LOGS -->
+        <section id="cbn-view-logs" class="cbn-view-section" style="display:none">
+          <div class="cbn-panel-card">
+            <div class="cbn-panel-header">
+              <div>
+                <h4 style="font-size:1.05rem;font-weight:800;color:#fff">📋 Real-Time Activity & Audit Logs</h4>
+                <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">Live synchronization ledger with Dual Google Sheets and Cloudflare Workers</div>
+              </div>
+              <button type="button" class="btn btn-outline btn-xs" onclick="loadInpageAdminData()">🔄 Refresh Logs</button>
+            </div>
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Event Type</th>
+                    <th>Church / User</th>
+                    <th>Location / IP</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-logs-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 6: CONTENT RULES (Paywall Settings) -->
+        <section id="cbn-view-rules" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem">
+            <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.35rem">🎬 Curriculum Movie Permission Controls</h3>
+            <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.5">
+              Configure which video modules can be watched freely by public visitors, and which require explicit Admin-Granted Church verification.
+            </p>
+          </div>
+          <div id="inpage-content-rules-grid" class="content-grid">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- VIEW 7: VIDEO UPLOAD MANAGER -->
+        <section id="cbn-view-upload" class="cbn-view-section" style="display:none">
+          <div style="display:grid;grid-template-columns:minmax(350px, 460px) 1fr;gap:1.5rem;align-items:start">
+            <div style="background:linear-gradient(180deg, rgba(14,46,85,0.75) 0%, rgba(9,32,60,0.9) 100%);border:1px solid rgba(255,204,0,0.35);border-radius:18px;padding:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.35)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+                <span style="font-size:1.6rem">📤</span>
+                <div>
+                  <h3 id="upload-form-heading" style="font-size:1.15rem;font-weight:800;color:#ffcc00">Upload / Publish Video</h3>
+                  <div style="font-size:0.75rem;color:rgba(255,255,255,0.65)">Direct File Upload or YouTube Stream URL</div>
+                </div>
+              </div>
+
+              <form id="video-upload-form" onsubmit="handleVideoUploadSubmit(event)">
+                <div style="margin-bottom:0.9rem">
+                  <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Assign to Module / Curriculum Lesson</label>
+                  <select id="up-module-target" class="rule-select" onchange="handleTargetModuleChange()" style="margin-bottom:0">
+                    <option value="1">Module 1: Being a Positive Role Model</option>
+                    <option value="2">Module 2: Building Deep Connection</option>
+                    <option value="3">Module 3: Healthy Parental Authority</option>
+                    <option value="4">Module 4: Filling the Emotional Tank</option>
+                    <option value="5">Module 5: Navigating the Digital Household</option>
+                    <option value="6">Module 6: Boundaries & Positive Discipline</option>
+                    <option value="7">Module 7: The Father's Heart & Presence</option>
+                    <option value="8">Module 8: Working Parents: Career & Home</option>
+                    <option value="9">Module 9: Nurturing Foundational Faith</option>
+                    <option value="10">Module 10: Healthy Sexuality in the Family</option>
+                    <option value="11">Module 11: Parenting Through Every Life Stage</option>
+                    <option value="trailer">Official 2025 Trailer</option>
+                    <option value="new_bonus">+ Add New Bonus Video / Testimonial Lesson</option>
+                  </select>
+                </div>
+
+                <div style="margin-bottom:0.9rem">
+                  <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:6px">Video Source Method</label>
+                  <div style="display:flex;gap:8px">
+                    <button type="button" class="btn btn-xs" id="src-type-url-btn" onclick="setVideoSourceType('url')" style="flex:1;background:#ffcc00;color:#061830;font-weight:800">
+                      🔗 YouTube / Stream URL
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline" id="src-type-file-btn" onclick="setVideoSourceType('file')" style="flex:1">
+                      📁 Direct Video File (.mp4/.webm)
+                    </button>
+                  </div>
+                </div>
+
+                <div id="box-video-url" style="margin-bottom:0.9rem">
+                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">YouTube Video URL or 11-char Video ID</label>
+                  <input type="text" id="up-video-url" placeholder="e.g. https://www.youtube.com/watch?v=hKSMxbFee1U" class="gate-input" style="padding:0.6rem 0.8rem;text-align:left;letter-spacing:normal;font-size:0.85rem" oninput="autoDetectYtThumb()"/>
+                </div>
+
+                <div id="box-video-file" style="display:none;margin-bottom:0.9rem">
+                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Upload Video File (.mp4, .webm, .mov — max 500MB)</label>
+                  <div style="position:relative;border:1.5px dashed rgba(255,204,0,0.5);border-radius:10px;padding:1rem;text-align:center;background:rgba(255,255,255,0.03);cursor:pointer" onclick="document.getElementById('up-video-file-input').click()">
+                    <input type="file" id="up-video-file-input" accept="video/mp4,video/webm,video/quicktime" style="display:none" onchange="handleVideoFileSelect(event)"/>
+                    <div style="font-size:1.6rem;margin-bottom:4px">🎬</div>
+                    <div id="up-video-file-lbl" style="font-size:0.82rem;font-weight:700;color:#ffcc00">Click or Drag Video File Here</div>
+                    <div id="up-video-file-size" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px">MP4, WebM or MOV</div>
+                  </div>
+                </div>
+
+                <div style="margin-bottom:0.9rem">
+                  <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Thumbnail Poster Image</label>
+                  <div style="display:flex;gap:10px;align-items:center">
+                    <div style="width:75px;height:45px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.2);background:#000;flex-shrink:0">
+                      <img id="up-thumb-preview" src="https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover"/>
+                    </div>
+                    <div style="flex:1">
+                      <input type="text" id="up-thumb-url" placeholder="Thumbnail Image URL" class="gate-input" style="padding:0.45rem 0.7rem;text-align:left;letter-spacing:normal;font-size:0.8rem;margin-bottom:4px"/>
+                      <label class="btn btn-outline btn-xs" style="cursor:pointer;display:inline-flex;align-items:center;gap:4px">
+                        <span>🖼️ Upload Custom Image</span>
+                        <input type="file" id="up-thumb-file-input" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="handleThumbFileSelect(event)"/>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.9rem">
+                  <div>
+                    <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">English Title</label>
+                    <input type="text" id="up-title-en" placeholder="Title in English" class="gate-input" style="padding:0.55rem 0.75rem;text-align:left;letter-spacing:normal;font-size:0.85rem" required/>
+                  </div>
+                  <div>
+                    <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Myanmar Title (ခေါင်းစဉ်)</label>
+                    <input type="text" id="up-title-my" placeholder="မြန်မာခေါင်းစဉ်" class="gate-input" style="padding:0.55rem 0.75rem;text-align:left;letter-spacing:normal;font-size:0.85rem" required/>
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.9rem">
+                  <div>
+                    <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">English Description</label>
+                    <textarea id="up-caption-en" rows="2" placeholder="Brief lesson overview..." style="width:100%;padding:0.5rem 0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-family:inherit;font-size:0.82rem;outline:none"></textarea>
+                  </div>
+                  <div>
+                    <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Myanmar Description (ရှင်းလင်းချက်)</label>
+                    <textarea id="up-caption-my" rows="2" placeholder="သင်ခန်းစာ အနှစ်ချုပ်..." style="width:100%;padding:0.5rem 0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-family:inherit;font-size:0.82rem;outline:none"></textarea>
+                  </div>
+                </div>
+
+                <div style="margin-bottom:1.25rem">
+                  <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Access Requirement</label>
+                  <select id="up-access" class="rule-select" style="margin-bottom:0">
+                    <option value="free">🌐 Public Free Preview (Anyone can watch)</option>
+                    <option value="granted" selected>🔒 Admin-Granted Partner Churches Only</option>
+                  </select>
+                </div>
+
+                <button type="submit" id="up-submit-btn" class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem">
+                  <span>🚀 Save & Publish Video to Portal</span>
+                </button>
+              </form>
+            </div>
+
+            <div>
+              <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <h4 style="font-size:1.05rem;font-weight:800;color:#fff">Active Video Library (<span id="up-video-count">12</span> Items)</h4>
+                  <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">All live streamed & locally uploaded curriculum movies</div>
+                </div>
+                <button type="button" class="btn btn-outline btn-xs" onclick="resetVideoUploadForm()">
+                  <span>+ New Video</span>
+                </button>
+              </div>
+              <div id="inpage-video-library-list" style="display:flex;flex-direction:column;gap:10px;max-height:680px;overflow-y:auto;padding-right:4px"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 8: LIVE CBN MYANMAR PORTAL BRIDGE -->
+        <section id="cbn-view-live-portal" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00">🌐 Official CBN Myanmar Portal Bridge</h3>
+              <div style="font-size:0.82rem;color:rgba(255,255,255,0.75);margin-top:2px">
+                Direct integration with <strong style="color:#fff">https://tpp.cbnmyanmar.org/en/admin/dashboard</strong>
+              </div>
+            </div>
+            <button type="button" class="btn btn-gold" onclick="openLiveCbnPortal()">
+              <span>🚀 Open Live Portal in New Tab ↗</span>
+            </button>
+          </div>
+          <div class="cbn-live-frame-container">
+            <iframe src="https://tpp.cbnmyanmar.org/en/admin/dashboard" class="cbn-live-frame" title="Live CBN Myanmar Admin Portal"></iframe>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- CHURCH APPROVAL & DETAILS MODAL -->
+<div id="cbnChurchDetailModal" class="cbn-detail-modal" role="dialog" aria-modal="true">
+  <div class="cbn-detail-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:1rem;margin-bottom:1.2rem">
+      <div>
+        <h3 id="cbn-detail-name" style="font-size:1.2rem;font-weight:800;color:#ffcc00">Church Details</h3>
+        <div id="cbn-detail-code" style="font-size:0.75rem;color:rgba(255,255,255,0.5);font-family:monospace">REG-ID: --</div>
+      </div>
+      <button type="button" class="admin-hub-close" onclick="closeCbnChurchDetail()" style="display:flex">✕</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.2rem;font-size:0.85rem">
+      <div>
+        <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block">Coordinator / Pastor</span>
+        <strong id="cbn-detail-coord" style="color:#fff">--</strong>
+      </div>
+      <div>
+        <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block">Denomination</span>
+        <strong id="cbn-detail-denom" style="color:#fff">--</strong>
+      </div>
+      <div>
+        <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block">Phone / Viber</span>
+        <strong id="cbn-detail-phone" style="color:#fff">--</strong>
+      </div>
+      <div>
+        <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block">Email Address</span>
+        <strong id="cbn-detail-email" style="color:#fff">--</strong>
+      </div>
+      <div>
+        <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block">Location</span>
+        <strong id="cbn-detail-loc" style="color:#fff">--</strong>
+      </div>
+      <div>
+        <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block">Estimated Families</span>
+        <strong id="cbn-detail-fam" style="color:#fff">--</strong>
       </div>
     </div>
 
-    <div class="admin-hub-body">
-      <!-- KPIs -->
-      <section class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-lbl">Total Partner Churches</div>
-          <div class="kpi-val" id="inpage-kpi-churches">--</div>
-          <div class="kpi-sub">Across 10 Myanmar States & Regions</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-lbl">Estimated Families Reach</div>
-          <div class="kpi-val" id="inpage-kpi-families">--</div>
-          <div class="kpi-sub">Curriculum materials prepared</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-lbl">Viber Outreach Status</div>
-          <div class="kpi-val" id="inpage-kpi-viber">--</div>
-          <div class="kpi-sub">Direct coordinator connections</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-lbl">Active Curriculum Modules</div>
-          <div class="kpi-val">11 Modules</div>
-          <div class="kpi-sub">Burmese video lessons + guidebooks</div>
-        </div>
-      </section>
+    <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.9rem;margin-bottom:1.2rem;font-size:0.82rem">
+      <span style="color:rgba(255,255,255,0.5);font-size:0.72rem;text-transform:uppercase;display:block;margin-bottom:4px">Registration Notes & Date</span>
+      <div id="cbn-detail-notes" style="color:rgba(255,255,255,0.9)">--</div>
+    </div>
 
-      <!-- Tabs -->
-      <div class="admin-tabs">
-        <button class="admin-tab active" id="inpage-tab-users-btn" onclick="switchInpageAdminTab('users')">
-          👥 Church Registrations & Video Privileges
-        </button>
-        <button class="admin-tab" id="inpage-tab-content-btn" onclick="switchInpageAdminTab('content')">
-          🎬 Video Curriculum Access Rules (Paywall / Grant System)
-        </button>
-        <button class="admin-tab" id="inpage-tab-upload-btn" onclick="switchInpageAdminTab('upload')">
-          📤 Video & Content Upload Manager
-        </button>
+    <div style="background:rgba(14,46,85,0.7);border:1px solid rgba(255,204,0,0.3);border-radius:12px;padding:1rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:0.85rem;font-weight:700;color:#fff">Video Access Status</div>
+        <div id="cbn-detail-access-status" style="font-size:0.75rem;color:#4cd964">● Full 11 Modules Granted</div>
       </div>
+      <button type="button" id="cbn-detail-toggle-btn" class="btn btn-gold btn-xs" onclick="toggleCurrentChurchDetailAccess()">
+        <span>Toggle Permission</span>
+      </button>
+    </div>
 
-      <!-- Tab 1: Users & Registrations -->
-      <div id="inpage-users-view">
-        <div class="admin-toolbar">
-          <div class="admin-search-box">
-            <svg style="width:16px;height:16px;fill:rgba(255,255,255,0.6)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <input type="text" id="inpage-search-input" placeholder="Search by church, pastor, township, or Viber..." oninput="filterInpageData()"/>
-          </div>
-
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <select id="inpage-region-filter" class="admin-filter-select" onchange="filterInpageData()">
-              <option value="">All Regions / States</option>
-              <option value="Yangon">Yangon</option>
-              <option value="Mandalay">Mandalay</option>
-              <option value="Shan">Shan State</option>
-              <option value="Chin">Chin State</option>
-              <option value="Kachin">Kachin State</option>
-              <option value="Ayeyarwady">Ayeyarwady</option>
-              <option value="Sagaing">Sagaing</option>
-              <option value="Bago">Bago</option>
-              <option value="Kayin">Kayin State</option>
-              <option value="Mon">Mon State</option>
-            </select>
-
-            <select id="inpage-status-filter" class="admin-filter-select" onchange="filterInpageData()">
-              <option value="">All Statuses</option>
-              <option value="Verified">Verified</option>
-              <option value="Contacted via Viber">Contacted via Viber</option>
-              <option value="Training Scheduled">Training Scheduled</option>
-              <option value="New Registration">New Registration</option>
-            </select>
-
-            <select id="inpage-access-filter" class="admin-filter-select" onchange="filterInpageData()">
-              <option value="">All Video Privileges</option>
-              <option value="granted">Full Video Access</option>
-              <option value="pending">Restricted Access</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="admin-table-wrap">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Reg ID</th>
-                <th>Date</th>
-                <th>Church / Organization</th>
-                <th>Region</th>
-                <th>Township</th>
-                <th>Coordinator / Pastor</th>
-                <th>Email</th>
-                <th>Viber / Phone</th>
-                <th>Families</th>
-                <th>Status</th>
-                <th>Video Access</th>
-              </tr>
-            </thead>
-            <tbody id="inpage-table-body">
-              <!-- Populated by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tab 2: Content Rules -->
-      <div id="inpage-content-view" style="display:none">
-        <div style="background:rgba(14, 46, 85, 0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem">
-          <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.35rem">🎬 Curriculum Movie Permission Controls</h3>
-          <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.5">
-            Configure which video modules can be watched freely by public visitors, and which require explicit Admin-Granted Church verification. Changes apply immediately across the portal without restarting servers.
-          </p>
-        </div>
-
-        <div id="inpage-content-rules-grid" class="content-grid">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-
-      <!-- Tab 3: Video & Content Upload Manager -->
-      <div id="inpage-upload-view" style="display:none">
-        <div style="display:grid;grid-template-columns:minmax(350px, 460px) 1fr;gap:1.5rem;align-items:start">
-          
-          <!-- Upload / Edit Form -->
-          <div style="background:linear-gradient(180deg, rgba(14,46,85,0.75) 0%, rgba(9,32,60,0.9) 100%);border:1px solid rgba(255,204,0,0.35);border-radius:18px;padding:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.35)">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
-              <span style="font-size:1.6rem">📤</span>
-              <div>
-                <h3 id="upload-form-heading" style="font-size:1.15rem;font-weight:800;color:#ffcc00">Upload / Publish Video</h3>
-                <div style="font-size:0.75rem;color:rgba(255,255,255,0.65)">Direct File Upload or YouTube Stream URL</div>
-              </div>
-            </div>
-
-            <form id="video-upload-form" onsubmit="handleVideoUploadSubmit(event)">
-              <!-- Target Module Selection -->
-              <div style="margin-bottom:0.9rem">
-                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Assign to Module / Curriculum Lesson</label>
-                <select id="up-module-target" class="rule-select" onchange="handleTargetModuleChange()" style="margin-bottom:0">
-                  <option value="1">Module 1: Being a Positive Role Model</option>
-                  <option value="2">Module 2: Building Deep Connection</option>
-                  <option value="3">Module 3: Healthy Parental Authority</option>
-                  <option value="4">Module 4: Filling the Emotional Tank</option>
-                  <option value="5">Module 5: Navigating the Digital Household</option>
-                  <option value="6">Module 6: Boundaries & Positive Discipline</option>
-                  <option value="7">Module 7: The Father's Heart & Presence</option>
-                  <option value="8">Module 8: Working Parents: Career & Home</option>
-                  <option value="9">Module 9: Nurturing Foundational Faith</option>
-                  <option value="10">Module 10: Healthy Sexuality in the Family</option>
-                  <option value="11">Module 11: Parenting Through Every Life Stage</option>
-                  <option value="trailer">Official 2025 Trailer</option>
-                  <option value="new_bonus">+ Add New Bonus Video / Testimonial Lesson</option>
-                </select>
-              </div>
-
-              <!-- Video Source Toggle: URL vs File -->
-              <div style="margin-bottom:0.9rem">
-                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:6px">Video Source Method</label>
-                <div style="display:flex;gap:8px">
-                  <button type="button" class="btn btn-xs" id="src-type-url-btn" onclick="setVideoSourceType('url')" style="flex:1;background:#ffcc00;color:#061830;font-weight:800">
-                    🔗 YouTube / Stream URL
-                  </button>
-                  <button type="button" class="btn btn-xs btn-outline" id="src-type-file-btn" onclick="setVideoSourceType('file')" style="flex:1">
-                    📁 Direct Video File (.mp4/.webm)
-                  </button>
-                </div>
-              </div>
-
-              <!-- Container: URL Input -->
-              <div id="box-video-url" style="margin-bottom:0.9rem">
-                <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">YouTube Video URL or 11-char Video ID</label>
-                <input type="text" id="up-video-url" placeholder="e.g. https://www.youtube.com/watch?v=hKSMxbFee1U" class="gate-input" style="padding:0.6rem 0.8rem;text-align:left;letter-spacing:normal;font-size:0.85rem" oninput="autoDetectYtThumb()"/>
-              </div>
-
-              <!-- Container: Direct File Upload -->
-              <div id="box-video-file" style="display:none;margin-bottom:0.9rem">
-                <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Upload Video File (.mp4, .webm, .mov — max 500MB)</label>
-                <div style="position:relative;border:1.5px dashed rgba(255,204,0,0.5);border-radius:10px;padding:1rem;text-align:center;background:rgba(255,255,255,0.03);cursor:pointer" onclick="document.getElementById('up-video-file-input').click()">
-                  <input type="file" id="up-video-file-input" accept="video/mp4,video/webm,video/quicktime" style="display:none" onchange="handleVideoFileSelect(event)"/>
-                  <div style="font-size:1.6rem;margin-bottom:4px">🎬</div>
-                  <div id="up-video-file-lbl" style="font-size:0.82rem;font-weight:700;color:#ffcc00">Click or Drag Video File Here</div>
-                  <div id="up-video-file-size" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px">MP4, WebM or MOV</div>
-                </div>
-              </div>
-
-              <!-- Thumbnail Selection -->
-              <div style="margin-bottom:0.9rem">
-                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Thumbnail Poster Image</label>
-                <div style="display:flex;gap:10px;align-items:center">
-                  <div style="width:75px;height:45px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.2);background:#000;flex-shrink:0">
-                    <img id="up-thumb-preview" src="https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover"/>
-                  </div>
-                  <div style="flex:1">
-                    <input type="text" id="up-thumb-url" placeholder="Thumbnail Image URL" class="gate-input" style="padding:0.45rem 0.7rem;text-align:left;letter-spacing:normal;font-size:0.8rem;margin-bottom:4px"/>
-                    <label class="btn btn-outline btn-xs" style="cursor:pointer;display:inline-flex;align-items:center;gap:4px">
-                      <span>🖼️ Upload Custom Image</span>
-                      <input type="file" id="up-thumb-file-input" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="handleThumbFileSelect(event)"/>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Bilingual Titles -->
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.9rem">
-                <div>
-                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">English Title</label>
-                  <input type="text" id="up-title-en" placeholder="Title in English" class="gate-input" style="padding:0.55rem 0.75rem;text-align:left;letter-spacing:normal;font-size:0.85rem" required/>
-                </div>
-                <div>
-                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Myanmar Title (ခေါင်းစဉ်)</label>
-                  <input type="text" id="up-title-my" placeholder="မြန်မာခေါင်းစဉ်" class="gate-input" style="padding:0.55rem 0.75rem;text-align:left;letter-spacing:normal;font-size:0.85rem" required/>
-                </div>
-              </div>
-
-              <!-- Bilingual Captions / Subtitles -->
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0.9rem">
-                <div>
-                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">English Caption / Description</label>
-                  <textarea id="up-caption-en" rows="2" placeholder="Brief lesson overview..." style="width:100%;padding:0.5rem 0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-family:inherit;font-size:0.82rem;outline:none"></textarea>
-                </div>
-                <div>
-                  <label style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.65);margin-bottom:3px">Myanmar Caption (ရှင်းလင်းချက်)</label>
-                  <textarea id="up-caption-my" rows="2" placeholder="သင်ခန်းစာ အနှစ်ချုပ်..." style="width:100%;padding:0.5rem 0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-family:inherit;font-size:0.82rem;outline:none"></textarea>
-                </div>
-              </div>
-
-              <!-- Access Requirement -->
-              <div style="margin-bottom:1.25rem">
-                <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Access Requirement (Paywall / Grant Rule)</label>
-                <select id="up-access" class="rule-select" style="margin-bottom:0">
-                  <option value="free">🌐 Public Free Preview (Anyone can watch)</option>
-                  <option value="granted" selected>🔒 Admin-Granted Partner Churches Only</option>
-                </select>
-              </div>
-
-              <!-- Upload Progress Bar -->
-              <div id="up-progress-wrap" style="display:none;margin-bottom:1rem">
-                <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-weight:700;color:#ffcc00;margin-bottom:4px">
-                  <span id="up-progress-status">Uploading media file...</span>
-                  <span id="up-progress-percent">0%</span>
-                </div>
-                <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden">
-                  <div id="up-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#ffcc00,#4cd964);transition:width .2s ease"></div>
-                </div>
-              </div>
-
-              <!-- Submit Button -->
-              <button type="submit" id="up-submit-btn" class="btn btn-gold" style="width:100%;justify-content:center;padding:0.85rem">
-                <span>🚀 Save & Publish Video to Portal</span>
-              </button>
-            </form>
-          </div>
-
-          <!-- Video Library List -->
-          <div>
-            <div style="background:rgba(14,46,85,0.55);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <h4 style="font-size:1.05rem;font-weight:800;color:#fff">Active Video Library (<span id="up-video-count">12</span> Items)</h4>
-                <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">All live streamed & locally uploaded curriculum movies</div>
-              </div>
-              <button type="button" class="btn btn-outline btn-xs" onclick="resetVideoUploadForm()">
-                <span>+ New Video</span>
-              </button>
-            </div>
-
-            <div id="inpage-video-library-list" style="display:flex;flex-direction:column;gap:10px;max-height:680px;overflow-y:auto;padding-right:4px">
-              <!-- Populated by JS -->
-            </div>
-          </div>
-
-        </div>
-      </div>
+    <div style="display:flex;gap:10px">
+      <a id="cbn-detail-viber-btn" href="#" target="_blank" class="btn btn-outline" style="flex:1;justify-content:center;color:#b085f5;border-color:#b085f5">
+        <span>💬 Chat via Viber</span>
+      </a>
+      <button type="button" class="btn btn-gold" style="flex:1;justify-content:center" onclick="closeCbnChurchDetail()">
+        <span>Done</span>
+      </button>
     </div>
   </div>
 </div>

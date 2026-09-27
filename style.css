@@ -2347,71 +2347,511 @@ body.lang-my .nav-link{
 .admin-hub-container {
   background: linear-gradient(180deg, #071f3d 0%, #041226 100%);
   border: 1.5px solid rgba(255, 204, 0, 0.45);
-  border-radius: 24px;
-  width: 96vw;
-  max-width: 1400px;
-  height: 92vh;
+  border-radius: 20px;
+  width: 98vw;
+  max-width: 1520px;
+  height: 94vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 50px rgba(255,204,0,0.15);
   overflow: hidden;
   animation: hubFadeIn .25s ease-out;
   color: #fff;
+  position: relative;
+}
+@media (max-width: 960px) {
+  .admin-hub-container {
+    flex-direction: column;
+    height: 96vh;
+    width: 99vw;
+    border-radius: 12px;
+  }
 }
 @keyframes hubFadeIn {
   from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
-.admin-hub-header {
-  padding: 1.1rem 1.8rem;
-  background: rgba(10, 37, 64, 0.9);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+
+/* CBN Argon Left Sidenav */
+.cbn-sidenav {
+  width: 260px;
+  min-width: 260px;
+  background: #05162d;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  user-select: none;
+}
+@media (max-width: 960px) {
+  .cbn-sidenav {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 140px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+}
+.cbn-sidenav-brand {
+  padding: 1.15rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.2);
+}
+.cbn-sidenav-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+.cbn-sidenav-brand-text {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+.cbn-sidenav-sub {
+  font-size: 0.68rem;
+  color: #ffcc00;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.cbn-sidenav-menu {
+  flex: 1;
+  padding: 0.8rem 0;
+  overflow-y: auto;
+}
+.cbn-nav-section-title {
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.38);
+  padding: 0.9rem 1.4rem 0.3rem;
+}
+.cbn-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.6rem 1.35rem;
+  color: rgba(255,255,255,0.76);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .16s ease;
+  text-decoration: none;
+  border-left: 3.5px solid transparent;
+}
+.cbn-nav-item:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+.cbn-nav-item.active {
+  color: #fff;
+  background: rgba(255, 204, 0, 0.12);
+  border-left-color: #ffcc00;
+  font-weight: 700;
+}
+.cbn-nav-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+.cbn-nav-item.active .cbn-nav-icon {
+  background: #ffcc00;
+  color: #061830;
+}
+.cbn-badge-nav {
+  margin-left: auto;
+  background: #f5365c;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+.cbn-sidenav-profile {
+  padding: 1rem 1.3rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* CBN Main Wrapper */
+.cbn-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #071f3d;
+  overflow: hidden;
+}
+
+/* Top Navbar */
+.cbn-top-navbar {
+  padding: 0.85rem 1.6rem;
+  background: rgba(10, 37, 64, 0.95);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
   gap: 1rem;
 }
-.admin-hub-brand {
+.cbn-breadcrumb {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
 }
-.admin-hub-logo {
-  height: 40px;
-  width: auto;
+.cbn-breadcrumb strong {
+  color: #fff;
+  font-weight: 700;
 }
-.admin-hub-actions {
+.cbn-top-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
-.admin-hub-body {
+
+/* Scrollable Views Container */
+.cbn-body-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 1.8rem;
+  padding: 1.5rem;
 }
-.admin-hub-close {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.22);
+
+/* CBN Hero Banner */
+.cbn-hero-card {
+  background: linear-gradient(135deg, #092c57 0%, #051a36 100%);
+  border: 1.5px solid rgba(255,204,0,0.3);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+@media (max-width: 860px) {
+  .cbn-hero-card { grid-template-columns: 1fr; }
+}
+.cbn-hero-info {
+  padding: 1.8rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cbn-hero-title {
+  font-size: 1.45rem;
+  font-weight: 800;
   color: #fff;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+.cbn-hero-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+.cbn-hero-btn {
+  background: #f5365c;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(245,54,92,0.4);
+  transition: all .18s ease;
+  font-family: inherit;
+}
+.cbn-hero-btn:hover {
+  background: #d82b4e;
+  transform: translateY(-1px);
+}
+.cbn-hero-img-wrap {
+  position: relative;
+  min-height: 180px;
+  background: #031022;
+  overflow: hidden;
+}
+.cbn-hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* CBN 4 Metric Cards */
+.cbn-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.cbn-kpi-card {
+  background: rgba(14, 46, 85, 0.65);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform .2s ease, border-color .2s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.cbn-kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 204, 0, 0.4);
+}
+.cbn-kpi-card.has-alert {
+  border-color: rgba(245, 54, 92, 0.6);
+  background: rgba(245, 54, 92, 0.08);
+}
+.cbn-kpi-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.cbn-kpi-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 0.4rem;
+}
+.cbn-kpi-num {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+}
+.cbn-kpi-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  transition: all .2s ease;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-.admin-hub-close:hover {
-  background: rgba(255,60,60,0.3);
-  border-color: rgba(255,60,60,0.6);
-  transform: rotate(90deg);
+.bg-grad-danger { background: linear-gradient(135deg, #f5365c 0%, #f56036 100%); color: #fff; }
+.bg-grad-primary { background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%); color: #fff; }
+.bg-grad-warning { background: linear-gradient(135deg, #fb6340 0%, #fbb140 100%); color: #fff; }
+.bg-grad-success { background: linear-gradient(135deg, #2dce89 0%, #2dcecc 100%); color: #fff; }
+
+.cbn-kpi-footer {
+  margin-top: 0.9rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+}
+.cbn-kpi-link {
+  color: #ffcc00;
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+.cbn-kpi-link:hover {
+  text-decoration: underline;
+}
+.cbn-pulse-badge {
+  background: #f5365c;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: pulseBadge 1.8s infinite;
+}
+@keyframes pulseBadge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(245,54,92,0.6); }
+  100% { transform: scale(1); }
 }
 
-/* Dashboard KPIs inside modal */
+/* Tabs Header */
+.cbn-tabs-header {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.cbn-tab-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.75);
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .18s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+.cbn-tab-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+.cbn-tab-btn.active {
+  background: #ffcc00;
+  color: #061830;
+  border-color: #ffcc00;
+  box-shadow: 0 4px 12px rgba(255,204,0,0.3);
+}
+
+/* CBN Table Panel */
+.cbn-panel-card {
+  background: rgba(14, 46, 85, 0.55);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 16px;
+  padding: 1.4rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+.cbn-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cbn-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.cbn-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+  min-width: 750px;
+}
+.cbn-table th {
+  background: #05162d;
+  color: #ffcc00;
+  font-weight: 700;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  white-space: nowrap;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cbn-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+  vertical-align: middle;
+}
+.cbn-table tr:hover td {
+  background: rgba(255,255,255,0.04);
+}
+.cbn-church-name-link {
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+}
+.cbn-church-name-link:hover {
+  color: #ffcc00;
+  text-decoration: underline;
+}
+.cbn-church-code {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  font-family: monospace;
+}
+
+/* Church Detail Drawer / Modal */
+.cbn-detail-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  z-index: 100010;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.cbn-detail-modal.open {
+  display: flex;
+}
+.cbn-detail-card {
+  background: linear-gradient(180deg, #092c57 0%, #061933 100%);
+  border: 1.5px solid rgba(255,204,0,0.5);
+  border-radius: 18px;
+  width: 95vw;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.8rem;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  animation: hubFadeIn .2s ease-out;
+}
+
+/* Live Portal Frame */
+.cbn-live-frame-container {
+  width: 100%;
+  height: 680px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: #fff;
+}
+.cbn-live-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Existing Fallbacks */
+.admin-hub-header {
+  display: none;
+}
+.admin-hub-body {
+  display: none;
+}
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
