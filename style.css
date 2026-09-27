@@ -455,19 +455,18 @@ body.lang-my .nav-link{
   overflow:hidden;
   position:relative;
   background:var(--navy-rich);
-  aspect-ratio:1700 / 1950;
+  aspect-ratio:16 / 10.5;
 }
 .hero-img{
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center 15%;
+  object-position:center center;
   display:block;
-  transform:scale(1.06);
-  transform-origin:center 25%;
+  transform:none;
   transition:transform .7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.hero-portal-wrap:hover .hero-img{transform:scale(1.11)}
+.hero-portal-wrap:hover .hero-img{transform:scale(1.03)}
 .hero-img-gradient{
   position:absolute;
   inset:0;
