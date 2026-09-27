@@ -3233,8 +3233,24 @@ body.is-mobile-app #prayer-wall,
 body.is-mobile-app footer,
 body.is-mobile-app .footer-bottom,
 body.is-mobile-app .floating-fab-container,
-body.is-mobile-app #announcement-bar {
+body.is-mobile-app #announcement-bar,
+body.is-mobile-app #adminHubModal,
+body.is-mobile-app #settings-admin-sec,
+body.is-mobile-app #nav-admin-btn,
+body.is-mobile-app #drw-admin-btn,
+body.is-mobile-app .admin-hub-trigger {
   display: none !important;
+}
+
+/* Also hide admin hub on mobile screens under 820px */
+@media (max-width: 820px) {
+  #adminHubModal,
+  #settings-admin-sec,
+  #nav-admin-btn,
+  #drw-admin-btn,
+  .admin-hub-trigger {
+    display: none !important;
+  }
 }
 
 /* ===================================================

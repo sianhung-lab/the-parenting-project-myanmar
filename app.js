@@ -2383,6 +2383,7 @@ async function checkAuthStatus() {
     // Check if user is recognized as Admin or Owner
     const staffPass = sessionStorage.getItem('cbn_staff_pass') || '';
     const isAdmin = isAdminOrOwner();
+    const isPhone = isPhoneApp();
 
     // Logged in state
     if (navLogin) navLogin.style.display = 'none';
@@ -2392,7 +2393,7 @@ async function checkAuthStatus() {
       const navAdminBtn = document.getElementById('nav-admin-btn');
       const userBadgeBtn = document.getElementById('nav-user-badge-btn');
 
-      if (isAdmin) {
+      if (isAdmin && !isPhone) {
         if (navAdminBtn) navAdminBtn.style.display = 'inline-flex';
         if (userBadgeBtn) userBadgeBtn.classList.add('is-admin');
         if (userDisplayName) {
@@ -2420,9 +2421,9 @@ async function checkAuthStatus() {
     if (drwUserBox) {
       drwUserBox.style.display = 'block';
       const drwAdminBtn = document.getElementById('drw-admin-btn');
-      if (drwAdminBtn) drwAdminBtn.style.display = isAdmin ? 'block' : 'none';
+      if (drwAdminBtn) drwAdminBtn.style.display = (isAdmin && !isPhone) ? 'block' : 'none';
       if (drwUserName) {
-        const privTxt = isAdmin ? ' (👑 Admin)' : (userPrivilege.isGranted ? ' (🟢 Full Access)' : ' (⏳ Pending Review)');
+        const privTxt = (isAdmin && !isPhone) ? ' (👑 Admin)' : (userPrivilege.isGranted ? ' (🟢 Full Access)' : ' (⏳ Pending Review)');
         drwUserName.textContent = `👤 ${userPrivilege.churchName || session.displayName}${privTxt}`;
       }
     }
@@ -2502,6 +2503,14 @@ let inpageAdminData = [];
 let inpageContentRules = {};
 let inpageCurrentTab = 'users';
 
+function isPhoneApp() {
+  return document.body.classList.contains('is-mobile-app') || 
+         document.documentElement.classList.contains('is-mobile-app') ||
+         window.location.href.includes('app=true') || 
+         window.location.href.includes('mode=app') || 
+         (window.innerWidth <= 820 && !window.location.href.includes('desktop=true'));
+}
+
 function isAdminOrOwner() {
   const staffPass = sessionStorage.getItem('cbn_staff_pass');
   if (staffPass) return true;
@@ -2516,6 +2525,10 @@ function isAdminOrOwner() {
 }
 
 function handleUserBadgeClick() {
+  if (isPhoneApp()) {
+    openSettingsModal();
+    return;
+  }
   if (isAdminOrOwner()) {
     openAdminHub();
   } else {
@@ -2540,11 +2553,13 @@ function closeSettingsModal() {
 function updateSettingsModalUI() {
   const isMy = lang === 'my';
   const isAdmin = isAdminOrOwner();
+  const isPhone = isPhoneApp();
   let session = null;
   try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
 
   const userInfo = document.getElementById('settings-user-info');
   const roleBadge = document.getElementById('settings-role-badge');
+  const adminSec = document.getElementById('settings-admin-sec');
   const unlockedSec = document.getElementById('settings-admin-unlocked');
   const lockedSec = document.getElementById('settings-admin-locked');
   const langTxt = document.getElementById('settings-lang-txt');
@@ -2556,7 +2571,7 @@ function updateSettingsModalUI() {
   if (session && session.loggedIn) {
     if (userInfo) userInfo.textContent = `${session.displayName || 'Facilitator'} (${session.email || 'No email'})`;
     if (roleBadge) {
-      if (isAdmin) {
+      if (isAdmin && !isPhone) {
         roleBadge.innerHTML = `<span style="color:#ffcc00">👑 Ministry Administrator / Owner</span>`;
       } else {
         roleBadge.innerHTML = `<span style="color:#4cd964">● Partner Church Facilitator</span>`;
@@ -2565,7 +2580,7 @@ function updateSettingsModalUI() {
   } else {
     if (userInfo) userInfo.textContent = isMy ? 'ဧည့်သည်တော် (စာရင်းမသွင်းရသေးပါ)' : 'Guest Visitor (Not signed in)';
     if (roleBadge) {
-      if (isAdmin) {
+      if (isAdmin && !isPhone) {
         roleBadge.innerHTML = `<span style="color:#ffcc00">👑 Staff Admin Mode Unlocked</span>`;
       } else {
         roleBadge.innerHTML = `<span style="color:rgba(255,255,255,0.6)">● Public Guest Mode</span>`;
@@ -2573,9 +2588,14 @@ function updateSettingsModalUI() {
     }
   }
 
+  // Completely hide Admin / Owner section when in phone app or mobile screen
+  if (adminSec) {
+    adminSec.style.display = isPhone ? 'none' : 'block';
+  }
+
   if (unlockedSec && lockedSec) {
-    unlockedSec.style.display = isAdmin ? 'block' : 'none';
-    lockedSec.style.display = isAdmin ? 'none' : 'block';
+    unlockedSec.style.display = (isAdmin && !isPhone) ? 'block' : 'none';
+    lockedSec.style.display = (isAdmin && !isPhone) ? 'none' : (isPhone ? 'none' : 'block');
   }
 
   const guestActions = document.getElementById('settings-guest-actions');
@@ -2617,7 +2637,9 @@ async function verifySettingsAdmin() {
       if (err) err.textContent = '';
       closeSettingsModal();
       checkAuthStatus();
-      openAdminHub();
+      if (!isPhoneApp()) {
+        openAdminHub();
+      }
     } else {
       if (err) err.textContent = '❌ ' + (data.error || 'Incorrect passcode. Access Denied.');
     }
@@ -2640,6 +2662,10 @@ function lockAdminSession() {
 }
 
 function openAdminHub() {
+  if (isPhoneApp()) {
+    showToast(lang === 'my' ? '⚠️ Admin Hub ကို ကွန်ပျူတာ (Desktop) တွင်သာ အသုံးပြုနိုင်ပါသည်။' : '⚠️ Admin Hub is only available on Desktop browser.');
+    return;
+  }
   if (!isAdminOrOwner()) {
     openSettingsModal();
     const passInput = document.getElementById('settings-staff-passcode');
@@ -5887,3 +5913,7 @@ if (document.readyState === 'loading') {
 } else {
   initApp();
 }
+
+window.addEventListener('resize', () => {
+  checkAppMode();
+});
