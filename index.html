@@ -359,12 +359,12 @@ body.lang-my .nav-link{
   color: #fff;
 }
 
-/* Option 3 Dynamic Diagonal Photo Stage (Desktop Right 55%) */
+/* Option 3 Dynamic Diagonal Photo Stage (Desktop Right 68% - Zoomed Out Camera Angle) */
 .hero-diagonal-stage{
   position: absolute;
   top: 0;
   right: 0;
-  width: 55%;
+  width: 68%;
   height: 100%;
   z-index: 1;
   pointer-events: none;
@@ -376,26 +376,28 @@ body.lang-my .nav-link{
   inset: 0;
   width: 100%;
   height: 100%;
-  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
-  -webkit-clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
   overflow: hidden;
+  background: #020814;
 }
 
 .hero-diagonal-img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: right 30%;
   display: block;
-  transform: scale(1.02);
+  transform: scale(0.9);
+  transform-origin: center right;
   transition: transform .6s ease;
 }
 
 .hero-diagonal-overlay{
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(2, 8, 20, 0.35) 0%, rgba(2, 8, 20, 0.05) 45%, rgba(2, 8, 20, 0.65) 100%),
-              radial-gradient(ellipse at 85% 20%, rgba(245, 168, 0, 0.15) 0%, transparent 65%);
+  background: linear-gradient(90deg, #020814 0%, rgba(2, 8, 20, 0.45) 12%, transparent 28%),
+              linear-gradient(180deg, rgba(2, 8, 20, 0.45) 0%, transparent 20%, transparent 80%, rgba(2, 8, 20, 0.65) 100%);
   pointer-events: none;
 }
 
@@ -615,15 +617,17 @@ body.lang-my .nav-link{
 .hero-glass-interactive-col{
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.1rem;
   align-items: flex-end;
   position: relative;
   z-index: 4;
+  max-width: 320px;
+  margin-left: auto;
 }
 
 /* Floating Glass Chip */
 .hero-glass-chip{
-  background: rgba(4, 14, 30, 0.82);
+  background: rgba(4, 14, 30, 0.75);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1.5px solid rgba(255, 204, 0, 0.4);
@@ -666,14 +670,14 @@ body.lang-my .nav-link{
 /* Action Video Trailer Card */
 .hero-glass-action-card{
   width: 100%;
-  max-width: 390px;
-  background: rgba(6, 18, 38, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  max-width: 320px;
+  background: rgba(6, 18, 38, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1.5px solid rgba(255, 204, 0, 0.4);
-  border-radius: 20px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 30px rgba(245, 168, 0, 0.15);
-  padding: 1.25rem 1.5rem;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(245, 168, 0, 0.15);
+  padding: 1.1rem 1.35rem;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -5869,7 +5873,7 @@ body.is-mobile-app .mobile-cert-card-footer {
           </feMerge>
         </filter>
       </defs>
-      <line x1="14" y1="0" x2="0" y2="100" stroke="url(#goldLaserGrad)" stroke-width="0.8" filter="url(#goldLaserGlow)" />
+      <line x1="18" y1="0" x2="0" y2="100" stroke="url(#goldLaserGrad)" stroke-width="0.85" filter="url(#goldLaserGlow)" />
     </svg>
     <!-- Floating Gold Particle Sparks -->
     <div class="hero-sparks">
