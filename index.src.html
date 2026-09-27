@@ -532,9 +532,16 @@
 </div>
 <div id="overlay" class="overlay"></div>
 
-<!-- HERO -->
-<section id="home" class="hero">
-  <div class="hero-ambient-glow"></div>
+<!-- HERO (FULL-SCREEN CINEMATIC IMMERSIVE) -->
+<section id="home" class="hero hero-fullscreen">
+  <!-- Full-Bleed Cinematic Backdrop Photo & Atmosphere Layers -->
+  <div class="hero-backdrop-media" aria-hidden="true">
+    <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-backdrop-img"/>
+    <div class="hero-backdrop-gradient-left"></div>
+    <div class="hero-backdrop-gradient-vignette"></div>
+    <div class="hero-backdrop-glow-aura"></div>
+  </div>
+
   <div class="container hero-content">
     <div class="hero-grid">
       <div class="hero-text">
@@ -550,7 +557,10 @@
           A values-based parenting curriculum for local churches across Myanmar. Helping parents shape their children's character, faith, and emotional health — completely free.
         </p>
         <div class="hero-btns">
-          <a href="#modules" class="btn btn-gold btn-lg" id="h-btn1">Explore 11 Modules</a>
+          <a href="#modules" class="btn btn-gold btn-lg btn-glow-gold" id="h-btn1">
+            <span>Explore 11 Modules</span>
+            <span class="btn-arrow">→</span>
+          </a>
           <button class="btn btn-glass-gold btn-lg" id="h-btn-trailer" onclick="openTrailerModal()">
             <span class="btn-play-icon" style="margin-right:6px">▶</span>
             <span id="h-btn-trailer-txt">Watch 2025 Trailer</span>
@@ -564,31 +574,32 @@
         </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="hero-portal-wrap">
-          <div class="hero-portal-glow"></div>
-          <div class="hero-portal-border">
-            <div class="hero-portal-inner">
-              <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Myanmar" class="hero-img"/>
-              <div class="hero-img-gradient"></div>
+      <!-- Right Column: Interactive Glass Floating Showcase Cards -->
+      <div class="hero-showcase-glass-col">
+        <!-- Floating Cinema Card -->
+        <div class="hero-glass-card hero-glass-preview-card" onclick="openTrailerModal()">
+          <div class="glass-card-tag">
+            <span class="glass-live-dot"></span>
+            <span>2025 OFFICIAL PREVIEW · 2 MIN</span>
+          </div>
+          <div class="glass-card-title">Watch the Story Unfold</div>
+          <p class="glass-card-desc">Experience how 11 interactive video sessions renew marriages and bring families closer to God.</p>
+          <div class="glass-play-row">
+            <div class="glass-play-btn">▶</div>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:0.88rem">Play Full Trailer</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.7)">Burmese Audio & Subtitles</div>
             </div>
           </div>
+        </div>
 
-          <!-- Floating Luxury Badges -->
-          <div class="floating-badge badge-top-left">
-            <div class="fb-icon">⭐</div>
-            <div class="fb-content">
-              <strong id="fb-t1">4.9 / 5 Rating</strong>
-              <span id="fb-s1">Church Leaders in Myanmar</span>
-            </div>
-          </div>
-
-          <div class="floating-badge badge-bottom-right">
-            <div class="fb-icon">🇲🇲</div>
-            <div class="fb-content">
-              <strong id="fb-t2">11 Practical Modules</strong>
-              <span id="fb-s2">Facilitator Kit & App</span>
-            </div>
+        <!-- Floating Stats & Rating Card -->
+        <div class="hero-glass-card hero-glass-rating-card">
+          <div class="glass-rating-stars">★★★★★</div>
+          <div class="glass-rating-score">4.9 / 5.0 Rating</div>
+          <div class="glass-rating-quote">« Marriages renewed & children blessed across 200+ partner churches in Myanmar. »</div>
+          <div class="glass-rating-footer">
+            <span>🏆 Myanmar Church Leaders Endorsed</span>
           </div>
         </div>
       </div>
