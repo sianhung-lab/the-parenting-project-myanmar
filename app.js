@@ -807,7 +807,150 @@ const MY = {
   "fl-ch": "အသင်းတော်များအတွက်",
   "fl-qz": "မိဘဆန်းစစ်ချက်",
   "fl-ab": "မည်သို့လည်ပတ်သနည်း",
-  "fl-fq": "မေးခွန်းနှင့်အဖြေများ"
+  "fl-fq": "မေးခွန်းနှင့်အဖြေများ",
+
+  // Admin Hub Sidenav Section Titles
+  "cbn-sec-main": "ပင်မ မီနူး",
+  "cbn-sec-proj": "ပရောဂျက်",
+  "cbn-sec-orgs": "အသင်းတော်များ စာရင်း",
+  "cbn-sec-users": "အသုံးပြုသူများ",
+  "cbn-sec-lessons": "သင်ရိုးညွှန်းတမ်း မော်ဂျူးများ",
+  "cbn-sec-system": "စနစ်နှင့် လုံခြုံရေး",
+
+  // Admin Hub Sidenav Navigation Items
+  "cbn-nav-dashboard-txt": "ဒက်ရှ်ဘုတ် ပင်မစာမျက်နှာ",
+  "cbn-nav-project-txt": "ပရောဂျက် သင်တန်းများ",
+  "cbn-nav-organisations-txt": "အသင်းတော် စီမံခန့်ခွဲမှု",
+  "cbn-nav-surveys-txt": "CA မိဘစစ်တမ်း စီမံမှု",
+  "cbn-nav-survey-summary-txt": "စစ်တမ်း အနှစ်ချုပ်",
+  "cbn-nav-recycle-txt": "အမှိုက်ပုံး / မှတ်တမ်း",
+  "cbn-nav-users-txt": "အကောင့်များနှင့် အခန်းကဏ္ဍ",
+  "cbn-nav-lessons-txt": "မော်ဂျူး (၁၁) ခု စီမံခန့်ခွဲမှု",
+  "cbn-nav-materials-txt": "ကြော်ငြာ သင်ထောက်ကူများ",
+  "cbn-nav-guidebooks-txt": "ဦးဆောင်သူ လမ်းညွှန်လက်စွဲများ",
+  "cbn-nav-testimonies-txt": "မိဘ သက်သေခံချက်များ",
+  "cbn-nav-bts-txt": "ရိုက်ကူးရေး နောက်ကွယ်",
+  "cbn-nav-del-req-txt": "အကောင့်ဖျက်ရန် တောင်းဆိုချက်များ",
+  "cbn-nav-logs-txt": "လုပ်ဆောင်ချက် မှတ်တမ်းများ",
+  "cbn-nav-rules-txt": "ဗီဒီယို ကြည့်ရှုခွင့် စည်းမျဉ်းများ",
+  "cbn-nav-upload-txt": "ဗီဒီယို တင်သွင်းမှု စီမံခန့်ခွဲမှု",
+
+  // Admin Hub Profile
+  "cbn-profile-role-txt": "အထူး စီမံခန့်ခွဲသူ",
+  "cbn-btn-profile-txt": "👤 ပရိုဖိုင်",
+  "cbn-btn-lock-txt": "🔒 လော့ခ်ချမည်",
+
+  // Admin Hub Topbar
+  "btn-fullscreen-txt": "⛶ မျက်နှာပြင်ပြည့်",
+  "btn-new-sess-txt": "🚀 သင်တန်းသစ် စတင်မည်",
+
+  // Admin Hub Hero Card
+  "cbn-hero-title": "The Parenting Project မှ နွေးထွေးစွာ ကြိုဆိုပါသည်",
+  "cbn-hero-subtitle": "မိဘတိုင်း သားသမီးများအတွက် စံပြကောင်းများ ဖြစ်လာစေရန် အတူတကွ လက်တွဲပျိုးထောင်ကြပါစို့။",
+  "cbn-hero-btn-txt": "🚀 START THE PARENTING PROJECT / သင်တန်းသစ် စတင်မည်",
+
+  // Admin Hub 4 Metric Cards
+  "cbn-kpi-lbl-total": "စုစုပေါင်း မိတ်ဖက်အသင်းတော်များ",
+  "cbn-kpi-sub-total": "မြန်မာနိုင်ငံတစ်ဝှမ်း",
+  "cbn-kpi-lbl-month": "ယခုလ စာရင်းသွင်းမှု",
+  "cbn-kpi-sub-month": "လတ်တလော စာရင်းသွင်းမှုများ",
+  "cbn-kpi-lbl-active": "သင်တန်းဖွင့်လှစ်ဆဲ အသင်းတော်များ",
+  "cbn-kpi-sub-active": "ဗီဒီယိုခွင့်ပြုချက် ရရှိပြီး",
+  "cbn-kpi-lbl-inactive": "ခေတ္တရပ်နားထားသော အသင်းတော်များ",
+  "cbn-kpi-sub-inactive": "စစ်ဆေးဆဲ အသင်းတော်များ",
+
+  // Admin Hub Tabs
+  "cbn-tab-pending-txt": "🕒 အတည်ပြုရန် စောင့်ဆိုင်းနေသော အသင်းတော်များ",
+  "cbn-tab-contact-txt": "💬 ဆက်သွယ်ရန် / သက်တမ်းတိုး တောင်းဆိုချက်များ",
+
+  // Admin Hub Project Sessions View
+  "cbn-proj-head-title": "🚀 အသင်းတော် သင်တန်းများနှင့် အုပ်စုများ စီမံခန့်ခွဲမှု",
+  "cbn-proj-head-desc": "မြန်မာနိုင်ငံတစ်ဝှမ်းရှိ မိတ်ဖက်အသင်းတော်များတွင် ဖွင့်လှစ်နေသော The Parenting Project သင်တန်းများ။ ရက်စွဲ၊ သက်တမ်းနှင့် မိသားစုဝင်ဦးရေကို စီမံခန့်ခွဲပါ။",
+  "cbn-btn-start-sess": "+ သင်တန်းသစ် စတင်မည်",
+  "cbn-btn-export-sess": "📥 သင်တန်းစာရင်း CSV ထုတ်ယူမည်",
+  "cbn-kpi-sess-active-lbl": "သင်တန်းဖွင့်လှစ်ဆဲ အသင်းတော်များ",
+  "cbn-kpi-sess-active-sub": "မော်ဂျူးများကို လက်ရှိလေ့လာနေသော အသင်းတော်များ",
+  "cbn-kpi-sess-fam-lbl": "ပါဝင်သော မိသားစုများ",
+  "cbn-kpi-sess-fam-sub": "၁၁ ပတ်သင်ရိုး လေ့လာနေသော မိဘများ",
+  "cbn-kpi-sess-done-lbl": "သင်တန်းဆင်းပြီးသော အုပ်စုများ",
+  "cbn-kpi-sess-done-sub": "အောင်မြင်စွာ ပြီးမြောက်ခဲ့သော အုပ်စုများ",
+  "cbn-kpi-sess-req-lbl": "သက်တမ်းတိုး တောင်းဆိုချက်များ",
+  "cbn-kpi-sess-req-sub": "စစ်ဆေးရန် စောင့်ဆိုင်းနေသော တောင်းဆိုချက်များ",
+  "cbn-sess-table-title": "အသင်းတော် မိဘသင်တန်းများ အားလုံး",
+  "cbn-th-sess-id": "သင်တန်း ID",
+  "cbn-th-sess-church": "အသင်းတော် / အဖွဲ့အစည်း",
+  "cbn-th-sess-region": "တိုင်းဒေသကြီး / မြို့",
+  "cbn-th-sess-lead": "ဦးဆောင်သူ / ဆရာ",
+  "cbn-th-sess-start": "စတင်ရက်",
+  "cbn-th-sess-end": "ပြီးဆုံးရက်",
+  "cbn-th-sess-fam": "မိသားစုများ",
+  "cbn-th-sess-status": "အခြေအနေ",
+  "cbn-th-sess-actions": "လုပ်ဆောင်ချက်များ",
+
+  // Admin Hub Survey Summary View
+  "cbn-survey-sum-title": "📈 Parenting Project စစ်တမ်း သုတေသနနှင့် အနှစ်ချုပ်",
+  "cbn-survey-sum-desc": "မြန်မာနိုင်ငံတစ်ဝှမ်းရှိ မိဘများထံမှ သင်တန်းမတက်မီနှင့် တက်ပြီးနောက် ကောက်ယူထားသော စစ်တမ်းရလဒ်များ။",
+  "cbn-btn-export-survey": "📥 အပြည့်အစုံ အစီရင်ခံစာ ထုတ်ယူမည်",
+  "cbn-survey-ind-title": "မိသားစု အသွင်ပြောင်းလဲမှု အဓိက အညွှန်းကိန်းများ",
+  "cbn-survey-ind-1": "မိဘနှင့် သားသမီးအကြား ရင်းနှီးမှုနှင့် အရည်အသွေးရှိသော အချိန်ပေးမှု",
+  "cbn-survey-ind-2": "အပြုသဘောဆောင်သော ကျမ်းစာအခြေပြု ဆုံးမသွန်သင်မှု (အကြမ်းမဖက်ခြင်း)",
+  "cbn-survey-ind-3": "စိတ်ခံစားမှု ဖြည့်ဆည်းပေးခြင်းနှင့် နားထောင်ပေးမှု စွမ်းရည်",
+  "cbn-survey-ind-4": "အိမ်ထောင်တွင် ဝိညာဉ်ရေးရာ ယုံကြည်ခြင်း ပျိုးထောင်ပေးမှု",
+  "cbn-survey-quote-title": "မြန်မာမိဘများ၏ လက်တွေ့ဘဝ သက်သေခံချက် စကားသံများ",
+
+  // Admin Hub Users View
+  "cbn-users-head-title": "👥 အသုံးပြုသူ အကောင့်များနှင့် အခန်းကဏ္ဍများ",
+  "cbn-users-head-desc": "CBN Myanmar စီမံခန့်ခွဲသူများ၊ ဒေသန္တရ သင်တန်းမှူးများနှင့် အတည်ပြုပြီး အသင်းတော် ခေါင်းဆောင်များ။",
+  "cbn-btn-add-user": "+ အသုံးပြုသူသစ် ထည့်မည်",
+  "cbn-users-dir-title": "စနစ် အသုံးပြုသူများ လမ်းညွှန်",
+  "cbn-th-user-id": "အသုံးပြုသူ ID",
+  "cbn-th-user-name": "အမည်",
+  "cbn-th-user-email": "အီးမေးလ်",
+  "cbn-th-user-role": "အခန်းကဏ္ဍ",
+  "cbn-th-user-church": "ချိတ်ဆက်ထားသော အသင်းတော် / ဒေသ",
+  "cbn-th-user-login": "နောက်ဆုံးဝင်ရောက်ချိန်",
+  "cbn-th-user-status": "အခြေအနေ",
+  "cbn-th-user-action": "လုပ်ဆောင်ချက်",
+
+  // Admin Hub New Session Modal
+  "new-sess-modal-title": "🚀 သင်တန်းသစ် စတင်မည်",
+  "new-sess-lbl-church": "ရည်ရွယ်သော အသင်းတော် / မိတ်ဖက် အဖွဲ့အစည်း",
+  "new-sess-lbl-start": "သင်တန်း စတင်ရက်",
+  "new-sess-lbl-end": "သင်တန်း ပြီးဆုံးရက်",
+  "new-sess-lbl-lead": "ဦးဆောင်သူ / သင်တန်းမှူး ဆရာ",
+  "new-sess-lbl-fam": "ပါဝင်မည့် မိသားစု အရေအတွက်",
+  "new-sess-lbl-modules": "သင်ခန်းစာ ကြည့်ရှုခွင့် အဆင့်",
+  "new-sess-btn-cancel": "ပယ်ဖျက်မည်",
+  "new-sess-btn-launch": "🚀 သင်တန်း ဖွင့်လှစ်မည်",
+
+  // Admin Hub Add User Modal
+  "new-user-modal-title": "👥 အုပ်ချုပ်သူ / သင်တန်းမှူးသစ် ထည့်သွင်းခြင်း",
+  "new-user-lbl-name": "အမည် အပြည့်အစုံ",
+  "new-user-lbl-email": "အီးမေးလ် လိပ်စာ",
+  "new-user-lbl-role": "အခန်းကဏ္ဍနှင့် လုပ်ပိုင်ခွင့်",
+  "new-user-lbl-church": "တာဝန်ကျ အသင်းတော် / ဒေသ",
+  "new-user-btn-cancel": "ပယ်ဖျက်မည်",
+  "new-user-btn-submit": "အကောင့် ဖွင့်လှစ်မည်",
+
+  // Settings Modal
+  "settings-title": "ဆက်တင်များနှင့် အသုံးပြုခွင့် စီမံမှု",
+  "settings-sec-lbl-account": "လက်ရှိ အကောင့်နှင့် အခန်းကဏ္ဍ",
+  "settings-btn-signin-txt": "🔑 အကောင့်ဝင်ရောက်ရန် (Sign In)",
+  "settings-btn-reg-txt": "✍️ အခမဲ့ စာရင်းသွင်းရန် (Register Free)",
+  "settings-btn-signout-txt": "🚪 အကောင့်ထွက်မည် (Sign Out)",
+  "settings-sec-lbl-ministry": "🛡️ အမှုတော်ဆောင် အုပ်ချုပ်သူ ဒက်ရှ်ဘုတ်",
+  "settings-sec-desc-ministry": "တရားဝင် CBN Asia Myanmar တာဝန်ခံများနှင့် ပေါ်တယ် ပိုင်ရှင်များသည် အသင်းတော်များ၏ ဗီဒီယို ကြည့်ရှုခွင့်၊ သင်ရိုး စည်းမျဉ်းများကို ဤနေရာတွင် တိုက်ရိုက် စီမံနိုင်ပါသည်။",
+  "settings-admin-active-txt": "အုပ်ချုပ်သူ မုဒ် ဖွင့်ထားပါသည် (ခွင့်ပြုချက် အပြည့်)",
+  "settings-btn-launch-txt": "🚀 စီမံခန့်ခွဲသူ ဒက်ရှ်ဘုတ် ဖွင့်မည်",
+  "settings-btn-lock-txt": "🔒 အုပ်ချုပ်သူ အကောင့် ပိတ်မည်",
+  "settings-btn-unlock-txt": "🔓 အုပ်ချုပ်သူ ဒက်ရှ်ဘုတ် ဖွင့်မည်",
+  "settings-portal-lang-lbl": "ဘာသာစကား ရွေးချယ်မှု-",
+
+  // In-App Login Modal
+  "inapp-lbl-email": "အသင်းတော် (သို့) မိဘ အီးမေးလ် / ဖုန်းနံပါတ်",
+  "inapp-lbl-pass": "စကားဝှက် (Password)",
+  "inapp-demo-btn-txt": "စမ်းသပ် မိဘအကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)",
+  "inapp-to-reg-txt": "အသင်းတော် စာရင်းမသွင်းရသေးပါက အခမဲ့ စာရင်းသွင်းရန် →"
 };
 
 // STATE
@@ -838,6 +981,16 @@ function applyLang() {
     if (searchEl) searchEl.placeholder = "သင်ခန်းစာ မော်ဂျူးများကို ရှာဖွေပါ...";
     const emailEl = document.getElementById('nl-email');
     if (emailEl) emailEl.placeholder = "သင့်အီးမေးလ် ထည့်ပါ...";
+    const cbnSearch = document.getElementById('cbn-pending-search');
+    if (cbnSearch) cbnSearch.placeholder = "အသင်းတော်၊ ဆရာ၊ အီးမေးလ် ရှာဖွေပါ...";
+    const sessSearch = document.getElementById('cbn-sessions-search');
+    if (sessSearch) sessSearch.placeholder = "သင်တန်းများကို ရှာဖွေပါ...";
+    const usersSearch = document.getElementById('cbn-users-search');
+    if (usersSearch) usersSearch.placeholder = "အသုံးပြုသူ ရှာဖွေပါ...";
+    const inpageSearch = document.getElementById('inpage-search-input');
+    if (inpageSearch) inpageSearch.placeholder = "အသင်းတော်၊ ဆရာ၊ မြို့နယ် ရှာဖွေပါ...";
+    const passcodeEl = document.getElementById('settings-staff-passcode');
+    if (passcodeEl) passcodeEl.placeholder = "စကားဝှက် ထည့်ပါ";
   } else {
     for (const k in MY) {
       const el = document.getElementById(k);
@@ -849,7 +1002,31 @@ function applyLang() {
     if (searchEl) searchEl.placeholder = "Search modules...";
     const emailEl = document.getElementById('nl-email');
     if (emailEl) emailEl.placeholder = "Your email...";
+    const cbnSearch = document.getElementById('cbn-pending-search');
+    if (cbnSearch) cbnSearch.placeholder = "Search organisation, coordinator, email...";
+    const sessSearch = document.getElementById('cbn-sessions-search');
+    if (sessSearch) sessSearch.placeholder = "Search sessions...";
+    const usersSearch = document.getElementById('cbn-users-search');
+    if (usersSearch) usersSearch.placeholder = "Search user...";
+    const inpageSearch = document.getElementById('inpage-search-input');
+    if (inpageSearch) inpageSearch.placeholder = "Search by church, pastor, township, or Viber...";
+    const passcodeEl = document.getElementById('settings-staff-passcode');
+    if (passcodeEl) passcodeEl.placeholder = "Enter Staff Passcode";
   }
+
+  // Update toggle button texts across all views
+  const toggleTxt = lang === 'my' ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+  const mainBtn = document.getElementById('lang-btn');
+  if (mainBtn) mainBtn.textContent = toggleTxt;
+  const cbnToggle = document.getElementById('cbn-lang-toggle-text');
+  if (cbnToggle) cbnToggle.textContent = toggleTxt;
+  const mobBtn = document.getElementById('mobile-app-lang-btn');
+  if (mobBtn) mobBtn.textContent = toggleTxt;
+
+  // Update show-all buttons
+  document.querySelectorAll('.cbn-show-all-txt').forEach(el => {
+    el.textContent = lang === 'my' ? 'အားလုံးကြည့်ရန်' : 'Show All';
+  });
 
   // Re-render dynamic components
   renderModules();
@@ -879,7 +1056,45 @@ function applyLang() {
   if (typeof checkAuthStatus === 'function') {
     checkAuthStatus();
   }
+
+  // Update Admin Hub tables if in DOM
+  if (typeof renderCbnDashboard === 'function' && typeof inpageAdminData !== 'undefined') {
+    renderCbnDashboard(inpageAdminData);
+  }
+  if (typeof renderCbnProjectSessions === 'function') {
+    renderCbnProjectSessions();
+  }
+  if (typeof renderCbnUsers === 'function') {
+    renderCbnUsers();
+  }
+  if (typeof renderCbnLessonsGrid === 'function') {
+    renderCbnLessonsGrid();
+  }
+  if (typeof renderCbnRecycleBin === 'function') {
+    renderCbnRecycleBin();
+  }
+  if (typeof renderCbnDelReqs === 'function') {
+    renderCbnDelReqs();
+  }
+  if (typeof renderCbnTestimonies === 'function') {
+    renderCbnTestimonies();
+  }
 }
+
+function toggleLang(forceLang) {
+  if (forceLang) {
+    lang = forceLang;
+  } else {
+    lang = lang === 'en' ? 'my' : 'en';
+  }
+  try { localStorage.setItem('tpp_lang', lang); } catch (e) {}
+
+  applyLang();
+  if (typeof updateSettingsModalUI === 'function') updateSettingsModalUI();
+  showToast(lang === 'my' ? '🇲🇲 မြန်မာဘာသာသို့ ပြောင်းလဲပြီးပါပြီ' : '🇬🇧 Switched to English');
+}
+window.toggleLang = toggleLang;
+window.setLang = toggleLang;
 
 function initLang() {
   try {
@@ -887,8 +1102,9 @@ function initLang() {
     const saved = localStorage.getItem('tpp_lang');
     if (urlParams.get('lang') === 'my' || saved === 'my') {
       lang = 'my';
-      const btn = document.getElementById('lang-btn');
-      if (btn) btn.textContent = '🇬🇧 English';
+      applyLang();
+    } else {
+      lang = 'en';
       applyLang();
     }
   } catch (e) {}
@@ -904,29 +1120,29 @@ function initNav() {
   const drawer = document.getElementById('drawer');
   const overlay = document.getElementById('overlay');
   
-  hamburger.addEventListener('click', () => {
-    drawer.classList.add('open');
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
-  });
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      drawer.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+  }
   
   const close = () => {
-    drawer.classList.remove('open');
-    overlay.classList.remove('show');
+    if (drawer) drawer.classList.remove('open');
+    if (overlay) overlay.classList.remove('show');
     document.body.style.overflow = '';
   };
   
-  document.getElementById('drawer-close').addEventListener('click', close);
-  overlay.addEventListener('click', close);
+  const dClose = document.getElementById('drawer-close');
+  if (dClose) dClose.addEventListener('click', close);
+  if (overlay) overlay.addEventListener('click', close);
   document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', close));
   
-  document.getElementById('lang-btn').addEventListener('click', () => {
-    lang = lang === 'en' ? 'my' : 'en';
-    try { localStorage.setItem('tpp_lang', lang); } catch (e) {}
-    document.getElementById('lang-btn').textContent = lang === 'my' ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
-    applyLang();
-    showToast(lang === 'my' ? 'မြန်မာဘာသာသို့ ပြောင်းလဲပြီးပါပြီ' : 'Switched to English');
-  });
+  const langBtn = document.getElementById('lang-btn');
+  if (langBtn) {
+    langBtn.addEventListener('click', () => toggleLang());
+  }
   
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
@@ -2818,8 +3034,10 @@ function renderCbnPendingTable(list) {
   const tbody = document.getElementById('cbn-pending-tbody');
   if (!tbody) return;
 
+  const isMy = lang === 'my';
+
   if (!list || !list.length) {
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No registered churches found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">${isMy ? 'စာရင်းသွင်းထားသော အသင်းတော် မရှိသေးပါ။' : 'No registered churches found.'}</td></tr>`;
     return;
   }
 
@@ -2832,12 +3050,12 @@ function renderCbnPendingTable(list) {
       <tr>
         <td>
           <div class="cbn-church-name-link" onclick="openCbnChurchDetail(${idx})">
-            ${c.churchName || 'Partner Church'}
+            ${c.churchName || (isMy ? 'မိတ်ဖက် အသင်းတော်' : 'Partner Church')}
           </div>
           <div class="cbn-church-code">${code}</div>
         </td>
         <td>
-          <div style="font-weight:700;color:#fff">${c.coordName || 'Coordinator'}</div>
+          <div style="font-weight:700;color:#fff">${c.coordName || (isMy ? 'ဦးဆောင်သူ' : 'Coordinator')}</div>
           <div style="font-size:0.75rem;color:rgba(255,255,255,0.6)">${c.email || c.phone || '-'}</div>
         </td>
         <td style="white-space:nowrap;font-size:0.78rem;color:rgba(255,255,255,0.6)">
@@ -2845,22 +3063,22 @@ function renderCbnPendingTable(list) {
         </td>
         <td>
           ${isGranted 
-            ? `<span style="background:rgba(45,206,137,0.15);color:#2dce89;border:1px solid rgba(45,206,137,0.3);padding:3px 8px;border-radius:12px;font-size:0.74rem;font-weight:700">● Granted</span>`
-            : `<span style="background:rgba(245,54,92,0.15);color:#f5365c;border:1px solid rgba(245,54,92,0.3);padding:3px 8px;border-radius:12px;font-size:0.74rem;font-weight:700">⚠️ Pending Approval</span>`
+            ? `<span style="background:rgba(45,206,137,0.15);color:#2dce89;border:1px solid rgba(45,206,137,0.3);padding:3px 8px;border-radius:12px;font-size:0.74rem;font-weight:700">${isMy ? '● ခွင့်ပြုပြီး' : '● Granted'}</span>`
+            : `<span style="background:rgba(245,54,92,0.15);color:#f5365c;border:1px solid rgba(245,54,92,0.3);padding:3px 8px;border-radius:12px;font-size:0.74rem;font-weight:700">${isMy ? '⚠️ အတည်ပြုရန် စောင့်ဆိုင်းဆဲ' : '⚠️ Pending Approval'}</span>`
           }
         </td>
         <td style="white-space:nowrap">
           <div style="display:flex;gap:6px">
             <button type="button" class="btn btn-dark btn-xs" onclick="openCbnChurchDetail(${idx})" style="background:#112f54;border-color:rgba(255,255,255,0.2)">
-              👁️ Open
+              👁️ ${isMy ? 'စစ်ဆေးမည်' : 'Open'}
             </button>
             ${!isGranted ? `
               <button type="button" class="btn btn-gold btn-xs" onclick="toggleCbnChurchAccess('${encodeURIComponent(c.email || c.phone)}', true)">
-                ⚡ Approve
+                ⚡ ${isMy ? 'ခွင့်ပြုမည်' : 'Approve'}
               </button>
             ` : `
               <button type="button" class="btn btn-outline btn-xs" style="color:#ff9999;border-color:rgba(255,100,100,0.3)" onclick="toggleCbnChurchAccess('${encodeURIComponent(c.email || c.phone)}', false)">
-                Revoke
+                ${isMy ? 'ပိတ်သိမ်းမည်' : 'Revoke'}
               </button>
             `}
           </div>
@@ -2870,7 +3088,9 @@ function renderCbnPendingTable(list) {
   }).join('');
 
   const countLbl = document.getElementById('cbn-pending-count-label');
-  if (countLbl) countLbl.textContent = `Showing 1 to ${list.length} of ${list.length} Results`;
+  if (countLbl) countLbl.textContent = isMy 
+    ? `အသင်းတော် (၁) မှ (${list.length}) ခု အနက် (${list.length}) ခု ပြသနေသည်` 
+    : `Showing 1 to ${list.length} of ${list.length} Results`;
 }
 
 function filterCbnPendingTable(val) {
@@ -2918,11 +3138,12 @@ function openCbnChurchDetail(idx) {
   if (famEl) famEl.textContent = c.fam || '10–25 Families';
   if (notesEl) notesEl.textContent = `${c.notes || 'Registered online'} (Date: ${c.timestamp || 'Recent'})`;
 
+  const isMy = lang === 'my';
   const isGranted = !!c.isGranted;
   if (statusEl) {
     statusEl.innerHTML = isGranted 
-      ? '<span style="color:#2dce89">🟢 Full Video Access Granted</span>' 
-      : '<span style="color:#f5365c">⚠️ Restricted / Awaiting Verification</span>';
+      ? `<span style="color:#2dce89">${isMy ? '🟢 မော်ဂျူး ၁၁ ခုလုံး ဗီဒီယို ကြည့်ရှုခွင့်ပြုပြီး' : '🟢 Full Video Access Granted'}</span>` 
+      : `<span style="color:#f5365c">${isMy ? '⚠️ ဗီဒီယိုကြည့်ခွင့် ကန့်သတ်ထားသည် / အတည်ပြုရန် စောင့်ဆိုင်းဆဲ' : '⚠️ Restricted / Awaiting Verification'}</span>`;
   }
 
   if (viberBtn) {
@@ -2945,10 +3166,11 @@ function toggleCurrentChurchDetailAccess() {
   toggleCbnChurchAccess(encodeURIComponent(currentDetailChurch.email || currentDetailChurch.phone), newGrant);
   currentDetailChurch.isGranted = newGrant;
   const statusEl = document.getElementById('cbn-detail-access-status');
+  const isMy = lang === 'my';
   if (statusEl) {
     statusEl.innerHTML = newGrant 
-      ? '<span style="color:#2dce89">🟢 Full Video Access Granted</span>' 
-      : '<span style="color:#f5365c">⚠️ Restricted / Awaiting Verification</span>';
+      ? `<span style="color:#2dce89">${isMy ? '🟢 မော်ဂျူး ၁၁ ခုလုံး ဗီဒီယို ကြည့်ရှုခွင့်ပြုပြီး' : '🟢 Full Video Access Granted'}</span>` 
+      : `<span style="color:#f5365c">${isMy ? '⚠️ ဗီဒီယိုကြည့်ခွင့် ကန့်သတ်ထားသည် / အတည်ပြုရန် စောင့်ဆိုင်းဆဲ' : '⚠️ Restricted / Awaiting Verification'}</span>`;
   }
 }
 window.toggleCurrentChurchDetailAccess = toggleCurrentChurchDetailAccess;
@@ -2982,6 +3204,7 @@ function renderCbnLessonsGrid() {
   const grid = document.getElementById('cbn-lessons-grid');
   if (!grid || typeof modulesData === 'undefined') return;
 
+  const isMy = lang === 'my';
   grid.innerHTML = modulesData.map((m, idx) => {
     const num = idx + 1;
     const rule = inpageContentRules[num] || { access: 'granted' };
@@ -2993,17 +3216,17 @@ function renderCbnLessonsGrid() {
         <div class="content-card-thumb">
           <img src="https://i.ytimg.com/vi/${ytId}/hqdefault.jpg" alt="${m.titleEn}"/>
           <span class="badge ${isFree ? 'badge-public' : 'badge-partner'}">
-            ${isFree ? '🌐 Public Preview' : '🔒 Partner Only'}
+            ${isFree ? (isMy ? '🌐 အများပြည်သူ' : '🌐 Public Preview') : (isMy ? '🔒 မိတ်ဖက်များသာ' : '🔒 Partner Only')}
           </span>
         </div>
         <div class="content-card-body">
-          <div style="font-size:0.75rem;font-weight:700;color:#ffcc00;text-transform:uppercase">Module ${num}</div>
+          <div style="font-size:0.75rem;font-weight:700;color:#ffcc00;text-transform:uppercase">${isMy ? 'မော်ဂျူး ' + num : 'Module ' + num}</div>
           <div style="font-size:0.95rem;font-weight:800;color:#fff;margin:2px 0 4px">${m.titleMy || m.titleEn}</div>
           <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:8px">${m.titleEn}</div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <span style="font-size:0.75rem;color:rgba(255,255,255,0.7)">⏱️ 22 Mins</span>
+            <span style="font-size:0.75rem;color:rgba(255,255,255,0.7)">⏱️ ${isMy ? '၂၂ မိနစ်' : '22 Mins'}</span>
             <button type="button" class="btn btn-xs ${isFree ? 'btn-outline' : 'btn-gold'}" onclick="saveInpageContentRule('${num}', '${isFree ? 'granted' : 'free'}')">
-              ${isFree ? '🔒 Make Partner-Only' : '🌐 Make Public'}
+              ${isFree ? (isMy ? '🔒 မိတ်ဖက်များသာ ကန့်သတ်မည်' : '🔒 Make Partner-Only') : (isMy ? '🌐 အများပြည်သူ ဖွင့်ပေးမည်' : '🌐 Make Public')}
             </button>
           </div>
         </div>
@@ -3099,6 +3322,12 @@ function renderCbnRecycleBin() {
     return;
   }
 
+  const isMy = lang === 'my';
+  if (!cbnRecycleItems.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">${isMy ? 'အမှိုက်ပုံးတွင် အချက်အလက် မရှိပါ။' : 'Recycle bin is empty.'}</td></tr>`;
+    return;
+  }
+
   tbody.innerHTML = cbnRecycleItems.map(item => `
     <tr>
       <td><strong>${item.name}</strong></td>
@@ -3109,10 +3338,10 @@ function renderCbnRecycleBin() {
       <td>
         <div style="display:flex;gap:6px">
           <button type="button" class="btn btn-outline btn-xs" onclick="restoreRecycleItem('${item.id}')" style="color:#2dce89;border-color:rgba(45,206,137,0.4)">
-            ♻️ Restore
+            ${isMy ? '♻️ ပြန်ယူမည်' : '♻️ Restore'}
           </button>
           <button type="button" class="btn btn-outline btn-xs" onclick="deleteRecycleItem('${item.id}')" style="color:#ff9999;border-color:rgba(255,100,100,0.3)">
-            🗑️ Purge
+            ${isMy ? '🗑️ ဖျက်မည်' : '🗑️ Purge'}
           </button>
         </div>
       </td>
@@ -3125,7 +3354,7 @@ function restoreRecycleItem(id) {
   const item = cbnRecycleItems.find(x => x.id === id);
   cbnRecycleItems = cbnRecycleItems.filter(x => x.id !== id);
   renderCbnRecycleBin();
-  showToast(`♻️ Restored ${item ? item.name : 'record'} back to active database!`);
+  showToast(lang === 'my' ? `♻️ ${item ? item.name : 'မှတ်တမ်း'} အောင်မြင်စွာ ပြန်လည်ထားရှိပြီးပါပြီ!` : `♻️ Restored ${item ? item.name : 'record'} back to active database!`);
 }
 window.restoreRecycleItem = restoreRecycleItem;
 
@@ -3133,18 +3362,18 @@ function deleteRecycleItem(id) {
   const item = cbnRecycleItems.find(x => x.id === id);
   cbnRecycleItems = cbnRecycleItems.filter(x => x.id !== id);
   renderCbnRecycleBin();
-  showToast(`🗑️ Permanently deleted ${item ? item.name : 'record'}.`);
+  showToast(lang === 'my' ? `🗑️ ${item ? item.name : 'မှတ်တမ်း'} ကို အပြီးပိုင် ဖျက်ပြီးပါပြီ။` : `🗑️ Permanently deleted ${item ? item.name : 'record'}.`);
 }
 window.deleteRecycleItem = deleteRecycleItem;
 
 function emptyRecycleBin() {
   if (!cbnRecycleItems.length) {
-    showToast('Recycle Bin is already empty.');
+    showToast(lang === 'my' ? 'အမှိုက်ပုံး ရှင်းလင်းပြီးသား ဖြစ်ပါသည်။' : 'Recycle Bin is already empty.');
     return;
   }
   cbnRecycleItems = [];
   renderCbnRecycleBin();
-  showToast('🗑️ Recycle Bin permanently emptied.');
+  showToast(lang === 'my' ? '🗑️ အမှိုက်ပုံး အားလုံး အပြီးပိုင် ရှင်းလင်းပြီးပါပြီ။' : '🗑️ Recycle Bin permanently emptied.');
 }
 window.emptyRecycleBin = emptyRecycleBin;
 
@@ -3157,8 +3386,9 @@ function renderCbnDelReqs() {
   const tbody = document.getElementById('cbn-delreq-tbody');
   if (!tbody) return;
 
+  const isMy = lang === 'my';
   if (!cbnDelReqs.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No pending account deletion requests.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">${isMy ? 'အကောင့်ဖျက်ရန် တောင်းဆိုချက် မရှိပါ။' : 'No pending account deletion requests.'}</td></tr>`;
     return;
   }
 
@@ -3168,14 +3398,14 @@ function renderCbnDelReqs() {
       <td>${r.contact}</td>
       <td style="font-size:0.78rem;color:rgba(255,255,255,0.6)">${r.date}</td>
       <td style="font-size:0.8rem;color:rgba(255,255,255,0.8)">${r.reason}</td>
-      <td><span style="color:#ffcc00;font-weight:700">${r.status}</span></td>
+      <td><span style="color:#ffcc00;font-weight:700">${isMy && r.status === 'Pending Review' ? 'စစ်ဆေးဆဲ' : r.status}</span></td>
       <td>
         <div style="display:flex;gap:6px">
           <button type="button" class="btn btn-outline btn-xs" onclick="approveDelReq('${r.id}')" style="color:#ff9999;border-color:rgba(255,100,100,0.4)">
-            Approve Deletion
+            ${isMy ? 'ဖျက်ရန် အတည်ပြုမည်' : 'Approve Deletion'}
           </button>
           <button type="button" class="btn btn-outline btn-xs" onclick="rejectDelReq('${r.id}')">
-            Reject
+            ${isMy ? 'ပယ်ချမည်' : 'Reject'}
           </button>
         </div>
       </td>
@@ -3208,6 +3438,7 @@ function renderCbnProjectSessions(filteredList) {
   const tbody = document.getElementById('cbn-sessions-tbody');
   if (!tbody) return;
 
+  const isMy = lang === 'my';
   const list = filteredList || cbnProjectSessions;
   const activeCount = list.filter(s => s.status.includes('Active')).length;
   const totalFam = list.reduce((acc, s) => acc + (parseInt(s.fam) || 0), 0);
@@ -3217,14 +3448,22 @@ function renderCbnProjectSessions(filteredList) {
   const kFam = document.getElementById('cbn-session-families-count');
   if (kFam) kFam.textContent = totalFam;
   const navSessionCount = document.getElementById('cbn-nav-session-count');
-  if (navSessionCount) navSessionCount.textContent = `${activeCount} Active`;
+  if (navSessionCount) navSessionCount.textContent = `${activeCount} ${isMy ? 'ဖွင့်လှစ်ဆဲ' : 'Active'}`;
 
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No sessions found. Click "+ Start New Session" to create one.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">${isMy ? 'သင်တန်း ဖွင့်လှစ်ထားခြင်း မရှိသေးပါ။ "+ သင်တန်းသစ် စတင်မည်" ကို နှိပ်ပါ။' : 'No sessions found. Click "+ Start New Session" to create one.'}</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = list.map(s => `
+  tbody.innerHTML = list.map(s => {
+    let statusText = s.status;
+    if (isMy) {
+      if (s.status.includes('Active')) statusText = 'ဖွင့်လှစ်ဆဲ 🟢';
+      else if (s.status.includes('Extended')) statusText = 'သက်တမ်းတိုးပြီး 🟢';
+      else if (s.status.includes('Completed')) statusText = 'ပြီးဆုံး 🎓';
+    }
+
+    return `
     <tr>
       <td style="font-family:monospace;font-size:0.78rem;color:#ffcc00">${s.id}</td>
       <td><strong>${s.churchName}</strong></td>
@@ -3232,20 +3471,21 @@ function renderCbnProjectSessions(filteredList) {
       <td style="color:#2dce89;font-weight:600">${s.lead}</td>
       <td style="font-size:0.8rem;color:rgba(255,255,255,0.7)">${s.start}</td>
       <td style="font-size:0.8rem;color:rgba(255,255,255,0.7)">${s.end}</td>
-      <td><span style="font-weight:700">${s.fam}</span> Families</td>
-      <td><span style="background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:12px;font-size:0.75rem;font-weight:700">${s.status}</span></td>
+      <td><span style="font-weight:700">${s.fam}</span> ${isMy ? 'မိသားစုများ' : 'Families'}</td>
+      <td><span style="background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:12px;font-size:0.75rem;font-weight:700">${statusText}</span></td>
       <td>
         <div style="display:flex;gap:6px">
-          <button type="button" class="btn btn-outline btn-xs" onclick="extendCbnSession('${s.id}')" title="Grant 30-day cohort extension">
-            +30 Days
+          <button type="button" class="btn btn-outline btn-xs" onclick="extendCbnSession('${s.id}')" title="${isMy ? 'ရက် ၃၀ သက်တမ်းတိုးမည်' : 'Grant 30-day cohort extension'}">
+            ${isMy ? '+၃၀ ရက် တိုး' : '+30 Days'}
           </button>
-          <button type="button" class="btn btn-gold btn-xs" onclick="showToast('📋 Detailed cohort log opened for ${s.churchName.replace(/'/g, "")}')">
-            Details
+          <button type="button" class="btn btn-gold btn-xs" onclick="showToast('${isMy ? '📋 အသင်းတော် သင်တန်းအသေးစိတ်ကို ဖွင့်လှစ်လိုက်ပါပြီ' : '📋 Detailed cohort log opened for ' + s.churchName.replace(/'/g, "")}')">
+            ${isMy ? 'အသေးစိတ်' : 'Details'}
           </button>
         </div>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 window.renderCbnProjectSessions = renderCbnProjectSessions;
 
@@ -3273,7 +3513,7 @@ function extendCbnSession(id) {
     sess.end = end.toISOString().split('T')[0];
     sess.status = 'Extended 🟢';
     renderCbnProjectSessions();
-    showToast(`✅ Cohort session for ${sess.churchName} extended by 30 days until ${sess.end}!`);
+    showToast(lang === 'my' ? `✅ ${sess.churchName} အတွက် သင်တန်းကာလကို ${sess.end} ထိ ရက် ၃၀ တိုးမြှင့်လိုက်ပါပြီ!` : `✅ Cohort session for ${sess.churchName} extended by 30 days until ${sess.end}!`);
   }
 }
 window.extendCbnSession = extendCbnSession;
@@ -3290,7 +3530,7 @@ function exportSessionsCsv() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  showToast("📥 Exported Church Sessions CSV!");
+  showToast(lang === 'my' ? "📥 အသင်းတော် သင်တန်းများ CSV ကို ဒေါင်းလုဒ်ဆွဲပြီးပါပြီ!" : "📥 Exported Church Sessions CSV!");
 }
 window.exportSessionsCsv = exportSessionsCsv;
 
@@ -3340,7 +3580,7 @@ function handleNewSessionSubmit(e) {
   closeNewSessionModal();
   renderCbnProjectSessions();
   switchCbnAdminView('project');
-  showToast(`🚀 New Parenting Project Session launched for ${church}!`);
+  showToast(lang === 'my' ? `🚀 ${church} အတွက် သင်တန်းသစ် အောင်မြင်စွာ ဖွင့်လှစ်လိုက်ပါပြီ!` : `🚀 New Parenting Project Session launched for ${church}!`);
 }
 window.handleNewSessionSubmit = handleNewSessionSubmit;
 
@@ -3351,28 +3591,48 @@ function renderCbnUsers(filteredList) {
   const tbody = document.getElementById('cbn-users-tbody');
   if (!tbody) return;
 
+  const isMy = lang === 'my';
   const list = filteredList || cbnUsersList;
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No users found matching query.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">${isMy ? 'ရှာဖွေမှုနှင့် ကိုက်ညီသော အသုံးပြုသူ မရှိပါ။' : 'No users found matching query.'}</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = list.map(u => `
+  tbody.innerHTML = list.map(u => {
+    let roleText = u.role;
+    if (isMy) {
+      if (u.role.includes('Super')) roleText = 'အထူး စီမံခန့်ခွဲသူ';
+      else if (u.role.includes('Coordinator')) roleText = 'ဒေသန္တရ သင်တန်းမှူး';
+      else if (u.role.includes('Facilitator')) roleText = 'အသင်းတော် သင်တန်းမှူး';
+    }
+
+    let statusText = u.status;
+    if (isMy) {
+      if (u.status.includes('Active')) statusText = 'အသုံးပြုဆဲ 🟢';
+      else statusText = 'ရပ်နားထား ⚪';
+    }
+
+    const actionText = u.status.includes('Active') 
+      ? (isMy ? 'ရပ်နားမည်' : 'Deactivate') 
+      : (isMy ? 'ဖွင့်မည်' : 'Activate');
+
+    return `
     <tr>
       <td style="font-family:monospace;font-size:0.78rem;color:#ffcc00">${u.id}</td>
       <td><strong>${u.name}</strong></td>
       <td style="color:rgba(255,255,255,0.8)">${u.email}</td>
-      <td><span style="background:rgba(255,204,0,0.15);color:#ffcc00;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700">${u.role}</span></td>
+      <td><span style="background:rgba(255,204,0,0.15);color:#ffcc00;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700">${roleText}</span></td>
       <td style="color:rgba(255,255,255,0.7)">${u.church}</td>
       <td style="font-size:0.78rem;color:rgba(255,255,255,0.5)">${u.lastLogin}</td>
-      <td><span style="font-weight:700">${u.status}</span></td>
+      <td><span style="font-weight:700">${statusText}</span></td>
       <td>
         <button type="button" class="btn btn-outline btn-xs" onclick="toggleUserStatus('${u.id}')">
-          ${u.status.includes('Active') ? 'Deactivate' : 'Activate'}
+          ${actionText}
         </button>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 window.renderCbnUsers = renderCbnUsers;
 
@@ -3445,6 +3705,7 @@ function renderCbnTestimonies() {
   const tbody = document.getElementById('cbn-testimonies-tbody');
   if (!tbody) return;
 
+  const isMy = lang === 'my';
   tbody.innerHTML = cbnTestimoniesList.map(t => `
     <tr>
       <td><strong>${t.name}</strong></td>
@@ -3453,13 +3714,13 @@ function renderCbnTestimonies() {
       <td><span style="font-size:0.78rem">${t.media}</span></td>
       <td>
         <span style="color:${t.featured ? '#2dce89' : 'rgba(255,255,255,0.4)'};font-weight:700">
-          ${t.featured ? '⭐ Featured' : 'Hidden'}
+          ${t.featured ? (isMy ? '⭐ ဖော်ပြထားသည်' : '⭐ Featured') : (isMy ? 'ဖျောက်ထားသည်' : 'Hidden')}
         </span>
       </td>
       <td>
         <div style="display:flex;gap:6px">
           <button type="button" class="btn btn-outline btn-xs" onclick="toggleTestimonyFeatured('${t.id}')">
-            ${t.featured ? 'Unfeature' : '⭐ Feature'}
+            ${t.featured ? (isMy ? 'ဖျောက်မည်' : 'Unfeature') : (isMy ? '⭐ ဖော်ပြမည်' : '⭐ Feature')}
           </button>
           <button type="button" class="btn btn-outline btn-xs" style="color:#ff9999;border-color:rgba(255,100,100,0.3)" onclick="deleteTestimony('${t.id}')">
             ✕
