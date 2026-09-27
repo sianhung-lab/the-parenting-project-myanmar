@@ -2501,51 +2501,204 @@ async function loadInpageAdminData() {
 }
 
 // ==========================================
-// CBN MYANMAR ARGON ADMIN DASHBOARD CONTROLS
+// CBN MYANMAR ARGON ADMIN DASHBOARD CONTROLS (NATIVE)
 // ==========================================
 let currentDetailChurch = null;
+
+// Project Sessions Local State
+let cbnProjectSessions = [
+  {
+    id: "SESS-2026-01",
+    churchName: "Yangon Grace Baptist Church",
+    region: "Yangon (Insein)",
+    lead: "Pastor Thang San",
+    start: "2026-09-01",
+    end: "2026-11-20",
+    fam: 65,
+    status: "Active 🟢",
+    modules: "All 11 Modules Unlocked"
+  },
+  {
+    id: "SESS-2026-02",
+    churchName: "Mandalay Emmanuel AG Church",
+    region: "Mandalay (Chanmyathazi)",
+    lead: "Rev. Stephen Myo",
+    start: "2026-09-10",
+    end: "2026-11-30",
+    fam: 45,
+    status: "Active 🟢",
+    modules: "All 11 Modules Unlocked"
+  },
+  {
+    id: "SESS-2026-03",
+    churchName: "Taunggyi Christian Fellowship",
+    region: "Shan State (Taunggyi)",
+    lead: "Saya David Lian",
+    start: "2026-09-15",
+    end: "2026-12-05",
+    fam: 50,
+    status: "Active 🟢",
+    modules: "All 11 Modules Unlocked"
+  },
+  {
+    id: "SESS-2026-00",
+    churchName: "Hakha Baptist Church",
+    region: "Chin State (Hakha)",
+    lead: "Pastor Peter Chin",
+    start: "2026-06-01",
+    end: "2026-08-30",
+    fam: 25,
+    status: "Completed 🎓",
+    modules: "Graduated Cohort"
+  }
+];
+
+// System Users Local State
+let cbnUsersList = [
+  {
+    id: "USR-001",
+    name: "Super Administrator",
+    email: "admin@cbnmyanmar.org",
+    role: "Super Administrator",
+    church: "CBN Asia Myanmar Central",
+    lastLogin: "Active Now",
+    status: "Active 🟢"
+  },
+  {
+    id: "USR-002",
+    name: "Pastor Thang San",
+    email: "thangsan@gracebaptist.org",
+    role: "Church Facilitator",
+    church: "Yangon Grace Baptist Church",
+    lastLogin: "2 hours ago",
+    status: "Active 🟢"
+  },
+  {
+    id: "USR-003",
+    name: "Rev. Stephen Myo",
+    email: "stephenmyo@emmanuelmandalay.org",
+    role: "Regional Coordinator",
+    church: "Mandalay Upper Myanmar",
+    lastLogin: "Yesterday",
+    status: "Active 🟢"
+  },
+  {
+    id: "USR-004",
+    name: "Saya David Lian",
+    email: "davidlian@taunggyicf.org",
+    role: "Church Facilitator",
+    church: "Taunggyi Christian Fellowship",
+    lastLogin: "3 days ago",
+    status: "Active 🟢"
+  }
+];
+
+// Testimonies Local State
+let cbnTestimoniesList = [
+  {
+    id: "TEST-01",
+    name: "Daw Aye Aye & U Kyaw Min",
+    church: "Yangon Grace Baptist Church",
+    excerpt: "ဒီသင်တန်းကို တက်ရောက်ပြီးနောက်ပိုင်း ကျွန်မတို့မိသားစုအတွင်း အော်ဟစ်ဆူပူခြင်းတွေ ရပ်တန့်သွားပြီး မေတ္တာနဲ့ နားထောင်ပေးတတ်တဲ့ မိဘကောင်းတွေ ဖြစ်လာပါပြီ။",
+    media: "Video Clip 🎬",
+    featured: true
+  },
+  {
+    id: "TEST-02",
+    name: "Saya Peter Chin",
+    church: "Hakha Baptist Church",
+    excerpt: "Our Chin community needed this biblical guidance so much. The video quality and Burmese subtitles touched the heart of every single father.",
+    media: "Written Interview 📄",
+    featured: true
+  },
+  {
+    id: "TEST-03",
+    name: "Ko Thura & Ma San San",
+    church: "Mandalay Emmanuel AG Church",
+    excerpt: "ကလေးတွေကို ဖုန်းနဲ့ screen time ကန့်သတ်ရာမှာ အရင်က အမြဲရန်ဖြစ်ရပါတယ်။ အခုတော့ စည်းကမ်းနဲ့ ချစ်ခြင်းမေတ္တာကို မျှတစွာ ပေးနိုင်ခဲ့ပါပြီ။",
+    media: "Audio Recording 🎙️",
+    featured: false
+  }
+];
+
+// Behind the Scenes Local State
+let cbnBtsList = [
+  {
+    title: "Filming Module 1 & 2 in Yangon Studio",
+    desc: "Behind the scenes with the Burmese actors portraying parents resolving family tension with biblical wisdom.",
+    badge: "Yangon Studio",
+    icon: "🎥"
+  },
+  {
+    title: "Burmese Audio Dubbing & Translation Review",
+    desc: "Theology and linguistic review team ensuring faithful biblical terminology in Burmese, Jinghpaw, and Karen.",
+    badge: "Sound Design",
+    icon: "🎙️"
+  },
+  {
+    title: "Field Pilot Training with 20 Church Pastors",
+    desc: "Facilitators practicing the 11-session group dynamic discussions and workbook exercises in Insein.",
+    badge: "Facilitator Cohort",
+    icon: "👥"
+  }
+];
 
 function switchCbnAdminView(view) {
   const views = {
     'dashboard': 'cbn-view-dashboard',
+    'project': 'cbn-view-project',
     'organisations': 'cbn-view-organisations',
     'surveys': 'cbn-view-surveys',
+    'survey-summary': 'cbn-view-survey-summary',
+    'recycle': 'cbn-view-recycle',
+    'users': 'cbn-view-users',
     'lessons': 'cbn-view-lessons',
     'materials': 'cbn-view-materials',
+    'guidebooks': 'cbn-view-guidebooks',
+    'testimonies': 'cbn-view-testimonies',
+    'bts': 'cbn-view-bts',
+    'del-req': 'cbn-view-del-req',
     'logs': 'cbn-view-logs',
     'rules': 'cbn-view-rules',
-    'upload': 'cbn-view-upload',
-    'live-portal': 'cbn-view-live-portal',
-    'del-req': 'cbn-view-del-req',
-    'recycle': 'cbn-view-recycle'
+    'upload': 'cbn-view-upload'
   };
 
   const navIds = {
     'dashboard': 'cbn-nav-dashboard',
+    'project': 'cbn-nav-project',
     'organisations': 'cbn-nav-organisations',
     'surveys': 'cbn-nav-surveys',
+    'survey-summary': 'cbn-nav-survey-summary',
+    'recycle': 'cbn-nav-recycle',
+    'users': 'cbn-nav-users',
     'lessons': 'cbn-nav-lessons',
     'materials': 'cbn-nav-materials',
+    'guidebooks': 'cbn-nav-guidebooks',
+    'testimonies': 'cbn-nav-testimonies',
+    'bts': 'cbn-nav-bts',
+    'del-req': 'cbn-nav-del-req',
     'logs': 'cbn-nav-logs',
     'rules': 'cbn-nav-rules',
-    'upload': 'cbn-nav-upload',
-    'live-portal': 'cbn-nav-live-portal',
-    'del-req': 'cbn-nav-del-req',
-    'recycle': 'cbn-nav-recycle'
+    'upload': 'cbn-nav-upload'
   };
 
   const titles = {
     'dashboard': 'Dashboard',
+    'project': 'Project Sessions & Cohorts',
     'organisations': 'List of Organisations',
     'surveys': 'CA Survey Management',
+    'survey-summary': 'Survey Summary & Analytics',
+    'recycle': 'Recycle Bin',
+    'users': 'User Accounts & Roles',
     'lessons': 'Lesson Management (11 Modules)',
-    'materials': 'Promotional & Guideline Materials',
+    'materials': 'Promotional Materials',
+    'guidebooks': 'Guideline Materials',
+    'testimonies': 'Parent Testimonies',
+    'bts': 'Behind the Scenes',
+    'del-req': 'Delete Account Requests',
     'logs': 'Real-Time Audit Logs',
     'rules': 'Content Access Rules',
-    'upload': 'Video Upload Manager',
-    'live-portal': 'Official CBN Myanmar Portal',
-    'del-req': 'Delete Account Requests',
-    'recycle': 'Recycle Bin'
+    'upload': 'Video Upload Manager'
   };
 
   document.querySelectorAll('.cbn-view-section').forEach(el => el.style.display = 'none');
@@ -2560,7 +2713,15 @@ function switchCbnAdminView(view) {
   const breadcrumbEl = document.getElementById('cbn-breadcrumb-title');
   if (breadcrumbEl) breadcrumbEl.textContent = titles[view] || 'Dashboard';
 
-  if (view === 'rules') {
+  if (view === 'project') {
+    renderCbnProjectSessions();
+  } else if (view === 'users') {
+    renderCbnUsers();
+  } else if (view === 'testimonies') {
+    renderCbnTestimonies();
+  } else if (view === 'bts') {
+    renderCbnBts();
+  } else if (view === 'rules') {
     loadInpageContentRules();
   } else if (view === 'upload') {
     loadInpageVideosList();
@@ -2619,11 +2780,6 @@ function switchCbnTableTab(tab) {
   if (viewContact) viewContact.style.display = tab === 'contact' ? 'block' : 'none';
 }
 window.switchCbnTableTab = switchCbnTableTab;
-
-function openLiveCbnPortal() {
-  window.open('https://tpp.cbnmyanmar.org/en/admin/dashboard', '_blank');
-}
-window.openLiveCbnPortal = openLiveCbnPortal;
 
 function renderCbnDashboard(list) {
   if (!list) list = [];
@@ -3044,6 +3200,348 @@ function rejectDelReq(id) {
 }
 window.rejectDelReq = rejectDelReq;
 window.renderCbnLogs = renderCbnLogs;
+
+// ==========================================
+// PROJECT SESSIONS CONTROLS
+// ==========================================
+function renderCbnProjectSessions(filteredList) {
+  const tbody = document.getElementById('cbn-sessions-tbody');
+  if (!tbody) return;
+
+  const list = filteredList || cbnProjectSessions;
+  const activeCount = list.filter(s => s.status.includes('Active')).length;
+  const totalFam = list.reduce((acc, s) => acc + (parseInt(s.fam) || 0), 0);
+
+  const kActive = document.getElementById('cbn-session-active-count');
+  if (kActive) kActive.textContent = activeCount;
+  const kFam = document.getElementById('cbn-session-families-count');
+  if (kFam) kFam.textContent = totalFam;
+  const navSessionCount = document.getElementById('cbn-nav-session-count');
+  if (navSessionCount) navSessionCount.textContent = `${activeCount} Active`;
+
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No sessions found. Click "+ Start New Session" to create one.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(s => `
+    <tr>
+      <td style="font-family:monospace;font-size:0.78rem;color:#ffcc00">${s.id}</td>
+      <td><strong>${s.churchName}</strong></td>
+      <td style="color:rgba(255,255,255,0.8)">${s.region}</td>
+      <td style="color:#2dce89;font-weight:600">${s.lead}</td>
+      <td style="font-size:0.8rem;color:rgba(255,255,255,0.7)">${s.start}</td>
+      <td style="font-size:0.8rem;color:rgba(255,255,255,0.7)">${s.end}</td>
+      <td><span style="font-weight:700">${s.fam}</span> Families</td>
+      <td><span style="background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:12px;font-size:0.75rem;font-weight:700">${s.status}</span></td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn btn-outline btn-xs" onclick="extendCbnSession('${s.id}')" title="Grant 30-day cohort extension">
+            +30 Days
+          </button>
+          <button type="button" class="btn btn-gold btn-xs" onclick="showToast('📋 Detailed cohort log opened for ${s.churchName.replace(/'/g, "")}')">
+            Details
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+window.renderCbnProjectSessions = renderCbnProjectSessions;
+
+function filterCbnSessions(query) {
+  const q = (query || '').toLowerCase().trim();
+  if (!q) {
+    renderCbnProjectSessions();
+    return;
+  }
+  const filtered = cbnProjectSessions.filter(s => 
+    s.churchName.toLowerCase().includes(q) ||
+    s.lead.toLowerCase().includes(q) ||
+    s.region.toLowerCase().includes(q) ||
+    s.id.toLowerCase().includes(q)
+  );
+  renderCbnProjectSessions(filtered);
+}
+window.filterCbnSessions = filterCbnSessions;
+
+function extendCbnSession(id) {
+  const sess = cbnProjectSessions.find(s => s.id === id);
+  if (sess) {
+    const end = new Date(sess.end || Date.now());
+    end.setDate(end.getDate() + 30);
+    sess.end = end.toISOString().split('T')[0];
+    sess.status = 'Extended 🟢';
+    renderCbnProjectSessions();
+    showToast(`✅ Cohort session for ${sess.churchName} extended by 30 days until ${sess.end}!`);
+  }
+}
+window.extendCbnSession = extendCbnSession;
+
+function exportSessionsCsv() {
+  let csv = "data:text/csv;charset=utf-8,Session_ID,Church_Name,Region,Lead_Pastor,Start_Date,End_Date,Enrolled_Families,Status\n";
+  cbnProjectSessions.forEach(s => {
+    csv += `"${s.id}","${s.churchName}","${s.region}","${s.lead}","${s.start}","${s.end}",${s.fam},"${s.status}"\n`;
+  });
+  const encoded = encodeURI(csv);
+  const a = document.createElement("a");
+  a.href = encoded;
+  a.download = "The_Parenting_Project_Church_Sessions.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast("📥 Exported Church Sessions CSV!");
+}
+window.exportSessionsCsv = exportSessionsCsv;
+
+function openNewSessionModal() {
+  const modal = document.getElementById('cbnNewSessionModal');
+  if (modal) {
+    modal.classList.add('open');
+    const startInput = document.getElementById('new-sess-start');
+    const endInput = document.getElementById('new-sess-end');
+    const today = new Date();
+    const end = new Date();
+    end.setDate(today.getDate() + 60);
+    if (startInput) startInput.value = today.toISOString().split('T')[0];
+    if (endInput) endInput.value = end.toISOString().split('T')[0];
+  }
+}
+window.openNewSessionModal = openNewSessionModal;
+
+function closeNewSessionModal() {
+  const modal = document.getElementById('cbnNewSessionModal');
+  if (modal) modal.classList.remove('open');
+}
+window.closeNewSessionModal = closeNewSessionModal;
+
+function handleNewSessionSubmit(e) {
+  e.preventDefault();
+  const church = document.getElementById('new-sess-church')?.value || 'New Church';
+  const start = document.getElementById('new-sess-start')?.value || '2026-10-01';
+  const end = document.getElementById('new-sess-end')?.value || '2026-12-01';
+  const lead = document.getElementById('new-sess-lead')?.value || 'Saya / Pastor';
+  const fam = document.getElementById('new-sess-fam')?.value || 40;
+  const modules = document.getElementById('new-sess-modules')?.value || 'all';
+
+  const newId = `SESS-2026-0${cbnProjectSessions.length + 1}`;
+  cbnProjectSessions.unshift({
+    id: newId,
+    churchName: church,
+    region: "Myanmar",
+    lead: lead,
+    start: start,
+    end: end,
+    fam: parseInt(fam) || 40,
+    status: "Active 🟢",
+    modules: modules === 'all' ? 'All 11 Modules Unlocked' : 'Weekly Staged Release'
+  });
+
+  closeNewSessionModal();
+  renderCbnProjectSessions();
+  switchCbnAdminView('project');
+  showToast(`🚀 New Parenting Project Session launched for ${church}!`);
+}
+window.handleNewSessionSubmit = handleNewSessionSubmit;
+
+// ==========================================
+// SYSTEM USERS CONTROLS
+// ==========================================
+function renderCbnUsers(filteredList) {
+  const tbody = document.getElementById('cbn-users-tbody');
+  if (!tbody) return;
+
+  const list = filteredList || cbnUsersList;
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No users found matching query.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(u => `
+    <tr>
+      <td style="font-family:monospace;font-size:0.78rem;color:#ffcc00">${u.id}</td>
+      <td><strong>${u.name}</strong></td>
+      <td style="color:rgba(255,255,255,0.8)">${u.email}</td>
+      <td><span style="background:rgba(255,204,0,0.15);color:#ffcc00;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700">${u.role}</span></td>
+      <td style="color:rgba(255,255,255,0.7)">${u.church}</td>
+      <td style="font-size:0.78rem;color:rgba(255,255,255,0.5)">${u.lastLogin}</td>
+      <td><span style="font-weight:700">${u.status}</span></td>
+      <td>
+        <button type="button" class="btn btn-outline btn-xs" onclick="toggleUserStatus('${u.id}')">
+          ${u.status.includes('Active') ? 'Deactivate' : 'Activate'}
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+window.renderCbnUsers = renderCbnUsers;
+
+function filterCbnUsers(query) {
+  const q = (query || '').toLowerCase().trim();
+  if (!q) {
+    renderCbnUsers();
+    return;
+  }
+  const filtered = cbnUsersList.filter(u =>
+    u.name.toLowerCase().includes(q) ||
+    u.email.toLowerCase().includes(q) ||
+    u.role.toLowerCase().includes(q) ||
+    u.church.toLowerCase().includes(q)
+  );
+  renderCbnUsers(filtered);
+}
+window.filterCbnUsers = filterCbnUsers;
+
+function toggleUserStatus(id) {
+  const u = cbnUsersList.find(x => x.id === id);
+  if (u) {
+    u.status = u.status.includes('Active') ? 'Inactive ⚪' : 'Active 🟢';
+    renderCbnUsers();
+    showToast(`Updated status for ${u.name}`);
+  }
+}
+window.toggleUserStatus = toggleUserStatus;
+
+function openAddUserModal() {
+  const modal = document.getElementById('cbnAddUserModal');
+  if (modal) modal.classList.add('open');
+}
+window.openAddUserModal = openAddUserModal;
+
+function closeAddUserModal() {
+  const modal = document.getElementById('cbnAddUserModal');
+  if (modal) modal.classList.remove('open');
+}
+window.closeAddUserModal = closeAddUserModal;
+
+function handleAddUserSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('new-user-name')?.value || 'User';
+  const email = document.getElementById('new-user-email')?.value || 'email@cbnmyanmar.org';
+  const role = document.getElementById('new-user-role')?.value || 'Regional Coordinator';
+  const church = document.getElementById('new-user-church')?.value || 'Myanmar Church';
+
+  const newId = `USR-00${cbnUsersList.length + 1}`;
+  cbnUsersList.push({
+    id: newId,
+    name: name,
+    email: email,
+    role: role,
+    church: church,
+    lastLogin: "Never",
+    status: "Active 🟢"
+  });
+
+  closeAddUserModal();
+  renderCbnUsers();
+  showToast(`✅ Created user account for ${name} (${role})`);
+}
+window.handleAddUserSubmit = handleAddUserSubmit;
+
+// ==========================================
+// TESTIMONIES & BTS CONTROLS
+// ==========================================
+function renderCbnTestimonies() {
+  const tbody = document.getElementById('cbn-testimonies-tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = cbnTestimoniesList.map(t => `
+    <tr>
+      <td><strong>${t.name}</strong></td>
+      <td style="color:#ffcc00">${t.church}</td>
+      <td style="font-size:0.8rem;color:rgba(255,255,255,0.85);max-width:320px;white-space:normal">${t.excerpt}</td>
+      <td><span style="font-size:0.78rem">${t.media}</span></td>
+      <td>
+        <span style="color:${t.featured ? '#2dce89' : 'rgba(255,255,255,0.4)'};font-weight:700">
+          ${t.featured ? '⭐ Featured' : 'Hidden'}
+        </span>
+      </td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn btn-outline btn-xs" onclick="toggleTestimonyFeatured('${t.id}')">
+            ${t.featured ? 'Unfeature' : '⭐ Feature'}
+          </button>
+          <button type="button" class="btn btn-outline btn-xs" style="color:#ff9999;border-color:rgba(255,100,100,0.3)" onclick="deleteTestimony('${t.id}')">
+            ✕
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+window.renderCbnTestimonies = renderCbnTestimonies;
+
+function toggleTestimonyFeatured(id) {
+  const t = cbnTestimoniesList.find(x => x.id === id);
+  if (t) {
+    t.featured = !t.featured;
+    renderCbnTestimonies();
+    showToast(t.featured ? `⭐ Featured on website homepage!` : `Unfeatured from homepage.`);
+  }
+}
+window.toggleTestimonyFeatured = toggleTestimonyFeatured;
+
+function deleteTestimony(id) {
+  cbnTestimoniesList = cbnTestimoniesList.filter(x => x.id !== id);
+  renderCbnTestimonies();
+  showToast('Testimony removed.');
+}
+window.deleteTestimony = deleteTestimony;
+
+function addNewTestimonyPrompt() {
+  const name = prompt('Parent or Pastor Name:');
+  if (!name) return;
+  const church = prompt('Church and City:');
+  const excerpt = prompt('Burmese Testimony Story Excerpt:');
+  if (!excerpt) return;
+
+  cbnTestimoniesList.push({
+    id: `TEST-0${cbnTestimoniesList.length + 1}`,
+    name: name,
+    church: church || 'Partner Church',
+    excerpt: excerpt,
+    media: 'Written Story 📄',
+    featured: true
+  });
+  renderCbnTestimonies();
+  showToast('✅ Added new testimony!');
+}
+window.addNewTestimonyPrompt = addNewTestimonyPrompt;
+
+function renderCbnBts() {
+  const grid = document.getElementById('cbn-bts-grid');
+  if (!grid) return;
+
+  grid.innerHTML = cbnBtsList.map(b => `
+    <div class="cbn-panel-card" style="margin-bottom:0">
+      <div style="font-size:2rem;margin-bottom:8px">${b.icon}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:0.75rem;background:rgba(255,204,0,0.15);color:#ffcc00;padding:2px 8px;border-radius:10px;font-weight:700">${b.badge}</span>
+      </div>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#fff;margin:6px 0">${b.title}</h4>
+      <p style="font-size:0.8rem;color:rgba(255,255,255,0.7);line-height:1.4">${b.desc}</p>
+      <button type="button" class="btn btn-outline btn-xs" style="margin-top:8px" onclick="showToast('🎬 Behind the scenes gallery preview opened!')">
+        Preview Gallery ➔
+      </button>
+    </div>
+  `).join('');
+}
+window.renderCbnBts = renderCbnBts;
+
+// ==========================================
+// ADMIN PROFILE MODAL
+// ==========================================
+function openAdminProfileModal() {
+  const modal = document.getElementById('cbnProfileModal');
+  if (modal) modal.classList.add('open');
+}
+window.openAdminProfileModal = openAdminProfileModal;
+
+function closeAdminProfileModal() {
+  const modal = document.getElementById('cbnProfileModal');
+  if (modal) modal.classList.remove('open');
+}
+window.closeAdminProfileModal = closeAdminProfileModal;
 
 function renderInpageKPIs(list) {
   const kChurches = document.getElementById('inpage-kpi-churches');

@@ -1006,20 +1006,23 @@
         </a>
 
         <div class="cbn-nav-section-title">Project</div>
+        <a class="cbn-nav-item" id="cbn-nav-project" onclick="switchCbnAdminView('project')">
+          <div class="cbn-nav-icon">🚀</div>
+          <span>Project Sessions</span>
+          <span class="cbn-badge-nav" id="cbn-nav-session-count" style="background:#2dce89">3 Active</span>
+        </a>
+
+        <div class="cbn-nav-section-title">List of Organisations</div>
         <a class="cbn-nav-item" id="cbn-nav-organisations" onclick="switchCbnAdminView('organisations')">
           <div class="cbn-nav-icon">⛪</div>
-          <span>List of Organisations</span>
-          <span class="cbn-badge-nav" id="cbn-nav-org-count">4</span>
-        </a>
-        <a class="cbn-nav-item" id="cbn-nav-org-manage" onclick="switchCbnAdminView('organisations')">
-          <div class="cbn-nav-icon">⚙️</div>
           <span>Organisation Management</span>
+          <span class="cbn-badge-nav" id="cbn-nav-org-count">4</span>
         </a>
         <a class="cbn-nav-item" id="cbn-nav-surveys" onclick="switchCbnAdminView('surveys')">
           <div class="cbn-nav-icon">📊</div>
           <span>CA Survey Management</span>
         </a>
-        <a class="cbn-nav-item" id="cbn-nav-survey-summary" onclick="switchCbnAdminView('surveys')">
+        <a class="cbn-nav-item" id="cbn-nav-survey-summary" onclick="switchCbnAdminView('survey-summary')">
           <div class="cbn-nav-icon">📈</div>
           <span>Survey Summary</span>
         </a>
@@ -1029,28 +1032,32 @@
         </a>
 
         <div class="cbn-nav-section-title">Users</div>
-        <a class="cbn-nav-item" id="cbn-nav-users" onclick="switchCbnAdminView('organisations')">
+        <a class="cbn-nav-item" id="cbn-nav-users" onclick="switchCbnAdminView('users')">
           <div class="cbn-nav-icon">👥</div>
-          <span>Users & Facilitators</span>
+          <span>User Accounts & Roles</span>
         </a>
 
         <div class="cbn-nav-section-title">Lessons & Curriculum</div>
         <a class="cbn-nav-item" id="cbn-nav-lessons" onclick="switchCbnAdminView('lessons')">
           <div class="cbn-nav-icon">📖</div>
           <span>Lesson Management</span>
-          <span class="cbn-badge-nav" style="background:#5e72e4">11</span>
+          <span class="cbn-badge-nav" style="background:#5e72e4">11 Modules</span>
         </a>
         <a class="cbn-nav-item" id="cbn-nav-materials" onclick="switchCbnAdminView('materials')">
           <div class="cbn-nav-icon">🎨</div>
           <span>Promotional Materials</span>
         </a>
-        <a class="cbn-nav-item" id="cbn-nav-guidelines" onclick="switchCbnAdminView('materials')">
+        <a class="cbn-nav-item" id="cbn-nav-guidebooks" onclick="switchCbnAdminView('guidebooks')">
           <div class="cbn-nav-icon">📘</div>
           <span>Guideline Materials</span>
         </a>
-        <a class="cbn-nav-item" id="cbn-nav-testimonies" onclick="switchCbnAdminView('materials')">
+        <a class="cbn-nav-item" id="cbn-nav-testimonies" onclick="switchCbnAdminView('testimonies')">
           <div class="cbn-nav-icon">💬</div>
-          <span>Testimonies & Behind Scenes</span>
+          <span>Testimonies</span>
+        </a>
+        <a class="cbn-nav-item" id="cbn-nav-bts" onclick="switchCbnAdminView('bts')">
+          <div class="cbn-nav-icon">🎬</div>
+          <span>Behind the Scenes</span>
         </a>
 
         <div class="cbn-nav-section-title">System & Security</div>
@@ -1063,37 +1070,32 @@
           <span>Audit Logs</span>
         </a>
         <a class="cbn-nav-item" id="cbn-nav-rules" onclick="switchCbnAdminView('rules')">
-          <div class="cbn-nav-icon">🎬</div>
+          <div class="cbn-nav-icon">🔒</div>
           <span>Content Rules (Paywall)</span>
         </a>
         <a class="cbn-nav-item" id="cbn-nav-upload" onclick="switchCbnAdminView('upload')">
           <div class="cbn-nav-icon">📤</div>
           <span>Video Upload Manager</span>
         </a>
-
-        <div class="cbn-nav-section-title">Live CBN Portal</div>
-        <a class="cbn-nav-item" onclick="openLiveCbnPortal()" title="Open official tpp.cbnmyanmar.org in new tab" style="color:#ffcc00">
-          <div class="cbn-nav-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00">🌐</div>
-          <span>Open Live CBN Portal ↗</span>
-        </a>
-        <a class="cbn-nav-item" id="cbn-nav-live-portal" onclick="switchCbnAdminView('live-portal')">
-          <div class="cbn-nav-icon">🖥️</div>
-          <span>Live Portal Bridge</span>
-        </a>
       </div>
 
       <!-- Sidenav Profile Footer -->
       <div class="cbn-sidenav-profile">
-        <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openAdminProfileModal()">
           <div style="width:34px;height:34px;border-radius:50%;background:#ffcc00;color:#061830;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem">🛡️</div>
           <div style="flex:1;overflow:hidden">
             <div style="font-size:0.82rem;font-weight:800;color:#fff;white-space:nowrap;text-overflow:ellipsis;overflow:hidden">Super Administrator</div>
-            <div style="font-size:0.68rem;color:rgba(255,255,255,0.6)">CBN Asia Myanmar</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.6)">admin@cbnmyanmar.org</div>
           </div>
         </div>
-        <button type="button" class="btn btn-outline btn-xs" style="width:100%;justify-content:center;color:#ff9999;border-color:rgba(255,100,100,0.3);margin-top:4px" onclick="lockAdminSession()">
-          <span>🔒 Lock Admin Session</span>
-        </button>
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <button type="button" class="btn btn-outline btn-xs" style="flex:1;justify-content:center;color:#ffcc00;border-color:rgba(255,204,0,0.3)" onclick="openAdminProfileModal()">
+            <span>👤 Profile</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-xs" style="flex:1;justify-content:center;color:#ff9999;border-color:rgba(255,100,100,0.3)" onclick="lockAdminSession()">
+            <span>🔒 Lock</span>
+          </button>
+        </div>
       </div>
     </aside>
 
@@ -1110,8 +1112,8 @@
           <button type="button" class="btn btn-outline btn-xs" id="btn-admin-fullscreen" onclick="toggleAdminFullscreen()" style="color:#ffcc00;border-color:rgba(255,204,0,0.4)">
             <span>⛶ Full Screen</span>
           </button>
-          <button type="button" class="btn btn-outline btn-xs" onclick="openLiveCbnPortal()" style="color:#ffcc00;border-color:rgba(255,204,0,0.4)">
-            <span>🌐 Live CBN Portal ↗</span>
+          <button type="button" class="btn btn-danger btn-xs" onclick="openNewSessionModal()" style="background:#f5365c;color:#fff;border:none;font-weight:800">
+            <span>🚀 Start New Session</span>
           </button>
           <a id="inpage-btn-dl-excel" href="The_Parenting_Project_Myanmar_Database.xlsx" class="btn btn-gold btn-xs" download>
             <span>📥 Excel</span>
@@ -1131,7 +1133,7 @@
       <!-- Scrollable Body Views -->
       <div class="cbn-body-scroll">
 
-        <!-- VIEW 1: DASHBOARD (Exact Replica of tpp.cbnmyanmar.org/en/admin/dashboard) -->
+        <!-- VIEW 1: DASHBOARD (Native Replica of CBN Myanmar Admin Dashboard) -->
         <section id="cbn-view-dashboard" class="cbn-view-section">
           
           <!-- Hero Banner -->
@@ -1140,13 +1142,13 @@
               <h2 class="cbn-hero-title">Welcome to The Parenting Project</h2>
               <p class="cbn-hero-subtitle">Together we equip every parent to become a good example for their children.</p>
               <div>
-                <button type="button" class="cbn-hero-btn" onclick="switchCbnAdminView('organisations')">
-                  <span>🚀 START THE PARENTING PROJECT / VIEW SESSIONS</span>
+                <button type="button" class="cbn-hero-btn" onclick="openNewSessionModal()">
+                  <span>🚀 START THE PARENTING PROJECT / NEW SESSION</span>
                 </button>
               </div>
             </div>
             <div class="cbn-hero-img-wrap">
-              <img src="https://tpp.cbnmyanmar.org/img/slideshow/LMS-dashboard1.png" onerror="this.onerror=null;this.src='cbn_lms_dashboard.png';" alt="The Parenting Project Slideshow"/>
+              <img src="cbn_lms_dashboard_opt.jpg" alt="The Parenting Project Slideshow"/>
             </div>
           </div>
 
@@ -1718,21 +1720,275 @@
           </div>
         </section>
 
-        <!-- VIEW 8: LIVE CBN MYANMAR PORTAL BRIDGE -->
-        <section id="cbn-view-live-portal" class="cbn-view-section" style="display:none">
-          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <!-- VIEW: PROJECT SESSIONS & COHORTS -->
+        <section id="cbn-view-project" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(45,206,137,0.4);border-radius:14px;padding:1.3rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
             <div>
-              <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00">🌐 Official CBN Myanmar Portal Bridge</h3>
-              <div style="font-size:0.82rem;color:rgba(255,255,255,0.75);margin-top:2px">
-                Direct integration with <strong style="color:#fff">https://tpp.cbnmyanmar.org/en/admin/dashboard</strong>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#2dce89;margin-bottom:0.25rem">🚀 Church Sessions & Cohort Management</h3>
+              <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+                Active Parenting Project cohorts running across partner churches in Myanmar. Manage session durations, dates, and family cohorts.
+              </p>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button type="button" class="btn btn-danger btn-xs" onclick="openNewSessionModal()" style="background:#f5365c;color:#fff;border:none;font-weight:800">
+                <span>+ Start New Session</span>
+              </button>
+              <button type="button" class="btn btn-outline btn-xs" onclick="exportSessionsCsv()" style="color:#2dce89;border-color:rgba(45,206,137,0.4)">
+                <span>📥 Export Sessions CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="cbn-kpi-grid">
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Active Church Sessions</div>
+              <div class="cbn-kpi-num" id="cbn-session-active-count" style="color:#2dce89">3</div>
+              <div class="cbn-kpi-sub">Currently running parenting modules</div>
+            </div>
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Participating Families</div>
+              <div class="cbn-kpi-num" id="cbn-session-families-count" style="color:#ffcc00">185</div>
+              <div class="cbn-kpi-sub">Parents undergoing 11 sessions</div>
+            </div>
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Completed Cohorts</div>
+              <div class="cbn-kpi-num" style="color:#5e72e4">1</div>
+              <div class="cbn-kpi-sub">Graduated parent groups</div>
+            </div>
+            <div class="cbn-kpi-card">
+              <div class="cbn-kpi-title">Extension Requests</div>
+              <div class="cbn-kpi-num" style="color:#fb6340">0</div>
+              <div class="cbn-kpi-sub">Pending review</div>
+            </div>
+          </div>
+
+          <div class="cbn-panel-card">
+            <div class="cbn-panel-header">
+              <h4 style="font-size:1.05rem;font-weight:800;color:#fff">All Church Parenting Sessions</h4>
+              <div class="admin-search-box" style="width:260px">
+                <input type="text" id="cbn-sessions-search" placeholder="Search sessions..." oninput="filterCbnSessions(this.value)"/>
               </div>
             </div>
-            <button type="button" class="btn btn-gold" onclick="openLiveCbnPortal()">
-              <span>🚀 Open Live Portal in New Tab ↗</span>
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Session ID</th>
+                    <th>Church / Organisation</th>
+                    <th>Region / City</th>
+                    <th>Coordinator / Lead</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Families</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-sessions-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: SURVEY SUMMARY & VISUAL ANALYTICS -->
+        <section id="cbn-view-survey-summary" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.3rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.25rem">📈 Parenting Project Survey Analytics & Impact Summary</h3>
+              <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+                Evaluation results compiled from pre-training & post-training parent assessments across Myanmar.
+              </p>
+            </div>
+            <button type="button" class="btn btn-gold btn-xs" onclick="exportSurveysCsv()">
+              <span>📥 Export Full Report</span>
             </button>
           </div>
-          <div class="cbn-live-frame-container">
-            <iframe src="https://tpp.cbnmyanmar.org/en/admin/dashboard" class="cbn-live-frame" title="Live CBN Myanmar Admin Portal"></iframe>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.2rem;margin-bottom:1.5rem">
+            <div class="cbn-panel-card" style="margin-bottom:0">
+              <h4 style="font-size:0.95rem;font-weight:800;color:#ffcc00;margin-bottom:1rem">Core Family Transformation Indicators</h4>
+              
+              <div style="margin-bottom:1rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px">
+                  <span>Parent-Child Connection & Quality Time</span>
+                  <strong style="color:#2dce89">+58% Growth</strong>
+                </div>
+                <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
+                  <div style="width:92%;height:100%;background:linear-gradient(90deg, #2dce89, #2dcecc)"></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:1rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px">
+                  <span>Positive Biblical Discipline (Non-Violence)</span>
+                  <strong style="color:#ffcc00">+49% Confidence</strong>
+                </div>
+                <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
+                  <div style="width:87%;height:100%;background:linear-gradient(90deg, #ffcc00, #ff9000)"></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:1rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px">
+                  <span>Emotional Tank & Listening Skills</span>
+                  <strong style="color:#5e72e4">+64% Improvement</strong>
+                </div>
+                <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
+                  <div style="width:94%;height:100%;background:linear-gradient(90deg, #5e72e4, #825ee4)"></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px">
+                  <span>Spiritual Faith Nurturing in Home</span>
+                  <strong style="color:#2dce89">+72% Growth</strong>
+                </div>
+                <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
+                  <div style="width:96%;height:100%;background:linear-gradient(90deg, #2dce89, #4cd964)"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cbn-panel-card" style="margin-bottom:0">
+              <h4 style="font-size:0.95rem;font-weight:800;color:#ffcc00;margin-bottom:1rem">Burmese Parent Testimonial Quotes</h4>
+              <div style="display:flex;flex-direction:column;gap:12px;font-size:0.82rem">
+                <div style="background:rgba(255,255,255,0.04);padding:10px 14px;border-radius:8px;border-left:3px solid #ffcc00">
+                  <p style="margin:0 0 4px;font-style:italic">"ဒီသင်တန်းက သားသမီးတွေနဲ့ ဆက်ဆံရေးကို လုံးဝပြောင်းလဲစေခဲ့ပါတယ်။ စိတ်ရှည်နားထောင်တတ်လာပါပြီ။"</p>
+                  <small style="color:rgba(255,255,255,0.6)">— Daw Aye Aye, Yangon Grace Baptist Church</small>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);padding:10px 14px;border-radius:8px;border-left:3px solid #2dce89">
+                  <p style="margin:0 0 4px;font-style:italic">"Our church families were deeply blessed. Fathers are taking active leadership in loving their children."</p>
+                  <small style="color:rgba(255,255,255,0.6)">— Pastor Thang San, Insein</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: USER ACCOUNTS & ROLES -->
+        <section id="cbn-view-users" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.3rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.25rem">👥 User Accounts & Role Permissions</h3>
+              <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+                CBN Myanmar administrators, regional facilitators, and verified church leaders.
+              </p>
+            </div>
+            <button type="button" class="btn btn-gold btn-xs" onclick="openAddUserModal()">
+              <span>+ Add New User</span>
+            </button>
+          </div>
+
+          <div class="cbn-panel-card">
+            <div class="cbn-panel-header">
+              <h4 style="font-size:1.05rem;font-weight:800;color:#fff">System Users Directory</h4>
+              <div class="admin-search-box" style="width:240px">
+                <input type="text" id="cbn-users-search" placeholder="Search user..." oninput="filterCbnUsers(this.value)"/>
+              </div>
+            </div>
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                    <th>Role</th>
+                    <th>Affiliated Church / Region</th>
+                    <th>Last Login</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-users-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: GUIDELINE MATERIALS & BOOKLETS -->
+        <section id="cbn-view-guidebooks" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.3rem;margin-bottom:1.5rem">
+            <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.25rem">📘 Facilitator Guides & Curriculum Booklets</h3>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+              Download official manuals, discussion questions, homework assignments, and graduation certificates in Burmese.
+            </p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.2rem">
+            <div class="cbn-kpi-card">
+              <div style="font-size:1.8rem;margin-bottom:8px">📖</div>
+              <h4 style="font-size:1rem;font-weight:800;color:#ffcc00">Facilitator Master Guide (Burmese)</h4>
+              <p style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin:6px 0 14px">Step-by-step 11-week guide for pastors and small-group facilitators with answers and activities.</p>
+              <a href="The_Parenting_Project_Myanmar_Facilitator_Guide.pdf" download class="btn btn-gold btn-xs" style="width:fit-content">📥 Download Master Guide (PDF)</a>
+            </div>
+
+            <div class="cbn-kpi-card">
+              <div style="font-size:1.8rem;margin-bottom:8px">📝</div>
+              <h4 style="font-size:1rem;font-weight:800;color:#ffcc00">Parent Participant Workbook</h4>
+              <p style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin:6px 0 14px">Weekly devotional worksheets, personal reflection questions, and family commitment contracts.</p>
+              <button type="button" class="btn btn-outline btn-xs" style="width:fit-content;color:#ffcc00;border-color:#ffcc00" onclick="alert('Downloading Parent Participant Workbook PDF (Burmese)...')">📥 Download Workbook (PDF)</button>
+            </div>
+
+            <div class="cbn-kpi-card">
+              <div style="font-size:1.8rem;margin-bottom:8px">🎓</div>
+              <h4 style="font-size:1rem;font-weight:800;color:#ffcc00">Official Graduation Certificate</h4>
+              <p style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin:6px 0 14px">Certificates signed by CBN Asia Myanmar leadership for families completing the 11-session project.</p>
+              <button type="button" class="btn btn-outline btn-xs" style="width:fit-content;color:#2dce89;border-color:#2dce89" onclick="openCertificateModal()">🎓 Certificate Generator</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: TESTIMONIES -->
+        <section id="cbn-view-testimonies" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.3rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.25rem">💬 Parent & Pastor Testimonies</h3>
+              <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+                Stories of life change from Christian parents across Myanmar. Feature approved testimonies on the front page.
+              </p>
+            </div>
+            <button type="button" class="btn btn-gold btn-xs" onclick="addNewTestimonyPrompt()">
+              <span>+ Add Testimony</span>
+            </button>
+          </div>
+
+          <div class="cbn-panel-card">
+            <div class="cbn-table-wrap">
+              <table class="cbn-table">
+                <thead>
+                  <tr>
+                    <th>Parent / Pastor</th>
+                    <th>Church / City</th>
+                    <th>Story Excerpt</th>
+                    <th>Attached Media</th>
+                    <th>Frontpage Featured</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="cbn-testimonies-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: BEHIND THE SCENES -->
+        <section id="cbn-view-bts" class="cbn-view-section" style="display:none">
+          <div style="background:rgba(14,46,85,0.65);border:1px solid rgba(255,204,0,0.4);border-radius:14px;padding:1.3rem;margin-bottom:1.5rem">
+            <h3 style="font-size:1.15rem;font-weight:800;color:#ffcc00;margin-bottom:0.25rem">🎬 Behind the Scenes (Production & Filming)</h3>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.8);margin:0">
+              Exclusive footage and photos from the CBN Myanmar production studios, actor rehearsals, and dubbing sessions.
+            </p>
+          </div>
+
+          <div id="cbn-bts-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.2rem">
+            <!-- Populated by JS -->
           </div>
         </section>
 
@@ -1801,6 +2057,149 @@
       </a>
       <button type="button" class="btn btn-gold" style="flex:1;justify-content:center" onclick="closeCbnChurchDetail()">
         <span>Done</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- START NEW SESSION MODAL -->
+<div id="cbnNewSessionModal" class="cbn-detail-modal" role="dialog" aria-modal="true">
+  <div class="cbn-detail-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:1rem;margin-bottom:1.2rem">
+      <h3 style="font-size:1.2rem;font-weight:800;color:#ffcc00">🚀 Start New Parenting Project Session</h3>
+      <button type="button" class="admin-hub-close" onclick="closeNewSessionModal()" style="display:flex">✕</button>
+    </div>
+    <form onsubmit="handleNewSessionSubmit(event)">
+      <div style="margin-bottom:0.9rem">
+        <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Target Church / Partner Organization</label>
+        <select id="new-sess-church" class="rule-select" required style="margin-bottom:0">
+          <option value="Yangon Grace Baptist Church">Yangon Grace Baptist Church (Insein, Yangon)</option>
+          <option value="Mandalay Emmanuel AG Church">Mandalay Emmanuel AG Church (Chanmyathazi)</option>
+          <option value="Taunggyi Christian Fellowship">Taunggyi Christian Fellowship (Taunggyi, Shan)</option>
+          <option value="Hakha Baptist Church">Hakha Baptist Church (Hakha, Chin)</option>
+          <option value="Myitkyina Assembly Church">Myitkyina Assembly Church (Myitkyina, Kachin)</option>
+        </select>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0.9rem">
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Session Start Date</label>
+          <input type="date" id="new-sess-start" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Session End Date</label>
+          <input type="date" id="new-sess-end" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0.9rem">
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Lead Facilitator / Pastor</label>
+          <input type="text" id="new-sess-lead" placeholder="e.g. Pastor Thang San" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Enrolled Families</label>
+          <input type="number" id="new-sess-fam" value="40" min="5" max="500" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.2rem">
+        <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Initial Module Privileges</label>
+        <select id="new-sess-modules" class="rule-select" style="margin-bottom:0">
+          <option value="all">Full Access (All 11 Modules Unlocked)</option>
+          <option value="staged">Weekly Staged Release (Module 1-3)</option>
+        </select>
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button type="button" class="btn btn-outline" style="flex:1;justify-content:center" onclick="closeNewSessionModal()">Cancel</button>
+        <button type="submit" class="btn btn-danger" style="flex:2;justify-content:center;background:#f5365c;border:none">
+          <span>🚀 Launch Church Session</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADD USER MODAL -->
+<div id="cbnAddUserModal" class="cbn-detail-modal" role="dialog" aria-modal="true">
+  <div class="cbn-detail-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:1rem;margin-bottom:1.2rem">
+      <h3 style="font-size:1.2rem;font-weight:800;color:#ffcc00">👥 Add Admin / Facilitator User</h3>
+      <button type="button" class="admin-hub-close" onclick="closeAddUserModal()" style="display:flex">✕</button>
+    </div>
+    <form onsubmit="handleAddUserSubmit(event)">
+      <div style="margin-bottom:0.9rem">
+        <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Full Name</label>
+        <input type="text" id="new-user-name" placeholder="e.g. Saya John Doe" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0.9rem">
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Email Address</label>
+          <input type="email" id="new-user-email" placeholder="email@domain.com" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Role & Permission</label>
+          <select id="new-user-role" class="rule-select" style="margin-bottom:0">
+            <option value="Regional Coordinator">Regional Coordinator</option>
+            <option value="Church Facilitator">Church Facilitator</option>
+            <option value="Super Administrator">Super Administrator</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.2rem">
+        <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:4px">Assigned Church / Region</label>
+        <input type="text" id="new-user-church" placeholder="e.g. Grace Baptist, Yangon" class="gate-input" style="padding:0.55rem;text-align:left;font-size:0.85rem" required/>
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button type="button" class="btn btn-outline" style="flex:1;justify-content:center" onclick="closeAddUserModal()">Cancel</button>
+        <button type="submit" class="btn btn-gold" style="flex:2;justify-content:center">
+          <span>Create User Account</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN PROFILE MODAL -->
+<div id="cbnProfileModal" class="cbn-detail-modal" role="dialog" aria-modal="true">
+  <div class="cbn-detail-card" style="max-width:500px">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:1rem;margin-bottom:1.2rem">
+      <h3 style="font-size:1.2rem;font-weight:800;color:#ffcc00">🛡️ Administrator Profile</h3>
+      <button type="button" class="admin-hub-close" onclick="closeAdminProfileModal()" style="display:flex">✕</button>
+    </div>
+    
+    <div style="text-align:center;padding:1rem 0 1.5rem">
+      <div style="width:68px;height:68px;border-radius:50%;background:#ffcc00;color:#061830;display:inline-flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;margin-bottom:10px">🛡️</div>
+      <h4 style="font-size:1.15rem;font-weight:800;color:#fff;margin:0">Super Administrator</h4>
+      <div style="font-size:0.82rem;color:#2dce89;font-weight:600;margin-top:2px">● Active Session Authorized</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);margin-top:4px">Organization: CBN Asia Myanmar</div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;margin-bottom:1.2rem;font-size:0.82rem">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:rgba(255,255,255,0.6)">Email:</span>
+        <strong style="color:#fff">admin@cbnmyanmar.org</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:rgba(255,255,255,0.6)">Passcode:</span>
+        <strong style="color:#ffcc00">cbn2026</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:rgba(255,255,255,0.6)">Cloudflare Edge Server:</span>
+        <strong style="color:#2dce89">Active (Global Edge)</strong>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px">
+      <button type="button" class="btn btn-outline" style="flex:1;justify-content:center;color:#ff9999;border-color:rgba(255,100,100,0.3)" onclick="closeAdminProfileModal();lockAdminSession()">
+        <span>🔒 Lock Session</span>
+      </button>
+      <button type="button" class="btn btn-gold" style="flex:1;justify-content:center" onclick="closeAdminProfileModal()">
+        <span>Close</span>
       </button>
     </div>
   </div>

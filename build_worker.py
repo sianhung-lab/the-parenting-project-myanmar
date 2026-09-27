@@ -65,6 +65,11 @@ if welcome_bg_b64:
     index_compiled = index_compiled.replace("url('welcome_gate_bg.jpg')", f"url('{welcome_bg_b64}')")
     index_compiled = index_compiled.replace('url("welcome_gate_bg.jpg")', f'url("{welcome_bg_b64}")')
 
+cbn_dash_b64 = get_b64('cbn_lms_dashboard_opt.jpg', 'image/jpeg') or get_b64('cbn_lms_dashboard.png', 'image/png')
+if cbn_dash_b64:
+    index_compiled = index_compiled.replace('src="cbn_lms_dashboard_opt.jpg"', f'src="{cbn_dash_b64}"')
+
+
 # Default custom videos
 default_videos = []
 if os.path.exists(os.path.join(DIR, 'custom_videos.json')):
