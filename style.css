@@ -635,6 +635,81 @@ body.lang-my .nav-link{
   .h12-panel-cta { display: none; }
 }
 
+/* Option 12 & Header Myanmar Layout Alignment */
+body.lang-my header .container {
+  max-width: 100%;
+  padding: 0 1.5rem;
+}
+body.lang-my .nav-inner {
+  gap: 0.8rem;
+}
+body.lang-my #nav-links {
+  gap: 0.1rem;
+}
+body.lang-my .nav-link {
+  font-size: 0.74rem;
+  padding: 0.28rem 0.42rem;
+}
+body.lang-my .nav-right {
+  gap: 0.45rem;
+}
+body.lang-my .btn-nav {
+  padding: 0.42rem 0.88rem;
+  font-size: 0.8rem;
+}
+
+body.lang-my .hero.hero-opt12 {
+  min-height: clamp(660px, 82vh, 800px);
+}
+body.lang-my .hero-opt12 .hero-badge {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.85rem;
+}
+body.lang-my .hero-opt12 .hero-title {
+  font-family: 'Noto Sans Myanmar', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.75rem, 2.7vw, 2.45rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+body.lang-my .hero-opt12 .h12-text-col {
+  max-width: 630px;
+  gap: 1.15rem;
+}
+body.lang-my .hero-opt12 .hero-desc {
+  font-size: 0.98rem;
+  line-height: 1.68;
+  max-width: 610px;
+}
+body.lang-my .hero-opt12 .hero-btns {
+  gap: 0.8rem;
+}
+body.lang-my .hero-opt12 .hero-btns .btn {
+  font-size: 0.88rem;
+  padding: 0.65rem 1.25rem;
+}
+body.lang-my .hero-opt12 .hf-item {
+  font-size: 0.8rem;
+}
+body.lang-my .h12-panel-label {
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+}
+body.lang-my .h12-panel-value {
+  font-family: 'Noto Sans Myanmar', 'Playfair Display', serif;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+body.lang-my .h12-panel-sub {
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+body.lang-my .h12-panel-cta {
+  font-size: 0.74rem;
+  padding: 4px 10px;
+}
+
 /* Option 3 Dynamic Diagonal Photo Stage (Desktop Right 68% - Zoomed Out Camera Angle) */
 
 .hero-diagonal-stage{

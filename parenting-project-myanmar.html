@@ -651,6 +651,81 @@ body.lang-my .nav-link{
   .h12-panel-cta { display: none; }
 }
 
+/* Option 12 & Header Myanmar Layout Alignment */
+body.lang-my header .container {
+  max-width: 100%;
+  padding: 0 1.5rem;
+}
+body.lang-my .nav-inner {
+  gap: 0.8rem;
+}
+body.lang-my #nav-links {
+  gap: 0.1rem;
+}
+body.lang-my .nav-link {
+  font-size: 0.74rem;
+  padding: 0.28rem 0.42rem;
+}
+body.lang-my .nav-right {
+  gap: 0.45rem;
+}
+body.lang-my .btn-nav {
+  padding: 0.42rem 0.88rem;
+  font-size: 0.8rem;
+}
+
+body.lang-my .hero.hero-opt12 {
+  min-height: clamp(660px, 82vh, 800px);
+}
+body.lang-my .hero-opt12 .hero-badge {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.85rem;
+}
+body.lang-my .hero-opt12 .hero-title {
+  font-family: 'Noto Sans Myanmar', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.75rem, 2.7vw, 2.45rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+body.lang-my .hero-opt12 .h12-text-col {
+  max-width: 630px;
+  gap: 1.15rem;
+}
+body.lang-my .hero-opt12 .hero-desc {
+  font-size: 0.98rem;
+  line-height: 1.68;
+  max-width: 610px;
+}
+body.lang-my .hero-opt12 .hero-btns {
+  gap: 0.8rem;
+}
+body.lang-my .hero-opt12 .hero-btns .btn {
+  font-size: 0.88rem;
+  padding: 0.65rem 1.25rem;
+}
+body.lang-my .hero-opt12 .hf-item {
+  font-size: 0.8rem;
+}
+body.lang-my .h12-panel-label {
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+}
+body.lang-my .h12-panel-value {
+  font-family: 'Noto Sans Myanmar', 'Playfair Display', serif;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+body.lang-my .h12-panel-sub {
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+body.lang-my .h12-panel-cta {
+  font-size: 0.74rem;
+  padding: 4px 10px;
+}
+
 /* Option 3 Dynamic Diagonal Photo Stage (Desktop Right 68% - Zoomed Out Camera Angle) */
 
 .hero-diagonal-stage{
@@ -6191,7 +6266,7 @@ body.is-mobile-app .mobile-cert-card-footer {
       </p>
       <div class="hero-btns">
         <a href="#modules" class="btn btn-gold btn-lg btn-glow-gold" id="h-btn1">
-          <span>Explore 11 Modules</span>
+          <span id="h-btn1-txt">Explore 11 Modules</span>
           <span class="btn-arrow">→</span>
         </a>
         <button class="btn btn-glass-gold btn-lg" id="h-btn-trailer" onclick="openTrailerModal()">
@@ -6217,11 +6292,11 @@ body.is-mobile-app .mobile-cert-card-footer {
       <div class="h12-panel h12-panel-curriculum">
         <div class="h12-panel-icon-wrap">🎓</div>
         <div class="h12-panel-body">
-          <div class="h12-panel-label">CURRICULUM</div>
-          <div class="h12-panel-value">11 Practical Modules</div>
-          <div class="h12-panel-sub">Video · Workbook · Discussion</div>
+          <div class="h12-panel-label" id="h12-lbl-curr">CURRICULUM</div>
+          <div class="h12-panel-value" id="h12-val-curr">11 Practical Modules</div>
+          <div class="h12-panel-sub" id="h12-sub-curr">Video · Workbook · Discussion</div>
         </div>
-        <a href="#modules" class="h12-panel-cta">View All →</a>
+        <a href="#modules" class="h12-panel-cta" id="h12-cta-curr">View All →</a>
       </div>
 
       <div class="h12-horizon-divider"></div>
@@ -6233,12 +6308,12 @@ body.is-mobile-app .mobile-cert-card-footer {
           <span>▶</span>
         </div>
         <div class="h12-panel-body">
-          <div class="h12-panel-label">
+          <div class="h12-panel-label" id="h12-lbl-trail">
             <span class="h12-live-dot"></span>
-            2025 OFFICIAL PREVIEW
+            <span id="h12-lbl-trail-txt">2025 OFFICIAL PREVIEW</span>
           </div>
-          <div class="h12-panel-value">Watch the Trailer</div>
-          <div class="h12-panel-sub">2 Min · Burmese Audio &amp; Subtitles</div>
+          <div class="h12-panel-value" id="h12-val-trail">Watch the Trailer</div>
+          <div class="h12-panel-sub" id="h12-sub-trail">2 Min · Burmese Audio &amp; Subtitles</div>
         </div>
       </div>
 
@@ -6248,9 +6323,9 @@ body.is-mobile-app .mobile-cert-card-footer {
       <div class="h12-panel h12-panel-rating">
         <div class="h12-stars">★★★★★</div>
         <div class="h12-panel-body">
-          <div class="h12-panel-label">CHURCH RATING</div>
-          <div class="h12-panel-value">4.9 / 5.0</div>
-          <div class="h12-panel-sub">200+ Partner Churches Endorsed</div>
+          <div class="h12-panel-label" id="h12-lbl-rate">CHURCH RATING</div>
+          <div class="h12-panel-value" id="h12-val-rate">4.9 / 5.0</div>
+          <div class="h12-panel-sub" id="h12-sub-rate">200+ Partner Churches Endorsed</div>
         </div>
       </div>
 
@@ -8762,25 +8837,29 @@ const MY = {
   "drw-fq": "အမေး/အဖြေများ",
   "drw-reg": "အသင်းတော် စာရင်းသွင်းရန်",
 
-  // Hero Section
-  "h-badge": "CBN Asia မိသားစုတပည့်တော်ဖြစ်စေခြင်း အစီအစဉ် · မြန်မာနိုင်ငံ",
+  // Hero Section (Option 12: Grand Horizon 24K Laser Bar)
+  "h-badge": "CBN Asia မိသားစုတပည့်တော်ဖြစ်စေခြင်း အစီအစဉ် · မြန်မာ",
   "h-title1": "မိဘများကို လက်တွဲခွန်အားဖြည့်ပေးခြင်း၊",
   "h-title2": "နောင်မျိုးဆက်သစ်တို့ကို ခိုင်ခံ့စွာ ပျိုးထောင်ခြင်း",
-  "h-desc": "မြန်မာနိုင်ငံတစ်ဝှမ်းရှိ ဒေသန္တရ အသင်းတော်များအတွက် သမ္မာကျမ်းစာ စံနှုန်းများပေါ်တွင် အခြေပြုထားသော မိဘသင်ရိုးညွှန်းတမ်း — လုံးဝအခမဲ့ (၁၀၀%)။ သားသမီးများ၏ စရိုက်လက္ခဏာ၊ ယုံကြည်ခြင်းနှင့် စိတ်ပိုင်းဆိုင်ရာ ဖွံ့ဖြိုးမှုကို ဘုရားသခင်၏ ကျေးဇူးတော်ဖြင့် ပျိုးထောင်ပေးရန် ဖြစ်ပါသည်။",
-  "h-btn1": "သင်ခန်းစာ မော်ဂျူး (၁၁) ခုကို လေ့လာပါ",
+  "h-desc": "မြန်မာနိုင်ငံရှိ ဒေသန္တရအသင်းတော်များအတွက် သမ္မာကျမ်းစာအခြေပြု မိဘသင်ရိုးညွှန်းတမ်း — သားသမီးများ၏ စရိုက်လက္ခဏာ၊ ယုံကြည်ခြင်းနှင့် စိတ်ပိုင်းဆိုင်ရာကို ပျိုးထောင်ရန် လုံးဝအခမဲ့ ပံ့ပိုးထားပါသည်။",
+  "h-btn1-txt": "မော်ဂျူး (၁၁) ခုကို လေ့လာပါ",
   "h-btn-trailer-txt": "၂၀၂၅ မိတ်ဆက်ဗီဒီယို ကြည့်ရှုရန်",
   "h-btn2": "သင့်အသင်းတော်ကို အခမဲ့ စာရင်းသွင်းပါ",
-  "hf-1": "တရားဝင် CBN Asia မိသားစုအမှုတော်ဆောင်ခြင်း",
-  "hf-2": "မြန်မာနှင့် အင်္ဂလိပ် နှစ်ဘာသာသုံး သင်ထောက်ကူများ",
+  "hf-1": "တရားဝင် CBN Asia အစီအစဉ်",
+  "hf-2": "မြန်မာနှင့် အင်္ဂလိပ် နှစ်ဘာသာ",
   "h-free": "ဒေသန္တရ အသင်းတော်များအတွက် ၁၀၀% အခမဲ့",
-  "fb-t1": "အဆင့်သတ်မှတ်ချက် ၄.၉ / ၅",
-  "fb-s1": "မြန်မာနိုင်ငံရှိ အသင်းတော်ခေါင်းဆောင်များ",
-  "fb-t2": "လက်တွေ့ကျ မော်ဂျူး (၁၁) ခု",
-  "fb-s2": "ဦးဆောင်သူလက်စွဲနှင့် မိုဘိုင်းအက်ပ်",
-  "s1": "လက်တွေ့ကျ မော်ဂျူးများ",
-  "s2": "မိတ်ဖက် အသင်းတော်များ",
-  "s3": "သင်တန်းဆင်း မိဘများ",
-  "s4": "မိသားစုများ၏ စိတ်ကျေနပ်မှု",
+
+  // Grand Horizon Bar
+  "h12-lbl-curr": "သင်ရိုးညွှန်းတမ်း",
+  "h12-val-curr": "လက်တွေ့ကျ မော်ဂျူး (၁၁) ခု",
+  "h12-sub-curr": "ဗီဒီယို · လေ့လာရေးစာအုပ် · ဆွေးနွေးချက်",
+  "h12-cta-curr": "အားလုံးကြည့်ရန် →",
+  "h12-lbl-trail-txt": "၂၀၂၅ တရားဝင် မိတ်ဆက်",
+  "h12-val-trail": "မိတ်ဆက်ဗီဒီယို ကြည့်ရှုရန်",
+  "h12-sub-trail": "၂ မိနစ် · မြန်မာအသံနှင့် စာတန်းထိုး",
+  "h12-lbl-rate": "အသင်းတော် အဆင့်သတ်မှတ်ချက်",
+  "h12-val-rate": "၄.၉ / ၅.၀",
+  "h12-sub-rate": "မိတ်ဖက်အသင်းတော် ၂၀၀+ ၏ ထောက်ခံချက်",
 
   // Curriculum Modules
   "m-tag": "ပြည့်စုံစုံလင်သော သင်ရိုးညွှန်းတမ်း",
