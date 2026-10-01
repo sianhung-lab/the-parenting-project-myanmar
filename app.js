@@ -10,6 +10,7 @@ const MODULES = [
     videoType: "file",
     fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4",
     youtube: "hKSMxbFee1U",
+    thumb: "https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg",
     icon: "🏅",
     grad: "linear-gradient(135deg,#003087,#004ac2)",
     title: "Being a Positive Role Model",
@@ -43,6 +44,7 @@ const MODULES = [
     videoType: "file",
     fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-2.mp4",
     youtube: "GVK5Wc0NZE4",
+    thumb: "https://i.ytimg.com/vi/GVK5Wc0NZE4/hqdefault.jpg",
     icon: "🤝",
     grad: "linear-gradient(135deg,#c0392b,#e74c3c)",
     title: "Building Deep Connection",
@@ -76,6 +78,7 @@ const MODULES = [
     videoType: "file",
     fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
     youtube: "lmtVOhpszCQ",
+    thumb: "https://i.ytimg.com/vi/lmtVOhpszCQ/hqdefault.jpg",
     icon: "🛡️",
     grad: "linear-gradient(135deg,#1a5276,#2980b9)",
     title: "Healthy Parental Authority",
@@ -1091,6 +1094,12 @@ function applyLang() {
   if (typeof renderCbnTestimonies === 'function') {
     renderCbnTestimonies();
   }
+
+  // Update mobile cinema stage
+  if (typeof renderMobileModuleChips === 'function') renderMobileModuleChips();
+  if (typeof selectMobileModuleVideo === 'function' && typeof currentMobileModId !== 'undefined') {
+    selectMobileModuleVideo(currentMobileModId, false);
+  }
 }
 
 function toggleLang(forceLang) {
@@ -1796,6 +1805,112 @@ function initScrollAnim() {
 }
 
 // ==========================================
+// THUMBNAIL UTILITY FUNCTIONS
+// ==========================================
+
+/**
+ * Generates a beautiful per-video gradient SVG thumbnail as a data URL.
+ * Uses the video title to seed unique colors — no CORS, always works.
+ */
+function generateGradientThumbSvg(v) {
+  const title = (v && (v.title || v.myTitle)) || 'Video';
+  // Derive hue from title string
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) {
+    hash = (hash * 31 + title.charCodeAt(i)) & 0xffffffff;
+  }
+  const hue1 = Math.abs(hash % 360);
+  const hue2 = (hue1 + 40) % 360;
+  const hue3 = (hue1 + 200) % 360;
+  const sat = 70 + Math.abs((hash >> 8) % 25);
+  const badge = (v && (v.badge || v.myBadge)) || '';
+  const shortTitle = title.length > 22 ? title.slice(0, 22) + '…' : title;
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="hsl(${hue1},${sat}%,22%)"/>
+      <stop offset="50%" stop-color="hsl(${hue2},${sat}%,18%)"/>
+      <stop offset="100%" stop-color="hsl(${hue3},${sat}%,14%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="hsl(${hue1},${sat}%,40%)" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="hsl(${hue1},${sat}%,0%)" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <rect width="640" height="360" fill="url(#glow)"/>
+  <!-- Play icon -->
+  <circle cx="320" cy="160" r="44" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+  <polygon points="306,143 306,177 344,160" fill="rgba(255,255,255,0.85)"/>
+  <!-- Badge -->
+  ${badge ? `<rect x="20" y="20" width="${Math.min(badge.length * 8 + 20, 180)}" height="26" rx="5" fill="rgba(0,0,0,0.45)"/>
+  <text x="30" y="38" font-family="'Inter',Arial,sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.9)">${badge}</text>` : ''}
+  <!-- Title -->
+  <rect x="0" y="290" width="640" height="70" fill="rgba(0,0,0,0.55)"/>
+  <text x="32" y="326" font-family="'Inter',Arial,sans-serif" font-size="18" font-weight="600" fill="white">${shortTitle}</text>
+  <text x="32" y="346" font-family="'Inter',Arial,sans-serif" font-size="12" fill="rgba(255,255,255,0.6)">Tap to play</text>
+</svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+/**
+ * Returns the best available thumbnail URL for a video object.
+ * Priority: stored thumb URL → YouTube CDN → gradient SVG placeholder
+ */
+function getVideoThumbSrc(v) {
+  if (!v) return generateGradientThumbSvg({ title: 'The Parenting Project' });
+
+  // 1. Explicitly stored & valid thumb URL (from admin upload or manual entry)
+  if (v.thumb && typeof v.thumb === 'string' && v.thumb.trim() &&
+      v.thumb !== 'brand_hero_zoomed.jpg' &&
+      !v.thumb.startsWith('[')) {
+    return v.thumb.trim();
+  }
+
+  // 2. YouTube thumbnail from youtube ID field
+  if (v.youtube && typeof v.youtube === 'string' && /^[a-zA-Z0-9_-]{11}$/.test(v.youtube.trim())) {
+    return `https://i.ytimg.com/vi/${v.youtube.trim()}/hqdefault.jpg`;
+  }
+
+  // 3. Match from MODULES or VIDEOS by ID
+  const rawId = v.id || v;
+  if (rawId) {
+    const mod = (typeof MODULES !== 'undefined' ? MODULES : []).find(m => String(m.id) === String(rawId));
+    if (mod) {
+      if (mod.thumb && typeof mod.thumb === 'string' && mod.thumb.trim() && mod.thumb !== 'brand_hero_zoomed.jpg') {
+        return mod.thumb.trim();
+      }
+      if (mod.youtube && typeof mod.youtube === 'string' && /^[a-zA-Z0-9_-]{11}$/.test(mod.youtube.trim())) {
+        return `https://i.ytimg.com/vi/${mod.youtube.trim()}/hqdefault.jpg`;
+      }
+    }
+  }
+
+  // 4. Safe fallback SVG (never a broken 404 URL)
+  return generateGradientThumbSvg(v);
+}
+
+/**
+ * Ensures all R2/file videos display their official thumbnail
+ * without requiring heavy video downloads on mobile.
+ */
+function lazyExtractMissingThumbnails() {
+  VIDEOS.forEach((v, idx) => {
+    const thumbSrc = getVideoThumbSrc(v);
+    if (!v.thumb || v.thumb === 'brand_hero_zoomed.jpg' || v.thumb.startsWith('[')) {
+      VIDEOS[idx].thumb = thumbSrc;
+    }
+    // Update all thumbnail <img> elements in the DOM for this video
+    document.querySelectorAll(`[data-vid-idx="${idx}"], [data-strip-idx="${idx}"]`).forEach(img => {
+      if (img.tagName === 'IMG' && (!img.src || img.src.includes('brand_hero_zoomed.jpg'))) {
+        img.src = thumbSrc;
+      }
+    });
+  });
+}
+
+// ==========================================
 // 3D COVER-FLOW VIDEO CAROUSEL & CINEMA LIGHTBOX
 // Signature feature inspired by theparentingproject.id
 // ==========================================
@@ -1851,10 +1966,11 @@ function initVideoCarousel() {
   // 1. Build Stage Cards
   stage.innerHTML = VIDEOS.map((v, i) => {
     const isLocked = !isVideoAccessible(v);
+    const thumbSrc = getVideoThumbSrc(v);
     return `
     <div class="ppr-vc-card ${isLocked ? 'is-locked' : ''}" data-idx="${i}" onclick="handleCardClick(${i})" role="button" tabindex="0" aria-label="${isMy ? v.myTitle : v.title}">
       ${isLocked ? `<div class="ppr-vc-lock-badge"><span>🔒</span> <span>${isMy ? 'ခွင့်ပြုချက် လိုအပ်' : 'Restricted'}</span></div>` : ''}
-      <img src="${v.thumb}" alt="${isMy ? v.myTitle : v.title}" class="ppr-vc-thumb"/>
+      <img src="${thumbSrc}" alt="${isMy ? v.myTitle : v.title}" class="ppr-vc-thumb" data-vid-idx="${i}" onerror="this.src='brand_hero_zoomed.jpg'"/>
       <div class="ppr-vc-play">
         ${isLocked 
           ? `<svg viewBox="0 0 24 24" style="fill:none;stroke:#ffcc00;stroke-width:2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` 
@@ -1871,6 +1987,9 @@ function initVideoCarousel() {
   `;
   }).join('');
 
+  // Lazy-extract thumbnails for R2 videos that have no proper thumb
+  setTimeout(() => lazyExtractMissingThumbnails(), 300);
+
   // 2. Build Dots
   dotsContainer.innerHTML = VIDEOS.map((_, i) => `
     <button class="ppr-vc-dot" data-idx="${i}" onclick="goToVideo(${i})" aria-label="Go to video ${i + 1}"></button>
@@ -1880,7 +1999,7 @@ function initVideoCarousel() {
   if (strip) {
     strip.innerHTML = VIDEOS.map((v, i) => `
       <button class="ppr-vc-thumbbtn" data-idx="${i}" onclick="goToVideo(${i})" aria-label="Thumbnail ${i + 1}">
-        <img src="${v.thumb}" alt="${isMy ? v.myTitle : v.title}"/>
+        <img src="${getVideoThumbSrc(v)}" alt="${isMy ? v.myTitle : v.title}" data-strip-idx="${i}" onerror="this.src='brand_hero_zoomed.jpg'"/>
       </button>
     `).join('');
   }
@@ -4013,9 +4132,21 @@ async function loadDynamicVideos() {
         VIDEOS.forEach(v => {
           if (v.id) {
             liveContentRules[String(v.id)] = { access: v.access || 'granted' };
+            const mId = Number(v.id);
+            const targetMod = (typeof MODULES !== 'undefined' ? MODULES : []).find(m => m.id === mId);
+            if (targetMod) {
+              if (v.thumb) targetMod.thumb = v.thumb;
+              if (v.fileUrl) targetMod.fileUrl = v.fileUrl;
+              if (v.videoType) targetMod.videoType = v.videoType;
+              if (v.youtube) targetMod.youtube = v.youtube;
+            }
           }
         });
         initVideoCarousel();
+        if (typeof renderDownloadsPage === 'function') renderDownloadsPage();
+        if (typeof selectMobileModuleVideo === 'function' && typeof currentMobileModId !== 'undefined') {
+          selectMobileModuleVideo(currentMobileModId, false);
+        }
       }
     }
   } catch (err) {
@@ -4075,8 +4206,57 @@ function handleVideoFileSelect(event) {
     currentUploadVideoBase64 = e.target.result;
     currentUploadVideoFileName = file.name;
     showToast(`Video file "${file.name}" ready for upload`);
+
+    // Auto-generate thumbnail from video frame (if no manual thumb already set)
+    if (!currentUploadThumbBase64) {
+      autoGenerateVideoThumbnail(e.target.result, file.name);
+    }
   };
   reader.readAsDataURL(file);
+}
+
+function autoGenerateVideoThumbnail(videoDataUrl, fileName) {
+  const video = document.createElement('video');
+  video.muted = true;
+  video.crossOrigin = 'anonymous';
+  video.src = videoDataUrl;
+
+  video.addEventListener('loadedmetadata', () => {
+    // Seek to 1s into the video (or 10% of duration if shorter)
+    const seekTime = Math.min(1, video.duration * 0.1);
+    video.currentTime = seekTime;
+  });
+
+  video.addEventListener('seeked', () => {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 360;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const thumbDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+      // Store as current thumb (will be uploaded during save)
+      currentUploadThumbBase64 = thumbDataUrl;
+      currentUploadThumbFileName = fileName.replace(/\.[^.]+$/, '') + '_thumb.jpg';
+
+      // Show preview in admin form
+      const preview = document.getElementById('up-thumb-preview');
+      if (preview) preview.src = thumbDataUrl;
+      const urlInput = document.getElementById('up-thumb-url');
+      if (urlInput) urlInput.value = '[Auto-generated from video]';
+
+      showToast('📸 Thumbnail auto-generated from video');
+    } catch (err) {
+      console.warn('Could not auto-generate thumbnail:', err);
+    } finally {
+      video.src = '';
+    }
+  });
+
+  video.addEventListener('error', (err) => {
+    console.warn('Video thumbnail generation failed:', err);
+  });
 }
 
 function handleThumbFileSelect(event) {
@@ -4101,6 +4281,8 @@ function autoDetectYtThumb() {
   const input = document.getElementById('up-video-url');
   if (!input) return;
   const val = input.value.trim();
+
+  // 1. YouTube ID detection
   let ytId = '';
   const m = val.match(/(?:v=|youtu\.be\/|embed\/|\/v\/|shorts\/)([a-zA-Z0-9_-]{11})/);
   if (m) {
@@ -4114,7 +4296,60 @@ function autoDetectYtThumb() {
     const thumbInput = document.getElementById('up-thumb-url');
     if (preview) preview.src = thumbUrl;
     if (thumbInput) thumbInput.value = thumbUrl;
+    return;
   }
+
+  // 2. Direct video URL (R2 / MP4 / WebM) — extract a frame via <video>+<canvas>
+  if (val.startsWith('http') && /\.(mp4|webm|ogg|mov)$/i.test(val)) {
+    autoExtractThumbFromUrl(val);
+  }
+}
+
+function autoExtractThumbFromUrl(videoUrl) {
+  showToast('⏳ Extracting thumbnail from video URL...');
+  const video = document.createElement('video');
+  video.crossOrigin = 'anonymous';
+  video.muted = true;
+  video.preload = 'metadata';
+  video.src = videoUrl;
+
+  video.addEventListener('loadedmetadata', () => {
+    const seekTime = Math.min(2, video.duration * 0.1);
+    video.currentTime = seekTime;
+  });
+
+  video.addEventListener('seeked', () => {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 360;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const thumbDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+      currentUploadThumbBase64 = thumbDataUrl;
+      const fname = videoUrl.split('/').pop().replace(/\.[^.]+$/, '') || 'video';
+      currentUploadThumbFileName = fname + '_thumb.jpg';
+
+      const preview = document.getElementById('up-thumb-preview');
+      if (preview) preview.src = thumbDataUrl;
+      const urlInput = document.getElementById('up-thumb-url');
+      if (urlInput) urlInput.value = '[Auto-extracted from video URL]';
+
+      showToast('📸 Thumbnail extracted from video URL!');
+    } catch (err) {
+      console.warn('Could not extract thumbnail from URL:', err);
+      showToast('⚠️ Could not auto-extract thumbnail (CORS). Please upload one manually.');
+    } finally {
+      video.src = '';
+    }
+  });
+
+  video.addEventListener('error', () => {
+    console.warn('Video URL thumbnail extraction failed.');
+    showToast('⚠️ Could not load video URL for thumbnail. Upload one manually.');
+    video.src = '';
+  });
 }
 
 function handleTargetModuleChange() {
@@ -4546,12 +4781,14 @@ function checkAppMode() {
     document.documentElement.classList.toggle('is-authenticated', isAuthenticated);
     if (typeof updateWelcomeGateUI === 'function') updateWelcomeGateUI();
 
-    // Only show upgrade download banner on mobile web browser, NOT inside the app itself
+    // Upgrade banner disabled to ensure 100% clean view on phones
+    /*
     if (!isAppUrl && !isAppUA && !isAndroidWebView) {
       setTimeout(() => {
         showUpgradeNotification();
       }, 3000);
     }
+    */
   } else {
     document.body.classList.remove('is-mobile-app');
     document.documentElement.classList.remove('is-mobile-app');
@@ -4559,75 +4796,11 @@ function checkAppMode() {
 }
 
 function playUpgradeChime() {
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 celebratory chord
-    notes.forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
-      gain.gain.setValueAtTime(0, ctx.currentTime + idx * 0.08);
-      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + idx * 0.08 + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.6);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(ctx.currentTime + idx * 0.08);
-      osc.stop(ctx.currentTime + idx * 0.08 + 0.6);
-    });
-  } catch (e) {
-    // Audio context may require user interaction
-  }
+  // disabled
 }
 
 function showUpgradeNotification() {
-  if (document.getElementById('upgrade-noti-banner')) return;
-
-  const banner = document.createElement('div');
-  banner.id = 'upgrade-noti-banner';
-  banner.innerHTML = `
-    <div class="upgrade-noti-icon-wrap">🚀</div>
-    <div class="upgrade-noti-content">
-      <span class="upgrade-noti-badge">v1.1.0 Phone Edition Ready</span>
-      <div class="upgrade-noti-title">ဗားရှင်းသစ် အဆင်သင့်ဖြစ်ပါပြီ</div>
-      <div class="upgrade-noti-sub">ဖုန်းသီးသန့်ဒီဇိုင်း APK ကို ယခုချက်ချင်း ဒေါင်းလုဒ်လုပ်ပါ</div>
-      <div class="upgrade-noti-actions">
-        <a href="https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk" target="_blank" class="upgrade-noti-btn-dl" onclick="triggerApkDownload(event)">
-          📥 APK ဒေါင်းလုဒ်
-        </a>
-        <a href="viber://forward?text=The%20Parenting%20Project%20Myanmar%20v1.1.0%20APK:%20https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk" class="upgrade-noti-btn-viber">
-          💬 Viber
-        </a>
-        <button type="button" onclick="copyApkDownloadLink()" class="upgrade-noti-btn-copy">
-          📋 Copy
-        </button>
-      </div>
-    </div>
-    <button class="upgrade-noti-close-btn" onclick="dismissUpgradeNoti()" aria-label="Close">✕</button>
-  `;
-  document.body.appendChild(banner);
-
-  playUpgradeChime();
-  if (navigator.vibrate) {
-    try { navigator.vibrate([80, 50, 80]); } catch (e) {}
-  }
-
-  // System notification if permission was already granted
-  if ('Notification' in window && Notification.permission === 'granted') {
-    try {
-      new Notification('The Parenting Project Myanmar', {
-        body: 'ဖုန်းအရွယ်အစား ဗားရှင်းသစ် v1.1.0 APK ကို ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ!',
-        icon: 'official_logo.png'
-      });
-    } catch (e) {}
-  }
-
-  // Keep visible longer so user has time to tap
-  setTimeout(() => {
-    dismissUpgradeNoti();
-  }, 25000);
+  return; // Disabled - never block phone screen
 }
 
 function triggerApkDownload(e) {
@@ -4749,7 +4922,12 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
     if (isFile) {
       if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
-      if (video) { video.style.display = 'block'; video.src = mod.fileUrl; }
+      if (video) {
+        video.style.display = 'block';
+        // Show official episode thumbnail poster before user hits play
+        video.poster = getVideoThumbSrc(mod);
+        video.src = mod.fileUrl;
+      }
       showOfflineBadge(false);
     } else {
       if (video) { video.pause(); video.src = ''; video.style.display = 'none'; }
@@ -4799,7 +4977,8 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     btnComp.classList.toggle('is-completed', isDone);
   }
   if (txtComp) {
-    txtComp.textContent = isDone ? '✓ ပြီးဆုံးပြီး (Completed)' : 'ပြီးဆုံးကြောင်း မှတ်သားမည်';
+    const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+    txtComp.textContent = isDone ? (isMy ? 'ပြီးဆုံးပြီ' : 'Completed') : (isMy ? 'ပြီးဆုံးမှတ်သား' : 'Mark Done');
   }
   if (icoComp) {
     icoComp.textContent = isDone ? '✅' : '✓';
@@ -4842,10 +5021,6 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     const myAct = mod.myAction || '';
     const enAct = mod.action ? `<span style="display:block;font-size:0.69rem;color:rgba(255,255,255,0.6);font-style:italic;margin-top:2px;">"${mod.action}"</span>` : '';
     actionTextEl.innerHTML = `<span>${myAct}</span>${enAct}`;
-  }
-
-  if (typeof currentAudioMode !== 'undefined' && currentAudioMode === 'audio') {
-    updatePodcastTrackUI(mod, autoPlay);
   }
 
   renderMobileModuleChips();
@@ -6033,70 +6208,27 @@ function openDownloadOptionsSheet(modId) {
   const mod = MODULES.find(m => m.id === _currentSheetModId);
   if (!mod) return;
 
-  // Check if user previously saved preference to always download with a specific quality
-  const rememberedQuality = localStorage.getItem('pp_remember_quality');
-  if (rememberedQuality) {
-    _selectedSheetQuality = rememberedQuality;
-    startVideoDownload(_currentSheetModId, rememberedQuality);
-    return;
-  }
-
   const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
-  const overlay = document.getElementById('dl-options-sheet-overlay');
-  if (!overlay) {
-    startVideoDownload(_currentSheetModId, 'saver');
-    return;
-  }
+  const rememberedQuality = localStorage.getItem('pp_remember_quality') || 'saver';
 
-  // Update header & episode info
-  const titleEl = document.getElementById('dl-sheet-title');
-  const subEl = document.getElementById('dl-sheet-sub');
-  const epIconEl = document.getElementById('dl-sheet-ep-icon');
-  const epNameEl = document.getElementById('dl-sheet-ep-name');
-  const epDescEl = document.getElementById('dl-sheet-ep-desc');
+  // Direct 1-Tap download without any popup
+  startVideoDownload(_currentSheetModId, rememberedQuality);
+  showOfflineToast(isMy ? `📥 မော်ဂျူး ${_currentSheetModId} ကို ဒေါင်းလုဒ်စတင်နေပါသည်... ဒေါင်းလုဒ်ကဏ္ဍတွင် ကြည့်ရှုနိုင်ပါသည်` : `📥 Downloading Module ${_currentSheetModId}... Manage in Downloads Wall`, 'info');
+}
 
-  if (titleEl) {
-    titleEl.textContent = isMy ? `ဒေါင်းလုဒ် ရွေးချယ်မှု (Episode ${_currentSheetModId})` : `Download Options (Episode ${_currentSheetModId})`;
-  }
-  if (subEl) {
-    subEl.textContent = isMy ? 'မျက်နှာပြင်မပြောင်းဘဲ အော့ဖ်လိုင်း သိမ်းဆည်းမည်' : 'Save offline while staying on this screen';
-  }
-  if (epIconEl) {
-    epIconEl.textContent = mod.icon || '🎬';
-  }
-  if (epNameEl) {
-    epNameEl.textContent = `M${mod.id}: ${isMy ? (mod.myTitle || mod.title) : mod.title}`;
-  }
-  if (epDescEl) {
-    epDescEl.textContent = `${mod.scripture || ''} · ${mod.dur || '45'} mins`;
-  }
+function showDownloadFloatingCapsule(modId, pct, quality) {
+  // Popups disabled as requested
+  return;
+}
 
-  // Default selection: Data Saver 480p (as requested by user)
-  selectDownloadOptionQuality('saver');
+function updateDownloadFloatingCapsule(modId, pct, loaded, total) {
+  // Popups disabled as requested
+  return;
+}
 
-  // Reset remember checkbox to unchecked by default
-  _rememberDownloadChoice = false;
-  const chk = document.getElementById('dl-sheet-remember-chk');
-  if (chk) {
-    chk.classList.add('unchecked');
-  }
-
-  // Estimate free phone space if API available
-  if (navigator.storage && navigator.storage.estimate) {
-    navigator.storage.estimate().then(est => {
-      const freeBytes = (est.quota || 0) - (est.usage || 0);
-      const freeEl = document.getElementById('dl-sheet-free-space');
-      if (freeEl && freeBytes > 0) {
-        freeEl.textContent = formatFileSize(freeBytes);
-      }
-    }).catch(() => {});
-  }
-
-  // Open bottom sheet smoothly — PAGE STAYS WHERE IT IS!
-  overlay.style.display = 'flex';
-  setTimeout(() => {
-    overlay.classList.add('active');
-  }, 10);
+function hideDownloadFloatingCapsule(successMsg) {
+  // Popups disabled as requested
+  return;
 }
 
 function closeDownloadOptionsSheet(e) {
@@ -6345,6 +6477,8 @@ async function playOfflineOrOnline(modId) {
     if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
     if (video) {
       video.style.display = 'block';
+      // Set poster/thumbnail so the first frame shows the module artwork
+      video.poster = getVideoThumbSrc(mod);
       // Revoke previous blob URL if any
       if (video._blobUrl) { URL.revokeObjectURL(video._blobUrl); video._blobUrl = null; }
       if (offline) {
@@ -6486,7 +6620,7 @@ async function renderDownloadsPage() {
         </button>`;
     } else {
       actionSection = `
-        <button type="button" class="btn-dl-episode" onclick="openDownloadOptionsSheet(${mod.id})">
+        <button type="button" class="btn-dl-episode" onclick="startVideoDownload(${mod.id}, _downloadQuality || 'saver')">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
           <span>${isMy ? 'အပိုင်း ' + mod.id + ' ဒေါင်းလုဒ်ဆွဲမည်' : 'Download Episode ' + mod.id}</span>
           <span style="opacity:0.65;font-size:0.7rem;margin-left:4px">(${sizeText})</span>
@@ -6498,8 +6632,9 @@ async function renderDownloadsPage() {
     cardsHtml.push(`
       <div class="${cardClass}" id="dl-card-m${mod.id}">
         <div class="downloads-episode-top">
-          <div class="downloads-episode-icon" style="background:${mod.grad || 'linear-gradient(135deg,#003087,#004ac2)'}">
-            ${mod.icon || '🎬'}
+          <div class="downloads-episode-icon" style="background:${mod.grad || 'linear-gradient(135deg,#003087,#004ac2)'};overflow:hidden;position:relative;padding:0;">
+            <img src="${getVideoThumbSrc(mod)}" alt="${modTitle}" style="width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;" onerror="this.style.display='none'"/>
+            <span style="position:absolute;font-size:1.2rem;pointer-events:none;z-index:0;">${mod.icon || '🎬'}</span>
           </div>
           <div class="downloads-episode-info">
             <div class="downloads-episode-badge-row">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 <title>The Parenting Project Myanmar — CBN Asia</title>
 <meta name="description" content="The Parenting Project Myanmar by CBN Asia. 11 practical parenting modules for local churches. 100% Free."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -195,85 +195,13 @@
     <div class="mobile-hub-headline">Video Learning Hub</div>
     <div class="mobile-hub-current-title" id="mobile-cinema-current-title">M1: Foundations of Parenting</div>
 
-    <!-- Video / Podcast Mode Switcher (Feature 4: Audio-First / Podcast Mode) -->
-    <div class="player-mode-toggle-wrap">
-      <div class="player-mode-toggle">
-        <button type="button" class="mode-toggle-btn active" id="btn-mode-video" onclick="setPlayerMode('video')">
-          <span>🎬</span> <span id="txt-mode-video">Video Cinema</span>
-        </button>
-        <button type="button" class="mode-toggle-btn" id="btn-mode-audio" onclick="setPlayerMode('audio')">
-          <span>🎙️</span> <span id="txt-mode-audio">Podcast Mode (Data Saver)</span>
-        </button>
-      </div>
-    </div>
-
     <!-- 16:9 Video Player Frame -->
     <div class="mobile-cinema-player-frame" id="mobile-video-player-container">
       <iframe id="mobile-cinema-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1" title="The Parenting Project Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <video id="mobile-cinema-video" controls playsinline style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
+      <video id="mobile-cinema-video" controls playsinline poster="https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
       <!-- Offline Playing Badge — inside frame so position:absolute works -->
       <div id="offline-playing-badge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,180,80,0.92);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;align-items:center;gap:4px;z-index:10;">📲 OFFLINE</div>
     </div>
-
-    <!-- Audio-First / Podcast Mode Card (Hidden by default, shown in Audio mode) -->
-    <div class="podcast-player-card" id="mobile-podcast-player-card" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <span class="podcast-data-badge">⚡ 85% Data Saved · Audio Mode</span>
-        <span style="font-size:0.65rem;color:rgba(255,255,255,0.6);font-weight:700;" id="podcast-buffer-status">Offline & Low Bandwidth Ready</span>
-      </div>
-
-      <div class="podcast-stage-center">
-        <!-- Spinning Vinyl Disc Album Art -->
-        <div class="podcast-vinyl-disc" id="podcast-vinyl-disc">
-          <div class="podcast-vinyl-grooves"></div>
-          <div class="podcast-album-center" id="podcast-album-icon">🛡️</div>
-        </div>
-
-        <div class="podcast-track-module" id="podcast-track-module">Module 1 · Episode 1</div>
-        <div class="podcast-track-title" id="podcast-track-title">Foundations of Parenting</div>
-        <div class="podcast-track-my" id="podcast-track-my">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
-      </div>
-
-      <!-- Scrubber -->
-      <div class="podcast-scrubber-wrap">
-        <input type="range" class="podcast-slider" id="podcast-seek-bar" min="0" max="100" value="0" oninput="handlePodcastSeek(this.value)" />
-        <div class="podcast-timestamps">
-          <span id="podcast-current-time">00:00</span>
-          <span id="podcast-total-time">45:00</span>
-        </div>
-      </div>
-
-      <!-- Transport Controls -->
-      <div class="podcast-transport-row">
-        <button type="button" class="podcast-btn-skip" onclick="skipPodcast(-15)" title="Rewind 15 seconds">
-          <span>↺</span>
-          <span class="skip-sec">15s</span>
-        </button>
-        <button type="button" class="podcast-btn-play" id="btn-podcast-play" onclick="togglePodcastPlay()" title="Play/Pause">
-          <span id="ico-podcast-play">▶</span>
-        </button>
-        <button type="button" class="podcast-btn-skip" onclick="skipPodcast(15)" title="Forward 15 seconds">
-          <span>↻</span>
-          <span class="skip-sec">15s</span>
-        </button>
-      </div>
-
-      <!-- Secondary Controls: Speed & Sleep Timer -->
-      <div class="podcast-secondary-row">
-        <div class="podcast-speed-pills">
-          <button type="button" class="podcast-speed-btn" id="speed-075" onclick="setPodcastSpeed(0.75)">0.75x</button>
-          <button type="button" class="podcast-speed-btn active" id="speed-100" onclick="setPodcastSpeed(1.0)">1.0x</button>
-          <button type="button" class="podcast-speed-btn" id="speed-125" onclick="setPodcastSpeed(1.25)">1.25x</button>
-          <button type="button" class="podcast-speed-btn" id="speed-150" onclick="setPodcastSpeed(1.5)">1.5x</button>
-        </div>
-        <button type="button" class="podcast-timer-btn" id="btn-podcast-timer" onclick="cyclePodcastSleepTimer()">
-          <span>⏱️</span> <span id="txt-podcast-timer">Timer: Off</span>
-        </button>
-      </div>
-
-      <audio id="mobile-podcast-audio" preload="metadata"></audio>
-    </div>
-
 
     <!-- 11-Module Video Cinema Stage Header -->
     <div class="mobile-stage-header">
@@ -305,14 +233,14 @@
     <div class="mobile-video-caption-card" id="mobile-video-caption-card">
       <div class="caption-card-header">
         <div class="caption-card-badge" id="caption-card-badge">📖 Deuteronomy 6:6-7</div>
-        <div style="display:flex;gap:8px;align-items:center;">
+        <div class="caption-card-actions">
           <button type="button" class="cinema-btn-dl-action" id="cinema-btn-download-cur" onclick="openDownloadOptionsSheet(currentMobileModId)" title="Download Episode for Offline">
             <span id="cinema-dl-icon">📥</span>
             <span id="cinema-dl-text">ဒေါင်းလုဒ်</span>
           </button>
           <button type="button" class="caption-card-btn-action" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
             <span id="ico-mod-completed">✓</span>
-            <span id="txt-mod-completed">ပြီးဆုံး</span>
+            <span id="txt-mod-completed">ပြီးဆုံးမှတ်သား</span>
           </button>
         </div>
       </div>
@@ -701,17 +629,13 @@
       <div class="dl-quality-section">
         <div class="dl-quality-label">Download Quality (ဒေါင်းလုဒ် အရည်အသွေး)</div>
         <div class="dl-quality-pills">
-          <div class="dl-quality-pill active" id="ql-hd" onclick="setDownloadQuality('hd')">
-            <div class="dl-quality-pill-title">HD 720p</div>
-            <div class="dl-quality-pill-sub">~55 MB/ep</div>
+          <div class="dl-quality-pill active" id="ql-saver" onclick="setDownloadQuality('saver')">
+            <div class="dl-quality-pill-title">Data Saver (480p)</div>
+            <div class="dl-quality-pill-sub">~24 MB/ep · ဖုန်းအတွက် အကောင်းဆုံး</div>
           </div>
-          <div class="dl-quality-pill" id="ql-saver" onclick="setDownloadQuality('saver')">
-            <div class="dl-quality-pill-title">Data Saver</div>
-            <div class="dl-quality-pill-sub">~25 MB/ep</div>
-          </div>
-          <div class="dl-quality-pill" id="ql-audio" onclick="setDownloadQuality('audio')">
-            <div class="dl-quality-pill-title">Audio Only</div>
-            <div class="dl-quality-pill-sub">~8 MB/ep</div>
+          <div class="dl-quality-pill" id="ql-hd" onclick="setDownloadQuality('hd')">
+            <div class="dl-quality-pill-title">HD (720p)</div>
+            <div class="dl-quality-pill-sub">~55 MB/ep · ပိုမိုကြည်လင်</div>
           </div>
         </div>
       </div>
@@ -2612,98 +2536,6 @@
     <span class="app-tab-indicator"></span>
   </button>
 </nav>
-
-<!-- ======================================================= -->
-<!-- OPTION 1: IN-PLACE DOWNLOAD BOTTOM SHEET DRAWER         -->
-<!-- ======================================================= -->
-<div id="dl-options-sheet-overlay" class="dl-sheet-backdrop" onclick="closeDownloadOptionsSheet(event)">
-  <div class="dl-sheet-container" id="dl-sheet-container" onclick="event.stopPropagation()">
-    <div class="dl-sheet-drag-handle"></div>
-    <div class="dl-sheet-header">
-      <div>
-        <div class="dl-sheet-title" id="dl-sheet-title">ဒေါင်းလုဒ် ရွေးချယ်မှု (Episode 1)</div>
-        <div class="dl-sheet-sub" id="dl-sheet-sub">မျက်နှာပြင်မပြောင်းဘဲ အော့ဖ်လိုင်း သိမ်းဆည်းမည်</div>
-      </div>
-      <button type="button" class="dl-sheet-close-btn" onclick="closeDownloadOptionsSheet()" aria-label="Close">✕</button>
-    </div>
-
-    <!-- Episode Mini Preview Info -->
-    <div class="dl-sheet-ep-preview">
-      <div class="dl-sheet-ep-icon" id="dl-sheet-ep-icon">🎬</div>
-      <div class="dl-sheet-ep-meta">
-        <div class="dl-sheet-ep-name" id="dl-sheet-ep-name">M1: Foundations of Parenting</div>
-        <div class="dl-sheet-ep-desc" id="dl-sheet-ep-desc">သုတ္တံ ၂၂:၆ · မိဘကောင်းစံနမူနာ</div>
-      </div>
-    </div>
-
-    <!-- The 2 Options (Audio and PDF are excluded per user request!) -->
-    <div class="dl-quality-options-list">
-      <!-- 1. Data Saver 480p (Recommended) -->
-      <div class="dl-opt-card selected" id="dl-opt-card-saver" onclick="selectDownloadOptionQuality('saver')">
-        <div class="dl-opt-card-left">
-          <div class="dl-opt-card-icon saver">⚡</div>
-          <div>
-            <div class="dl-opt-card-name">Data Saver ဗီဒီယို (480p)</div>
-            <div class="dl-opt-card-desc">မိုဘိုင်းဖုန်းဖြင့် ကြည့်ရှုရန် အသင့်တော်ဆုံး နှင့် ဒေတာသက်သာ</div>
-          </div>
-        </div>
-        <div class="dl-opt-card-right">
-          <span class="dl-opt-rec-badge">အကြံပြု</span>
-          <span class="dl-opt-size-tag">~24 MB</span>
-          <div class="dl-opt-radio checked" id="dl-opt-radio-saver"></div>
-        </div>
-      </div>
-
-      <!-- 2. HD Video 720p -->
-      <div class="dl-opt-card" id="dl-opt-card-hd" onclick="selectDownloadOptionQuality('hd')">
-        <div class="dl-opt-card-left">
-          <div class="dl-opt-card-icon hd">🎬</div>
-          <div>
-            <div class="dl-opt-card-name">HD ဗီဒီယို (720p)</div>
-            <div class="dl-opt-card-desc">တီဗီ / ပရိုဂျက်တာ တွင် ပြသရန် အလွန်ကြည်လင်ပြတ်သား</div>
-          </div>
-        </div>
-        <div class="dl-opt-card-right">
-          <span class="dl-opt-size-tag">~55 MB</span>
-          <div class="dl-opt-radio" id="dl-opt-radio-hd"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Remember Quality Preference Toggle (1-Tap Fast Future Downloads) -->
-    <div class="dl-sheet-remember-row" id="dl-sheet-remember-wrap" onclick="toggleRememberQualityChoice()">
-      <div class="dl-sheet-checkbox" id="dl-sheet-remember-chk">✓</div>
-      <div class="dl-sheet-remember-text">
-        <div class="dl-sheet-remember-title">အမြဲတမ်း ဤအရည်အသွေးဖြင့် ဒေါင်းလုဒ်ဆွဲမည်</div>
-        <div class="dl-sheet-remember-sub">နောက်တစ်ကြိမ် မေးစရာမလိုဘဲ ချက်ချင်းဒေါင်းလုဒ်စတင်မည် (Fast 1-Tap)</div>
-      </div>
-    </div>
-
-    <!-- Phone Storage Strip -->
-    <div class="dl-sheet-storage-strip">
-      <span>💾 ဖုန်းအတွင်း လွတ်လပ်သောနေရာ: <strong id="dl-sheet-free-space">12.8 GB</strong></span>
-      <span>သုံးစွဲမည့် ပမာဏ: <strong id="dl-sheet-selected-size" style="color:#f0c355">24 MB</strong></span>
-    </div>
-
-    <!-- Action Button -->
-    <button type="button" class="dl-sheet-start-btn" id="dl-sheet-start-btn" onclick="confirmStartDownloadFromSheet()">
-      <span>📥</span>
-      <span id="dl-sheet-btn-label">ယခု ဒေါင်းလုဒ်စတင်မည် (Start Download)</span>
-    </button>
-  </div>
-</div>
-
-<!-- Non-intrusive Floating In-Place Download Progress Capsule -->
-<div id="dl-floating-progress-capsule" class="dl-floating-capsule" style="display:none;">
-  <div class="dl-capsule-icon-spinner"></div>
-  <div class="dl-capsule-info">
-    <div class="dl-capsule-title" id="dl-capsule-title">ဒေါင်းလုဒ်လုပ်နေပါသည်... (0%)</div>
-    <div class="dl-capsule-progress-bar">
-      <div class="dl-capsule-progress-fill" id="dl-capsule-progress-fill" style="width:0%"></div>
-    </div>
-  </div>
-  <button type="button" class="dl-capsule-cancel-btn" id="dl-capsule-cancel-btn" onclick="cancelActiveDownloadFromCapsule()" title="Cancel download">✕</button>
-</div>
 
 <!-- IN-APP AUTH & REGISTRATION HUB (Seamless across all screens) -->
 <div id="inapp-login-modal" class="inapp-modal-overlay">
