@@ -16,8 +16,8 @@
   {
     "id": "1",
     "youtube": "hKSMxbFee1U",
-    "videoType": "youtube",
-    "fileUrl": "",
+    "videoType": "file",
+    "fileUrl": "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4",
     "title": "Module 1: Being a Positive Role Model",
     "myTitle": "မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း",
     "badge": "Module 01",

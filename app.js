@@ -7,6 +7,8 @@ const MODULES = [
   {
     id: 1,
     cat: "character",
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4",
     youtube: "hKSMxbFee1U",
     icon: "🏅",
     grad: "linear-gradient(135deg,#003087,#004ac2)",
@@ -488,6 +490,8 @@ let VIDEOS = [
   },
   {
     id: 1,
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4",
     youtube: "hKSMxbFee1U",
     title: "Module 1: Being a Positive Role Model",
     myTitle: "မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း",
@@ -2191,12 +2195,13 @@ function openTrailerModal() {
 function openVideoModalById(ytId, customTitle) {
   const modal = document.getElementById('videoModal');
   const iframe = document.getElementById('ppr-modal-iframe');
+  const videoPlayer = document.getElementById('ppr-modal-video');
   const title = document.getElementById('ppr-m-title');
   const counter = document.getElementById('ppr-m-counter');
   const ytLink = document.getElementById('ppr-m-yt');
   const isMy = lang === 'my';
 
-  const matchIdx = VIDEOS.findIndex(x => x.youtube === ytId);
+  const matchIdx = VIDEOS.findIndex(x => x.youtube === ytId || String(x.id) === String(ytId));
   if (matchIdx !== -1) {
     openVideoModal(matchIdx);
     return;
@@ -4729,8 +4734,30 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
 
   const isMy = lang === 'my';
   const iframe = document.getElementById('mobile-cinema-iframe');
-  if (iframe) {
-    iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1${autoPlay ? '&autoplay=1' : ''}`;
+  const video = document.getElementById('mobile-cinema-video');
+  const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
+
+  if (isFile) {
+    if (iframe) {
+      iframe.style.display = 'none';
+      iframe.src = '';
+    }
+    if (video) {
+      video.style.display = 'block';
+      video.src = mod.fileUrl;
+      video.load();
+      if (autoPlay) video.play().catch(e => console.log('Autoplay deferred:', e));
+    }
+  } else {
+    if (video) {
+      video.pause();
+      video.src = '';
+      video.style.display = 'none';
+    }
+    if (iframe) {
+      iframe.style.display = 'block';
+      iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1${autoPlay ? '&autoplay=1' : ''}`;
+    }
   }
 
   // Update Photo 1 headline current title
