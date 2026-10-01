@@ -446,6 +446,48 @@
       </div>
     </div>
   </div>
+
+  <!-- ======================================================== -->
+  <!-- SCREEN 4: OFFLINE DOWNLOADS PAGE (Per-Episode Downloads) -->
+  <!-- ======================================================== -->
+  <div id="view-mobile-downloads" class="mobile-screen-view" style="display:none">
+    <!-- Top Header Bar -->
+    <div class="mobile-subpage-header">
+      <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')" aria-label="Back">‹</button>
+      <div class="mobile-subpage-title" id="downloads-page-header-title">Offline Downloads</div>
+      <div id="downloads-page-storage-badge" class="downloads-storage-pill">0 MB Used</div>
+    </div>
+
+    <!-- Storage & Feature Banner Card -->
+    <div class="downloads-hero-card">
+      <div class="downloads-hero-icon">📥</div>
+      <div class="downloads-hero-content">
+        <div class="downloads-hero-title" id="downloads-hero-title">စက်ထဲတွင် သိမ်းဆည်းထားမှု</div>
+        <div class="downloads-hero-sub" id="downloads-hero-sub">
+          အင်တာနက်မရှိဘဲ မိမိစိတ်ကြိုက် အပိုင်းတစ်ခုချင်းစီကို ဒေါင်းလုဒ်ရယူ၍ အချိန်မရွေး ကြည့်ရှုနိုင်ပါသည်
+        </div>
+        <div class="downloads-hero-stat" id="downloads-hero-stat">0 Episodes Saved · 0 MB Used</div>
+      </div>
+    </div>
+
+    <!-- Filter Pills (All / Saved Offline / Available) -->
+    <div class="downloads-filter-bar">
+      <button type="button" class="downloads-filter-btn active" id="df-filter-all" onclick="filterDownloadsList('all')">
+        အားလုံး (All 11)
+      </button>
+      <button type="button" class="downloads-filter-btn" id="df-filter-saved" onclick="filterDownloadsList('saved')">
+        သိမ်းပြီး (Saved)
+      </button>
+      <button type="button" class="downloads-filter-btn" id="df-filter-available" onclick="filterDownloadsList('available')">
+        ဒေါင်းလုဒ်လုပ်နိုင် (Available)
+      </button>
+    </div>
+
+    <!-- Episode Cards List Container -->
+    <div id="downloads-episodes-list" class="downloads-episodes-container">
+      <!-- Populated dynamically by renderDownloadsPage() -->
+    </div>
+  </div>
 </section>
 
 <!-- NAVBAR (For Desktop / Standard Web Visitors) -->
@@ -2277,7 +2319,7 @@
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-downloads" onclick="openDownloadsPanel()" aria-label="Downloads" style="position:relative;">
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-downloads" onclick="switchAppTab('downloads')" aria-label="Downloads" style="position:relative;">
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
       <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
     </svg>
@@ -2448,38 +2490,7 @@
 
 <script src="app.js"></script>
 
-<!-- =============================================
-     OFFLINE DOWNLOADS PANEL (Netflix-style sheet)
-     ============================================= -->
-<div id="offline-downloads-overlay" onclick="closeDownloadsPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;backdrop-filter:blur(3px);"></div>
-
-<div id="offline-downloads-panel" style="position:fixed;bottom:0;left:0;right:0;max-height:85vh;background:linear-gradient(180deg,#0d1b3e 0%,#09122a 100%);border-radius:24px 24px 0 0;z-index:9999;transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);overflow:hidden;box-shadow:0 -8px 40px rgba(0,0,0,0.6);">
-
-  <!-- Handle bar -->
-  <div style="display:flex;justify-content:center;padding:12px 0 0;">
-    <div style="width:40px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
-  </div>
-
-  <!-- Header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 10px;">
-    <div>
-      <div style="font-size:1.15rem;font-weight:800;color:#fff;">📲 My Downloads</div>
-      <div id="downloads-storage-info" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">No videos downloaded yet</div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button onclick="downloadAllModules()" style="background:linear-gradient(135deg,#f0c355,#e5a500);color:#000;font-size:0.7rem;font-weight:800;padding:7px 14px;border-radius:20px;border:none;cursor:pointer;">⬇ Download All</button>
-      <button onclick="closeDownloadsPanel()" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
-    </div>
-  </div>
-
-  <!-- Divider -->
-  <div style="height:1px;background:rgba(255,255,255,0.07);margin:0 20px;"></div>
-
-  <!-- List -->
-  <div id="downloads-panel-list" style="overflow-y:auto;max-height:calc(85vh - 130px);padding:12px 16px 40px;">
-    <!-- Populated by JS -->
-  </div>
-</div>
+<!-- Toast notification for offline actions -->
 
 <!-- Toast notification -->
 <div id="offline-toast" class="offline-toast"></div>

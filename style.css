@@ -5925,3 +5925,264 @@ body.is-mobile-app .mobile-cert-card-footer {
 .app-bottom-tab:hover .app-tab-label {
   opacity: 1;
 }
+
+/* ========================================================
+   DEDICATED OFFLINE DOWNLOADS PAGE STYLES (Screen 4)
+   ======================================================== */
+body.is-mobile-app .downloads-storage-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #f0c355;
+  background: rgba(240, 195, 85, 0.12);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 12px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+body.is-mobile-app .downloads-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(20, 38, 70, 0.9) 0%, rgba(10, 22, 44, 0.95) 100%);
+  border: 1px solid rgba(240, 195, 85, 0.25);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+body.is-mobile-app .downloads-hero-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+body.is-mobile-app .downloads-hero-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 3px;
+}
+body.is-mobile-app .downloads-hero-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+body.is-mobile-app .downloads-hero-stat {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f0c355;
+}
+
+/* Filter pills */
+body.is-mobile-app .downloads-filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+body.is-mobile-app .downloads-filter-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .downloads-filter-btn.active {
+  background: #f0c355;
+  color: #061830;
+  border-color: #f0c355;
+  box-shadow: 0 2px 10px rgba(240, 195, 85, 0.4);
+}
+
+/* Episode Cards */
+body.is-mobile-app .downloads-episodes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+}
+body.is-mobile-app .downloads-episode-card {
+  background: rgba(14, 28, 52, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+body.is-mobile-app .downloads-episode-card.is-downloaded {
+  border-color: rgba(76, 217, 100, 0.35);
+  background: linear-gradient(135deg, rgba(14, 38, 28, 0.7) 0%, rgba(10, 24, 46, 0.9) 100%);
+}
+body.is-mobile-app .downloads-episode-card.is-downloading {
+  border-color: rgba(240, 195, 85, 0.4);
+}
+
+body.is-mobile-app .downloads-episode-top {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+body.is-mobile-app .downloads-episode-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+body.is-mobile-app .downloads-episode-info {
+  flex: 1;
+  min-width: 0;
+}
+body.is-mobile-app .downloads-episode-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+body.is-mobile-app .downloads-episode-num {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #f0c355;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+body.is-mobile-app .downloads-offline-ready-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #4cd964;
+  background: rgba(76, 217, 100, 0.15);
+  border: 1px solid rgba(76, 217, 100, 0.3);
+  border-radius: 8px;
+  padding: 1px 6px;
+}
+body.is-mobile-app .downloads-episode-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 3px;
+}
+body.is-mobile-app .downloads-episode-meta {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+body.is-mobile-app .downloads-episode-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Download Episode Button */
+body.is-mobile-app .btn-dl-episode {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(240, 195, 85, 0.18) 0%, rgba(240, 195, 85, 0.08) 100%);
+  color: #f0c355;
+  border: 1px solid rgba(240, 195, 85, 0.45);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .btn-dl-episode:active {
+  transform: scale(0.97);
+  background: rgba(240, 195, 85, 0.3);
+}
+
+/* Downloading Progress Layout */
+body.is-mobile-app .dl-episode-progress-wrap {
+  width: 100%;
+}
+body.is-mobile-app .dl-progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+body.is-mobile-app .dl-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f0c355, #ffd978);
+  border-radius: 3px;
+  transition: width 0.2s ease;
+}
+body.is-mobile-app .dl-progress-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+body.is-mobile-app .btn-cancel-dl {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+/* Downloaded Actions: Watch Offline + Delete */
+body.is-mobile-app .btn-watch-offline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  flex: 1;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(46, 204, 113, 0.35);
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .btn-watch-offline:active {
+  transform: scale(0.97);
+}
+body.is-mobile-app .btn-delete-offline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 60, 60, 0.12);
+  border: 1px solid rgba(255, 60, 60, 0.3);
+  color: #ff6b6b;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .btn-delete-offline:active {
+  transform: scale(0.9);
+}

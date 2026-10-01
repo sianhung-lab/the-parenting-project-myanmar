@@ -5942,6 +5942,267 @@ body.is-mobile-app .mobile-cert-card-footer {
   opacity: 1;
 }
 
+/* ========================================================
+   DEDICATED OFFLINE DOWNLOADS PAGE STYLES (Screen 4)
+   ======================================================== */
+body.is-mobile-app .downloads-storage-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #f0c355;
+  background: rgba(240, 195, 85, 0.12);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 12px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+body.is-mobile-app .downloads-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(20, 38, 70, 0.9) 0%, rgba(10, 22, 44, 0.95) 100%);
+  border: 1px solid rgba(240, 195, 85, 0.25);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+body.is-mobile-app .downloads-hero-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+body.is-mobile-app .downloads-hero-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 3px;
+}
+body.is-mobile-app .downloads-hero-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+body.is-mobile-app .downloads-hero-stat {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f0c355;
+}
+
+/* Filter pills */
+body.is-mobile-app .downloads-filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+body.is-mobile-app .downloads-filter-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .downloads-filter-btn.active {
+  background: #f0c355;
+  color: #061830;
+  border-color: #f0c355;
+  box-shadow: 0 2px 10px rgba(240, 195, 85, 0.4);
+}
+
+/* Episode Cards */
+body.is-mobile-app .downloads-episodes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+}
+body.is-mobile-app .downloads-episode-card {
+  background: rgba(14, 28, 52, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+body.is-mobile-app .downloads-episode-card.is-downloaded {
+  border-color: rgba(76, 217, 100, 0.35);
+  background: linear-gradient(135deg, rgba(14, 38, 28, 0.7) 0%, rgba(10, 24, 46, 0.9) 100%);
+}
+body.is-mobile-app .downloads-episode-card.is-downloading {
+  border-color: rgba(240, 195, 85, 0.4);
+}
+
+body.is-mobile-app .downloads-episode-top {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+body.is-mobile-app .downloads-episode-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+body.is-mobile-app .downloads-episode-info {
+  flex: 1;
+  min-width: 0;
+}
+body.is-mobile-app .downloads-episode-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+body.is-mobile-app .downloads-episode-num {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #f0c355;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+body.is-mobile-app .downloads-offline-ready-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #4cd964;
+  background: rgba(76, 217, 100, 0.15);
+  border: 1px solid rgba(76, 217, 100, 0.3);
+  border-radius: 8px;
+  padding: 1px 6px;
+}
+body.is-mobile-app .downloads-episode-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 3px;
+}
+body.is-mobile-app .downloads-episode-meta {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+body.is-mobile-app .downloads-episode-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Download Episode Button */
+body.is-mobile-app .btn-dl-episode {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(240, 195, 85, 0.18) 0%, rgba(240, 195, 85, 0.08) 100%);
+  color: #f0c355;
+  border: 1px solid rgba(240, 195, 85, 0.45);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .btn-dl-episode:active {
+  transform: scale(0.97);
+  background: rgba(240, 195, 85, 0.3);
+}
+
+/* Downloading Progress Layout */
+body.is-mobile-app .dl-episode-progress-wrap {
+  width: 100%;
+}
+body.is-mobile-app .dl-progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+body.is-mobile-app .dl-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f0c355, #ffd978);
+  border-radius: 3px;
+  transition: width 0.2s ease;
+}
+body.is-mobile-app .dl-progress-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+body.is-mobile-app .btn-cancel-dl {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+/* Downloaded Actions: Watch Offline + Delete */
+body.is-mobile-app .btn-watch-offline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  flex: 1;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(46, 204, 113, 0.35);
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .btn-watch-offline:active {
+  transform: scale(0.97);
+}
+body.is-mobile-app .btn-delete-offline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 60, 60, 0.12);
+  border: 1px solid rgba(255, 60, 60, 0.3);
+  color: #ff6b6b;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+body.is-mobile-app .btn-delete-offline:active {
+  transform: scale(0.9);
+}
+
 </style>
 </head>
 <body>
@@ -6373,6 +6634,48 @@ body.is-mobile-app .mobile-cert-card-footer {
         <span>Earn your Certificate</span>
         <span id="mobile-cert-progress-text">0 Progress</span>
       </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SCREEN 4: OFFLINE DOWNLOADS PAGE (Per-Episode Downloads) -->
+  <!-- ======================================================== -->
+  <div id="view-mobile-downloads" class="mobile-screen-view" style="display:none">
+    <!-- Top Header Bar -->
+    <div class="mobile-subpage-header">
+      <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')" aria-label="Back">‹</button>
+      <div class="mobile-subpage-title" id="downloads-page-header-title">Offline Downloads</div>
+      <div id="downloads-page-storage-badge" class="downloads-storage-pill">0 MB Used</div>
+    </div>
+
+    <!-- Storage & Feature Banner Card -->
+    <div class="downloads-hero-card">
+      <div class="downloads-hero-icon">📥</div>
+      <div class="downloads-hero-content">
+        <div class="downloads-hero-title" id="downloads-hero-title">စက်ထဲတွင် သိမ်းဆည်းထားမှု</div>
+        <div class="downloads-hero-sub" id="downloads-hero-sub">
+          အင်တာနက်မရှိဘဲ မိမိစိတ်ကြိုက် အပိုင်းတစ်ခုချင်းစီကို ဒေါင်းလုဒ်ရယူ၍ အချိန်မရွေး ကြည့်ရှုနိုင်ပါသည်
+        </div>
+        <div class="downloads-hero-stat" id="downloads-hero-stat">0 Episodes Saved · 0 MB Used</div>
+      </div>
+    </div>
+
+    <!-- Filter Pills (All / Saved Offline / Available) -->
+    <div class="downloads-filter-bar">
+      <button type="button" class="downloads-filter-btn active" id="df-filter-all" onclick="filterDownloadsList('all')">
+        အားလုံး (All 11)
+      </button>
+      <button type="button" class="downloads-filter-btn" id="df-filter-saved" onclick="filterDownloadsList('saved')">
+        သိမ်းပြီး (Saved)
+      </button>
+      <button type="button" class="downloads-filter-btn" id="df-filter-available" onclick="filterDownloadsList('available')">
+        ဒေါင်းလုဒ်လုပ်နိုင် (Available)
+      </button>
+    </div>
+
+    <!-- Episode Cards List Container -->
+    <div id="downloads-episodes-list" class="downloads-episodes-container">
+      <!-- Populated dynamically by renderDownloadsPage() -->
     </div>
   </div>
 </section>
@@ -8206,7 +8509,7 @@ body.is-mobile-app .mobile-cert-card-footer {
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-downloads" onclick="openDownloadsPanel()" aria-label="Downloads" style="position:relative;">
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-downloads" onclick="switchAppTab('downloads')" aria-label="Downloads" style="position:relative;">
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
       <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
     </svg>
@@ -13835,7 +14138,7 @@ function shareDailyBlessing() {
 // MOBILE APP TAB SWITCHER & VIEW CONTROLLER
 // ==========================================
 function switchAppTab(tab) {
-  const tabs = ['cinema', 'prayer', 'devotional', 'account', 'lessons', 'quiz'];
+  const tabs = ['cinema', 'prayer', 'devotional', 'downloads', 'account', 'lessons', 'quiz'];
   tabs.forEach(t => {
     const btn = document.getElementById(`btn-app-tab-${t}`);
     if (btn) btn.classList.toggle('active', t === tab);
@@ -13850,7 +14153,8 @@ function switchAppTab(tab) {
     'cinema': document.getElementById('view-mobile-cinema'),
     'hub': document.getElementById('view-mobile-cinema'),
     'prayer': document.getElementById('view-mobile-prayer'),
-    'devotional': document.getElementById('view-mobile-devotional')
+    'devotional': document.getElementById('view-mobile-devotional'),
+    'downloads': document.getElementById('view-mobile-downloads')
   };
 
   const activeView = screenViews[tab];
@@ -13866,7 +14170,7 @@ function switchAppTab(tab) {
 
   // Hide top brand bar on subpages so that back-headers sit cleanly at top
   const mobileAppBar = document.getElementById('mobile-app-bar');
-  if (tab === 'prayer' || tab === 'devotional') {
+  if (tab === 'prayer' || tab === 'devotional' || tab === 'downloads') {
     document.body.classList.add('on-subpage');
     if (mobileAppBar) mobileAppBar.style.setProperty('display', 'none', 'important');
   } else {
@@ -13878,6 +14182,8 @@ function switchAppTab(tab) {
     loadLivePrayers();
   } else if (tab === 'devotional') {
     updateMobileProgressUI();
+  } else if (tab === 'downloads') {
+    renderDownloadsPage();
   }
 }
 
@@ -14329,10 +14635,9 @@ function getProxyUrl(fileUrl) {
 // Start download for a module
 async function startVideoDownload(modId) {
   const mod = MODULES.find(m => m.id === modId);
-  if (!mod || !mod.fileUrl) {
-    showOfflineToast('⚠️ This module is not available for download.', 'warn');
-    return;
-  }
+  if (!mod) return;
+  const fileUrl = mod.fileUrl || `https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-${modId}.mp4`;
+
   if (_activeDownloads[modId]) {
     showOfflineToast('⏳ Already downloading...', 'info');
     return;
@@ -14343,10 +14648,11 @@ async function startVideoDownload(modId) {
     return;
   }
 
-  showOfflineToast(`📥 Starting download: M${modId}...`, 'info');
+  showOfflineToast(`📥 Starting download: Episode ${modId}...`, 'info');
   updateChipDownloadState(modId, 'downloading', 0);
+  renderDownloadsPage();
 
-  const proxyUrl = getProxyUrl(mod.fileUrl);
+  const proxyUrl = getProxyUrl(fileUrl);
   const xhr = new XMLHttpRequest();
   _activeDownloads[modId] = { xhr, progress: 0 };
 
@@ -14373,8 +14679,8 @@ async function startVideoDownload(modId) {
       });
       delete _activeDownloads[modId];
       updateChipDownloadState(modId, 'done', 100);
-      showOfflineToast(`✅ M${modId} saved for offline viewing!`, 'success');
-      renderDownloadsPanel();
+      showOfflineToast(`✅ Episode ${modId} saved for offline viewing!`, 'success');
+      renderDownloadsPage();
       // If this module is currently playing, switch to local blob
       if (currentMobileModId === modId) {
         playOfflineOrOnline(modId);
@@ -14383,6 +14689,7 @@ async function startVideoDownload(modId) {
       delete _activeDownloads[modId];
       updateChipDownloadState(modId, 'none', 0);
       showOfflineToast(`❌ Download failed (${xhr.status}). Try again.`, 'error');
+      renderDownloadsPage();
     }
   };
 
@@ -14390,6 +14697,7 @@ async function startVideoDownload(modId) {
     delete _activeDownloads[modId];
     updateChipDownloadState(modId, 'none', 0);
     showOfflineToast('❌ Download failed. Check your connection.', 'error');
+    renderDownloadsPage();
   };
 
   xhr.send();
@@ -14488,130 +14796,151 @@ function updateDownloadsPanelProgress(modId, pct, loaded, total) {
   if (info) info.textContent = `${formatFileSize(loaded)} / ${formatFileSize(total)} · ${pct}%`;
 }
 
-// ---- Downloads Panel (Netflix-style slide-up sheet) ----
-function openDownloadsPanel() {
-  const panel = document.getElementById('offline-downloads-panel');
-  const overlay = document.getElementById('offline-downloads-overlay');
-  if (!panel) return;
-  renderDownloadsPanel();
-  if (overlay) overlay.style.display = 'block';
-  panel.style.transform = 'translateY(0)';
-  document.body.style.overflow = 'hidden';
+// ---- Dedicated Downloads Screen (Episode-by-Episode Management) ----
+let currentDownloadsFilter = 'all';
+
+function filterDownloadsList(filter) {
+  currentDownloadsFilter = filter;
+  ['all', 'saved', 'available'].forEach(f => {
+    const btn = document.getElementById(`df-filter-${f}`);
+    if (btn) btn.classList.toggle('active', f === filter);
+  });
+  renderDownloadsPage();
 }
 
-function closeDownloadsPanel() {
-  const panel = document.getElementById('offline-downloads-panel');
-  const overlay = document.getElementById('offline-downloads-overlay');
-  if (!panel) return;
-  panel.style.transform = 'translateY(100%)';
-  if (overlay) overlay.style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-async function renderDownloadsPanel() {
-  const list = document.getElementById('downloads-panel-list');
-  const storageEl = document.getElementById('downloads-storage-info');
-  if (!list) return;
+async function renderDownloadsPage() {
+  const container = document.getElementById('downloads-episodes-list');
+  const storagePill = document.getElementById('downloads-page-storage-badge');
+  const heroStat = document.getElementById('downloads-hero-stat');
+  if (!container) return;
 
   const allDownloaded = await getAllOfflineVideos();
-  const activeIds = Object.keys(_activeDownloads).map(Number);
-  const downloadedIds = allDownloaded.map(v => v.modId);
-  const downloadable = MODULES.filter(m => m.fileUrl || m.videoType === 'file');
+  const downloadedMap = {};
+  allDownloaded.forEach(v => { downloadedMap[v.modId] = v; });
 
-  // Storage info
+  const activeIds = Object.keys(_activeDownloads).map(Number);
   const totalBytes = allDownloaded.reduce((s, v) => s + (v.meta?.size || 0), 0);
-  if (storageEl) {
-    storageEl.textContent = allDownloaded.length > 0
-      ? `${allDownloaded.length} video${allDownloaded.length > 1 ? 's' : ''} saved · ${formatFileSize(totalBytes)} used`
-      : 'No videos downloaded yet';
-  }
+
+  // Update storage badges
+  const storageText = formatFileSize(totalBytes) || '0 MB';
+  if (storagePill) storagePill.textContent = `${storageText} Used`;
+  if (heroStat) heroStat.textContent = `${allDownloaded.length} Episodes Saved · ${storageText} Used`;
 
   // Update bottom tab badge
   updateDownloadsTabBadge(allDownloaded.length + activeIds.length);
 
-  const sections = [];
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
 
-  // ── Section 1: Active Downloads ──────────────────────────
-  if (activeIds.length > 0) {
-    sections.push(`<div class="dp-section-label">Downloading</div>`);
-    for (const modId of activeIds) {
-      const mod = MODULES.find(m => m.id === modId);
-      if (!mod) continue;
-      const pct = _activeDownloads[modId].progress || 0;
-      sections.push(`
-        <div class="dp-row" id="dp-row-${modId}">
-          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
-          <div class="dp-row-body">
-            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
-            <div class="dp-progress-bar"><div class="dp-progress-fill" id="dp-bar-${modId}" style="width:${pct}%"></div></div>
-            <div class="dp-row-info" id="dp-info-${modId}">Downloading... ${pct}%</div>
+  const cardsHtml = [];
+
+  for (const mod of MODULES) {
+    const isDownloaded = !!downloadedMap[mod.id];
+    const isDownloading = !!_activeDownloads[mod.id];
+    const downloadRec = downloadedMap[mod.id];
+
+    // Filter check
+    if (currentDownloadsFilter === 'saved' && !isDownloaded && !isDownloading) continue;
+    if (currentDownloadsFilter === 'available' && isDownloaded) continue;
+
+    const modTitle = isMy ? (mod.myTitle || mod.title) : mod.title;
+    const sizeText = isDownloaded ? formatFileSize(downloadRec?.meta?.size) : '~55 MB';
+
+    let actionSection = '';
+
+    if (isDownloading) {
+      const pct = _activeDownloads[mod.id].progress || 0;
+      actionSection = `
+        <div class="dl-episode-progress-wrap">
+          <div class="dl-progress-bar-bg">
+            <div class="dl-progress-bar-fill" id="dp-bar-${mod.id}" style="width:${pct}%"></div>
           </div>
-          <button class="dp-row-action dp-cancel" onclick="cancelVideoDownload(${modId})">✕</button>
-        </div>`);
+          <div class="dl-progress-status-row">
+            <span id="dp-info-${mod.id}" style="font-weight:700;color:#f0c355">Downloading... ${pct}%</span>
+            <button type="button" class="btn-cancel-dl" onclick="cancelVideoDownload(${mod.id})">
+              ✕ ${isMy ? 'ပယ်ဖျက်မည်' : 'Cancel'}
+            </button>
+          </div>
+        </div>`;
+    } else if (isDownloaded) {
+      actionSection = `
+        <button type="button" class="btn-watch-offline" onclick="watchOfflineEpisode(${mod.id})">
+          ▶ ${isMy ? 'အော့ဖ်လိုင်း ကြည့်ရှုမည်' : 'Watch Offline'}
+        </button>
+        <button type="button" class="btn-delete-offline" onclick="deleteOfflineEpisode(${mod.id})" title="Delete video">
+          🗑
+        </button>`;
+    } else {
+      actionSection = `
+        <button type="button" class="btn-dl-episode" onclick="startVideoDownload(${mod.id})">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          <span>${isMy ? 'အပိုင်း ' + mod.id + ' ဒေါင်းလုဒ်ဆွဲမည်' : 'Download Episode ' + mod.id}</span>
+          <span style="opacity:0.65;font-size:0.7rem;margin-left:4px">(${sizeText})</span>
+        </button>`;
     }
+
+    const cardClass = isDownloaded ? 'downloads-episode-card is-downloaded' : (isDownloading ? 'downloads-episode-card is-downloading' : 'downloads-episode-card');
+
+    cardsHtml.push(`
+      <div class="${cardClass}" id="dl-card-m${mod.id}">
+        <div class="downloads-episode-top">
+          <div class="downloads-episode-icon" style="background:${mod.grad || 'linear-gradient(135deg,#003087,#004ac2)'}">
+            ${mod.icon || '🎬'}
+          </div>
+          <div class="downloads-episode-info">
+            <div class="downloads-episode-badge-row">
+              <span class="downloads-episode-num">Episode ${mod.id} · ${mod.dur || '45'} mins</span>
+              ${isDownloaded ? '<span class="downloads-offline-ready-tag">✓ Offline Ready</span>' : ''}
+            </div>
+            <div class="downloads-episode-title">${modTitle}</div>
+            <div class="downloads-episode-meta">
+              <span>${mod.scripture || ''}</span>
+              ${isDownloaded ? `<span>· ${sizeText}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="downloads-episode-bottom">
+          ${actionSection}
+        </div>
+      </div>
+    `);
   }
 
-  // ── Section 2: Saved Offline ─────────────────────────────
-  if (allDownloaded.length > 0) {
-    sections.push(`<div class="dp-section-label">Saved for Offline</div>`);
-    for (const rec of allDownloaded) {
-      const mod = MODULES.find(m => m.id === rec.modId);
-      if (!mod) continue;
-      sections.push(`
-        <div class="dp-row" id="dp-row-${rec.modId}">
-          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
-          <div class="dp-row-body">
-            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
-            <div class="dp-row-sub">${mod.dur} mins &nbsp;·&nbsp; <span class="dp-offline-tag">📲 Offline</span> &nbsp;·&nbsp; ${formatFileSize(rec.meta?.size)}</div>
-          </div>
-          <div class="dp-row-btns">
-            <button class="dp-row-action dp-play" onclick="selectMobileModuleVideo(${rec.modId},true);closeDownloadsPanel();" title="Play">▶</button>
-            <button class="dp-row-action dp-delete" onclick="deleteOfflineAndRefresh(${rec.modId})" title="Delete">🗑</button>
-          </div>
-        </div>`);
-    }
-  }
-
-  // ── Section 3: Available to Download ─────────────────────
-  const notYet = downloadable.filter(m => !downloadedIds.includes(m.id) && !activeIds.includes(m.id));
-  if (notYet.length > 0) {
-    sections.push(`<div class="dp-section-label">Available to Download</div>`);
-    for (const mod of notYet) {
-      sections.push(`
-        <div class="dp-row">
-          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
-          <div class="dp-row-body">
-            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
-            <div class="dp-row-sub">${mod.dur} mins</div>
-          </div>
-          <button class="dp-row-action dp-dl-btn" onclick="startVideoDownload(${mod.id});renderDownloadsPanel();" title="Download">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-          </button>
-        </div>`);
-    }
-  }
-
-  if (sections.length === 0) {
-    list.innerHTML = `
-      <div class="dp-empty">
-        <div class="dp-empty-icon">✅</div>
-        <div class="dp-empty-title">All modules downloaded!</div>
-        <div class="dp-empty-sub">You can watch all videos without internet.</div>
+  if (cardsHtml.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,0.6)">
+        <div style="font-size:2.5rem;margin-bottom:10px">📥</div>
+        <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:4px">
+          ${currentDownloadsFilter === 'saved' ? 'စက်ထဲတွင် ဒေါင်းလုဒ်ရယူထားသော ဗီဒီယို မရှိသေးပါ' : 'ဒေါင်းလုဒ်ရယူရန် ဗီဒီယို မရှိပါ'}
+        </div>
+        <div style="font-size:0.75rem">
+          ${currentDownloadsFilter === 'saved' ? 'မိမိကြည့်ရှုလိုသော အပိုင်းကို ရွေးချယ်၍ ဒေါင်းလုဒ်ဆွဲနိုင်ပါသည်' : ''}
+        </div>
       </div>`;
     return;
   }
 
-  // If nothing downloaded and nothing active yet
-  if (allDownloaded.length === 0 && activeIds.length === 0 && notYet.length === downloadable.length) {
-    sections.unshift(`
-      <div class="dp-empty" style="padding:24px 20px 8px;">
-        <div class="dp-empty-icon">📥</div>
-        <div class="dp-empty-title">Save videos for offline</div>
-        <div class="dp-empty-sub">Download any module below to watch without internet — like Netflix!</div>
-      </div>`);
-  }
+  container.innerHTML = cardsHtml.join('');
+}
 
-  list.innerHTML = sections.join('');
+function watchOfflineEpisode(modId) {
+  switchAppTab('cinema');
+  selectMobileModuleVideo(modId, true);
+  showOfflineToast(`▶ Playing Episode ${modId} from offline storage`, 'success');
+}
+
+async function deleteOfflineEpisode(modId) {
+  await deleteOfflineVideo(modId);
+  updateChipDownloadState(modId, 'none', 0);
+  showOfflineToast(`🗑 Episode ${modId} deleted from device`, 'info');
+  renderDownloadsPage();
+}
+
+function openDownloadsPanel() {
+  switchAppTab('downloads');
+}
+
+function closeDownloadsPanel() {
+  switchAppTab('cinema');
 }
 
 // Update the Downloads tab badge count
@@ -14624,19 +14953,6 @@ function updateDownloadsTabBadge(count) {
   } else {
     badge.style.display = 'none';
   }
-}
-
-// Download-all downloadable modules (queue)
-async function downloadAllModules() {
-  const downloadable = MODULES.filter(m => m.fileUrl || m.videoType === 'file');
-  for (const mod of downloadable) {
-    const existing = await getOfflineVideo(mod.id);
-    if (!existing && !_activeDownloads[mod.id]) {
-      await new Promise(resolve => setTimeout(resolve, 300)); // slight stagger
-      startVideoDownload(mod.id);
-    }
-  }
-  showOfflineToast('📥 Queued all available modules for download!', 'info');
 }
 
 // Toast notification
@@ -14719,38 +15035,7 @@ window.addEventListener('resize', () => {
 
 </script>
 
-<!-- =============================================
-     OFFLINE DOWNLOADS PANEL (Netflix-style sheet)
-     ============================================= -->
-<div id="offline-downloads-overlay" onclick="closeDownloadsPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;backdrop-filter:blur(3px);"></div>
-
-<div id="offline-downloads-panel" style="position:fixed;bottom:0;left:0;right:0;max-height:85vh;background:linear-gradient(180deg,#0d1b3e 0%,#09122a 100%);border-radius:24px 24px 0 0;z-index:9999;transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);overflow:hidden;box-shadow:0 -8px 40px rgba(0,0,0,0.6);">
-
-  <!-- Handle bar -->
-  <div style="display:flex;justify-content:center;padding:12px 0 0;">
-    <div style="width:40px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
-  </div>
-
-  <!-- Header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 10px;">
-    <div>
-      <div style="font-size:1.15rem;font-weight:800;color:#fff;">📲 My Downloads</div>
-      <div id="downloads-storage-info" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">No videos downloaded yet</div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button onclick="downloadAllModules()" style="background:linear-gradient(135deg,#f0c355,#e5a500);color:#000;font-size:0.7rem;font-weight:800;padding:7px 14px;border-radius:20px;border:none;cursor:pointer;">⬇ Download All</button>
-      <button onclick="closeDownloadsPanel()" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
-    </div>
-  </div>
-
-  <!-- Divider -->
-  <div style="height:1px;background:rgba(255,255,255,0.07);margin:0 20px;"></div>
-
-  <!-- List -->
-  <div id="downloads-panel-list" style="overflow-y:auto;max-height:calc(85vh - 130px);padding:12px 16px 40px;">
-    <!-- Populated by JS -->
-  </div>
-</div>
+<!-- Toast notification for offline actions -->
 
 <!-- Toast notification -->
 <div id="offline-toast" class="offline-toast"></div>

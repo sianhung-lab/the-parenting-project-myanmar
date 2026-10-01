@@ -5457,7 +5457,7 @@ function shareDailyBlessing() {
 // MOBILE APP TAB SWITCHER & VIEW CONTROLLER
 // ==========================================
 function switchAppTab(tab) {
-  const tabs = ['cinema', 'prayer', 'devotional', 'account', 'lessons', 'quiz'];
+  const tabs = ['cinema', 'prayer', 'devotional', 'downloads', 'account', 'lessons', 'quiz'];
   tabs.forEach(t => {
     const btn = document.getElementById(`btn-app-tab-${t}`);
     if (btn) btn.classList.toggle('active', t === tab);
@@ -5472,7 +5472,8 @@ function switchAppTab(tab) {
     'cinema': document.getElementById('view-mobile-cinema'),
     'hub': document.getElementById('view-mobile-cinema'),
     'prayer': document.getElementById('view-mobile-prayer'),
-    'devotional': document.getElementById('view-mobile-devotional')
+    'devotional': document.getElementById('view-mobile-devotional'),
+    'downloads': document.getElementById('view-mobile-downloads')
   };
 
   const activeView = screenViews[tab];
@@ -5488,7 +5489,7 @@ function switchAppTab(tab) {
 
   // Hide top brand bar on subpages so that back-headers sit cleanly at top
   const mobileAppBar = document.getElementById('mobile-app-bar');
-  if (tab === 'prayer' || tab === 'devotional') {
+  if (tab === 'prayer' || tab === 'devotional' || tab === 'downloads') {
     document.body.classList.add('on-subpage');
     if (mobileAppBar) mobileAppBar.style.setProperty('display', 'none', 'important');
   } else {
@@ -5500,6 +5501,8 @@ function switchAppTab(tab) {
     loadLivePrayers();
   } else if (tab === 'devotional') {
     updateMobileProgressUI();
+  } else if (tab === 'downloads') {
+    renderDownloadsPage();
   }
 }
 
@@ -5951,10 +5954,9 @@ function getProxyUrl(fileUrl) {
 // Start download for a module
 async function startVideoDownload(modId) {
   const mod = MODULES.find(m => m.id === modId);
-  if (!mod || !mod.fileUrl) {
-    showOfflineToast('⚠️ This module is not available for download.', 'warn');
-    return;
-  }
+  if (!mod) return;
+  const fileUrl = mod.fileUrl || `https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-${modId}.mp4`;
+
   if (_activeDownloads[modId]) {
     showOfflineToast('⏳ Already downloading...', 'info');
     return;
@@ -5965,10 +5967,11 @@ async function startVideoDownload(modId) {
     return;
   }
 
-  showOfflineToast(`📥 Starting download: M${modId}...`, 'info');
+  showOfflineToast(`📥 Starting download: Episode ${modId}...`, 'info');
   updateChipDownloadState(modId, 'downloading', 0);
+  renderDownloadsPage();
 
-  const proxyUrl = getProxyUrl(mod.fileUrl);
+  const proxyUrl = getProxyUrl(fileUrl);
   const xhr = new XMLHttpRequest();
   _activeDownloads[modId] = { xhr, progress: 0 };
 
@@ -5995,8 +5998,8 @@ async function startVideoDownload(modId) {
       });
       delete _activeDownloads[modId];
       updateChipDownloadState(modId, 'done', 100);
-      showOfflineToast(`✅ M${modId} saved for offline viewing!`, 'success');
-      renderDownloadsPanel();
+      showOfflineToast(`✅ Episode ${modId} saved for offline viewing!`, 'success');
+      renderDownloadsPage();
       // If this module is currently playing, switch to local blob
       if (currentMobileModId === modId) {
         playOfflineOrOnline(modId);
@@ -6005,6 +6008,7 @@ async function startVideoDownload(modId) {
       delete _activeDownloads[modId];
       updateChipDownloadState(modId, 'none', 0);
       showOfflineToast(`❌ Download failed (${xhr.status}). Try again.`, 'error');
+      renderDownloadsPage();
     }
   };
 
@@ -6012,6 +6016,7 @@ async function startVideoDownload(modId) {
     delete _activeDownloads[modId];
     updateChipDownloadState(modId, 'none', 0);
     showOfflineToast('❌ Download failed. Check your connection.', 'error');
+    renderDownloadsPage();
   };
 
   xhr.send();
@@ -6110,130 +6115,151 @@ function updateDownloadsPanelProgress(modId, pct, loaded, total) {
   if (info) info.textContent = `${formatFileSize(loaded)} / ${formatFileSize(total)} · ${pct}%`;
 }
 
-// ---- Downloads Panel (Netflix-style slide-up sheet) ----
-function openDownloadsPanel() {
-  const panel = document.getElementById('offline-downloads-panel');
-  const overlay = document.getElementById('offline-downloads-overlay');
-  if (!panel) return;
-  renderDownloadsPanel();
-  if (overlay) overlay.style.display = 'block';
-  panel.style.transform = 'translateY(0)';
-  document.body.style.overflow = 'hidden';
+// ---- Dedicated Downloads Screen (Episode-by-Episode Management) ----
+let currentDownloadsFilter = 'all';
+
+function filterDownloadsList(filter) {
+  currentDownloadsFilter = filter;
+  ['all', 'saved', 'available'].forEach(f => {
+    const btn = document.getElementById(`df-filter-${f}`);
+    if (btn) btn.classList.toggle('active', f === filter);
+  });
+  renderDownloadsPage();
 }
 
-function closeDownloadsPanel() {
-  const panel = document.getElementById('offline-downloads-panel');
-  const overlay = document.getElementById('offline-downloads-overlay');
-  if (!panel) return;
-  panel.style.transform = 'translateY(100%)';
-  if (overlay) overlay.style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-async function renderDownloadsPanel() {
-  const list = document.getElementById('downloads-panel-list');
-  const storageEl = document.getElementById('downloads-storage-info');
-  if (!list) return;
+async function renderDownloadsPage() {
+  const container = document.getElementById('downloads-episodes-list');
+  const storagePill = document.getElementById('downloads-page-storage-badge');
+  const heroStat = document.getElementById('downloads-hero-stat');
+  if (!container) return;
 
   const allDownloaded = await getAllOfflineVideos();
-  const activeIds = Object.keys(_activeDownloads).map(Number);
-  const downloadedIds = allDownloaded.map(v => v.modId);
-  const downloadable = MODULES.filter(m => m.fileUrl || m.videoType === 'file');
+  const downloadedMap = {};
+  allDownloaded.forEach(v => { downloadedMap[v.modId] = v; });
 
-  // Storage info
+  const activeIds = Object.keys(_activeDownloads).map(Number);
   const totalBytes = allDownloaded.reduce((s, v) => s + (v.meta?.size || 0), 0);
-  if (storageEl) {
-    storageEl.textContent = allDownloaded.length > 0
-      ? `${allDownloaded.length} video${allDownloaded.length > 1 ? 's' : ''} saved · ${formatFileSize(totalBytes)} used`
-      : 'No videos downloaded yet';
-  }
+
+  // Update storage badges
+  const storageText = formatFileSize(totalBytes) || '0 MB';
+  if (storagePill) storagePill.textContent = `${storageText} Used`;
+  if (heroStat) heroStat.textContent = `${allDownloaded.length} Episodes Saved · ${storageText} Used`;
 
   // Update bottom tab badge
   updateDownloadsTabBadge(allDownloaded.length + activeIds.length);
 
-  const sections = [];
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
 
-  // ── Section 1: Active Downloads ──────────────────────────
-  if (activeIds.length > 0) {
-    sections.push(`<div class="dp-section-label">Downloading</div>`);
-    for (const modId of activeIds) {
-      const mod = MODULES.find(m => m.id === modId);
-      if (!mod) continue;
-      const pct = _activeDownloads[modId].progress || 0;
-      sections.push(`
-        <div class="dp-row" id="dp-row-${modId}">
-          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
-          <div class="dp-row-body">
-            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
-            <div class="dp-progress-bar"><div class="dp-progress-fill" id="dp-bar-${modId}" style="width:${pct}%"></div></div>
-            <div class="dp-row-info" id="dp-info-${modId}">Downloading... ${pct}%</div>
+  const cardsHtml = [];
+
+  for (const mod of MODULES) {
+    const isDownloaded = !!downloadedMap[mod.id];
+    const isDownloading = !!_activeDownloads[mod.id];
+    const downloadRec = downloadedMap[mod.id];
+
+    // Filter check
+    if (currentDownloadsFilter === 'saved' && !isDownloaded && !isDownloading) continue;
+    if (currentDownloadsFilter === 'available' && isDownloaded) continue;
+
+    const modTitle = isMy ? (mod.myTitle || mod.title) : mod.title;
+    const sizeText = isDownloaded ? formatFileSize(downloadRec?.meta?.size) : '~55 MB';
+
+    let actionSection = '';
+
+    if (isDownloading) {
+      const pct = _activeDownloads[mod.id].progress || 0;
+      actionSection = `
+        <div class="dl-episode-progress-wrap">
+          <div class="dl-progress-bar-bg">
+            <div class="dl-progress-bar-fill" id="dp-bar-${mod.id}" style="width:${pct}%"></div>
           </div>
-          <button class="dp-row-action dp-cancel" onclick="cancelVideoDownload(${modId})">✕</button>
-        </div>`);
+          <div class="dl-progress-status-row">
+            <span id="dp-info-${mod.id}" style="font-weight:700;color:#f0c355">Downloading... ${pct}%</span>
+            <button type="button" class="btn-cancel-dl" onclick="cancelVideoDownload(${mod.id})">
+              ✕ ${isMy ? 'ပယ်ဖျက်မည်' : 'Cancel'}
+            </button>
+          </div>
+        </div>`;
+    } else if (isDownloaded) {
+      actionSection = `
+        <button type="button" class="btn-watch-offline" onclick="watchOfflineEpisode(${mod.id})">
+          ▶ ${isMy ? 'အော့ဖ်လိုင်း ကြည့်ရှုမည်' : 'Watch Offline'}
+        </button>
+        <button type="button" class="btn-delete-offline" onclick="deleteOfflineEpisode(${mod.id})" title="Delete video">
+          🗑
+        </button>`;
+    } else {
+      actionSection = `
+        <button type="button" class="btn-dl-episode" onclick="startVideoDownload(${mod.id})">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          <span>${isMy ? 'အပိုင်း ' + mod.id + ' ဒေါင်းလုဒ်ဆွဲမည်' : 'Download Episode ' + mod.id}</span>
+          <span style="opacity:0.65;font-size:0.7rem;margin-left:4px">(${sizeText})</span>
+        </button>`;
     }
+
+    const cardClass = isDownloaded ? 'downloads-episode-card is-downloaded' : (isDownloading ? 'downloads-episode-card is-downloading' : 'downloads-episode-card');
+
+    cardsHtml.push(`
+      <div class="${cardClass}" id="dl-card-m${mod.id}">
+        <div class="downloads-episode-top">
+          <div class="downloads-episode-icon" style="background:${mod.grad || 'linear-gradient(135deg,#003087,#004ac2)'}">
+            ${mod.icon || '🎬'}
+          </div>
+          <div class="downloads-episode-info">
+            <div class="downloads-episode-badge-row">
+              <span class="downloads-episode-num">Episode ${mod.id} · ${mod.dur || '45'} mins</span>
+              ${isDownloaded ? '<span class="downloads-offline-ready-tag">✓ Offline Ready</span>' : ''}
+            </div>
+            <div class="downloads-episode-title">${modTitle}</div>
+            <div class="downloads-episode-meta">
+              <span>${mod.scripture || ''}</span>
+              ${isDownloaded ? `<span>· ${sizeText}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="downloads-episode-bottom">
+          ${actionSection}
+        </div>
+      </div>
+    `);
   }
 
-  // ── Section 2: Saved Offline ─────────────────────────────
-  if (allDownloaded.length > 0) {
-    sections.push(`<div class="dp-section-label">Saved for Offline</div>`);
-    for (const rec of allDownloaded) {
-      const mod = MODULES.find(m => m.id === rec.modId);
-      if (!mod) continue;
-      sections.push(`
-        <div class="dp-row" id="dp-row-${rec.modId}">
-          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
-          <div class="dp-row-body">
-            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
-            <div class="dp-row-sub">${mod.dur} mins &nbsp;·&nbsp; <span class="dp-offline-tag">📲 Offline</span> &nbsp;·&nbsp; ${formatFileSize(rec.meta?.size)}</div>
-          </div>
-          <div class="dp-row-btns">
-            <button class="dp-row-action dp-play" onclick="selectMobileModuleVideo(${rec.modId},true);closeDownloadsPanel();" title="Play">▶</button>
-            <button class="dp-row-action dp-delete" onclick="deleteOfflineAndRefresh(${rec.modId})" title="Delete">🗑</button>
-          </div>
-        </div>`);
-    }
-  }
-
-  // ── Section 3: Available to Download ─────────────────────
-  const notYet = downloadable.filter(m => !downloadedIds.includes(m.id) && !activeIds.includes(m.id));
-  if (notYet.length > 0) {
-    sections.push(`<div class="dp-section-label">Available to Download</div>`);
-    for (const mod of notYet) {
-      sections.push(`
-        <div class="dp-row">
-          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
-          <div class="dp-row-body">
-            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
-            <div class="dp-row-sub">${mod.dur} mins</div>
-          </div>
-          <button class="dp-row-action dp-dl-btn" onclick="startVideoDownload(${mod.id});renderDownloadsPanel();" title="Download">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-          </button>
-        </div>`);
-    }
-  }
-
-  if (sections.length === 0) {
-    list.innerHTML = `
-      <div class="dp-empty">
-        <div class="dp-empty-icon">✅</div>
-        <div class="dp-empty-title">All modules downloaded!</div>
-        <div class="dp-empty-sub">You can watch all videos without internet.</div>
+  if (cardsHtml.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,0.6)">
+        <div style="font-size:2.5rem;margin-bottom:10px">📥</div>
+        <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:4px">
+          ${currentDownloadsFilter === 'saved' ? 'စက်ထဲတွင် ဒေါင်းလုဒ်ရယူထားသော ဗီဒီယို မရှိသေးပါ' : 'ဒေါင်းလုဒ်ရယူရန် ဗီဒီယို မရှိပါ'}
+        </div>
+        <div style="font-size:0.75rem">
+          ${currentDownloadsFilter === 'saved' ? 'မိမိကြည့်ရှုလိုသော အပိုင်းကို ရွေးချယ်၍ ဒေါင်းလုဒ်ဆွဲနိုင်ပါသည်' : ''}
+        </div>
       </div>`;
     return;
   }
 
-  // If nothing downloaded and nothing active yet
-  if (allDownloaded.length === 0 && activeIds.length === 0 && notYet.length === downloadable.length) {
-    sections.unshift(`
-      <div class="dp-empty" style="padding:24px 20px 8px;">
-        <div class="dp-empty-icon">📥</div>
-        <div class="dp-empty-title">Save videos for offline</div>
-        <div class="dp-empty-sub">Download any module below to watch without internet — like Netflix!</div>
-      </div>`);
-  }
+  container.innerHTML = cardsHtml.join('');
+}
 
-  list.innerHTML = sections.join('');
+function watchOfflineEpisode(modId) {
+  switchAppTab('cinema');
+  selectMobileModuleVideo(modId, true);
+  showOfflineToast(`▶ Playing Episode ${modId} from offline storage`, 'success');
+}
+
+async function deleteOfflineEpisode(modId) {
+  await deleteOfflineVideo(modId);
+  updateChipDownloadState(modId, 'none', 0);
+  showOfflineToast(`🗑 Episode ${modId} deleted from device`, 'info');
+  renderDownloadsPage();
+}
+
+function openDownloadsPanel() {
+  switchAppTab('downloads');
+}
+
+function closeDownloadsPanel() {
+  switchAppTab('cinema');
 }
 
 // Update the Downloads tab badge count
@@ -6246,19 +6272,6 @@ function updateDownloadsTabBadge(count) {
   } else {
     badge.style.display = 'none';
   }
-}
-
-// Download-all downloadable modules (queue)
-async function downloadAllModules() {
-  const downloadable = MODULES.filter(m => m.fileUrl || m.videoType === 'file');
-  for (const mod of downloadable) {
-    const existing = await getOfflineVideo(mod.id);
-    if (!existing && !_activeDownloads[mod.id]) {
-      await new Promise(resolve => setTimeout(resolve, 300)); // slight stagger
-      startVideoDownload(mod.id);
-    }
-  }
-  showOfflineToast('📥 Queued all available modules for download!', 'info');
 }
 
 // Toast notification
