@@ -40,6 +40,8 @@ const MODULES = [
   {
     id: 2,
     cat: "connection",
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-2.mp4",
     youtube: "GVK5Wc0NZE4",
     icon: "🤝",
     grad: "linear-gradient(135deg,#c0392b,#e74c3c)",

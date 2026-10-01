@@ -36,11 +36,20 @@ def upload_file(access_key_id, secret_access_key, file_path, object_name):
         sys.stdout.write(f"\r⏳ Progress: {mb:.1f}MB / {total_mb:.1f}MB ({percent:.1f}%)")
         sys.stdout.flush()
 
+    from boto3.s3.transfer import TransferConfig
+    transfer_config = TransferConfig(
+        multipart_threshold=20 * 1024 * 1024,
+        max_concurrency=10,
+        multipart_chunksize=20 * 1024 * 1024,
+        use_threads=True
+    )
+
     s3.upload_file(
         file_path,
         BUCKET_NAME,
         object_name,
         ExtraArgs={"ContentType": "video/mp4"},
+        Config=transfer_config,
         Callback=progress_callback
     )
     print("\n✅ Upload to Cloudflare R2 completed successfully!")
