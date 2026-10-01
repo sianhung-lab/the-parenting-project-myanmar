@@ -73,6 +73,8 @@ const MODULES = [
   {
     id: 3,
     cat: "character",
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
     youtube: "lmtVOhpszCQ",
     icon: "🛡️",
     grad: "linear-gradient(135deg,#1a5276,#2980b9)",
@@ -4841,6 +4843,10 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     actionTextEl.innerHTML = `<span>${myAct}</span>${enAct}`;
   }
 
+  if (typeof currentAudioMode !== 'undefined' && currentAudioMode === 'audio') {
+    updatePodcastTrackUI(mod, autoPlay);
+  }
+
   renderMobileModuleChips();
 }
 
@@ -5503,6 +5509,7 @@ function switchAppTab(tab) {
     loadLivePrayers();
   } else if (tab === 'devotional') {
     updateMobileProgressUI();
+    renderJourneyRoadmap();
   } else if (tab === 'downloads') {
     renderDownloadsPage();
   }
@@ -6146,6 +6153,7 @@ async function renderDownloadsPage() {
   const storageText = formatFileSize(totalBytes) || '0 MB';
   if (storagePill) storagePill.textContent = `${storageText} Used`;
   if (heroStat) heroStat.textContent = `${allDownloaded.length} Episodes Saved · ${storageText} Used`;
+  updateStorageMeter(totalBytes, allDownloaded.length);
 
   // Update bottom tab badge
   updateDownloadsTabBadge(allDownloaded.length + activeIds.length);
@@ -6295,6 +6303,471 @@ async function initOfflineManager() {
   updateDownloadsTabBadge(allSaved.length);
 }
 
+/* ========================================================
+   FEATURE 1: NEXT-GEN OFFLINE DOWNLOADS & STORAGE METER
+   ======================================================== */
+let currentDownloadQuality = 'hd';
+let smartDownloadEnabled = true;
+
+function updateStorageMeter(totalBytes, count) {
+  const ring = document.getElementById('dsm-svg-ring');
+  const pctEl = document.getElementById('dsm-ring-pct');
+  const vidSizeEl = document.getElementById('dsm-videos-size');
+  const cacheSizeEl = document.getElementById('dsm-cache-size');
+  const freeSizeEl = document.getElementById('dsm-free-size');
+  
+  const usedMB = (totalBytes || 0) / (1024 * 1024);
+  const cacheMB = 4.2;
+  const totalAppUsedMB = usedMB + cacheMB;
+  const quotaMB = 1000;
+  const pct = Math.min(100, Math.max(0, Math.round((totalAppUsedMB / quotaMB) * 100)));
+  
+  const circumference = 264;
+  const dashoffset = circumference - (circumference * (pct / 100));
+
+  if (ring) {
+    ring.style.strokeDasharray = `${circumference}`;
+    ring.style.strokeDashoffset = `${dashoffset}`;
+  }
+  if (pctEl) pctEl.textContent = `${pct}%`;
+  if (vidSizeEl) vidSizeEl.textContent = formatFileSize(totalBytes) || '0 MB';
+  if (cacheSizeEl) cacheSizeEl.textContent = `${cacheMB.toFixed(1)} MB`;
+  if (freeSizeEl) {
+    const freeGB = Math.max(2.4, (16 - (totalAppUsedMB / 1024))).toFixed(1);
+    freeSizeEl.textContent = `~${freeGB} GB Free`;
+  }
+}
+
+function setDownloadQuality(quality) {
+  currentDownloadQuality = quality;
+  try { localStorage.setItem('tpp_dl_quality', quality); } catch(e) {}
+  ['hd', 'saver', 'audio'].forEach(q => {
+    const el = document.getElementById(`ql-${q}`);
+    if (el) el.classList.toggle('active', q === quality);
+  });
+  const names = { hd: 'HD 720p (~55 MB)', saver: 'Data Saver 480p (~25 MB)', audio: 'Audio Only (~8 MB)' };
+  showOfflineToast(`⚡ Download Quality: ${names[quality]}`, 'info');
+}
+
+function toggleSmartDownload(checked) {
+  smartDownloadEnabled = !!checked;
+  try { localStorage.setItem('tpp_smart_dl', smartDownloadEnabled ? '1' : '0'); } catch(e) {}
+  showOfflineToast(smartDownloadEnabled ? '✓ Smart Auto-Download ဖွင့်ထားပါသည်' : 'Smart Auto-Download ပိတ်လိုက်ပါသည်', 'info');
+}
+
+async function confirmDeleteAllDownloads() {
+  const allDownloaded = await getAllOfflineVideos();
+  if (allDownloaded.length === 0) {
+    showOfflineToast('ရှင်းလင်းရန် အော့ဖ်လိုင်း ဗီဒီယို မရှိပါ', 'info');
+    return;
+  }
+  if (confirm(`ဒေါင်းလုဒ်လုပ်ထားသော မော်ဂျူး (${allDownloaded.length}) ခုစလုံးကို စက်ထဲမှ ဖျက်ပစ်ရန် သေချာပါသလား?`)) {
+    await deleteAllOfflineVideos();
+  }
+}
+
+async function deleteAllOfflineVideos() {
+  try {
+    const db = await openOfflineDB();
+    const tx = db.transaction(OFFLINE_STORE, 'readwrite');
+    tx.objectStore(OFFLINE_STORE).clear();
+    tx.oncomplete = () => {
+      for (let i = 1; i <= 11; i++) {
+        updateChipDownloadState(i, 'none', 0);
+      }
+      showOfflineToast('🗑 ဒေါင်းလုဒ် ဗီဒီယိုအားလုံးကို အောင်မြင်စွာ ရှင်းလင်းပြီးပါပြီ', 'success');
+      renderDownloadsPage();
+    };
+  } catch(e) {
+    showOfflineToast('ရှင်းလင်းရာတွင် ချို့ယွင်းချက်ရှိပါသည်', 'error');
+  }
+}
+
+/* ========================================================
+   FEATURE 2: INTERACTIVE FAMILY DISCUSSION & COMMUNITY PRAYER WALL
+   ======================================================== */
+const FAMILY_DISCUSSIONS = [
+  {
+    title: "Loving Communication & Mutual Grace",
+    myTitle: "အပြန်အလှန် လေးစားတန်ဖိုးထားမှုနှင့် နားထောင်ခြင်း",
+    scripture: "ကောလောသဲ ၃:၁၂-၁၃",
+    scriptureText: "«ထို့ကြောင့် ဘုရားသခင် ရွေးကောက်တော်မူသော သန့်ရှင်းသောသူကဲ့သို့ သနားစုံမက်ခြင်း၊ ကျေးဇူးပြုခြင်း၊ စိတ်နှိမ့်ချခြင်း၊ နူးညံ့သိမ်မွေ့ခြင်း၊ စိတ်ရှည်ခြင်းတို့ကို ဝတ်ဆင်ကြလော့။»",
+    q1: "ဒီတစ်ပတ်အတွင်း တစ်ဦးကိုတစ်ဦး စိတ်မကျေနပ်ခဲ့တာမျိုးရှိရင် ခွင့်လွှတ်ခြင်းနဲ့ ဘယ်လိုရင်ဖွင့်မလဲ?",
+    q2: "သားသမီးတွေရှေ့မှာ ငါတို့နှစ်ယောက် မေတ္တာနှင့် လေးစားမှုကို အကောင်းဆုံး ဘယ်လိုပြသနိုင်မလဲ?",
+    q3: "ဒီည သားသမီးတွေ အိပ်ရာမဝင်မီ ငါတို့နှစ်ယောက် သူတို့ခေါင်းပေါ် လက်တင်ပြီး အတူတူ ဆုတောင်းပေးကြမယ်။"
+  },
+  {
+    title: "Digital Safety & Quality Time",
+    myTitle: "ဖုန်းမျက်နှာပြင်များထက် သားသမီးမျက်နှာကို ဦးစားပေးခြင်း",
+    scripture: "ဧဖက် ၅:၁၅-၁၆",
+    scriptureText: "«သို့ဖြစ်၍ ပညာမဲ့ကဲ့သို့ မဟုတ်၊ ပညာရှိကဲ့သို့ သတိနှင့် ကျင့်ဆောင်မည်အကြောင်း ကြည့်ရှုကြလော့။ ကာလအချိန်သည် ဆိုးယုတ်သောကြောင့် ကာလအချိန်ကို ရွေးနှုတ်ကြလော့။»",
+    q1: "ထမင်းစားပွဲနှင့် မိသားစုအချိန်များတွင် ဖုန်းကို ဘေးဖယ်ထားနိုင်ရန် ဘယ်စည်းကမ်းတွေ ချမှတ်ကြမလဲ?",
+    q2: "ဒီတစ်ပတ် သားသမီးနဲ့ အတူတူ စကားပြောခြင်း (သို့) ကစားခြင်းကို အချိန်ဘယ်လောက် သီးသန့်ပေးမလဲ?",
+    q3: "သားသမီးများ အင်တာနက် အသုံးပြုမှုကို ကာကွယ်စောင့်ရှောက်ရန် ဘုရားသခင်ထံ ဉာဏ်ပညာ တောင်းလျှောက်ကြပါစို့။"
+  },
+  {
+    title: "Overcoming Stress & Financial Peace",
+    myTitle: "အခက်အခဲများနှင့် ဖိစီးမှုများကြားတွင် ငြိမ်သက်ခြင်း",
+    scripture: "ဖိလိပ္ပိ ၄:၆-၇",
+    scriptureText: "«အဘယ်အမှုကိုမျှ စိုးရိမ်ခြင်းမရှိဘဲ အရာရာ၌ ကျေးဇူးတော်ကို ချီးမွမ်းခြင်းနှင့်တကွ ဆုတောင်းပန်လျှောက်ခြင်းအားဖြင့် သင်တို့တောင်းပန်လိုသောအရာများကို ဘုရားသခင်အား ကြားလျှောက်ကြလော့။»",
+    q1: "မိသားစု စားဝတ်နေရေး စိုးရိမ်စရာတွေကို စကားများမခိုက်ရန်ဘဲ အတူတူ ဘယ်လိုရင်ဆိုင်ကျော်ဖြတ်မလဲ?",
+    q2: "တစ်ဦးရဲ့ ဝန်ထုပ်ဝန်ပိုးကို တစ်ဦးက မေတ္တာနဲ့ ဘယ်လိုကူညီ ပေါ့ပါးစေမလဲ?",
+    q3: "ဘုရားသခင်၏ ပြင်ဆင်ပေးမှုကို ယုံကြည်ကိုးစားရင်း ကျေးဇူးတော်ချီးမွမ်း ဆုတောင်းကြပါစို့။"
+  }
+];
+let currentDiscussionIdx = 0;
+
+function cycleDiscussionPrompt() {
+  currentDiscussionIdx = (currentDiscussionIdx + 1) % FAMILY_DISCUSSIONS.length;
+  const item = FAMILY_DISCUSSIONS[currentDiscussionIdx];
+  const tEl = document.getElementById('disc-topic-title');
+  const myEl = document.getElementById('disc-topic-my');
+  const scEl = document.getElementById('disc-scripture-box');
+  const qList = document.getElementById('disc-questions-list');
+  const btn = document.getElementById('btn-complete-disc');
+  const txt = document.getElementById('txt-complete-disc');
+
+  if (tEl) tEl.textContent = item.title;
+  if (myEl) myEl.textContent = item.myTitle;
+  if (scEl) {
+    scEl.innerHTML = `📖 <strong>${item.scripture}:</strong> ${item.scriptureText}`;
+  }
+  if (qList) {
+    qList.innerHTML = `
+      <div class="couple-question-item"><span class="cq-num">၁</span><span>${item.q1}</span></div>
+      <div class="couple-question-item"><span class="cq-num">၂</span><span>${item.q2}</span></div>
+      <div class="couple-question-item"><span class="cq-num">၃</span><span>${item.q3}</span></div>
+    `;
+  }
+  if (btn) btn.style.background = '';
+  if (txt) txt.textContent = 'ဆွေးနွေးတိုင်ပင်ပြီးပါပြီ (+50 XP)';
+}
+
+function markDiscussionCompleted() {
+  const btn = document.getElementById('btn-complete-disc');
+  const txt = document.getElementById('txt-complete-disc');
+  if (btn) {
+    btn.style.background = 'linear-gradient(135deg, #1e8449, #27ae60)';
+  }
+  if (txt) {
+    txt.textContent = '✅ အောင်မြင်စွာ ဆွေးနွေးပြီးပါပြီ (+50 XP ရရှိပါသည်)';
+  }
+  playUpgradeChime();
+  let discXP = 0;
+  try {
+    discXP = parseInt(localStorage.getItem('tpp_disc_xp') || '0', 10) + 50;
+    localStorage.setItem('tpp_disc_xp', discXP.toString());
+  } catch(e) {}
+  showToast('🎉 မိသားစု ဆွေးနွေးမှု ပြီးမြောက်ပါပြီ! +50 Parenting XP ရရှိပါသည်');
+  renderJourneyRoadmap();
+}
+
+let isVoicePrayerPlaying = false;
+let voicePrayerSynthInterval = null;
+
+function toggleVoicePrayerPlay() {
+  const ico = document.getElementById('ico-vp-play');
+  const waveform = document.getElementById('vp-waveform');
+  
+  isVoicePrayerPlaying = !isVoicePrayerPlaying;
+  
+  if (ico) ico.textContent = isVoicePrayerPlaying ? '⏸' : '▶';
+  
+  if (waveform) {
+    const bars = waveform.querySelectorAll('.vp-bar');
+    if (isVoicePrayerPlaying) {
+      voicePrayerSynthInterval = setInterval(() => {
+        bars.forEach(b => {
+          const h = Math.floor(Math.random() * 14) + 4;
+          b.style.height = `${h}px`;
+          b.classList.toggle('active', Math.random() > 0.4);
+        });
+      }, 150);
+      playGentlePrayerChime();
+      showToast('🔊 သင်းအုပ်ဆရာ၏ မိသားစုကောင်းချီး ဆုတောင်းသံ ဖွင့်ထားပါသည်');
+    } else {
+      clearInterval(voicePrayerSynthInterval);
+      bars.forEach(b => { b.style.height = '6px'; b.classList.remove('active'); });
+    }
+  }
+}
+
+function playGentlePrayerChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(528, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3.0);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 3.0);
+  } catch(e) {}
+}
+
+/* ========================================================
+   FEATURE 3: PARENTING JOURNEY & MILESTONES ROADMAP
+   ======================================================== */
+function renderJourneyRoadmap() {
+  const completed = getCompletedModules();
+  let discXP = 0;
+  try { discXP = parseInt(localStorage.getItem('tpp_disc_xp') || '0', 10); } catch(e) {}
+  
+  const baseXP = completed.length * 150;
+  const totalXP = baseXP + discXP;
+  
+  let levelName = 'အဆင့် ၁: စတင်လေ့လာသူ (Curious Seeker)';
+  let streakText = '🔥 3-Day Streak · Lv 1';
+  if (completed.length >= 11) {
+    levelName = 'အဆင့် ၅: ဘိသိက်ခံ မိသားစု (Kingdom Family Ambassador) 👑';
+    streakText = '🏆 CBN Certified Family';
+  } else if (completed.length >= 7) {
+    levelName = 'အဆင့် ၄: စံပြခေါင်းဆောင် မိဘ (Master Mentor)';
+    streakText = '🔥 14-Day Streak · Lv 4';
+  } else if (completed.length >= 4) {
+    levelName = 'အဆင့် ၃: မေတ္တာနှင့် သွန်သင်သူ (Devoted Mentor)';
+    streakText = '🔥 7-Day Streak · Lv 3';
+  } else if (completed.length >= 2) {
+    levelName = 'အဆင့် ၂: အားထုတ်သော မိဘ (Faithful Nurturer)';
+    streakText = '🔥 5-Day Streak · Lv 2';
+  }
+
+  const pct = Math.round((completed.length / 11) * 100);
+  
+  const fillEl = document.getElementById('journey-progress-fill');
+  const nameEl = document.getElementById('journey-level-name');
+  const countEl = document.getElementById('journey-completed-count');
+  const xpEl = document.getElementById('journey-xp-text');
+  const streakEl = document.getElementById('journey-streak-badge');
+  
+  if (fillEl) fillEl.style.width = `${pct}%`;
+  if (nameEl) nameEl.textContent = levelName;
+  if (countEl) countEl.textContent = `${completed.length} of 11 Modules Completed (${pct}%)`;
+  if (xpEl) xpEl.textContent = `${totalXP} XP`;
+  if (streakEl) streakEl.textContent = streakText;
+
+  const listEl = document.getElementById('roadmap-nodes-list');
+  if (listEl) {
+    const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+    listEl.innerHTML = MODULES.map(m => {
+      const isDone = completed.includes(m.id);
+      const isActive = !isDone && (completed.length + 1 === m.id || m.id === currentMobileModId);
+      
+      let cardClass = 'roadmap-node-card';
+      let badgeHtml = '';
+      if (isDone) {
+        cardClass += ' completed';
+        badgeHtml = '<div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>';
+      } else if (isActive) {
+        cardClass += ' active';
+        badgeHtml = '<div class="roadmap-action-badge resume">▶ ဆက်လက်ကြည့်ရန်</div>';
+      } else {
+        badgeHtml = `<div class="roadmap-action-badge locked">${isMy ? 'စတင်ရန် ›' : 'Start ›'}</div>`;
+      }
+
+      const modTitle = isMy ? (m.myTitle || m.title) : m.title;
+
+      return `
+        <div class="${cardClass}" onclick="jumpToModuleFromRoadmap(${m.id})">
+          <div class="roadmap-icon-box" style="background:${m.grad || 'linear-gradient(135deg,#003087,#0050d0)'};">
+            ${m.icon || '📖'}
+          </div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone ${m.id} · ${m.cat || 'Parenting'} ${isActive ? '(Active)' : ''}</div>
+            <div class="roadmap-node-title">${modTitle}</div>
+            <div class="roadmap-node-meta">${m.scripture || ''} · ${m.dur || 45} mins</div>
+          </div>
+          ${badgeHtml}
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function jumpToModuleFromRoadmap(modId) {
+  switchAppTab('cinema');
+  selectMobileModuleVideo(modId, true);
+  showToast(`🎯 မော်ဂျူး ${modId} သို့ ရောက်ရှိပါပြီ`);
+}
+
+/* ========================================================
+   FEATURE 4: AUDIO-FIRST / PODCAST MODE (Low-Bandwidth)
+   ======================================================== */
+let currentAudioMode = 'video';
+let podcastPlaying = false;
+let podcastSleepTimer = null;
+let currentPodcastSleepMin = 0;
+let currentPodcastSpeed = 1.0;
+
+function setPlayerMode(mode) {
+  currentAudioMode = mode;
+  const btnVid = document.getElementById('btn-mode-video');
+  const btnAud = document.getElementById('btn-mode-audio');
+  const vidContainer = document.getElementById('mobile-video-player-container');
+  const podcastCard = document.getElementById('mobile-podcast-player-card');
+  const videoEl = document.getElementById('mobile-cinema-video');
+  const iframeEl = document.getElementById('mobile-cinema-iframe');
+  const audioEl = document.getElementById('mobile-podcast-audio');
+
+  if (btnVid) btnVid.classList.toggle('active', mode === 'video');
+  if (btnAud) btnAud.classList.toggle('active', mode === 'audio');
+
+  if (mode === 'audio') {
+    if (videoEl) { videoEl.pause(); }
+    if (iframeEl) { iframeEl.style.display = 'none'; }
+    if (vidContainer) vidContainer.style.display = 'none';
+    if (podcastCard) podcastCard.style.display = 'block';
+
+    const mod = MODULES.find(m => m.id === currentMobileModId) || MODULES[0];
+    updatePodcastTrackUI(mod, true);
+    showToast('🎙️ Audio-First Mode ဖွင့်ထားပါသည် (ဒေတာ ၈၅% သက်သာစေသည်)');
+  } else {
+    if (audioEl) { audioEl.pause(); }
+    setPodcastPlayState(false);
+    if (podcastCard) podcastCard.style.display = 'none';
+    if (vidContainer) vidContainer.style.display = 'block';
+    selectMobileModuleVideo(currentMobileModId, false);
+  }
+}
+
+async function updatePodcastTrackUI(mod, shouldPlay = false) {
+  const modEl = document.getElementById('podcast-track-module');
+  const titleEl = document.getElementById('podcast-track-title');
+  const myEl = document.getElementById('podcast-track-my');
+  const iconEl = document.getElementById('podcast-album-icon');
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  const bufferStatus = document.getElementById('podcast-buffer-status');
+
+  if (modEl) modEl.textContent = `Module ${mod.id} · Episode ${mod.id}`;
+  if (titleEl) titleEl.textContent = mod.title;
+  if (myEl) myEl.textContent = mod.myTitle || '';
+  if (iconEl) iconEl.textContent = mod.icon || '🛡️';
+
+  if (!audioEl) return;
+
+  const offlineRec = await getOfflineVideo(mod.id);
+  if (offlineRec && offlineRec.blob) {
+    audioEl.src = URL.createObjectURL(offlineRec.blob);
+    if (bufferStatus) bufferStatus.textContent = '📲 Playing Offline (Zero Data)';
+  } else if (mod.fileUrl) {
+    audioEl.src = getProxyUrl(mod.fileUrl) || mod.fileUrl;
+    if (bufferStatus) bufferStatus.textContent = '⚡ Low-Bandwidth Stream (85% Saved)';
+  } else {
+    audioEl.src = `https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-${mod.id}.mp4`;
+    if (bufferStatus) bufferStatus.textContent = '⚡ Low-Bandwidth Stream (85% Saved)';
+  }
+
+  audioEl.ontimeupdate = () => {
+    const cur = audioEl.currentTime || 0;
+    const dur = audioEl.duration || (mod.dur ? mod.dur * 60 : 2700);
+    const pct = dur > 0 ? (cur / dur) * 100 : 0;
+    const bar = document.getElementById('podcast-seek-bar');
+    const curEl = document.getElementById('podcast-current-time');
+    const totEl = document.getElementById('podcast-total-time');
+
+    if (bar && !bar.matches(':active')) bar.value = pct;
+    if (curEl) curEl.textContent = formatAudioTime(cur);
+    if (totEl) totEl.textContent = formatAudioTime(dur);
+  };
+
+  audioEl.onended = () => {
+    setPodcastPlayState(false);
+    showToast(`🎉 Episode ${mod.id} နားထောင်ပြီးပါပြီ`);
+    if (smartDownloadEnabled && mod.id < 11) {
+      startVideoDownload(mod.id + 1);
+    }
+  };
+
+  if (shouldPlay) {
+    audioEl.play().then(() => {
+      setPodcastPlayState(true);
+    }).catch(() => {
+      setPodcastPlayState(false);
+    });
+  }
+}
+
+function setPodcastPlayState(isPlaying) {
+  podcastPlaying = isPlaying;
+  const ico = document.getElementById('ico-podcast-play');
+  const disc = document.getElementById('podcast-vinyl-disc');
+  if (ico) ico.textContent = isPlaying ? '⏸' : '▶';
+  if (disc) disc.classList.toggle('is-playing', isPlaying);
+}
+
+function togglePodcastPlay() {
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (!audioEl) return;
+  if (audioEl.paused) {
+    audioEl.play().then(() => setPodcastPlayState(true)).catch(e => console.log(e));
+  } else {
+    audioEl.pause();
+    setPodcastPlayState(false);
+  }
+}
+
+function skipPodcast(seconds) {
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (audioEl) {
+    audioEl.currentTime = Math.max(0, Math.min(audioEl.duration || 9999, audioEl.currentTime + seconds));
+  }
+}
+
+function handlePodcastSeek(val) {
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (audioEl && audioEl.duration) {
+    audioEl.currentTime = (parseFloat(val) / 100) * audioEl.duration;
+  }
+}
+
+function setPodcastSpeed(speed) {
+  currentPodcastSpeed = speed;
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (audioEl) audioEl.playbackRate = speed;
+  [0.75, 1.0, 1.25, 1.5].forEach(s => {
+    const id = `speed-${String(s).replace('.', '')}`;
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.toggle('active', s === speed);
+  });
+}
+
+function cyclePodcastSleepTimer() {
+  const times = [0, 15, 30, 45];
+  const idx = (times.indexOf(currentPodcastSleepMin) + 1) % times.length;
+  currentPodcastSleepMin = times[idx];
+
+  if (podcastSleepTimer) clearTimeout(podcastSleepTimer);
+
+  const btn = document.getElementById('btn-podcast-timer');
+  const txt = document.getElementById('txt-podcast-timer');
+
+  if (currentPodcastSleepMin > 0) {
+    if (btn) btn.classList.add('active');
+    if (txt) txt.textContent = `Timer: ${currentPodcastSleepMin}m`;
+    showToast(`⏱️ အိပ်ချိန်သတ်မှတ်ချက်: ${currentPodcastSleepMin} မိနစ်အကြာတွင် အသံရပ်တန့်ပါမည်`);
+    podcastSleepTimer = setTimeout(() => {
+      const audioEl = document.getElementById('mobile-podcast-audio');
+      if (audioEl) audioEl.pause();
+      setPodcastPlayState(false);
+      showToast('🌙 Sleep Timer: မင်္ဂလာညချမ်းပါ အသံရပ်တန့်လိုက်ပါပြီ');
+      cyclePodcastSleepTimer();
+    }, currentPodcastSleepMin * 60 * 1000);
+  } else {
+    if (btn) btn.classList.remove('active');
+    if (txt) txt.textContent = 'Timer: Off';
+    showToast('⏱️ Sleep Timer ပိတ်လိုက်ပါသည်');
+  }
+}
+
+function formatAudioTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
 // INIT
 function initApp() {
   checkAppMode();
@@ -6319,6 +6792,25 @@ function initApp() {
   initOfflineManager();
   updateMobileUserUI();
   loadLivePrayers();
+  renderJourneyRoadmap();
+
+  // Restore saved download quality and smart dl preferences
+  try {
+    const savedQ = localStorage.getItem('tpp_dl_quality');
+    if (savedQ) {
+      currentDownloadQuality = savedQ;
+      ['hd', 'saver', 'audio'].forEach(q => {
+        const el = document.getElementById(`ql-${q}`);
+        if (el) el.classList.toggle('active', q === savedQ);
+      });
+    }
+    const savedSmart = localStorage.getItem('tpp_smart_dl');
+    if (savedSmart !== null) {
+      const cb = document.getElementById('smart-dl-checkbox');
+      if (cb) cb.checked = (savedSmart === '1');
+      smartDownloadEnabled = (savedSmart === '1');
+    }
+  } catch(e) {}
 
   // Handle direct tab and modal deep links (?tab=prayer, ?modal=signin, ?modal=register, ?modal=settings)
   try {

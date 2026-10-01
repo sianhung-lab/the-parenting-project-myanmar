@@ -6203,6 +6203,928 @@ body.is-mobile-app .btn-delete-offline:active {
   transform: scale(0.9);
 }
 
+/* ========================================================
+   FEATURE 1: NEXT-GEN OFFLINE DOWNLOADS & STORAGE METER
+   ======================================================== */
+.downloads-storage-meter-card {
+  background: linear-gradient(135deg, rgba(16, 42, 84, 0.85) 0%, rgba(9, 23, 48, 0.95) 100%);
+  border: 1px solid rgba(240, 195, 85, 0.3);
+  border-radius: 20px;
+  padding: 16px;
+  margin: 12px 14px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+}
+.dsm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.dsm-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #f0c355;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.dsm-sub {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.dsm-ring-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.dsm-ring-chart {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+}
+.dsm-ring-chart svg {
+  transform: rotate(-90deg);
+  width: 84px;
+  height: 84px;
+}
+.dsm-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+.dsm-ring-fill {
+  fill: none;
+  stroke: url(#goldGradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+.dsm-ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.dsm-ring-pct {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #f0c355;
+  line-height: 1;
+}
+.dsm-ring-lbl {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.dsm-stats-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dsm-stat-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+}
+.dsm-stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+.dsm-stat-dot.gold { background: #f0c355; box-shadow: 0 0 8px rgba(240, 195, 85, 0.6); }
+.dsm-stat-dot.blue { background: #3498db; }
+.dsm-stat-dot.gray { background: rgba(255, 255, 255, 0.3); }
+
+/* Download Quality Selector */
+.dl-quality-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dl-quality-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.dl-quality-pills {
+  display: flex;
+  gap: 10px;
+}
+.dl-quality-pill {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 8px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.dl-quality-pill.active {
+  background: linear-gradient(135deg, rgba(240, 195, 85, 0.2) 0%, rgba(240, 195, 85, 0.05) 100%);
+  border-color: #f0c355;
+  box-shadow: 0 2px 12px rgba(240, 195, 85, 0.2);
+}
+.dl-quality-pill-title {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.dl-quality-pill.active .dl-quality-pill-title { color: #f0c355; }
+.dl-quality-pill-sub {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+}
+
+/* Smart Auto-Download Toggle */
+.smart-dl-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.smart-dl-text-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+}
+.smart-dl-text-sub {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.toggle-switch-ios {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.toggle-switch-ios input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+input:checked + .toggle-slider {
+  background-color: #f0c355;
+}
+input:checked + .toggle-slider:before {
+  transform: translateX(18px);
+}
+
+/* ========================================================
+   FEATURE 2: INTERACTIVE FAMILY DISCUSSION & COMMUNITY PRAYER WALL
+   ======================================================== */
+.prayer-greeting-card {
+  background: linear-gradient(135deg, rgba(20, 36, 68, 0.9) 0%, rgba(10, 20, 42, 0.95) 100%);
+  border: 1px solid rgba(240, 195, 85, 0.3);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin: 12px 14px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.pgc-title {
+  font-family: 'Padauk', 'Cinzel', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+}
+.pgc-sub {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 2px;
+}
+.pgc-candle {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 12px rgba(255, 180, 50, 0.8));
+  animation: candleFlicker 3s infinite alternate ease-in-out;
+}
+@keyframes candleFlicker {
+  0% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50% { transform: scale(1.08) rotate(1deg); opacity: 1; }
+  100% { transform: scale(0.96) rotate(-1deg); opacity: 0.85; }
+}
+
+/* Couple Discussion Card */
+.couple-discussion-card {
+  background: linear-gradient(180deg, #10244c 0%, #0a1734 100%);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 0 14px 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+.couple-disc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f0c355;
+  background: rgba(240, 195, 85, 0.15);
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.couple-disc-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+}
+.couple-disc-my {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 2px 0 10px;
+}
+.couple-scripture-box {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #f0c355;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.couple-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.couple-question-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+}
+.cq-num {
+  background: #f0c355;
+  color: #061830;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.62rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.couple-disc-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-couple-complete {
+  flex: 1;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  border: none;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.btn-couple-next {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Pastor Voice Note Audio Prayer Player */
+.voice-prayer-card {
+  background: linear-gradient(135deg, #1a2d54 0%, #0d1a36 100%);
+  border: 1px solid rgba(240, 195, 85, 0.25);
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin: 0 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.vp-play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f0c355, #e5a500);
+  color: #061830;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(240, 195, 85, 0.4);
+}
+.vp-info {
+  flex: 1;
+}
+.vp-tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #f0c355;
+  text-transform: uppercase;
+}
+.vp-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+.vp-waveform {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 18px;
+  margin-top: 4px;
+}
+.vp-bar {
+  width: 3px;
+  background: rgba(240, 195, 85, 0.4);
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+.vp-bar.active { background: #f0c355; }
+.vp-time {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+/* Prayer Counter with glowing effect */
+.prayer-glow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, rgba(240, 195, 85, 0.2), rgba(240, 195, 85, 0.08));
+  border: 1px solid rgba(240, 195, 85, 0.45);
+  color: #f0c355;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.prayer-glow-btn:active {
+  transform: scale(1.12);
+  background: #f0c355;
+  color: #000;
+  box-shadow: 0 0 18px rgba(240, 195, 85, 0.8);
+}
+
+/* ========================================================
+   FEATURE 3: PARENTING JOURNEY & MILESTONES ROADMAP
+   ======================================================== */
+.journey-header-streak {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, rgba(255, 75, 75, 0.2), rgba(240, 195, 85, 0.2));
+  border: 1px solid rgba(240, 195, 85, 0.45);
+  color: #f0c355;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.journey-level-card {
+  background: linear-gradient(135deg, #102a54 0%, #08162e 100%);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 12px 14px 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  position: relative;
+  overflow: hidden;
+}
+.journey-level-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(240, 195, 85, 0.2) 0%, transparent 70%);
+}
+.journey-level-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f0c355;
+  letter-spacing: 0.5px;
+}
+.journey-level-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 2px 0 10px;
+}
+.journey-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.journey-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f0c355, #ffd978);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.journey-level-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Roadmap Track */
+.roadmap-container {
+  padding: 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.roadmap-section-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #f0c355;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.roadmap-node-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(14, 28, 54, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 14px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.roadmap-node-card.completed {
+  border-color: rgba(46, 204, 113, 0.4);
+  background: linear-gradient(135deg, rgba(20, 50, 40, 0.5), rgba(10, 28, 30, 0.7));
+}
+.roadmap-node-card.active {
+  border-color: #f0c355;
+  background: linear-gradient(135deg, rgba(20, 48, 88, 0.8), rgba(10, 24, 46, 0.95));
+  box-shadow: 0 4px 20px rgba(240, 195, 85, 0.2);
+}
+.roadmap-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.roadmap-node-body {
+  flex: 1;
+}
+.roadmap-node-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f0c355;
+}
+.roadmap-node-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  margin: 1px 0;
+}
+.roadmap-node-meta {
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.roadmap-action-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+.roadmap-action-badge.done {
+  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.15);
+}
+.roadmap-action-badge.resume {
+  color: #061830;
+  background: linear-gradient(135deg, #f0c355, #ffd978);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(240, 195, 85, 0.4);
+}
+.roadmap-action-badge.locked {
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Certificate Preview Card */
+.journey-cert-box {
+  background: linear-gradient(135deg, rgba(240, 195, 85, 0.08) 0%, rgba(240, 195, 85, 0.02) 100%);
+  border: 1px dashed rgba(240, 195, 85, 0.5);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 0 14px 24px;
+  text-align: center;
+}
+.jcb-icon { font-size: 2rem; margin-bottom: 4px; }
+.jcb-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #f0c355;
+  margin-bottom: 4px;
+}
+.jcb-desc {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.jcb-btn {
+  background: linear-gradient(135deg, #f0c355, #e5a500);
+  color: #061830;
+  border: none;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(240, 195, 85, 0.3);
+}
+
+/* ========================================================
+   FEATURE 4: AUDIO-FIRST / PODCAST MODE (Low-Bandwidth)
+   ======================================================== */
+.player-mode-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 10px 14px 12px;
+}
+.player-mode-toggle {
+  display: inline-flex;
+  background: rgba(8, 20, 42, 0.9);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 24px;
+  padding: 3px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.mode-toggle-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mode-toggle-btn.active {
+  background: linear-gradient(135deg, #f0c355 0%, #ffd978 100%);
+  color: #061830;
+  box-shadow: 0 2px 10px rgba(240, 195, 85, 0.45);
+}
+.mode-toggle-btn:not(.active):hover {
+  color: #fff;
+}
+
+/* Dedicated Podcast Player Card */
+.podcast-player-card {
+  background: linear-gradient(145deg, rgba(14, 34, 70, 0.95) 0%, rgba(6, 17, 36, 0.98) 100%);
+  border: 1px solid rgba(240, 195, 85, 0.35);
+  border-radius: 22px;
+  padding: 20px 16px;
+  margin: 0 14px 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  position: relative;
+  overflow: hidden;
+}
+.podcast-player-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(240, 195, 85, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Low-Bandwidth Data Saver Pill */
+.podcast-data-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(46, 204, 113, 0.15);
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  color: #2ecc71;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 14px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* Vinyl / Album Art Stage */
+.podcast-stage-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.podcast-vinyl-disc {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2a2a2a 0%, #151515 50%, #0d0d0d 100%);
+  border: 4px solid rgba(240, 195, 85, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(240, 195, 85, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  transition: transform 0.5s ease;
+}
+.podcast-vinyl-disc.is-playing {
+  animation: vinylSpin 12s linear infinite;
+}
+@keyframes vinylSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.podcast-vinyl-grooves {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+.podcast-vinyl-grooves::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.podcast-album-center {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #102a54, #f0c355);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  border: 2px solid #fff;
+  z-index: 2;
+}
+
+/* Audio Titles */
+.podcast-track-module {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #f0c355;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.podcast-track-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 3px 0 2px;
+  line-height: 1.25;
+}
+.podcast-track-my {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 16px;
+}
+
+/* Audio Scrubber */
+.podcast-scrubber-wrap {
+  width: 100%;
+  margin-bottom: 14px;
+}
+.podcast-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.podcast-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f0c355;
+  box-shadow: 0 0 8px rgba(240, 195, 85, 0.8);
+  cursor: pointer;
+  border: 2px solid #061830;
+}
+.podcast-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f0c355;
+  box-shadow: 0 0 8px rgba(240, 195, 85, 0.8);
+  cursor: pointer;
+  border: 2px solid #061830;
+}
+.podcast-timestamps {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.64rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: monospace;
+  margin-top: 5px;
+}
+
+/* Transport Controls */
+.podcast-transport-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-bottom: 16px;
+}
+.podcast-btn-skip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.podcast-btn-skip span.skip-sec {
+  font-size: 0.55rem;
+  font-weight: 800;
+  color: #f0c355;
+  margin-top: -2px;
+}
+.podcast-btn-skip:active {
+  transform: scale(0.9);
+  background: rgba(240, 195, 85, 0.2);
+}
+.podcast-btn-play {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f0c355 0%, #ffd978 100%);
+  border: none;
+  color: #061830;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(240, 195, 85, 0.5), 0 0 15px rgba(240, 195, 85, 0.3);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.podcast-btn-play:active {
+  transform: scale(0.92);
+}
+
+/* Secondary Controls (Speed & Sleep Timer) */
+.podcast-secondary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.podcast-speed-pills {
+  display: flex;
+  gap: 4px;
+}
+.podcast-speed-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.64rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.podcast-speed-btn.active {
+  background: #f0c355;
+  color: #061830;
+  border-color: #f0c355;
+}
+.podcast-timer-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.podcast-timer-btn.active {
+  color: #f0c355;
+  border-color: rgba(240, 195, 85, 0.5);
+  background: rgba(240, 195, 85, 0.15);
+}
+
+
 </style>
 </head>
 <body>
@@ -6385,13 +7307,85 @@ body.is-mobile-app .btn-delete-offline:active {
     <div class="mobile-hub-headline">Video Learning Hub</div>
     <div class="mobile-hub-current-title" id="mobile-cinema-current-title">M1: Foundations of Parenting</div>
 
+    <!-- Video / Podcast Mode Switcher (Feature 4: Audio-First / Podcast Mode) -->
+    <div class="player-mode-toggle-wrap">
+      <div class="player-mode-toggle">
+        <button type="button" class="mode-toggle-btn active" id="btn-mode-video" onclick="setPlayerMode('video')">
+          <span>🎬</span> <span id="txt-mode-video">Video Cinema</span>
+        </button>
+        <button type="button" class="mode-toggle-btn" id="btn-mode-audio" onclick="setPlayerMode('audio')">
+          <span>🎙️</span> <span id="txt-mode-audio">Podcast Mode (Data Saver)</span>
+        </button>
+      </div>
+    </div>
+
     <!-- 16:9 Video Player Frame -->
-    <div class="mobile-cinema-player-frame">
+    <div class="mobile-cinema-player-frame" id="mobile-video-player-container">
       <iframe id="mobile-cinema-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1" title="The Parenting Project Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <video id="mobile-cinema-video" controls playsinline style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
       <!-- Offline Playing Badge — inside frame so position:absolute works -->
       <div id="offline-playing-badge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,180,80,0.92);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;align-items:center;gap:4px;z-index:10;">📲 OFFLINE</div>
     </div>
+
+    <!-- Audio-First / Podcast Mode Card (Hidden by default, shown in Audio mode) -->
+    <div class="podcast-player-card" id="mobile-podcast-player-card" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="podcast-data-badge">⚡ 85% Data Saved · Audio Mode</span>
+        <span style="font-size:0.65rem;color:rgba(255,255,255,0.6);font-weight:700;" id="podcast-buffer-status">Offline & Low Bandwidth Ready</span>
+      </div>
+
+      <div class="podcast-stage-center">
+        <!-- Spinning Vinyl Disc Album Art -->
+        <div class="podcast-vinyl-disc" id="podcast-vinyl-disc">
+          <div class="podcast-vinyl-grooves"></div>
+          <div class="podcast-album-center" id="podcast-album-icon">🛡️</div>
+        </div>
+
+        <div class="podcast-track-module" id="podcast-track-module">Module 1 · Episode 1</div>
+        <div class="podcast-track-title" id="podcast-track-title">Foundations of Parenting</div>
+        <div class="podcast-track-my" id="podcast-track-my">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
+      </div>
+
+      <!-- Scrubber -->
+      <div class="podcast-scrubber-wrap">
+        <input type="range" class="podcast-slider" id="podcast-seek-bar" min="0" max="100" value="0" oninput="handlePodcastSeek(this.value)" />
+        <div class="podcast-timestamps">
+          <span id="podcast-current-time">00:00</span>
+          <span id="podcast-total-time">45:00</span>
+        </div>
+      </div>
+
+      <!-- Transport Controls -->
+      <div class="podcast-transport-row">
+        <button type="button" class="podcast-btn-skip" onclick="skipPodcast(-15)" title="Rewind 15 seconds">
+          <span>↺</span>
+          <span class="skip-sec">15s</span>
+        </button>
+        <button type="button" class="podcast-btn-play" id="btn-podcast-play" onclick="togglePodcastPlay()" title="Play/Pause">
+          <span id="ico-podcast-play">▶</span>
+        </button>
+        <button type="button" class="podcast-btn-skip" onclick="skipPodcast(15)" title="Forward 15 seconds">
+          <span>↻</span>
+          <span class="skip-sec">15s</span>
+        </button>
+      </div>
+
+      <!-- Secondary Controls: Speed & Sleep Timer -->
+      <div class="podcast-secondary-row">
+        <div class="podcast-speed-pills">
+          <button type="button" class="podcast-speed-btn" id="speed-075" onclick="setPodcastSpeed(0.75)">0.75x</button>
+          <button type="button" class="podcast-speed-btn active" id="speed-100" onclick="setPodcastSpeed(1.0)">1.0x</button>
+          <button type="button" class="podcast-speed-btn" id="speed-125" onclick="setPodcastSpeed(1.25)">1.25x</button>
+          <button type="button" class="podcast-speed-btn" id="speed-150" onclick="setPodcastSpeed(1.5)">1.5x</button>
+        </div>
+        <button type="button" class="podcast-timer-btn" id="btn-podcast-timer" onclick="cyclePodcastSleepTimer()">
+          <span>⏱️</span> <span id="txt-podcast-timer">Timer: Off</span>
+        </button>
+      </div>
+
+      <audio id="mobile-podcast-audio" preload="metadata"></audio>
+    </div>
+
 
     <!-- 11-Module Video Cinema Stage Header -->
     <div class="mobile-stage-header">
@@ -6475,6 +7469,73 @@ body.is-mobile-app .btn-delete-offline:active {
         <span class="mobile-bell-dot">3</span>
       </div>
     </div>
+
+    <!-- Warm Candle Greeting Card (Feature 2) -->
+    <div class="prayer-greeting-card">
+      <div>
+        <div class="pgc-title">ဆုတောင်းခြင်းနှင့် မိသားစု မိတ်သဟာယ</div>
+        <div class="pgc-sub">သခင်ယေရှု၌ တစ်စိတ်တစ်ဝမ်းတည်း ဆုတောင်းခြင်းသည် မိသားစုကို ခိုင်ခံ့စေပါသည်</div>
+      </div>
+      <div class="pgc-candle">🕯️</div>
+    </div>
+
+    <!-- Weekly Couple & Family Discussion Card (Feature 2) -->
+    <div class="couple-discussion-card">
+      <div class="couple-disc-badge">💬 ယခုအပတ် ဇနီးမောင်နှံနှင့် မိသားစု ဆွေးနွေးတိုင်ပင်ရန်</div>
+      <div class="couple-disc-title" id="disc-topic-title">Loving Communication & Mutual Grace</div>
+      <div class="couple-disc-my" id="disc-topic-my">အပြန်အလှန် လေးစားတန်ဖိုးထားမှုနှင့် နားထောင်ခြင်း</div>
+      <div class="couple-scripture-box" id="disc-scripture-box">
+        📖 <strong>ကောလောသဲ ၃:၁၂-၁၃:</strong> «ထို့ကြောင့် ဘုရားသခင် ရွေးကောက်တော်မူသော သန့်ရှင်းသောသူကဲ့သို့ သနားစုံမက်ခြင်း၊ ကျေးဇူးပြုခြင်း၊ စိတ်နှိမ့်ချခြင်း၊ နူးညံ့သိမ်မွေ့ခြင်း၊ စိတ်ရှည်ခြင်းတို့ကို ဝတ်ဆင်ကြလော့။»
+      </div>
+      <div class="couple-questions-list" id="disc-questions-list">
+        <div class="couple-question-item">
+          <span class="cq-num">၁</span>
+          <span>ဒီတစ်ပတ်အတွင်း တစ်ဦးကိုတစ်ဦး စိတ်မကျေနပ်ခဲ့တာမျိုးရှိရင် ခွင့်လွှတ်ခြင်းနဲ့ ဘယ်လိုရင်ဖွင့်မလဲ?</span>
+        </div>
+        <div class="couple-question-item">
+          <span class="cq-num">၂</span>
+          <span>သားသမီးတွေရှေ့မှာ ငါတို့နှစ်ယောက် မေတ္တာနှင့် လေးစားမှုကို အကောင်းဆုံး ဘယ်လိုပြသနိုင်မလဲ?</span>
+        </div>
+        <div class="couple-question-item">
+          <span class="cq-num">၃</span>
+          <span>ဒီည သားသမီးတွေ အိပ်ရာမဝင်မီ ငါတို့နှစ်ယောက် သူတို့ခေါင်းပေါ် လက်တင်ပြီး အတူတူ ဆုတောင်းပေးကြမယ်။</span>
+        </div>
+      </div>
+      <div class="couple-disc-actions">
+        <button type="button" class="btn-couple-complete" id="btn-complete-disc" onclick="markDiscussionCompleted()">
+          <span>✓</span> <span id="txt-complete-disc">ဆွေးနွေးတိုင်ပင်ပြီးပါပြီ (+50 XP)</span>
+        </button>
+        <button type="button" class="btn-couple-next" onclick="cycleDiscussionPrompt()" title="Next topic">
+          နောက်တစ်ခု ↻
+        </button>
+      </div>
+    </div>
+
+    <!-- Pastor Voice Note Blessing Audio Player (Feature 2) -->
+    <div class="voice-prayer-card">
+      <button type="button" class="vp-play-btn" id="btn-vp-play" onclick="toggleVoicePrayerPlay()" title="Play Benediction Audio">
+        <span id="ico-vp-play">▶</span>
+      </button>
+      <div class="vp-info">
+        <div class="vp-tag">🎧 အသင်းတော် သင်းအုပ်ဆရာ၏ မိသားစု ကောင်းချီး</div>
+        <div class="vp-title">Pastor's Family Benediction & Healing</div>
+        <div class="vp-waveform" id="vp-waveform">
+          <div class="vp-bar" style="height:6px"></div>
+          <div class="vp-bar" style="height:12px"></div>
+          <div class="vp-bar" style="height:16px"></div>
+          <div class="vp-bar" style="height:8px"></div>
+          <div class="vp-bar" style="height:14px"></div>
+          <div class="vp-bar" style="height:10px"></div>
+          <div class="vp-bar" style="height:18px"></div>
+          <div class="vp-bar" style="height:7px"></div>
+          <div class="vp-bar" style="height:13px"></div>
+          <div class="vp-bar" style="height:5px"></div>
+        </div>
+      </div>
+      <div class="vp-time" id="vp-duration">02:15</div>
+      <audio id="pastor-voice-audio" preload="metadata"></audio>
+    </div>
+
 
     <!-- Share a Prayer Pill Button -->
     <button type="button" class="mobile-share-prayer-pill" onclick="togglePrayerFormDrawer()">
@@ -6578,7 +7639,21 @@ body.is-mobile-app .btn-delete-offline:active {
     <div class="mobile-subpage-header">
       <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')">‹</button>
       <div class="mobile-subpage-title" style="font-size:0.75rem;letter-spacing:0">October 26, 2023 | Day 45: Cultivating Kindness</div>
+      <div class="journey-header-streak" id="journey-streak-badge">🔥 7-Day Streak · Lv 3</div>
       <button type="button" class="mobile-subpage-gear" onclick="openSettingsModal()">⚙️</button>
+    </div>
+
+    <!-- Feature 3: Discipleship Journey Level & XP Card -->
+    <div class="journey-level-card">
+      <div class="journey-level-tag">Parenting Discipleship Journey</div>
+      <div class="journey-level-name" id="journey-level-name">အဆင့် ၃: မေတ္တာနှင့် သွန်သင်သူ (Devoted Mentor)</div>
+      <div class="journey-bar-bg">
+        <div class="journey-bar-fill" id="journey-progress-fill" style="width: 27%;"></div>
+      </div>
+      <div class="journey-level-meta">
+        <span id="journey-completed-count">3 of 11 Modules Completed</span>
+        <span id="journey-xp-text" style="color:#f0c355;font-weight:800;">850 XP</span>
+      </div>
     </div>
 
     <!-- Daily Devotional Card (Exact match to Photo 1) -->
@@ -6598,44 +7673,76 @@ body.is-mobile-app .btn-delete-offline:active {
       </div>
     </div>
 
-    <!-- Family Discipleship Certificate Card (Photo 1) -->
-    <div class="mobile-cert-card-lux" onclick="openCertificateModal()" style="cursor:pointer" title="Click to view full certificate">
-      <div class="mobile-cert-banner">
-        <div class="mobile-cert-card-title">Family Discipleship Certificate</div>
-      </div>
-      <div class="mobile-cert-card-sub">Certificate Progress</div>
+    <!-- Feature 3: Interactive 11-Milestone Roadmap Track -->
+    <div class="roadmap-container">
+      <div class="roadmap-section-title">🎯 11-Milestone Parenting Roadmap (ခရီးစဉ်မှတ်တမ်း)</div>
+      <div id="roadmap-nodes-list">
+        <!-- Rendered dynamically by renderJourneyRoadmap() with static baseline -->
+        <div class="roadmap-node-card completed" onclick="jumpToModuleFromRoadmap(1)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#003087,#0050d0);">🛡️</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 1 · Foundations</div>
+            <div class="roadmap-node-title">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
+            <div class="roadmap-node-meta">Deut 6:6-7 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>
+        </div>
 
-      <!-- Stepper Line with Milestone Badges -->
-      <div class="cert-stepper-track">
-        <div class="cert-stepper-line"></div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step done" id="step-m1">✓</div>
-          <span class="cert-stepper-label">M1</span>
+        <div class="roadmap-node-card completed" onclick="jumpToModuleFromRoadmap(2)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#8e44ad,#9b59b6);">❤️</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 2 · Connection</div>
+            <div class="roadmap-node-title">နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး</div>
+            <div class="roadmap-node-meta">1 Cor 13:4-7 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>
         </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step done" id="step-m2">✓</div>
-          <span class="cert-stepper-label">M2</span>
-        </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step active" id="step-m3">👥</div>
-          <span class="cert-stepper-label">M3</span>
-        </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step" id="step-m4">📄</div>
-          <span class="cert-stepper-label">M4</span>
-        </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step locked">🔒</div>
-          <span class="cert-stepper-label">--</span>
-        </div>
-      </div>
 
-      <div class="mobile-cert-card-footer">
-        <span>Earn your Certificate</span>
-        <span id="mobile-cert-progress-text">0 Progress</span>
+        <div class="roadmap-node-card active" onclick="jumpToModuleFromRoadmap(3)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#1a5276,#2980b9);">👥</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 3 · Character (Active)</div>
+            <div class="roadmap-node-title">စရိုက်လက္ခဏာ သွန်သင်တည်ဆောက်ခြင်း</div>
+            <div class="roadmap-node-meta">Prov 22:6 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge resume">▶ ဆက်လက်ကြည့်ရန်</div>
+        </div>
+
+        <div class="roadmap-node-card" onclick="jumpToModuleFromRoadmap(4)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#117864,#16a085);">🕊️</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 4 · Emotional Health</div>
+            <div class="roadmap-node-title">စိတ်ခံစားမှုနှင့် သက်သာပျောက်ကင်းခြင်း</div>
+            <div class="roadmap-node-meta">Phil 4:6-7 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge locked">စတင်ရန် ›</div>
+        </div>
+
+        <div class="roadmap-node-card" onclick="jumpToModuleFromRoadmap(5)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#b7950b,#d4ac0d);">📱</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 5 · Digital Safety</div>
+            <div class="roadmap-node-title">ဒစ်ဂျစ်တယ်ခေတ်နှင့် သားသမီးများ</div>
+            <div class="roadmap-node-meta">Ps 101:3 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge locked">စတင်ရန် ›</div>
+        </div>
       </div>
     </div>
+
+    <!-- Feature 3: Certificate Preview Box -->
+    <div class="journey-cert-box">
+      <div class="jcb-icon">🎓</div>
+      <div class="jcb-title">CBN Family Discipleship Certificate</div>
+      <div class="jcb-desc">
+        မော်ဂျူး (၁၁) ခု စလုံး ပြီးဆုံးပါက CBN Asia နှင့် The Parenting Project Myanmar မှ တရားဝင် အသိအမှတ်ပြု ဂုဏ်ပြုလက်မှတ် ရရှိပါမည်
+      </div>
+      <button type="button" class="jcb-btn" onclick="openCertificateModal()">
+        📜 ဂုဏ်ပြုလက်မှတ် ကြည့်ရှုထုတ်ယူမည် (View Certificate)
+      </button>
+    </div>
   </div>
+
 
   <!-- ======================================================== -->
   <!-- SCREEN 4: OFFLINE DOWNLOADS PAGE (Per-Episode Downloads) -->
@@ -6648,17 +7755,86 @@ body.is-mobile-app .btn-delete-offline:active {
       <div id="downloads-page-storage-badge" class="downloads-storage-pill">0 MB Used</div>
     </div>
 
-    <!-- Storage & Feature Banner Card -->
-    <div class="downloads-hero-card">
-      <div class="downloads-hero-icon">📥</div>
-      <div class="downloads-hero-content">
-        <div class="downloads-hero-title" id="downloads-hero-title">စက်ထဲတွင် သိမ်းဆည်းထားမှု</div>
-        <div class="downloads-hero-sub" id="downloads-hero-sub">
-          အင်တာနက်မရှိဘဲ မိမိစိတ်ကြိုက် အပိုင်းတစ်ခုချင်းစီကို ဒေါင်းလုဒ်ရယူ၍ အချိန်မရွေး ကြည့်ရှုနိုင်ပါသည်
+    <!-- Feature 1: Next-Gen Storage Meter Card -->
+    <div class="downloads-storage-meter-card">
+      <div class="dsm-header">
+        <div>
+          <div class="dsm-title">Storage & Offline Hub</div>
+          <div class="dsm-sub">စက်တွင်း သိုလှောင်မှုနှင့် အော့ဖ်လိုင်း စီမံခန့်ခွဲမှု</div>
         </div>
-        <div class="downloads-hero-stat" id="downloads-hero-stat">0 Episodes Saved · 0 MB Used</div>
+        <button type="button" class="btn btn-outline btn-xs" onclick="confirmDeleteAllDownloads()" style="border-radius:12px;font-size:0.65rem;border-color:rgba(255,100,100,0.4);color:#ff8888;" title="Clear all downloads">
+          🗑 ရှင်းလင်းမည်
+        </button>
+      </div>
+
+      <div class="dsm-ring-row">
+        <!-- Circular Storage Ring Chart -->
+        <div class="dsm-ring-chart">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f0c355"/>
+                <stop offset="100%" stop-color="#ffd978"/>
+              </linearGradient>
+            </defs>
+            <circle class="dsm-ring-bg" cx="50" cy="50" r="42"/>
+            <circle class="dsm-ring-fill" id="dsm-svg-ring" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="dsm-ring-center">
+            <div class="dsm-ring-pct" id="dsm-ring-pct">0%</div>
+            <div class="dsm-ring-lbl" id="dsm-ring-lbl">Used</div>
+          </div>
+        </div>
+
+        <!-- Breakdown Stats -->
+        <div class="dsm-stats-col">
+          <div class="dsm-stat-line">
+            <span><span class="dsm-stat-dot gold"></span>ဗီဒီယို ဖိုင်များ:</span>
+            <strong id="dsm-videos-size" style="color:#f0c355">0 MB</strong>
+          </div>
+          <div class="dsm-stat-line">
+            <span><span class="dsm-stat-dot blue"></span>ဆုတောင်းနှင့် အချက်အလက်:</span>
+            <strong id="dsm-cache-size" style="color:#3498db">4.2 MB</strong>
+          </div>
+          <div class="dsm-stat-line">
+            <span><span class="dsm-stat-dot gray"></span>ဖုန်းတွင်း နေရာလွတ်:</span>
+            <strong id="dsm-free-size" style="color:rgba(255,255,255,0.7)">~14.5 GB</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download Quality Selector -->
+      <div class="dl-quality-section">
+        <div class="dl-quality-label">Download Quality (ဒေါင်းလုဒ် အရည်အသွေး)</div>
+        <div class="dl-quality-pills">
+          <div class="dl-quality-pill active" id="ql-hd" onclick="setDownloadQuality('hd')">
+            <div class="dl-quality-pill-title">HD 720p</div>
+            <div class="dl-quality-pill-sub">~55 MB/ep</div>
+          </div>
+          <div class="dl-quality-pill" id="ql-saver" onclick="setDownloadQuality('saver')">
+            <div class="dl-quality-pill-title">Data Saver</div>
+            <div class="dl-quality-pill-sub">~25 MB/ep</div>
+          </div>
+          <div class="dl-quality-pill" id="ql-audio" onclick="setDownloadQuality('audio')">
+            <div class="dl-quality-pill-title">Audio Only</div>
+            <div class="dl-quality-pill-sub">~8 MB/ep</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Auto-Download Toggle -->
+      <div class="smart-dl-toggle-row">
+        <div>
+          <div class="smart-dl-text-title">Smart Auto-Download</div>
+          <div class="smart-dl-text-sub">နောက်အပိုင်းကို Wi-Fi ရချိန် အလိုအလျောက် ရယူရန်</div>
+        </div>
+        <label class="toggle-switch-ios">
+          <input type="checkbox" id="smart-dl-checkbox" checked onchange="toggleSmartDownload(this.checked)"/>
+          <span class="toggle-slider"></span>
+        </label>
       </div>
     </div>
+
 
     <!-- Filter Pills (All / Saved Offline / Available) -->
     <div class="downloads-filter-bar">
@@ -8754,6 +9930,8 @@ const MODULES = [
   {
     id: 3,
     cat: "character",
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
     youtube: "lmtVOhpszCQ",
     icon: "🛡️",
     grad: "linear-gradient(135deg,#1a5276,#2980b9)",
@@ -13522,6 +14700,10 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     actionTextEl.innerHTML = `<span>${myAct}</span>${enAct}`;
   }
 
+  if (typeof currentAudioMode !== 'undefined' && currentAudioMode === 'audio') {
+    updatePodcastTrackUI(mod, autoPlay);
+  }
+
   renderMobileModuleChips();
 }
 
@@ -14184,6 +15366,7 @@ function switchAppTab(tab) {
     loadLivePrayers();
   } else if (tab === 'devotional') {
     updateMobileProgressUI();
+    renderJourneyRoadmap();
   } else if (tab === 'downloads') {
     renderDownloadsPage();
   }
@@ -14827,6 +16010,7 @@ async function renderDownloadsPage() {
   const storageText = formatFileSize(totalBytes) || '0 MB';
   if (storagePill) storagePill.textContent = `${storageText} Used`;
   if (heroStat) heroStat.textContent = `${allDownloaded.length} Episodes Saved · ${storageText} Used`;
+  updateStorageMeter(totalBytes, allDownloaded.length);
 
   // Update bottom tab badge
   updateDownloadsTabBadge(allDownloaded.length + activeIds.length);
@@ -14976,6 +16160,471 @@ async function initOfflineManager() {
   updateDownloadsTabBadge(allSaved.length);
 }
 
+/* ========================================================
+   FEATURE 1: NEXT-GEN OFFLINE DOWNLOADS & STORAGE METER
+   ======================================================== */
+let currentDownloadQuality = 'hd';
+let smartDownloadEnabled = true;
+
+function updateStorageMeter(totalBytes, count) {
+  const ring = document.getElementById('dsm-svg-ring');
+  const pctEl = document.getElementById('dsm-ring-pct');
+  const vidSizeEl = document.getElementById('dsm-videos-size');
+  const cacheSizeEl = document.getElementById('dsm-cache-size');
+  const freeSizeEl = document.getElementById('dsm-free-size');
+  
+  const usedMB = (totalBytes || 0) / (1024 * 1024);
+  const cacheMB = 4.2;
+  const totalAppUsedMB = usedMB + cacheMB;
+  const quotaMB = 1000;
+  const pct = Math.min(100, Math.max(0, Math.round((totalAppUsedMB / quotaMB) * 100)));
+  
+  const circumference = 264;
+  const dashoffset = circumference - (circumference * (pct / 100));
+
+  if (ring) {
+    ring.style.strokeDasharray = `${circumference}`;
+    ring.style.strokeDashoffset = `${dashoffset}`;
+  }
+  if (pctEl) pctEl.textContent = `${pct}%`;
+  if (vidSizeEl) vidSizeEl.textContent = formatFileSize(totalBytes) || '0 MB';
+  if (cacheSizeEl) cacheSizeEl.textContent = `${cacheMB.toFixed(1)} MB`;
+  if (freeSizeEl) {
+    const freeGB = Math.max(2.4, (16 - (totalAppUsedMB / 1024))).toFixed(1);
+    freeSizeEl.textContent = `~${freeGB} GB Free`;
+  }
+}
+
+function setDownloadQuality(quality) {
+  currentDownloadQuality = quality;
+  try { localStorage.setItem('tpp_dl_quality', quality); } catch(e) {}
+  ['hd', 'saver', 'audio'].forEach(q => {
+    const el = document.getElementById(`ql-${q}`);
+    if (el) el.classList.toggle('active', q === quality);
+  });
+  const names = { hd: 'HD 720p (~55 MB)', saver: 'Data Saver 480p (~25 MB)', audio: 'Audio Only (~8 MB)' };
+  showOfflineToast(`⚡ Download Quality: ${names[quality]}`, 'info');
+}
+
+function toggleSmartDownload(checked) {
+  smartDownloadEnabled = !!checked;
+  try { localStorage.setItem('tpp_smart_dl', smartDownloadEnabled ? '1' : '0'); } catch(e) {}
+  showOfflineToast(smartDownloadEnabled ? '✓ Smart Auto-Download ဖွင့်ထားပါသည်' : 'Smart Auto-Download ပိတ်လိုက်ပါသည်', 'info');
+}
+
+async function confirmDeleteAllDownloads() {
+  const allDownloaded = await getAllOfflineVideos();
+  if (allDownloaded.length === 0) {
+    showOfflineToast('ရှင်းလင်းရန် အော့ဖ်လိုင်း ဗီဒီယို မရှိပါ', 'info');
+    return;
+  }
+  if (confirm(`ဒေါင်းလုဒ်လုပ်ထားသော မော်ဂျူး (${allDownloaded.length}) ခုစလုံးကို စက်ထဲမှ ဖျက်ပစ်ရန် သေချာပါသလား?`)) {
+    await deleteAllOfflineVideos();
+  }
+}
+
+async function deleteAllOfflineVideos() {
+  try {
+    const db = await openOfflineDB();
+    const tx = db.transaction(OFFLINE_STORE, 'readwrite');
+    tx.objectStore(OFFLINE_STORE).clear();
+    tx.oncomplete = () => {
+      for (let i = 1; i <= 11; i++) {
+        updateChipDownloadState(i, 'none', 0);
+      }
+      showOfflineToast('🗑 ဒေါင်းလုဒ် ဗီဒီယိုအားလုံးကို အောင်မြင်စွာ ရှင်းလင်းပြီးပါပြီ', 'success');
+      renderDownloadsPage();
+    };
+  } catch(e) {
+    showOfflineToast('ရှင်းလင်းရာတွင် ချို့ယွင်းချက်ရှိပါသည်', 'error');
+  }
+}
+
+/* ========================================================
+   FEATURE 2: INTERACTIVE FAMILY DISCUSSION & COMMUNITY PRAYER WALL
+   ======================================================== */
+const FAMILY_DISCUSSIONS = [
+  {
+    title: "Loving Communication & Mutual Grace",
+    myTitle: "အပြန်အလှန် လေးစားတန်ဖိုးထားမှုနှင့် နားထောင်ခြင်း",
+    scripture: "ကောလောသဲ ၃:၁၂-၁၃",
+    scriptureText: "«ထို့ကြောင့် ဘုရားသခင် ရွေးကောက်တော်မူသော သန့်ရှင်းသောသူကဲ့သို့ သနားစုံမက်ခြင်း၊ ကျေးဇူးပြုခြင်း၊ စိတ်နှိမ့်ချခြင်း၊ နူးညံ့သိမ်မွေ့ခြင်း၊ စိတ်ရှည်ခြင်းတို့ကို ဝတ်ဆင်ကြလော့။»",
+    q1: "ဒီတစ်ပတ်အတွင်း တစ်ဦးကိုတစ်ဦး စိတ်မကျေနပ်ခဲ့တာမျိုးရှိရင် ခွင့်လွှတ်ခြင်းနဲ့ ဘယ်လိုရင်ဖွင့်မလဲ?",
+    q2: "သားသမီးတွေရှေ့မှာ ငါတို့နှစ်ယောက် မေတ္တာနှင့် လေးစားမှုကို အကောင်းဆုံး ဘယ်လိုပြသနိုင်မလဲ?",
+    q3: "ဒီည သားသမီးတွေ အိပ်ရာမဝင်မီ ငါတို့နှစ်ယောက် သူတို့ခေါင်းပေါ် လက်တင်ပြီး အတူတူ ဆုတောင်းပေးကြမယ်။"
+  },
+  {
+    title: "Digital Safety & Quality Time",
+    myTitle: "ဖုန်းမျက်နှာပြင်များထက် သားသမီးမျက်နှာကို ဦးစားပေးခြင်း",
+    scripture: "ဧဖက် ၅:၁၅-၁၆",
+    scriptureText: "«သို့ဖြစ်၍ ပညာမဲ့ကဲ့သို့ မဟုတ်၊ ပညာရှိကဲ့သို့ သတိနှင့် ကျင့်ဆောင်မည်အကြောင်း ကြည့်ရှုကြလော့။ ကာလအချိန်သည် ဆိုးယုတ်သောကြောင့် ကာလအချိန်ကို ရွေးနှုတ်ကြလော့။»",
+    q1: "ထမင်းစားပွဲနှင့် မိသားစုအချိန်များတွင် ဖုန်းကို ဘေးဖယ်ထားနိုင်ရန် ဘယ်စည်းကမ်းတွေ ချမှတ်ကြမလဲ?",
+    q2: "ဒီတစ်ပတ် သားသမီးနဲ့ အတူတူ စကားပြောခြင်း (သို့) ကစားခြင်းကို အချိန်ဘယ်လောက် သီးသန့်ပေးမလဲ?",
+    q3: "သားသမီးများ အင်တာနက် အသုံးပြုမှုကို ကာကွယ်စောင့်ရှောက်ရန် ဘုရားသခင်ထံ ဉာဏ်ပညာ တောင်းလျှောက်ကြပါစို့။"
+  },
+  {
+    title: "Overcoming Stress & Financial Peace",
+    myTitle: "အခက်အခဲများနှင့် ဖိစီးမှုများကြားတွင် ငြိမ်သက်ခြင်း",
+    scripture: "ဖိလိပ္ပိ ၄:၆-၇",
+    scriptureText: "«အဘယ်အမှုကိုမျှ စိုးရိမ်ခြင်းမရှိဘဲ အရာရာ၌ ကျေးဇူးတော်ကို ချီးမွမ်းခြင်းနှင့်တကွ ဆုတောင်းပန်လျှောက်ခြင်းအားဖြင့် သင်တို့တောင်းပန်လိုသောအရာများကို ဘုရားသခင်အား ကြားလျှောက်ကြလော့။»",
+    q1: "မိသားစု စားဝတ်နေရေး စိုးရိမ်စရာတွေကို စကားများမခိုက်ရန်ဘဲ အတူတူ ဘယ်လိုရင်ဆိုင်ကျော်ဖြတ်မလဲ?",
+    q2: "တစ်ဦးရဲ့ ဝန်ထုပ်ဝန်ပိုးကို တစ်ဦးက မေတ္တာနဲ့ ဘယ်လိုကူညီ ပေါ့ပါးစေမလဲ?",
+    q3: "ဘုရားသခင်၏ ပြင်ဆင်ပေးမှုကို ယုံကြည်ကိုးစားရင်း ကျေးဇူးတော်ချီးမွမ်း ဆုတောင်းကြပါစို့။"
+  }
+];
+let currentDiscussionIdx = 0;
+
+function cycleDiscussionPrompt() {
+  currentDiscussionIdx = (currentDiscussionIdx + 1) % FAMILY_DISCUSSIONS.length;
+  const item = FAMILY_DISCUSSIONS[currentDiscussionIdx];
+  const tEl = document.getElementById('disc-topic-title');
+  const myEl = document.getElementById('disc-topic-my');
+  const scEl = document.getElementById('disc-scripture-box');
+  const qList = document.getElementById('disc-questions-list');
+  const btn = document.getElementById('btn-complete-disc');
+  const txt = document.getElementById('txt-complete-disc');
+
+  if (tEl) tEl.textContent = item.title;
+  if (myEl) myEl.textContent = item.myTitle;
+  if (scEl) {
+    scEl.innerHTML = `📖 <strong>${item.scripture}:</strong> ${item.scriptureText}`;
+  }
+  if (qList) {
+    qList.innerHTML = `
+      <div class="couple-question-item"><span class="cq-num">၁</span><span>${item.q1}</span></div>
+      <div class="couple-question-item"><span class="cq-num">၂</span><span>${item.q2}</span></div>
+      <div class="couple-question-item"><span class="cq-num">၃</span><span>${item.q3}</span></div>
+    `;
+  }
+  if (btn) btn.style.background = '';
+  if (txt) txt.textContent = 'ဆွေးနွေးတိုင်ပင်ပြီးပါပြီ (+50 XP)';
+}
+
+function markDiscussionCompleted() {
+  const btn = document.getElementById('btn-complete-disc');
+  const txt = document.getElementById('txt-complete-disc');
+  if (btn) {
+    btn.style.background = 'linear-gradient(135deg, #1e8449, #27ae60)';
+  }
+  if (txt) {
+    txt.textContent = '✅ အောင်မြင်စွာ ဆွေးနွေးပြီးပါပြီ (+50 XP ရရှိပါသည်)';
+  }
+  playUpgradeChime();
+  let discXP = 0;
+  try {
+    discXP = parseInt(localStorage.getItem('tpp_disc_xp') || '0', 10) + 50;
+    localStorage.setItem('tpp_disc_xp', discXP.toString());
+  } catch(e) {}
+  showToast('🎉 မိသားစု ဆွေးနွေးမှု ပြီးမြောက်ပါပြီ! +50 Parenting XP ရရှိပါသည်');
+  renderJourneyRoadmap();
+}
+
+let isVoicePrayerPlaying = false;
+let voicePrayerSynthInterval = null;
+
+function toggleVoicePrayerPlay() {
+  const ico = document.getElementById('ico-vp-play');
+  const waveform = document.getElementById('vp-waveform');
+  
+  isVoicePrayerPlaying = !isVoicePrayerPlaying;
+  
+  if (ico) ico.textContent = isVoicePrayerPlaying ? '⏸' : '▶';
+  
+  if (waveform) {
+    const bars = waveform.querySelectorAll('.vp-bar');
+    if (isVoicePrayerPlaying) {
+      voicePrayerSynthInterval = setInterval(() => {
+        bars.forEach(b => {
+          const h = Math.floor(Math.random() * 14) + 4;
+          b.style.height = `${h}px`;
+          b.classList.toggle('active', Math.random() > 0.4);
+        });
+      }, 150);
+      playGentlePrayerChime();
+      showToast('🔊 သင်းအုပ်ဆရာ၏ မိသားစုကောင်းချီး ဆုတောင်းသံ ဖွင့်ထားပါသည်');
+    } else {
+      clearInterval(voicePrayerSynthInterval);
+      bars.forEach(b => { b.style.height = '6px'; b.classList.remove('active'); });
+    }
+  }
+}
+
+function playGentlePrayerChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(528, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3.0);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 3.0);
+  } catch(e) {}
+}
+
+/* ========================================================
+   FEATURE 3: PARENTING JOURNEY & MILESTONES ROADMAP
+   ======================================================== */
+function renderJourneyRoadmap() {
+  const completed = getCompletedModules();
+  let discXP = 0;
+  try { discXP = parseInt(localStorage.getItem('tpp_disc_xp') || '0', 10); } catch(e) {}
+  
+  const baseXP = completed.length * 150;
+  const totalXP = baseXP + discXP;
+  
+  let levelName = 'အဆင့် ၁: စတင်လေ့လာသူ (Curious Seeker)';
+  let streakText = '🔥 3-Day Streak · Lv 1';
+  if (completed.length >= 11) {
+    levelName = 'အဆင့် ၅: ဘိသိက်ခံ မိသားစု (Kingdom Family Ambassador) 👑';
+    streakText = '🏆 CBN Certified Family';
+  } else if (completed.length >= 7) {
+    levelName = 'အဆင့် ၄: စံပြခေါင်းဆောင် မိဘ (Master Mentor)';
+    streakText = '🔥 14-Day Streak · Lv 4';
+  } else if (completed.length >= 4) {
+    levelName = 'အဆင့် ၃: မေတ္တာနှင့် သွန်သင်သူ (Devoted Mentor)';
+    streakText = '🔥 7-Day Streak · Lv 3';
+  } else if (completed.length >= 2) {
+    levelName = 'အဆင့် ၂: အားထုတ်သော မိဘ (Faithful Nurturer)';
+    streakText = '🔥 5-Day Streak · Lv 2';
+  }
+
+  const pct = Math.round((completed.length / 11) * 100);
+  
+  const fillEl = document.getElementById('journey-progress-fill');
+  const nameEl = document.getElementById('journey-level-name');
+  const countEl = document.getElementById('journey-completed-count');
+  const xpEl = document.getElementById('journey-xp-text');
+  const streakEl = document.getElementById('journey-streak-badge');
+  
+  if (fillEl) fillEl.style.width = `${pct}%`;
+  if (nameEl) nameEl.textContent = levelName;
+  if (countEl) countEl.textContent = `${completed.length} of 11 Modules Completed (${pct}%)`;
+  if (xpEl) xpEl.textContent = `${totalXP} XP`;
+  if (streakEl) streakEl.textContent = streakText;
+
+  const listEl = document.getElementById('roadmap-nodes-list');
+  if (listEl) {
+    const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+    listEl.innerHTML = MODULES.map(m => {
+      const isDone = completed.includes(m.id);
+      const isActive = !isDone && (completed.length + 1 === m.id || m.id === currentMobileModId);
+      
+      let cardClass = 'roadmap-node-card';
+      let badgeHtml = '';
+      if (isDone) {
+        cardClass += ' completed';
+        badgeHtml = '<div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>';
+      } else if (isActive) {
+        cardClass += ' active';
+        badgeHtml = '<div class="roadmap-action-badge resume">▶ ဆက်လက်ကြည့်ရန်</div>';
+      } else {
+        badgeHtml = `<div class="roadmap-action-badge locked">${isMy ? 'စတင်ရန် ›' : 'Start ›'}</div>`;
+      }
+
+      const modTitle = isMy ? (m.myTitle || m.title) : m.title;
+
+      return `
+        <div class="${cardClass}" onclick="jumpToModuleFromRoadmap(${m.id})">
+          <div class="roadmap-icon-box" style="background:${m.grad || 'linear-gradient(135deg,#003087,#0050d0)'};">
+            ${m.icon || '📖'}
+          </div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone ${m.id} · ${m.cat || 'Parenting'} ${isActive ? '(Active)' : ''}</div>
+            <div class="roadmap-node-title">${modTitle}</div>
+            <div class="roadmap-node-meta">${m.scripture || ''} · ${m.dur || 45} mins</div>
+          </div>
+          ${badgeHtml}
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function jumpToModuleFromRoadmap(modId) {
+  switchAppTab('cinema');
+  selectMobileModuleVideo(modId, true);
+  showToast(`🎯 မော်ဂျူး ${modId} သို့ ရောက်ရှိပါပြီ`);
+}
+
+/* ========================================================
+   FEATURE 4: AUDIO-FIRST / PODCAST MODE (Low-Bandwidth)
+   ======================================================== */
+let currentAudioMode = 'video';
+let podcastPlaying = false;
+let podcastSleepTimer = null;
+let currentPodcastSleepMin = 0;
+let currentPodcastSpeed = 1.0;
+
+function setPlayerMode(mode) {
+  currentAudioMode = mode;
+  const btnVid = document.getElementById('btn-mode-video');
+  const btnAud = document.getElementById('btn-mode-audio');
+  const vidContainer = document.getElementById('mobile-video-player-container');
+  const podcastCard = document.getElementById('mobile-podcast-player-card');
+  const videoEl = document.getElementById('mobile-cinema-video');
+  const iframeEl = document.getElementById('mobile-cinema-iframe');
+  const audioEl = document.getElementById('mobile-podcast-audio');
+
+  if (btnVid) btnVid.classList.toggle('active', mode === 'video');
+  if (btnAud) btnAud.classList.toggle('active', mode === 'audio');
+
+  if (mode === 'audio') {
+    if (videoEl) { videoEl.pause(); }
+    if (iframeEl) { iframeEl.style.display = 'none'; }
+    if (vidContainer) vidContainer.style.display = 'none';
+    if (podcastCard) podcastCard.style.display = 'block';
+
+    const mod = MODULES.find(m => m.id === currentMobileModId) || MODULES[0];
+    updatePodcastTrackUI(mod, true);
+    showToast('🎙️ Audio-First Mode ဖွင့်ထားပါသည် (ဒေတာ ၈၅% သက်သာစေသည်)');
+  } else {
+    if (audioEl) { audioEl.pause(); }
+    setPodcastPlayState(false);
+    if (podcastCard) podcastCard.style.display = 'none';
+    if (vidContainer) vidContainer.style.display = 'block';
+    selectMobileModuleVideo(currentMobileModId, false);
+  }
+}
+
+async function updatePodcastTrackUI(mod, shouldPlay = false) {
+  const modEl = document.getElementById('podcast-track-module');
+  const titleEl = document.getElementById('podcast-track-title');
+  const myEl = document.getElementById('podcast-track-my');
+  const iconEl = document.getElementById('podcast-album-icon');
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  const bufferStatus = document.getElementById('podcast-buffer-status');
+
+  if (modEl) modEl.textContent = `Module ${mod.id} · Episode ${mod.id}`;
+  if (titleEl) titleEl.textContent = mod.title;
+  if (myEl) myEl.textContent = mod.myTitle || '';
+  if (iconEl) iconEl.textContent = mod.icon || '🛡️';
+
+  if (!audioEl) return;
+
+  const offlineRec = await getOfflineVideo(mod.id);
+  if (offlineRec && offlineRec.blob) {
+    audioEl.src = URL.createObjectURL(offlineRec.blob);
+    if (bufferStatus) bufferStatus.textContent = '📲 Playing Offline (Zero Data)';
+  } else if (mod.fileUrl) {
+    audioEl.src = getProxyUrl(mod.fileUrl) || mod.fileUrl;
+    if (bufferStatus) bufferStatus.textContent = '⚡ Low-Bandwidth Stream (85% Saved)';
+  } else {
+    audioEl.src = `https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-${mod.id}.mp4`;
+    if (bufferStatus) bufferStatus.textContent = '⚡ Low-Bandwidth Stream (85% Saved)';
+  }
+
+  audioEl.ontimeupdate = () => {
+    const cur = audioEl.currentTime || 0;
+    const dur = audioEl.duration || (mod.dur ? mod.dur * 60 : 2700);
+    const pct = dur > 0 ? (cur / dur) * 100 : 0;
+    const bar = document.getElementById('podcast-seek-bar');
+    const curEl = document.getElementById('podcast-current-time');
+    const totEl = document.getElementById('podcast-total-time');
+
+    if (bar && !bar.matches(':active')) bar.value = pct;
+    if (curEl) curEl.textContent = formatAudioTime(cur);
+    if (totEl) totEl.textContent = formatAudioTime(dur);
+  };
+
+  audioEl.onended = () => {
+    setPodcastPlayState(false);
+    showToast(`🎉 Episode ${mod.id} နားထောင်ပြီးပါပြီ`);
+    if (smartDownloadEnabled && mod.id < 11) {
+      startVideoDownload(mod.id + 1);
+    }
+  };
+
+  if (shouldPlay) {
+    audioEl.play().then(() => {
+      setPodcastPlayState(true);
+    }).catch(() => {
+      setPodcastPlayState(false);
+    });
+  }
+}
+
+function setPodcastPlayState(isPlaying) {
+  podcastPlaying = isPlaying;
+  const ico = document.getElementById('ico-podcast-play');
+  const disc = document.getElementById('podcast-vinyl-disc');
+  if (ico) ico.textContent = isPlaying ? '⏸' : '▶';
+  if (disc) disc.classList.toggle('is-playing', isPlaying);
+}
+
+function togglePodcastPlay() {
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (!audioEl) return;
+  if (audioEl.paused) {
+    audioEl.play().then(() => setPodcastPlayState(true)).catch(e => console.log(e));
+  } else {
+    audioEl.pause();
+    setPodcastPlayState(false);
+  }
+}
+
+function skipPodcast(seconds) {
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (audioEl) {
+    audioEl.currentTime = Math.max(0, Math.min(audioEl.duration || 9999, audioEl.currentTime + seconds));
+  }
+}
+
+function handlePodcastSeek(val) {
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (audioEl && audioEl.duration) {
+    audioEl.currentTime = (parseFloat(val) / 100) * audioEl.duration;
+  }
+}
+
+function setPodcastSpeed(speed) {
+  currentPodcastSpeed = speed;
+  const audioEl = document.getElementById('mobile-podcast-audio');
+  if (audioEl) audioEl.playbackRate = speed;
+  [0.75, 1.0, 1.25, 1.5].forEach(s => {
+    const id = `speed-${String(s).replace('.', '')}`;
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.toggle('active', s === speed);
+  });
+}
+
+function cyclePodcastSleepTimer() {
+  const times = [0, 15, 30, 45];
+  const idx = (times.indexOf(currentPodcastSleepMin) + 1) % times.length;
+  currentPodcastSleepMin = times[idx];
+
+  if (podcastSleepTimer) clearTimeout(podcastSleepTimer);
+
+  const btn = document.getElementById('btn-podcast-timer');
+  const txt = document.getElementById('txt-podcast-timer');
+
+  if (currentPodcastSleepMin > 0) {
+    if (btn) btn.classList.add('active');
+    if (txt) txt.textContent = `Timer: ${currentPodcastSleepMin}m`;
+    showToast(`⏱️ အိပ်ချိန်သတ်မှတ်ချက်: ${currentPodcastSleepMin} မိနစ်အကြာတွင် အသံရပ်တန့်ပါမည်`);
+    podcastSleepTimer = setTimeout(() => {
+      const audioEl = document.getElementById('mobile-podcast-audio');
+      if (audioEl) audioEl.pause();
+      setPodcastPlayState(false);
+      showToast('🌙 Sleep Timer: မင်္ဂလာညချမ်းပါ အသံရပ်တန့်လိုက်ပါပြီ');
+      cyclePodcastSleepTimer();
+    }, currentPodcastSleepMin * 60 * 1000);
+  } else {
+    if (btn) btn.classList.remove('active');
+    if (txt) txt.textContent = 'Timer: Off';
+    showToast('⏱️ Sleep Timer ပိတ်လိုက်ပါသည်');
+  }
+}
+
+function formatAudioTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
 // INIT
 function initApp() {
   checkAppMode();
@@ -15000,6 +16649,25 @@ function initApp() {
   initOfflineManager();
   updateMobileUserUI();
   loadLivePrayers();
+  renderJourneyRoadmap();
+
+  // Restore saved download quality and smart dl preferences
+  try {
+    const savedQ = localStorage.getItem('tpp_dl_quality');
+    if (savedQ) {
+      currentDownloadQuality = savedQ;
+      ['hd', 'saver', 'audio'].forEach(q => {
+        const el = document.getElementById(`ql-${q}`);
+        if (el) el.classList.toggle('active', q === savedQ);
+      });
+    }
+    const savedSmart = localStorage.getItem('tpp_smart_dl');
+    if (savedSmart !== null) {
+      const cb = document.getElementById('smart-dl-checkbox');
+      if (cb) cb.checked = (savedSmart === '1');
+      smartDownloadEnabled = (savedSmart === '1');
+    }
+  } catch(e) {}
 
   // Handle direct tab and modal deep links (?tab=prayer, ?modal=signin, ?modal=register, ?modal=settings)
   try {

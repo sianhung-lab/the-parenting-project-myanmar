@@ -44,8 +44,8 @@
   {
     "id": "3",
     "youtube": "lmtVOhpszCQ",
-    "videoType": "youtube",
-    "fileUrl": "",
+    "videoType": "file",
+    "fileUrl": "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
     "title": "Module 3: Healthy Parental Authority",
     "myTitle": "မော်ဂျူး ၃: မေတ္တာနှင့် တည်ဆောက်ထားသော မိဘဩဇာ",
     "badge": "Module 03",

@@ -195,13 +195,85 @@
     <div class="mobile-hub-headline">Video Learning Hub</div>
     <div class="mobile-hub-current-title" id="mobile-cinema-current-title">M1: Foundations of Parenting</div>
 
+    <!-- Video / Podcast Mode Switcher (Feature 4: Audio-First / Podcast Mode) -->
+    <div class="player-mode-toggle-wrap">
+      <div class="player-mode-toggle">
+        <button type="button" class="mode-toggle-btn active" id="btn-mode-video" onclick="setPlayerMode('video')">
+          <span>🎬</span> <span id="txt-mode-video">Video Cinema</span>
+        </button>
+        <button type="button" class="mode-toggle-btn" id="btn-mode-audio" onclick="setPlayerMode('audio')">
+          <span>🎙️</span> <span id="txt-mode-audio">Podcast Mode (Data Saver)</span>
+        </button>
+      </div>
+    </div>
+
     <!-- 16:9 Video Player Frame -->
-    <div class="mobile-cinema-player-frame">
+    <div class="mobile-cinema-player-frame" id="mobile-video-player-container">
       <iframe id="mobile-cinema-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1" title="The Parenting Project Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <video id="mobile-cinema-video" controls playsinline style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
       <!-- Offline Playing Badge — inside frame so position:absolute works -->
       <div id="offline-playing-badge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,180,80,0.92);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;align-items:center;gap:4px;z-index:10;">📲 OFFLINE</div>
     </div>
+
+    <!-- Audio-First / Podcast Mode Card (Hidden by default, shown in Audio mode) -->
+    <div class="podcast-player-card" id="mobile-podcast-player-card" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="podcast-data-badge">⚡ 85% Data Saved · Audio Mode</span>
+        <span style="font-size:0.65rem;color:rgba(255,255,255,0.6);font-weight:700;" id="podcast-buffer-status">Offline & Low Bandwidth Ready</span>
+      </div>
+
+      <div class="podcast-stage-center">
+        <!-- Spinning Vinyl Disc Album Art -->
+        <div class="podcast-vinyl-disc" id="podcast-vinyl-disc">
+          <div class="podcast-vinyl-grooves"></div>
+          <div class="podcast-album-center" id="podcast-album-icon">🛡️</div>
+        </div>
+
+        <div class="podcast-track-module" id="podcast-track-module">Module 1 · Episode 1</div>
+        <div class="podcast-track-title" id="podcast-track-title">Foundations of Parenting</div>
+        <div class="podcast-track-my" id="podcast-track-my">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
+      </div>
+
+      <!-- Scrubber -->
+      <div class="podcast-scrubber-wrap">
+        <input type="range" class="podcast-slider" id="podcast-seek-bar" min="0" max="100" value="0" oninput="handlePodcastSeek(this.value)" />
+        <div class="podcast-timestamps">
+          <span id="podcast-current-time">00:00</span>
+          <span id="podcast-total-time">45:00</span>
+        </div>
+      </div>
+
+      <!-- Transport Controls -->
+      <div class="podcast-transport-row">
+        <button type="button" class="podcast-btn-skip" onclick="skipPodcast(-15)" title="Rewind 15 seconds">
+          <span>↺</span>
+          <span class="skip-sec">15s</span>
+        </button>
+        <button type="button" class="podcast-btn-play" id="btn-podcast-play" onclick="togglePodcastPlay()" title="Play/Pause">
+          <span id="ico-podcast-play">▶</span>
+        </button>
+        <button type="button" class="podcast-btn-skip" onclick="skipPodcast(15)" title="Forward 15 seconds">
+          <span>↻</span>
+          <span class="skip-sec">15s</span>
+        </button>
+      </div>
+
+      <!-- Secondary Controls: Speed & Sleep Timer -->
+      <div class="podcast-secondary-row">
+        <div class="podcast-speed-pills">
+          <button type="button" class="podcast-speed-btn" id="speed-075" onclick="setPodcastSpeed(0.75)">0.75x</button>
+          <button type="button" class="podcast-speed-btn active" id="speed-100" onclick="setPodcastSpeed(1.0)">1.0x</button>
+          <button type="button" class="podcast-speed-btn" id="speed-125" onclick="setPodcastSpeed(1.25)">1.25x</button>
+          <button type="button" class="podcast-speed-btn" id="speed-150" onclick="setPodcastSpeed(1.5)">1.5x</button>
+        </div>
+        <button type="button" class="podcast-timer-btn" id="btn-podcast-timer" onclick="cyclePodcastSleepTimer()">
+          <span>⏱️</span> <span id="txt-podcast-timer">Timer: Off</span>
+        </button>
+      </div>
+
+      <audio id="mobile-podcast-audio" preload="metadata"></audio>
+    </div>
+
 
     <!-- 11-Module Video Cinema Stage Header -->
     <div class="mobile-stage-header">
@@ -285,6 +357,73 @@
         <span class="mobile-bell-dot">3</span>
       </div>
     </div>
+
+    <!-- Warm Candle Greeting Card (Feature 2) -->
+    <div class="prayer-greeting-card">
+      <div>
+        <div class="pgc-title">ဆုတောင်းခြင်းနှင့် မိသားစု မိတ်သဟာယ</div>
+        <div class="pgc-sub">သခင်ယေရှု၌ တစ်စိတ်တစ်ဝမ်းတည်း ဆုတောင်းခြင်းသည် မိသားစုကို ခိုင်ခံ့စေပါသည်</div>
+      </div>
+      <div class="pgc-candle">🕯️</div>
+    </div>
+
+    <!-- Weekly Couple & Family Discussion Card (Feature 2) -->
+    <div class="couple-discussion-card">
+      <div class="couple-disc-badge">💬 ယခုအပတ် ဇနီးမောင်နှံနှင့် မိသားစု ဆွေးနွေးတိုင်ပင်ရန်</div>
+      <div class="couple-disc-title" id="disc-topic-title">Loving Communication & Mutual Grace</div>
+      <div class="couple-disc-my" id="disc-topic-my">အပြန်အလှန် လေးစားတန်ဖိုးထားမှုနှင့် နားထောင်ခြင်း</div>
+      <div class="couple-scripture-box" id="disc-scripture-box">
+        📖 <strong>ကောလောသဲ ၃:၁၂-၁၃:</strong> «ထို့ကြောင့် ဘုရားသခင် ရွေးကောက်တော်မူသော သန့်ရှင်းသောသူကဲ့သို့ သနားစုံမက်ခြင်း၊ ကျေးဇူးပြုခြင်း၊ စိတ်နှိမ့်ချခြင်း၊ နူးညံ့သိမ်မွေ့ခြင်း၊ စိတ်ရှည်ခြင်းတို့ကို ဝတ်ဆင်ကြလော့။»
+      </div>
+      <div class="couple-questions-list" id="disc-questions-list">
+        <div class="couple-question-item">
+          <span class="cq-num">၁</span>
+          <span>ဒီတစ်ပတ်အတွင်း တစ်ဦးကိုတစ်ဦး စိတ်မကျေနပ်ခဲ့တာမျိုးရှိရင် ခွင့်လွှတ်ခြင်းနဲ့ ဘယ်လိုရင်ဖွင့်မလဲ?</span>
+        </div>
+        <div class="couple-question-item">
+          <span class="cq-num">၂</span>
+          <span>သားသမီးတွေရှေ့မှာ ငါတို့နှစ်ယောက် မေတ္တာနှင့် လေးစားမှုကို အကောင်းဆုံး ဘယ်လိုပြသနိုင်မလဲ?</span>
+        </div>
+        <div class="couple-question-item">
+          <span class="cq-num">၃</span>
+          <span>ဒီည သားသမီးတွေ အိပ်ရာမဝင်မီ ငါတို့နှစ်ယောက် သူတို့ခေါင်းပေါ် လက်တင်ပြီး အတူတူ ဆုတောင်းပေးကြမယ်။</span>
+        </div>
+      </div>
+      <div class="couple-disc-actions">
+        <button type="button" class="btn-couple-complete" id="btn-complete-disc" onclick="markDiscussionCompleted()">
+          <span>✓</span> <span id="txt-complete-disc">ဆွေးနွေးတိုင်ပင်ပြီးပါပြီ (+50 XP)</span>
+        </button>
+        <button type="button" class="btn-couple-next" onclick="cycleDiscussionPrompt()" title="Next topic">
+          နောက်တစ်ခု ↻
+        </button>
+      </div>
+    </div>
+
+    <!-- Pastor Voice Note Blessing Audio Player (Feature 2) -->
+    <div class="voice-prayer-card">
+      <button type="button" class="vp-play-btn" id="btn-vp-play" onclick="toggleVoicePrayerPlay()" title="Play Benediction Audio">
+        <span id="ico-vp-play">▶</span>
+      </button>
+      <div class="vp-info">
+        <div class="vp-tag">🎧 အသင်းတော် သင်းအုပ်ဆရာ၏ မိသားစု ကောင်းချီး</div>
+        <div class="vp-title">Pastor's Family Benediction & Healing</div>
+        <div class="vp-waveform" id="vp-waveform">
+          <div class="vp-bar" style="height:6px"></div>
+          <div class="vp-bar" style="height:12px"></div>
+          <div class="vp-bar" style="height:16px"></div>
+          <div class="vp-bar" style="height:8px"></div>
+          <div class="vp-bar" style="height:14px"></div>
+          <div class="vp-bar" style="height:10px"></div>
+          <div class="vp-bar" style="height:18px"></div>
+          <div class="vp-bar" style="height:7px"></div>
+          <div class="vp-bar" style="height:13px"></div>
+          <div class="vp-bar" style="height:5px"></div>
+        </div>
+      </div>
+      <div class="vp-time" id="vp-duration">02:15</div>
+      <audio id="pastor-voice-audio" preload="metadata"></audio>
+    </div>
+
 
     <!-- Share a Prayer Pill Button -->
     <button type="button" class="mobile-share-prayer-pill" onclick="togglePrayerFormDrawer()">
@@ -388,7 +527,21 @@
     <div class="mobile-subpage-header">
       <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')">‹</button>
       <div class="mobile-subpage-title" style="font-size:0.75rem;letter-spacing:0">October 26, 2023 | Day 45: Cultivating Kindness</div>
+      <div class="journey-header-streak" id="journey-streak-badge">🔥 7-Day Streak · Lv 3</div>
       <button type="button" class="mobile-subpage-gear" onclick="openSettingsModal()">⚙️</button>
+    </div>
+
+    <!-- Feature 3: Discipleship Journey Level & XP Card -->
+    <div class="journey-level-card">
+      <div class="journey-level-tag">Parenting Discipleship Journey</div>
+      <div class="journey-level-name" id="journey-level-name">အဆင့် ၃: မေတ္တာနှင့် သွန်သင်သူ (Devoted Mentor)</div>
+      <div class="journey-bar-bg">
+        <div class="journey-bar-fill" id="journey-progress-fill" style="width: 27%;"></div>
+      </div>
+      <div class="journey-level-meta">
+        <span id="journey-completed-count">3 of 11 Modules Completed</span>
+        <span id="journey-xp-text" style="color:#f0c355;font-weight:800;">850 XP</span>
+      </div>
     </div>
 
     <!-- Daily Devotional Card (Exact match to Photo 1) -->
@@ -408,44 +561,76 @@
       </div>
     </div>
 
-    <!-- Family Discipleship Certificate Card (Photo 1) -->
-    <div class="mobile-cert-card-lux" onclick="openCertificateModal()" style="cursor:pointer" title="Click to view full certificate">
-      <div class="mobile-cert-banner">
-        <div class="mobile-cert-card-title">Family Discipleship Certificate</div>
-      </div>
-      <div class="mobile-cert-card-sub">Certificate Progress</div>
+    <!-- Feature 3: Interactive 11-Milestone Roadmap Track -->
+    <div class="roadmap-container">
+      <div class="roadmap-section-title">🎯 11-Milestone Parenting Roadmap (ခရီးစဉ်မှတ်တမ်း)</div>
+      <div id="roadmap-nodes-list">
+        <!-- Rendered dynamically by renderJourneyRoadmap() with static baseline -->
+        <div class="roadmap-node-card completed" onclick="jumpToModuleFromRoadmap(1)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#003087,#0050d0);">🛡️</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 1 · Foundations</div>
+            <div class="roadmap-node-title">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
+            <div class="roadmap-node-meta">Deut 6:6-7 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>
+        </div>
 
-      <!-- Stepper Line with Milestone Badges -->
-      <div class="cert-stepper-track">
-        <div class="cert-stepper-line"></div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step done" id="step-m1">✓</div>
-          <span class="cert-stepper-label">M1</span>
+        <div class="roadmap-node-card completed" onclick="jumpToModuleFromRoadmap(2)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#8e44ad,#9b59b6);">❤️</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 2 · Connection</div>
+            <div class="roadmap-node-title">နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး</div>
+            <div class="roadmap-node-meta">1 Cor 13:4-7 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>
         </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step done" id="step-m2">✓</div>
-          <span class="cert-stepper-label">M2</span>
-        </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step active" id="step-m3">👥</div>
-          <span class="cert-stepper-label">M3</span>
-        </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step" id="step-m4">📄</div>
-          <span class="cert-stepper-label">M4</span>
-        </div>
-        <div class="cert-stepper-node">
-          <div class="cert-stepper-step locked">🔒</div>
-          <span class="cert-stepper-label">--</span>
-        </div>
-      </div>
 
-      <div class="mobile-cert-card-footer">
-        <span>Earn your Certificate</span>
-        <span id="mobile-cert-progress-text">0 Progress</span>
+        <div class="roadmap-node-card active" onclick="jumpToModuleFromRoadmap(3)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#1a5276,#2980b9);">👥</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 3 · Character (Active)</div>
+            <div class="roadmap-node-title">စရိုက်လက္ခဏာ သွန်သင်တည်ဆောက်ခြင်း</div>
+            <div class="roadmap-node-meta">Prov 22:6 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge resume">▶ ဆက်လက်ကြည့်ရန်</div>
+        </div>
+
+        <div class="roadmap-node-card" onclick="jumpToModuleFromRoadmap(4)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#117864,#16a085);">🕊️</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 4 · Emotional Health</div>
+            <div class="roadmap-node-title">စိတ်ခံစားမှုနှင့် သက်သာပျောက်ကင်းခြင်း</div>
+            <div class="roadmap-node-meta">Phil 4:6-7 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge locked">စတင်ရန် ›</div>
+        </div>
+
+        <div class="roadmap-node-card" onclick="jumpToModuleFromRoadmap(5)">
+          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#b7950b,#d4ac0d);">📱</div>
+          <div class="roadmap-node-body">
+            <div class="roadmap-node-tag">Milestone 5 · Digital Safety</div>
+            <div class="roadmap-node-title">ဒစ်ဂျစ်တယ်ခေတ်နှင့် သားသမီးများ</div>
+            <div class="roadmap-node-meta">Ps 101:3 · 45 mins</div>
+          </div>
+          <div class="roadmap-action-badge locked">စတင်ရန် ›</div>
+        </div>
       </div>
     </div>
+
+    <!-- Feature 3: Certificate Preview Box -->
+    <div class="journey-cert-box">
+      <div class="jcb-icon">🎓</div>
+      <div class="jcb-title">CBN Family Discipleship Certificate</div>
+      <div class="jcb-desc">
+        မော်ဂျူး (၁၁) ခု စလုံး ပြီးဆုံးပါက CBN Asia နှင့် The Parenting Project Myanmar မှ တရားဝင် အသိအမှတ်ပြု ဂုဏ်ပြုလက်မှတ် ရရှိပါမည်
+      </div>
+      <button type="button" class="jcb-btn" onclick="openCertificateModal()">
+        📜 ဂုဏ်ပြုလက်မှတ် ကြည့်ရှုထုတ်ယူမည် (View Certificate)
+      </button>
+    </div>
   </div>
+
 
   <!-- ======================================================== -->
   <!-- SCREEN 4: OFFLINE DOWNLOADS PAGE (Per-Episode Downloads) -->
@@ -458,17 +643,86 @@
       <div id="downloads-page-storage-badge" class="downloads-storage-pill">0 MB Used</div>
     </div>
 
-    <!-- Storage & Feature Banner Card -->
-    <div class="downloads-hero-card">
-      <div class="downloads-hero-icon">📥</div>
-      <div class="downloads-hero-content">
-        <div class="downloads-hero-title" id="downloads-hero-title">စက်ထဲတွင် သိမ်းဆည်းထားမှု</div>
-        <div class="downloads-hero-sub" id="downloads-hero-sub">
-          အင်တာနက်မရှိဘဲ မိမိစိတ်ကြိုက် အပိုင်းတစ်ခုချင်းစီကို ဒေါင်းလုဒ်ရယူ၍ အချိန်မရွေး ကြည့်ရှုနိုင်ပါသည်
+    <!-- Feature 1: Next-Gen Storage Meter Card -->
+    <div class="downloads-storage-meter-card">
+      <div class="dsm-header">
+        <div>
+          <div class="dsm-title">Storage & Offline Hub</div>
+          <div class="dsm-sub">စက်တွင်း သိုလှောင်မှုနှင့် အော့ဖ်လိုင်း စီမံခန့်ခွဲမှု</div>
         </div>
-        <div class="downloads-hero-stat" id="downloads-hero-stat">0 Episodes Saved · 0 MB Used</div>
+        <button type="button" class="btn btn-outline btn-xs" onclick="confirmDeleteAllDownloads()" style="border-radius:12px;font-size:0.65rem;border-color:rgba(255,100,100,0.4);color:#ff8888;" title="Clear all downloads">
+          🗑 ရှင်းလင်းမည်
+        </button>
+      </div>
+
+      <div class="dsm-ring-row">
+        <!-- Circular Storage Ring Chart -->
+        <div class="dsm-ring-chart">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f0c355"/>
+                <stop offset="100%" stop-color="#ffd978"/>
+              </linearGradient>
+            </defs>
+            <circle class="dsm-ring-bg" cx="50" cy="50" r="42"/>
+            <circle class="dsm-ring-fill" id="dsm-svg-ring" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="dsm-ring-center">
+            <div class="dsm-ring-pct" id="dsm-ring-pct">0%</div>
+            <div class="dsm-ring-lbl" id="dsm-ring-lbl">Used</div>
+          </div>
+        </div>
+
+        <!-- Breakdown Stats -->
+        <div class="dsm-stats-col">
+          <div class="dsm-stat-line">
+            <span><span class="dsm-stat-dot gold"></span>ဗီဒီယို ဖိုင်များ:</span>
+            <strong id="dsm-videos-size" style="color:#f0c355">0 MB</strong>
+          </div>
+          <div class="dsm-stat-line">
+            <span><span class="dsm-stat-dot blue"></span>ဆုတောင်းနှင့် အချက်အလက်:</span>
+            <strong id="dsm-cache-size" style="color:#3498db">4.2 MB</strong>
+          </div>
+          <div class="dsm-stat-line">
+            <span><span class="dsm-stat-dot gray"></span>ဖုန်းတွင်း နေရာလွတ်:</span>
+            <strong id="dsm-free-size" style="color:rgba(255,255,255,0.7)">~14.5 GB</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download Quality Selector -->
+      <div class="dl-quality-section">
+        <div class="dl-quality-label">Download Quality (ဒေါင်းလုဒ် အရည်အသွေး)</div>
+        <div class="dl-quality-pills">
+          <div class="dl-quality-pill active" id="ql-hd" onclick="setDownloadQuality('hd')">
+            <div class="dl-quality-pill-title">HD 720p</div>
+            <div class="dl-quality-pill-sub">~55 MB/ep</div>
+          </div>
+          <div class="dl-quality-pill" id="ql-saver" onclick="setDownloadQuality('saver')">
+            <div class="dl-quality-pill-title">Data Saver</div>
+            <div class="dl-quality-pill-sub">~25 MB/ep</div>
+          </div>
+          <div class="dl-quality-pill" id="ql-audio" onclick="setDownloadQuality('audio')">
+            <div class="dl-quality-pill-title">Audio Only</div>
+            <div class="dl-quality-pill-sub">~8 MB/ep</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Auto-Download Toggle -->
+      <div class="smart-dl-toggle-row">
+        <div>
+          <div class="smart-dl-text-title">Smart Auto-Download</div>
+          <div class="smart-dl-text-sub">နောက်အပိုင်းကို Wi-Fi ရချိန် အလိုအလျောက် ရယူရန်</div>
+        </div>
+        <label class="toggle-switch-ios">
+          <input type="checkbox" id="smart-dl-checkbox" checked onchange="toggleSmartDownload(this.checked)"/>
+          <span class="toggle-slider"></span>
+        </label>
       </div>
     </div>
+
 
     <!-- Filter Pills (All / Saved Offline / Available) -->
     <div class="downloads-filter-bar">
