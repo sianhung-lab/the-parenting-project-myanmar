@@ -19,12 +19,23 @@ EXCEL_FILE = os.path.join(DIR, "The_Parenting_Project_Myanmar_Database.xlsx")
 # Staff security passcode (Only CBN Myanmar team knows this)
 STAFF_PASSCODE = "cbn2026"
 
-# Google Sheets Webhook URL
-GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec"
+# Google Sheets Webhook URL (Single Primary)
+GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec"
+
+_recent_sheet_syncs = set()
+_sheet_lock = threading.Lock()
 
 def forward_to_google_sheet(payload):
     def _worker():
         try:
+            key = f"{payload.get('type','event')}:{payload.get('submissionId', payload.get('email', payload.get('phone', '')))}"
+            with _sheet_lock:
+                if key in _recent_sheet_syncs:
+                    print("  ℹ️ Skipping duplicate Google Sheets sync:", key)
+                    return
+                _recent_sheet_syncs.add(key)
+            threading.Timer(10.0, lambda: _recent_sheet_syncs.discard(key)).start()
+
             p = dict(payload)
             phone = str(p.get('phone', '')).strip()
             if phone.startswith('+') or phone.startswith('='):

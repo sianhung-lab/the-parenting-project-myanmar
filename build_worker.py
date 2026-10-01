@@ -188,29 +188,49 @@ worker_code = f"""
 // Cloudflare Worker for The Parenting Project Myanmar
 // Edge-accelerated with instant Google Sheets sync and In-Page Admin Hub
 
-const GOOGLE_SHEETS_URL_1 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
-const GOOGLE_SHEETS_URL_2 = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GOOGLE_SHEETS_URL_PRIMARY = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+const GOOGLE_SHEETS_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
 const STAFF_PASSCODE = "cbn2026";
 
-function syncToGoogleSheetsDual(ctx, payload) {{
+const _recentWorkerSyncKeys = new Set();
+
+function syncToGoogleSheets(ctx, payload) {{
   if (!ctx || !payload) return;
+  const key = (payload.type || "event") + ":" + (payload.submissionId || payload.email || payload.phone || payload.author || payload.text || "");
+  if (_recentWorkerSyncKeys.has(key)) {{
+    console.log("Skipping duplicate worker sync to Google Sheets:", key);
+    return;
+  }}
+  _recentWorkerSyncKeys.add(key);
+  setTimeout(() => _recentWorkerSyncKeys.delete(key), 8000);
+
   const body = JSON.stringify(payload);
   ctx.waitUntil(
-    Promise.allSettled([
-      fetch(GOOGLE_SHEETS_URL_1, {{
-        method: "POST",
-        headers: {{ "Content-Type": "application/json" }},
-        body: body
-      }}),
-      fetch(GOOGLE_SHEETS_URL_2, {{
-        method: "POST",
-        headers: {{ "Content-Type": "application/json" }},
-        body: body
+    fetch(GOOGLE_SHEETS_URL_PRIMARY, {{
+      method: "POST",
+      headers: {{ "Content-Type": "application/json" }},
+      body: body
+    }}).then(res => {{
+      if (!res.ok) {{
+        return fetch(GOOGLE_SHEETS_URL_FALLBACK, {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: body
+        }});
+      }}
+      return res;
+    }}).then(() => console.log("✓ Google Sheets primary sync completed:", payload.type || "event"))
+      .catch(err => {{
+        console.warn("Primary Google Sheets webhook failed, trying fallback:", err);
+        fetch(GOOGLE_SHEETS_URL_FALLBACK, {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: body
+        }}).catch(e => console.log("Fallback sync error:", e));
       }})
-    ]).then(() => console.log("✓ Google Sheets dual sync completed:", payload.type || "event"))
-      .catch(err => console.log("Google Sheets sync note:", err))
   );
 }}
+const syncToGoogleSheetsDual = syncToGoogleSheets;
 
 // Initial In-Memory State (persists across warm isolates; can also bind to KV if available)
 let registrationsDB = {json.dumps(default_regs)};

@@ -12,8 +12,9 @@ proc = subprocess.Popen([
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "--headless",
     "--disable-gpu",
+    "--user-data-dir=/tmp/test_chrome_mobile_user",
     f"--remote-debugging-port={PORT}",
-    "--window-size=412,892",
+    "--window-size=380,780",
     "http://localhost:8080"
 ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -97,8 +98,8 @@ try:
     call_cdp(ws, "Runtime.enable")
     call_cdp(ws, "Page.enable")
     call_cdp(ws, "Emulation.setDeviceMetricsOverride", {
-        "width": 412,
-        "height": 892,
+        "width": 380,
+        "height": 780,
         "deviceScaleFactor": 2.0,
         "mobile": True
     })
@@ -114,6 +115,8 @@ try:
             localStorage.setItem('pp_unlocked', 'true');
             localStorage.setItem('pp_registered', 'true');
             localStorage.setItem('pp_current_user', JSON.stringify({name: 'Daw Khin Khin', phone: '09790001122'}));
+            localStorage.setItem('tpp_lang', 'my');
+            if (typeof toggleLang === 'function') toggleLang('my');
             
             // If on standalone login page, click the quick demo button
             const demoBtn = document.querySelector('.btn-demo, .inapp-demo-btn');

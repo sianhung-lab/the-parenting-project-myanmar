@@ -887,15 +887,34 @@ function sendToGoogleSheets(data) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   }).then(() => {
-    console.log("✓ Dispatched to Google Sheet");
+    console.log("✓ Dispatched to Google Sheet directly");
   }).catch(e => {
     console.warn("Google Sheet sync note:", e);
   });
 }
 
 function sendToDataDestination(data) {
-  sendToExcelBackend(data);
-  sendToGoogleSheets(data);
+  if (!data.submissionId) {
+    data.submissionId = 'reg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
+  }
+
+  // Attempt backend Cloudflare Worker sync first (Worker forwards to Google Sheets)
+  fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(r => {
+    if (r.ok) {
+      console.log("✓ Saved securely and synced to Google Sheets via Cloudflare backend");
+    } else {
+      // Backend returned non-200, fallback to direct Google Sheet sync
+      sendToGoogleSheets(data);
+    }
+  }).catch(e => {
+    // Offline or static file mode: sync directly to Google Sheet
+    console.log("Backend offline, syncing directly to Google Sheet:", e);
+    sendToGoogleSheets(data);
+  });
 }
 
 function showAccessibilityTip() {

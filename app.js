@@ -1601,27 +1601,50 @@ function renderReg() {
 }
 
 // ==========================================
-// DUAL GOOGLE SHEETS LIVE DATA SYNC
+// GOOGLE SHEETS LIVE DATA SYNC (Single Primary + Failover & Client Deduplication)
 // ==========================================
-const GS_WEBHOOK_URL_1 = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
-const GS_WEBHOOK_URL_2 = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GS_WEBHOOK_URL_PRIMARY = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
+const GS_WEBHOOK_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+
+// Anti-duplicate tracker to prevent rapid-fire redundant dispatches
+const _recentSubmissions = new Set();
 
 function sendToGoogleSheetsLive(payload) {
   if (!payload) return;
+
+  // Deduplicate on client if identical request dispatched within 5 seconds
+  const subKey = (payload.type || 'data') + ':' + (payload.email || payload.phone || payload.author || payload.text || '') + ':' + (payload.churchName || '');
+  if (_recentSubmissions.has(subKey)) {
+    console.log('Skipping duplicate client dispatch:', subKey);
+    return;
+  }
+  _recentSubmissions.add(subKey);
+  setTimeout(() => _recentSubmissions.delete(subKey), 5000);
+
+  if (!payload.submissionId) {
+    payload.submissionId = 'sub_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
+  }
+
   const jsonStr = JSON.stringify(payload);
-  [GS_WEBHOOK_URL_1, GS_WEBHOOK_URL_2].forEach(url => {
-    try {
-      fetch(url, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: jsonStr
-      }).then(() => console.log('✓ Google Sheet sync dispatched:', payload.type || 'data'))
-        .catch(err => console.log('Google Sheets sync note:', err));
-    } catch (e) {
-      console.log('Google Sheets catch:', e);
-    }
-  });
+  try {
+    fetch(GS_WEBHOOK_URL_PRIMARY, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: jsonStr
+    }).then(() => console.log('✓ Google Sheet sync dispatched:', payload.type || 'data'))
+      .catch(err => {
+        console.warn('Primary Google Sheets sync failed, trying fallback:', err);
+        fetch(GS_WEBHOOK_URL_FALLBACK, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: jsonStr
+        }).catch(e => console.log('Fallback sync note:', e));
+      });
+  } catch (e) {
+    console.log('Google Sheets catch:', e);
+  }
 }
 window.sendToGoogleSheetsLive = sendToGoogleSheetsLive;
 
@@ -1644,13 +1667,19 @@ function submitReg() {
     timestamp: new Date().toISOString()
   };
 
+  payload.submissionId = 'reg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
+
+  // Forward to backend API (Worker syncs to Google Sheets once; fallback to client sync if offline)
   fetch('/api/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  }).catch(e => console.warn(e));
-
-  sendToGoogleSheetsLive(payload);
+  }).then(res => {
+    if (!res.ok) sendToGoogleSheetsLive(payload);
+  }).catch(e => {
+    console.warn('Backend unavailable, syncing directly to Google Sheets:', e);
+    sendToGoogleSheetsLive(payload);
+  });
 
   // Auto-login user session and unlock modules 1-11 immediately
   const sessionData = {
@@ -1667,16 +1696,6 @@ function submitReg() {
   userPrivilege.isGranted = true;
   userPrivilege.displayName = sessionData.displayName;
   userPrivilege.churchName = sessionData.churchName;
-
-  // Log login event to Google Sheets
-  sendToGoogleSheetsLive({
-    type: 'login',
-    displayName: sessionData.displayName,
-    email: sessionData.email,
-    churchName: sessionData.churchName,
-    role: 'facilitator',
-    platform: 'Desktop Website Registration'
-  });
 
   checkAuthStatus();
 
@@ -5138,15 +5157,6 @@ async function handlePrayerSubmit(e) {
     text: textInput.value.trim()
   };
 
-  // Forward prayer request to Dual Google Sheets Webhooks live
-  sendToGoogleSheetsLive({
-    type: 'prayer',
-    author: payload.author,
-    city: payload.city,
-    category: payload.catName,
-    text: payload.text
-  });
-
   if (btn) {
     btn.disabled = true;
     btn.textContent = 'တင်သွင်းနေပါသည်...';
@@ -5158,6 +5168,15 @@ async function handlePrayerSubmit(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+    if (!res.ok) {
+      sendToGoogleSheetsLive({
+        type: 'prayer',
+        author: payload.author,
+        city: payload.city,
+        category: payload.catName,
+        text: payload.text
+      });
+    }
     if (res.ok) {
       textInput.value = '';
       playUpgradeChime();
@@ -5262,15 +5281,6 @@ async function handleFeedbackSubmit(e) {
     church: (session && session.churchName) ? session.churchName : 'Christian Family'
   };
 
-  // Forward feedback to Dual Google Sheets Webhooks live
-  sendToGoogleSheetsLive({
-    type: 'prayer',
-    author: payload.author,
-    city: payload.church,
-    category: `⭐ ${payload.rating} Stars · ${payload.module}: ${payload.moduleTitle}`,
-    text: payload.text
-  });
-
   if (btn) {
     btn.disabled = true;
     btn.textContent = 'ပေးပို့နေပါသည်...';
@@ -5282,6 +5292,15 @@ async function handleFeedbackSubmit(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+    if (!res.ok) {
+      sendToGoogleSheetsLive({
+        type: 'prayer',
+        author: payload.author,
+        city: payload.church,
+        category: `⭐ ${payload.rating} Stars · ${payload.module}: ${payload.moduleTitle}`,
+        text: payload.text
+      });
+    }
     if (res.ok) {
       textInput.value = '';
       playUpgradeChime();
@@ -5474,15 +5493,7 @@ async function handleInAppLoginSubmit(e) {
       userPrivilege.displayName = sessionData.displayName;
       userPrivilege.churchName = sessionData.churchName;
 
-      // Send login record to Google Sheets
-      sendToGoogleSheetsLive({
-        type: 'login',
-        displayName: sessionData.displayName,
-        email: emailVal,
-        churchName: sessionData.churchName,
-        role: sessionData.role,
-        platform: 'Mobile In-App Sign In'
-      });
+      // Login record already synced cleanly via /api/login backend
 
       playUpgradeChime();
       showToast(`✓ မင်္ဂလာပါ ${sessionData.displayName}! မော်ဂျူးအားလုံး ကြည့်ရှုနိုင်ပါပြီ`);
@@ -5549,23 +5560,24 @@ async function handleInAppRegisterSubmit(e) {
     timestamp: new Date().toISOString()
   };
 
-  // 1. Send live directly to both Google Sheets webhook endpoints (no-cors)
-  sendToGoogleSheetsLive(payload);
+  payload.submissionId = 'reg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
 
-  // 2. Also send to Cloudflare Worker backend
+  // Send to backend (backend syncs to Google Sheets once; fallback to client sync if offline)
   try {
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    const data = await res.json();
-    console.log('Registration saved to backend:', data);
+    if (!res.ok) {
+      sendToGoogleSheetsLive(payload);
+    }
   } catch (err) {
-    console.warn('Backend sync note:', err);
+    console.warn('Backend offline, sending directly to Google Sheets:', err);
+    sendToGoogleSheetsLive(payload);
   }
 
-  // 3. Immediately create user session and unlock all 11 modules
+  // Immediately create user session and unlock all 11 modules
   const sessionData = {
     email: emailVal,
     displayName: coordVal,
@@ -5580,16 +5592,6 @@ async function handleInAppRegisterSubmit(e) {
   userPrivilege.isGranted = true;
   userPrivilege.displayName = coordVal;
   userPrivilege.churchName = churchVal;
-
-  // 4. Log the initial login event to Google Sheets too
-  sendToGoogleSheetsLive({
-    type: 'login',
-    displayName: coordVal,
-    email: emailVal,
-    churchName: churchVal,
-    role: 'facilitator',
-    platform: 'Mobile App Registration'
-  });
 
   playUpgradeChime();
   showToast(`🎉 မင်္ဂလာပါ ${coordVal}! အသင်းတော် စာရင်းသွင်းမှု အောင်မြင်ပြီး မော်ဂျူး ၁၁ ခုလုံး ဖွင့်လှစ်ပေးလိုက်ပါပြီ!`);
@@ -5842,6 +5844,7 @@ async function handleGateSignIn(e) {
           loggedIn: true,
           isGranted: true,
           role: data.role || 'facilitator',
+          syncedViaApi: true,
           loginTime: new Date().toISOString()
         };
       }
@@ -5873,15 +5876,17 @@ async function handleGateSignIn(e) {
   userPrivilege.displayName = sessionData.displayName;
   userPrivilege.churchName = sessionData.churchName;
 
-  // Send login record to Google Sheets
-  sendToGoogleSheetsLive({
-    type: 'login',
-    displayName: sessionData.displayName,
-    email: emailVal,
-    churchName: sessionData.churchName,
-    role: sessionData.role,
-    platform: 'Mobile App Gate Sign In'
-  });
+  // Only sync to Google Sheets from client if offline (otherwise already synced via /api/login)
+  if (!sessionData.syncedViaApi) {
+    sendToGoogleSheetsLive({
+      type: 'login',
+      displayName: sessionData.displayName,
+      email: emailVal,
+      churchName: sessionData.churchName,
+      role: sessionData.role,
+      platform: 'Mobile App Gate Sign In'
+    });
+  }
 
   playUpgradeChime();
   showToast((typeof lang !== 'undefined' && lang === 'my')
@@ -5943,19 +5948,25 @@ async function handleGateRegister(e) {
     timestamp: new Date().toISOString()
   };
 
-  // 1. Direct dual sync to Google Sheets
-  sendToGoogleSheetsLive(payload);
+  payload.submissionId = 'reg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
 
-  // 2. Forward to Cloudflare Worker backend in background
+  // Forward to backend (backend syncs to Google Sheets once; fallback to client sync if offline)
   try {
     fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...payload, password: passVal })
-    }).catch(e => console.warn(e));
-  } catch(e) {}
+    }).then(res => {
+      if (!res.ok) sendToGoogleSheetsLive(payload);
+    }).catch(e => {
+      console.warn('Backend note, falling back to direct sync:', e);
+      sendToGoogleSheetsLive(payload);
+    });
+  } catch(e) {
+    sendToGoogleSheetsLive(payload);
+  }
 
-  // 3. Immediately activate user session with isGranted: true (Immediate full access!)
+  // Immediately activate user session with isGranted: true (Immediate full access!)
   const sessionData = {
     email: emailVal.trim() || phoneVal.trim(),
     displayName: coordVal.trim() || churchVal.trim(),
@@ -5971,16 +5982,6 @@ async function handleGateRegister(e) {
   userPrivilege.isGranted = true;
   userPrivilege.displayName = sessionData.displayName;
   userPrivilege.churchName = sessionData.churchName;
-
-  // 4. Log initial registration login to Google Sheets
-  sendToGoogleSheetsLive({
-    type: 'login',
-    displayName: sessionData.displayName,
-    email: sessionData.email,
-    churchName: sessionData.churchName,
-    role: 'facilitator',
-    platform: 'Mobile App Gate Registration'
-  });
 
   playUpgradeChime();
   showToast((typeof lang !== 'undefined' && lang === 'my')
