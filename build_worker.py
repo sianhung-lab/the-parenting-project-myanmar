@@ -297,7 +297,12 @@ export default {{
     // 1. Static Pages
     if (path === "/" || path === "/index.html") {{
       return new Response(INDEX_HTML, {{
-        headers: {{ "Content-Type": "text/html; charset=utf-8" }}
+        headers: {{
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
+        }}
       }});
     }}
 
