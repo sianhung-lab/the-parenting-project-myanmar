@@ -4363,6 +4363,8 @@ body.is-mobile-app.is-authenticated #mobile-app-bottom-bar.mobile-app-only {
   bottom: 0;
   left: 0;
   right: 0;
+  width: 100% !important;
+  box-sizing: border-box !important;
   height: 64px;
   background: rgba(8, 20, 38, 0.98);
   backdrop-filter: blur(20px);
@@ -4370,12 +4372,14 @@ body.is-mobile-app.is-authenticated #mobile-app-bottom-bar.mobile-app-only {
   z-index: 1000;
   align-items: center;
   justify-content: space-around;
-  padding: 0 6px;
+  padding: 0 4px;
   padding-bottom: env(safe-area-inset-bottom, 0);
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.6);
 }
 body.is-mobile-app .app-bottom-tab {
-  flex: 1;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5678,5 +5682,246 @@ body.is-mobile-app .mobile-cert-card-footer {
   margin-top: 6px;
 }
 
+/* ============================================================
+   OFFLINE DOWNLOAD SYSTEM — CSS
+   ============================================================ */
 
+/* Per-module download buttons row */
+.module-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.75);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.module-dl-btn:active {
+  transform: scale(0.95);
+}
+.module-dl-btn.done {
+  background: rgba(0, 200, 100, 0.18);
+  border-color: rgba(0, 200, 100, 0.5);
+  color: #2ecc71;
+}
+.module-dl-btn.downloading {
+  background: rgba(240, 195, 85, 0.15);
+  border-color: rgba(240, 195, 85, 0.4);
+  color: #f0c355;
+}
+.dl-icon {
+  font-size: 0.75rem;
+}
+.dl-pct {
+  font-size: 0.62rem;
+  font-weight: 800;
+}
 
+/* Spinner for active download */
+.dl-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(240, 195, 85, 0.35);
+  border-top-color: #f0c355;
+  border-radius: 50%;
+  animation: dl-spin 0.7s linear infinite;
+}
+@keyframes dl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Downloads Panel Rows */
+.dp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.15s ease;
+}
+.dp-row:last-child { border-bottom: none; }
+.dp-row:active { background: rgba(255,255,255,0.04); border-radius: 12px; }
+
+.dp-row-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.dp-row-body {
+  flex: 1;
+  min-width: 0;
+}
+.dp-row-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dp-row-sub {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+}
+.dp-offline-tag {
+  color: #2ecc71;
+  font-weight: 700;
+}
+.dp-row-btns {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.dp-row-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: transform 0.15s, background 0.15s;
+}
+.dp-row-action:active { transform: scale(0.9); }
+.dp-play {
+  background: rgba(240, 195, 85, 0.2);
+  color: #f0c355;
+  border: 1px solid rgba(240,195,85,0.4);
+}
+.dp-delete {
+  background: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+  border: 1px solid rgba(231,76,60,0.3);
+}
+.dp-cancel {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Progress bar */
+.dp-progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.dp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f0c355, #e5a500);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.dp-row-info {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 3px;
+}
+
+/* Empty state */
+.dp-empty {
+  text-align: center;
+  padding: 48px 20px;
+}
+.dp-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+.dp-empty-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+}
+.dp-empty-sub {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.5;
+}
+
+/* Toast notification */
+.offline-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(15, 25, 55, 0.96);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+  max-width: 88vw;
+  text-align: center;
+}
+.offline-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.offline-toast-success { border-color: rgba(46,204,113,0.4); }
+.offline-toast-error   { border-color: rgba(231,76,60,0.4); }
+.offline-toast-warn    { border-color: rgba(240,195,85,0.4); }
+.offline-toast-info    { border-color: rgba(52,152,219,0.4); }
+
+/* ── Downloads panel: section labels ─────────────────────── */
+.dp-section-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.35);
+  padding: 14px 4px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 2px;
+}
+.dp-section-label:first-child {
+  padding-top: 4px;
+}
+
+/* ── Downloads panel: per-row download button ────────────── */
+.dp-dl-btn {
+  background: rgba(240, 195, 85, 0.15);
+  color: #f0c355;
+  border: 1px solid rgba(240, 195, 85, 0.4);
+}
+.dp-dl-btn:active {
+  transform: scale(0.9);
+  background: rgba(240, 195, 85, 0.3);
+}
+
+/* ── Bottom nav: app-tab-label (Downloads text) ──────────── */
+.app-tab-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+.app-bottom-tab.active .app-tab-label,
+.app-bottom-tab:hover .app-tab-label {
+  opacity: 1;
+}

@@ -254,6 +254,41 @@ export default {{
       }});
     }}
 
+    // R2 Video Proxy — adds CORS headers so WebView XHR blob downloads work
+    // Usage: /api/video-proxy?file=module-1.mp4
+    if (path === "/api/video-proxy") {{
+      const file = url.searchParams.get("file");
+      if (!file || !/^[\w\-\.]+\.mp4$/i.test(file)) {{
+        return new Response("Invalid file", {{ status: 400 }});
+      }}
+      const r2Url = `https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/${{file}}`;
+      const rangeHeader = request.headers.get("Range");
+      const fetchHeaders = {{}};
+      if (rangeHeader) fetchHeaders["Range"] = rangeHeader;
+
+      try {{
+        const r2Res = await fetch(r2Url, {{ headers: fetchHeaders }});
+        const corsHeaders = {{
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+          "Access-Control-Allow-Headers": "Range, Content-Type",
+          "Access-Control-Expose-Headers": "Content-Length, Content-Range, Accept-Ranges"
+        }};
+        const resHeaders = {{}};
+        // Forward important headers from R2
+        for (const h of ["Content-Type","Content-Length","Content-Range","Accept-Ranges","ETag","Last-Modified"]) {{
+          const v = r2Res.headers.get(h);
+          if (v) resHeaders[h] = v;
+        }}
+        return new Response(r2Res.body, {{
+          status: r2Res.status,
+          headers: {{ ...resHeaders, ...corsHeaders }}
+        }});
+      }} catch(e) {{
+        return new Response("Proxy error: " + e.message, {{ status: 502 }});
+      }}
+    }}
+
     // Download APK route
     if (path === "/apk" || path === "/download" || path === "/download/apk" || path === "/app.apk" || path === "/ParentingProjectMyanmar.apk") {{
       return Response.redirect("https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk", 302);

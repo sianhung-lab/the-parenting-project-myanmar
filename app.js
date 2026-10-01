@@ -4733,30 +4733,23 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
   if (!mod) return;
 
   const isMy = lang === 'my';
-  const iframe = document.getElementById('mobile-cinema-iframe');
-  const video = document.getElementById('mobile-cinema-video');
-  const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
 
-  if (isFile) {
-    if (iframe) {
-      iframe.style.display = 'none';
-      iframe.src = '';
-    }
-    if (video) {
-      video.style.display = 'block';
-      video.src = mod.fileUrl;
-      video.load();
-      if (autoPlay) video.play().catch(e => console.log('Autoplay deferred:', e));
-    }
+  // Use offline-aware playback (checks IndexedDB first, then streams)
+  if (autoPlay) {
+    playOfflineOrOnline(modId);
   } else {
-    if (video) {
-      video.pause();
-      video.src = '';
-      video.style.display = 'none';
-    }
-    if (iframe) {
-      iframe.style.display = 'block';
-      iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1${autoPlay ? '&autoplay=1' : ''}`;
+    // Non-autoplay: just set up the source without playing
+    const iframe = document.getElementById('mobile-cinema-iframe');
+    const video = document.getElementById('mobile-cinema-video');
+    const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
+    if (isFile) {
+      if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
+      if (video) { video.style.display = 'block'; video.src = mod.fileUrl; }
+      showOfflineBadge(false);
+    } else {
+      if (video) { video.pause(); video.src = ''; video.style.display = 'none'; }
+      if (iframe) { iframe.style.display = 'block'; iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1`; }
+      showOfflineBadge(false);
     }
   }
 
@@ -5867,6 +5860,426 @@ window.switchAppTab = switchAppTab;
 window.showUpgradeNotification = showUpgradeNotification;
 window.dismissUpgradeNoti = dismissUpgradeNoti;
 
+// ============================================================
+// OFFLINE DOWNLOAD MANAGER — Netflix-Style Video Downloads
+// Videos stored in IndexedDB — private to this app only
+// ============================================================
+
+const OFFLINE_DB_NAME = 'PPM_OfflineVideos';
+const OFFLINE_DB_VERSION = 1;
+const OFFLINE_STORE = 'videos';
+
+let _offlineDB = null;
+let _activeDownloads = {}; // modId -> { xhr, progress }
+
+function openOfflineDB() {
+  return new Promise((resolve, reject) => {
+    if (_offlineDB) return resolve(_offlineDB);
+    const req = indexedDB.open(OFFLINE_DB_NAME, OFFLINE_DB_VERSION);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(OFFLINE_STORE)) {
+        db.createObjectStore(OFFLINE_STORE, { keyPath: 'modId' });
+      }
+    };
+    req.onsuccess = e => { _offlineDB = e.target.result; resolve(_offlineDB); };
+    req.onerror = e => reject(e.target.error);
+  });
+}
+
+async function getOfflineVideo(modId) {
+  try {
+    const db = await openOfflineDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(OFFLINE_STORE, 'readonly');
+      const req = tx.objectStore(OFFLINE_STORE).get(modId);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => resolve(null);
+    });
+  } catch(e) { return null; }
+}
+
+async function saveOfflineVideo(modId, blob, meta) {
+  const db = await openOfflineDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(OFFLINE_STORE, 'readwrite');
+    tx.objectStore(OFFLINE_STORE).put({ modId, blob, meta, savedAt: Date.now() });
+    tx.oncomplete = () => resolve();
+    tx.onerror = e => reject(e.target.error);
+  });
+}
+
+async function deleteOfflineVideo(modId) {
+  try {
+    const db = await openOfflineDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(OFFLINE_STORE, 'readwrite');
+      tx.objectStore(OFFLINE_STORE).delete(modId);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+    });
+  } catch(e) {}
+}
+
+async function getAllOfflineVideos() {
+  try {
+    const db = await openOfflineDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(OFFLINE_STORE, 'readonly');
+      const req = tx.objectStore(OFFLINE_STORE).getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => resolve([]);
+    });
+  } catch(e) { return []; }
+}
+
+function formatFileSize(bytes) {
+  if (!bytes) return '';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(0) + ' MB';
+}
+
+// Get the CORS-safe proxy URL for a module's video file
+function getProxyUrl(fileUrl) {
+  if (!fileUrl) return null;
+  // Extract filename from R2 URL e.g. module-1.mp4
+  const filename = fileUrl.split('/').pop();
+  // Route through our worker proxy which adds Access-Control-Allow-Origin: *
+  return `/api/video-proxy?file=${encodeURIComponent(filename)}`;
+}
+
+// Start download for a module
+async function startVideoDownload(modId) {
+  const mod = MODULES.find(m => m.id === modId);
+  if (!mod || !mod.fileUrl) {
+    showOfflineToast('⚠️ This module is not available for download.', 'warn');
+    return;
+  }
+  if (_activeDownloads[modId]) {
+    showOfflineToast('⏳ Already downloading...', 'info');
+    return;
+  }
+  const existing = await getOfflineVideo(modId);
+  if (existing) {
+    showOfflineToast('✅ Already downloaded!', 'success');
+    return;
+  }
+
+  showOfflineToast(`📥 Starting download: M${modId}...`, 'info');
+  updateChipDownloadState(modId, 'downloading', 0);
+
+  const proxyUrl = getProxyUrl(mod.fileUrl);
+  const xhr = new XMLHttpRequest();
+  _activeDownloads[modId] = { xhr, progress: 0 };
+
+  xhr.open('GET', proxyUrl, true);
+  xhr.responseType = 'blob';
+
+  xhr.onprogress = e => {
+    if (e.lengthComputable) {
+      const pct = Math.round((e.loaded / e.total) * 100);
+      _activeDownloads[modId].progress = pct;
+      updateChipDownloadState(modId, 'downloading', pct);
+      updateDownloadsPanelProgress(modId, pct, e.loaded, e.total);
+    }
+  };
+
+  xhr.onload = async () => {
+    if (xhr.status === 200) {
+      const blob = xhr.response;
+      await saveOfflineVideo(modId, blob, {
+        title: mod.title,
+        myTitle: mod.myTitle,
+        dur: mod.dur,
+        size: blob.size
+      });
+      delete _activeDownloads[modId];
+      updateChipDownloadState(modId, 'done', 100);
+      showOfflineToast(`✅ M${modId} saved for offline viewing!`, 'success');
+      renderDownloadsPanel();
+      // If this module is currently playing, switch to local blob
+      if (currentMobileModId === modId) {
+        playOfflineOrOnline(modId);
+      }
+    } else {
+      delete _activeDownloads[modId];
+      updateChipDownloadState(modId, 'none', 0);
+      showOfflineToast(`❌ Download failed (${xhr.status}). Try again.`, 'error');
+    }
+  };
+
+  xhr.onerror = () => {
+    delete _activeDownloads[modId];
+    updateChipDownloadState(modId, 'none', 0);
+    showOfflineToast('❌ Download failed. Check your connection.', 'error');
+  };
+
+  xhr.send();
+}
+
+function cancelVideoDownload(modId) {
+  if (_activeDownloads[modId]) {
+    _activeDownloads[modId].xhr.abort();
+    delete _activeDownloads[modId];
+    updateChipDownloadState(modId, 'none', 0);
+    showOfflineToast(`⏹ Download cancelled.`, 'info');
+    renderDownloadsPanel();
+  }
+}
+
+async function deleteOfflineAndRefresh(modId) {
+  await deleteOfflineVideo(modId);
+  updateChipDownloadState(modId, 'none', 0);
+  showOfflineToast(`🗑 Offline video deleted.`, 'info');
+  renderDownloadsPanel();
+}
+
+// Play from local blob if downloaded, else stream from R2
+async function playOfflineOrOnline(modId) {
+  const mod = MODULES.find(m => m.id === modId);
+  if (!mod) return;
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  const video = document.getElementById('mobile-cinema-video');
+  const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
+
+  if (isFile) {
+    const offline = await getOfflineVideo(modId);
+    if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
+    if (video) {
+      video.style.display = 'block';
+      // Revoke previous blob URL if any
+      if (video._blobUrl) { URL.revokeObjectURL(video._blobUrl); video._blobUrl = null; }
+      if (offline) {
+        const blobUrl = URL.createObjectURL(offline.blob);
+        video._blobUrl = blobUrl;
+        video.src = blobUrl;
+        // Show offline badge
+        showOfflineBadge(true);
+      } else {
+        video.src = mod.fileUrl;
+        showOfflineBadge(false);
+      }
+      video.load();
+      video.play().catch(e => console.log('Autoplay deferred:', e));
+    }
+  } else {
+    if (video) { video.pause(); video.src = ''; video.style.display = 'none'; }
+    if (iframe) {
+      iframe.style.display = 'block';
+      iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1&autoplay=1`;
+    }
+    showOfflineBadge(false);
+  }
+}
+
+function showOfflineBadge(show) {
+  let badge = document.getElementById('offline-playing-badge');
+  if (!badge) return;
+  badge.style.display = show ? 'flex' : 'none';
+}
+
+// UI: update the chip grid download icon state
+function updateChipDownloadState(modId, state, pct) {
+  // Update the small download btn next to the chip
+  const btn = document.getElementById(`dl-btn-m${modId}`);
+  if (!btn) return;
+  if (state === 'downloading') {
+    btn.innerHTML = `<span class="dl-icon dl-spinner"></span><span class="dl-pct">${pct}%</span>`;
+    btn.title = `Downloading ${pct}%... (tap to cancel)`;
+    btn.onclick = (e) => { e.stopPropagation(); cancelVideoDownload(modId); };
+    btn.classList.add('downloading');
+    btn.classList.remove('done');
+  } else if (state === 'done') {
+    btn.innerHTML = `<span class="dl-icon">⬇️</span>`;
+    btn.title = 'Downloaded – available offline';
+    btn.onclick = (e) => { e.stopPropagation(); openDownloadsPanel(); };
+    btn.classList.add('done');
+    btn.classList.remove('downloading');
+  } else {
+    btn.innerHTML = `<span class="dl-icon">⬇</span>`;
+    btn.title = 'Download for offline';
+    btn.onclick = (e) => { e.stopPropagation(); startVideoDownload(modId); };
+    btn.classList.remove('done', 'downloading');
+  }
+}
+
+function updateDownloadsPanelProgress(modId, pct, loaded, total) {
+  const bar = document.getElementById(`dp-bar-${modId}`);
+  const info = document.getElementById(`dp-info-${modId}`);
+  if (bar) bar.style.width = pct + '%';
+  if (info) info.textContent = `${formatFileSize(loaded)} / ${formatFileSize(total)} · ${pct}%`;
+}
+
+// ---- Downloads Panel (Netflix-style slide-up sheet) ----
+function openDownloadsPanel() {
+  const panel = document.getElementById('offline-downloads-panel');
+  const overlay = document.getElementById('offline-downloads-overlay');
+  if (!panel) return;
+  renderDownloadsPanel();
+  if (overlay) overlay.style.display = 'block';
+  panel.style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDownloadsPanel() {
+  const panel = document.getElementById('offline-downloads-panel');
+  const overlay = document.getElementById('offline-downloads-overlay');
+  if (!panel) return;
+  panel.style.transform = 'translateY(100%)';
+  if (overlay) overlay.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function renderDownloadsPanel() {
+  const list = document.getElementById('downloads-panel-list');
+  const storageEl = document.getElementById('downloads-storage-info');
+  if (!list) return;
+
+  const allDownloaded = await getAllOfflineVideos();
+  const activeIds = Object.keys(_activeDownloads).map(Number);
+  const downloadedIds = allDownloaded.map(v => v.modId);
+  const downloadable = MODULES.filter(m => m.fileUrl || m.videoType === 'file');
+
+  // Storage info
+  const totalBytes = allDownloaded.reduce((s, v) => s + (v.meta?.size || 0), 0);
+  if (storageEl) {
+    storageEl.textContent = allDownloaded.length > 0
+      ? `${allDownloaded.length} video${allDownloaded.length > 1 ? 's' : ''} saved · ${formatFileSize(totalBytes)} used`
+      : 'No videos downloaded yet';
+  }
+
+  // Update bottom tab badge
+  updateDownloadsTabBadge(allDownloaded.length + activeIds.length);
+
+  const sections = [];
+
+  // ── Section 1: Active Downloads ──────────────────────────
+  if (activeIds.length > 0) {
+    sections.push(`<div class="dp-section-label">Downloading</div>`);
+    for (const modId of activeIds) {
+      const mod = MODULES.find(m => m.id === modId);
+      if (!mod) continue;
+      const pct = _activeDownloads[modId].progress || 0;
+      sections.push(`
+        <div class="dp-row" id="dp-row-${modId}">
+          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
+          <div class="dp-row-body">
+            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
+            <div class="dp-progress-bar"><div class="dp-progress-fill" id="dp-bar-${modId}" style="width:${pct}%"></div></div>
+            <div class="dp-row-info" id="dp-info-${modId}">Downloading... ${pct}%</div>
+          </div>
+          <button class="dp-row-action dp-cancel" onclick="cancelVideoDownload(${modId})">✕</button>
+        </div>`);
+    }
+  }
+
+  // ── Section 2: Saved Offline ─────────────────────────────
+  if (allDownloaded.length > 0) {
+    sections.push(`<div class="dp-section-label">Saved for Offline</div>`);
+    for (const rec of allDownloaded) {
+      const mod = MODULES.find(m => m.id === rec.modId);
+      if (!mod) continue;
+      sections.push(`
+        <div class="dp-row" id="dp-row-${rec.modId}">
+          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
+          <div class="dp-row-body">
+            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
+            <div class="dp-row-sub">${mod.dur} mins &nbsp;·&nbsp; <span class="dp-offline-tag">📲 Offline</span> &nbsp;·&nbsp; ${formatFileSize(rec.meta?.size)}</div>
+          </div>
+          <div class="dp-row-btns">
+            <button class="dp-row-action dp-play" onclick="selectMobileModuleVideo(${rec.modId},true);closeDownloadsPanel();" title="Play">▶</button>
+            <button class="dp-row-action dp-delete" onclick="deleteOfflineAndRefresh(${rec.modId})" title="Delete">🗑</button>
+          </div>
+        </div>`);
+    }
+  }
+
+  // ── Section 3: Available to Download ─────────────────────
+  const notYet = downloadable.filter(m => !downloadedIds.includes(m.id) && !activeIds.includes(m.id));
+  if (notYet.length > 0) {
+    sections.push(`<div class="dp-section-label">Available to Download</div>`);
+    for (const mod of notYet) {
+      sections.push(`
+        <div class="dp-row">
+          <div class="dp-row-icon" style="background:${mod.grad}">${mod.icon}</div>
+          <div class="dp-row-body">
+            <div class="dp-row-title">M${mod.id}: ${mod.title}</div>
+            <div class="dp-row-sub">${mod.dur} mins</div>
+          </div>
+          <button class="dp-row-action dp-dl-btn" onclick="startVideoDownload(${mod.id});renderDownloadsPanel();" title="Download">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          </button>
+        </div>`);
+    }
+  }
+
+  if (sections.length === 0) {
+    list.innerHTML = `
+      <div class="dp-empty">
+        <div class="dp-empty-icon">✅</div>
+        <div class="dp-empty-title">All modules downloaded!</div>
+        <div class="dp-empty-sub">You can watch all videos without internet.</div>
+      </div>`;
+    return;
+  }
+
+  // If nothing downloaded and nothing active yet
+  if (allDownloaded.length === 0 && activeIds.length === 0 && notYet.length === downloadable.length) {
+    sections.unshift(`
+      <div class="dp-empty" style="padding:24px 20px 8px;">
+        <div class="dp-empty-icon">📥</div>
+        <div class="dp-empty-title">Save videos for offline</div>
+        <div class="dp-empty-sub">Download any module below to watch without internet — like Netflix!</div>
+      </div>`);
+  }
+
+  list.innerHTML = sections.join('');
+}
+
+// Update the Downloads tab badge count
+function updateDownloadsTabBadge(count) {
+  let badge = document.getElementById('downloads-tab-badge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// Download-all downloadable modules (queue)
+async function downloadAllModules() {
+  const downloadable = MODULES.filter(m => m.fileUrl || m.videoType === 'file');
+  for (const mod of downloadable) {
+    const existing = await getOfflineVideo(mod.id);
+    if (!existing && !_activeDownloads[mod.id]) {
+      await new Promise(resolve => setTimeout(resolve, 300)); // slight stagger
+      startVideoDownload(mod.id);
+    }
+  }
+  showOfflineToast('📥 Queued all available modules for download!', 'info');
+}
+
+// Toast notification
+function showOfflineToast(msg, type = 'info') {
+  let toast = document.getElementById('offline-toast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.className = `offline-toast offline-toast-${type} show`;
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// Init: refresh chip states on load
+async function initOfflineManager() {
+  const allSaved = await getAllOfflineVideos();
+  for (const rec of allSaved) {
+    updateChipDownloadState(rec.modId, 'done', 100);
+  }
+  updateDownloadsTabBadge(allSaved.length);
+}
+
 // INIT
 function initApp() {
   checkAppMode();
@@ -5888,12 +6301,16 @@ function initApp() {
   handleUrlActions();
   loadDynamicVideos();
   initMobileCinema();
+  initOfflineManager();
   updateMobileUserUI();
   loadLivePrayers();
 
   // Handle direct tab and modal deep links (?tab=prayer, ?modal=signin, ?modal=register, ?modal=settings)
   try {
     const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('demo') === '1' || urlParams.get('demo') === 'true') {
+      quickDemoLogin();
+    }
     const targetTab = urlParams.get('tab');
     if (targetTab) {
       switchAppTab(targetTab);
@@ -5905,6 +6322,9 @@ function initApp() {
       setTimeout(() => openInAppLoginModal('register'), 100);
     } else if (modalParam === 'settings') {
       setTimeout(() => openSettingsModal(), 100);
+    }
+    if (urlParams.get('panel') === 'downloads') {
+      setTimeout(() => openDownloadsPanel(), 200);
     }
   } catch(e) {}
 }

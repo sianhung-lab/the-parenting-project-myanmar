@@ -198,7 +198,9 @@
     <!-- 16:9 Video Player Frame -->
     <div class="mobile-cinema-player-frame">
       <iframe id="mobile-cinema-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1" title="The Parenting Project Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <video id="mobile-cinema-video" controls playsinline style="display:none;width:100%;height:100%;object-fit:contain;background:#000;border:none;"></video>
+      <video id="mobile-cinema-video" controls playsinline style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
+      <!-- Offline Playing Badge — inside frame so position:absolute works -->
+      <div id="offline-playing-badge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,180,80,0.92);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;align-items:center;gap:4px;z-index:10;">📲 OFFLINE</div>
     </div>
 
     <!-- 11-Module Video Cinema Stage Header -->
@@ -224,12 +226,10 @@
       <button type="button" class="mobile-chip-btn" id="chip-m11" onclick="selectMobileModuleVideo(11, true)">M11</button>
     </div>
 
-    <!-- Bottom Info Pill (Exact match to Photo 1) -->
+    <!-- Bottom Info Pill -->
     <div class="mobile-cinema-bottom-pill" id="mobile-cinema-bottom-pill">
       Module 1: Being a Positive Role Model | 45 mins
     </div>
-
-    <!-- Video Detail & Caption Card (Above Bottom Bar) -->
     <div class="mobile-video-caption-card" id="mobile-video-caption-card">
       <div class="caption-card-header">
         <div class="caption-card-badge" id="caption-card-badge">📖 Deuteronomy 6:6-7</div>
@@ -2277,6 +2277,13 @@
     </svg>
     <span class="app-tab-indicator"></span>
   </button>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-downloads" onclick="openDownloadsPanel()" aria-label="Downloads" style="position:relative;">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
+      <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+    </svg>
+    <span id="downloads-tab-badge" style="display:none;position:absolute;top:4px;right:calc(50% - 20px);background:#f0c355;color:#000;font-size:0.55rem;font-weight:900;min-width:16px;height:16px;border-radius:8px;padding:0 3px;align-items:center;justify-content:center;">0</span>
+    <span class="app-tab-indicator"></span>
+  </button>
   <button type="button" class="app-bottom-tab" id="btn-app-tab-account" onclick="openSettingsModal()" aria-label="Settings">
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
       <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
@@ -2440,5 +2447,42 @@
 </div>
 
 <script src="app.js"></script>
+
+<!-- =============================================
+     OFFLINE DOWNLOADS PANEL (Netflix-style sheet)
+     ============================================= -->
+<div id="offline-downloads-overlay" onclick="closeDownloadsPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;backdrop-filter:blur(3px);"></div>
+
+<div id="offline-downloads-panel" style="position:fixed;bottom:0;left:0;right:0;max-height:85vh;background:linear-gradient(180deg,#0d1b3e 0%,#09122a 100%);border-radius:24px 24px 0 0;z-index:9999;transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);overflow:hidden;box-shadow:0 -8px 40px rgba(0,0,0,0.6);">
+
+  <!-- Handle bar -->
+  <div style="display:flex;justify-content:center;padding:12px 0 0;">
+    <div style="width:40px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
+  </div>
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 10px;">
+    <div>
+      <div style="font-size:1.15rem;font-weight:800;color:#fff;">📲 My Downloads</div>
+      <div id="downloads-storage-info" style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">No videos downloaded yet</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button onclick="downloadAllModules()" style="background:linear-gradient(135deg,#f0c355,#e5a500);color:#000;font-size:0.7rem;font-weight:800;padding:7px 14px;border-radius:20px;border:none;cursor:pointer;">⬇ Download All</button>
+      <button onclick="closeDownloadsPanel()" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div style="height:1px;background:rgba(255,255,255,0.07);margin:0 20px;"></div>
+
+  <!-- List -->
+  <div id="downloads-panel-list" style="overflow-y:auto;max-height:calc(85vh - 130px);padding:12px 16px 40px;">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div id="offline-toast" class="offline-toast"></div>
+
 </body>
 </html>
