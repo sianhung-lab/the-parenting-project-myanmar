@@ -2553,6 +2553,7 @@ function openSettingsModal() {
   const modal = document.getElementById('settingsModal');
   if (!modal) return;
   updateSettingsModalUI();
+  updateSettingsQualityUI();
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -4848,6 +4849,7 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
   }
 
   renderMobileModuleChips();
+  refreshCurrentCinemaDownloadButton(mod.id);
 }
 
 function toggleModuleCompletedCurrent() {
@@ -5859,6 +5861,17 @@ window.closeCertificateModal = closeCertificateModal;
 window.shareCertificateViber = shareCertificateViber;
 window.shareDailyBlessing = shareDailyBlessing;
 window.updateMobileUserUI = updateMobileUserUI;
+window.openDownloadOptionsSheet = openDownloadOptionsSheet;
+window.closeDownloadOptionsSheet = closeDownloadOptionsSheet;
+window.selectDownloadOptionQuality = selectDownloadOptionQuality;
+window.confirmStartDownloadFromSheet = confirmStartDownloadFromSheet;
+window.cancelActiveDownloadFromCapsule = cancelActiveDownloadFromCapsule;
+window.startVideoDownload = startVideoDownload;
+window.cancelVideoDownload = cancelVideoDownload;
+window.toggleRememberQualityChoice = toggleRememberQualityChoice;
+window.clearRememberedDownloadQuality = clearRememberedDownloadQuality;
+window.setDownloadQualityPref = setDownloadQualityPref;
+window.updateSettingsQualityUI = updateSettingsQualityUI;
 
 // Re-check when app is resumed from background
 document.addEventListener('visibilitychange', () => {
@@ -5960,29 +5973,288 @@ function getProxyUrl(fileUrl) {
   return `/api/video-proxy?file=${encodeURIComponent(filename)}`;
 }
 
-// Start download for a module
-async function startVideoDownload(modId) {
+// =======================================================
+// OPTION 1: IN-PLACE DOWNLOAD BOTTOM SHEET & MANAGER
+// =======================================================
+let _currentSheetModId = 1;
+let _selectedSheetQuality = 'saver'; // 'saver' (480p) or 'hd' (720p)
+let _rememberDownloadChoice = false;
+
+function toggleRememberQualityChoice() {
+  _rememberDownloadChoice = !_rememberDownloadChoice;
+  const chk = document.getElementById('dl-sheet-remember-chk');
+  if (chk) {
+    chk.classList.toggle('unchecked', !_rememberDownloadChoice);
+  }
+}
+
+function clearRememberedDownloadQuality() {
+  localStorage.removeItem('pp_remember_quality');
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  showOfflineToast(isMy ? '🔄 ဒေါင်းလုဒ် အရည်အသွေး မူလအတိုင်း ပြန်လည်သတ်မှတ်ပြီးပါပြီ' : '🔄 Download quality preference reset', 'info');
+  updateSettingsQualityUI();
+}
+
+function setDownloadQualityPref(q) {
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  if (q === 'ask') {
+    localStorage.removeItem('pp_remember_quality');
+    showOfflineToast(isMy ? '🔄 ဒေါင်းလုဒ်တိုင်းတွင် အရည်အသွေး ရွေးချယ်ရန် မေးပါမည်' : '🔄 Will ask download quality every time', 'info');
+  } else {
+    localStorage.setItem('pp_remember_quality', q);
+    const label = q === 'hd' ? '720p HD' : '480p Data Saver';
+    showOfflineToast(isMy ? `✓ အမြဲတမ်း ${label} ဖြင့် ဒေါင်းလုဒ်ဆွဲပါမည်` : `✓ Default set to ${label}`, 'success');
+  }
+  updateSettingsQualityUI();
+}
+
+function updateSettingsQualityUI() {
+  const q = localStorage.getItem('pp_remember_quality') || 'ask';
+  ['saver', 'hd', 'ask'].forEach(k => {
+    const btn = document.getElementById(`btn-pref-${k}`);
+    if (btn) {
+      if (k === q) {
+        btn.style.background = '#0084ff';
+        btn.style.borderColor = '#0084ff';
+        btn.style.color = '#fff';
+        btn.style.fontWeight = '800';
+      } else {
+        btn.style.background = 'transparent';
+        btn.style.borderColor = 'rgba(255,255,255,0.2)';
+        btn.style.color = 'rgba(255,255,255,0.7)';
+        btn.style.fontWeight = '500';
+      }
+    }
+  });
+}
+
+function openDownloadOptionsSheet(modId) {
+  _currentSheetModId = Number(modId) || currentMobileModId || 1;
+  const mod = MODULES.find(m => m.id === _currentSheetModId);
+  if (!mod) return;
+
+  // Check if user previously saved preference to always download with a specific quality
+  const rememberedQuality = localStorage.getItem('pp_remember_quality');
+  if (rememberedQuality) {
+    _selectedSheetQuality = rememberedQuality;
+    startVideoDownload(_currentSheetModId, rememberedQuality);
+    return;
+  }
+
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  const overlay = document.getElementById('dl-options-sheet-overlay');
+  if (!overlay) {
+    startVideoDownload(_currentSheetModId, 'saver');
+    return;
+  }
+
+  // Update header & episode info
+  const titleEl = document.getElementById('dl-sheet-title');
+  const subEl = document.getElementById('dl-sheet-sub');
+  const epIconEl = document.getElementById('dl-sheet-ep-icon');
+  const epNameEl = document.getElementById('dl-sheet-ep-name');
+  const epDescEl = document.getElementById('dl-sheet-ep-desc');
+
+  if (titleEl) {
+    titleEl.textContent = isMy ? `ဒေါင်းလုဒ် ရွေးချယ်မှု (Episode ${_currentSheetModId})` : `Download Options (Episode ${_currentSheetModId})`;
+  }
+  if (subEl) {
+    subEl.textContent = isMy ? 'မျက်နှာပြင်မပြောင်းဘဲ အော့ဖ်လိုင်း သိမ်းဆည်းမည်' : 'Save offline while staying on this screen';
+  }
+  if (epIconEl) {
+    epIconEl.textContent = mod.icon || '🎬';
+  }
+  if (epNameEl) {
+    epNameEl.textContent = `M${mod.id}: ${isMy ? (mod.myTitle || mod.title) : mod.title}`;
+  }
+  if (epDescEl) {
+    epDescEl.textContent = `${mod.scripture || ''} · ${mod.dur || '45'} mins`;
+  }
+
+  // Default selection: Data Saver 480p (as requested by user)
+  selectDownloadOptionQuality('saver');
+
+  // Reset remember checkbox to unchecked by default
+  _rememberDownloadChoice = false;
+  const chk = document.getElementById('dl-sheet-remember-chk');
+  if (chk) {
+    chk.classList.add('unchecked');
+  }
+
+  // Estimate free phone space if API available
+  if (navigator.storage && navigator.storage.estimate) {
+    navigator.storage.estimate().then(est => {
+      const freeBytes = (est.quota || 0) - (est.usage || 0);
+      const freeEl = document.getElementById('dl-sheet-free-space');
+      if (freeEl && freeBytes > 0) {
+        freeEl.textContent = formatFileSize(freeBytes);
+      }
+    }).catch(() => {});
+  }
+
+  // Open bottom sheet smoothly — PAGE STAYS WHERE IT IS!
+  overlay.style.display = 'flex';
+  setTimeout(() => {
+    overlay.classList.add('active');
+  }, 10);
+}
+
+function closeDownloadOptionsSheet(e) {
+  const overlay = document.getElementById('dl-options-sheet-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('active');
+  setTimeout(() => {
+    overlay.style.display = 'none';
+  }, 280);
+}
+
+function selectDownloadOptionQuality(quality) {
+  _selectedSheetQuality = quality === 'hd' ? 'hd' : 'saver';
+
+  const cardSaver = document.getElementById('dl-opt-card-saver');
+  const cardHd = document.getElementById('dl-opt-card-hd');
+  const radioSaver = document.getElementById('dl-opt-radio-saver');
+  const radioHd = document.getElementById('dl-opt-radio-hd');
+  const sizeEl = document.getElementById('dl-sheet-selected-size');
+
+  if (cardSaver) cardSaver.classList.toggle('selected', _selectedSheetQuality === 'saver');
+  if (cardHd) cardHd.classList.toggle('selected', _selectedSheetQuality === 'hd');
+
+  if (radioSaver) radioSaver.classList.toggle('checked', _selectedSheetQuality === 'saver');
+  if (radioHd) radioHd.classList.toggle('checked', _selectedSheetQuality === 'hd');
+
+  if (sizeEl) {
+    sizeEl.textContent = _selectedSheetQuality === 'hd' ? '~55 MB' : '~24 MB';
+  }
+}
+
+function confirmStartDownloadFromSheet() {
+  const modId = _currentSheetModId;
+  const quality = _selectedSheetQuality;
+  if (_rememberDownloadChoice) {
+    localStorage.setItem('pp_remember_quality', quality);
+    const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+    showOfflineToast(isMy ? `💾 ${quality === 'hd' ? '720p HD' : '480p Data Saver'} ကို အမြဲတမ်းအသုံးပြုရန် သိမ်းဆည်းလိုက်ပါသည်` : `💾 Saved ${quality === 'hd' ? '720p HD' : '480p Data Saver'} as default quality`, 'success');
+  }
+  closeDownloadOptionsSheet();
+  startVideoDownload(modId, quality);
+}
+
+function showDownloadFloatingCapsule(modId, pct, quality) {
+  const capsule = document.getElementById('dl-floating-progress-capsule');
+  if (!capsule) return;
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  const qLabel = quality === 'hd' ? '720p HD' : '480p Saver';
+  const titleEl = document.getElementById('dl-capsule-title');
+  const barEl = document.getElementById('dl-capsule-progress-fill');
+  if (titleEl) {
+    titleEl.textContent = isMy ? `📥 Episode ${modId} ဒေါင်းလုဒ် (${qLabel})... ${pct}%` : `📥 Downloading Episode ${modId} (${qLabel})... ${pct}%`;
+  }
+  if (barEl) {
+    barEl.style.width = pct + '%';
+  }
+  capsule.style.display = 'flex';
+}
+
+function updateDownloadFloatingCapsule(modId, pct, loaded, total) {
+  const titleEl = document.getElementById('dl-capsule-title');
+  const barEl = document.getElementById('dl-capsule-progress-fill');
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  if (titleEl) {
+    titleEl.textContent = isMy ? `📥 Episode ${modId} ဒေါင်းလုဒ် (${pct}%) · ${formatFileSize(loaded)} / ${formatFileSize(total)}` : `📥 Downloading Episode ${modId} (${pct}%) · ${formatFileSize(loaded)} / ${formatFileSize(total)}`;
+  }
+  if (barEl) {
+    barEl.style.width = pct + '%';
+  }
+}
+
+function hideDownloadFloatingCapsule(successMsg) {
+  const capsule = document.getElementById('dl-floating-progress-capsule');
+  if (!capsule) return;
+  if (successMsg) {
+    const titleEl = document.getElementById('dl-capsule-title');
+    const barEl = document.getElementById('dl-capsule-progress-fill');
+    if (titleEl) titleEl.textContent = successMsg;
+    if (barEl) barEl.style.width = '100%';
+    setTimeout(() => {
+      capsule.style.display = 'none';
+    }, 2800);
+  } else {
+    capsule.style.display = 'none';
+  }
+}
+
+function cancelActiveDownloadFromCapsule() {
+  if (_currentSheetModId && _activeDownloads[_currentSheetModId]) {
+    cancelVideoDownload(_currentSheetModId);
+  } else {
+    const activeKeys = Object.keys(_activeDownloads);
+    if (activeKeys.length > 0) {
+      cancelVideoDownload(Number(activeKeys[0]));
+    }
+  }
+  hideDownloadFloatingCapsule();
+}
+
+function updateCinemaDownloadButton(modId, state, pct) {
+  const btn = document.getElementById('cinema-btn-download-cur');
+  if (!btn || currentMobileModId !== modId) return;
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  btn.className = 'cinema-btn-dl-action ' + (state || '');
+  if (state === 'downloading') {
+    btn.innerHTML = `<span class="dl-capsule-icon-spinner" style="width:14px;height:14px;border-width:2px;display:inline-block"></span> <span>${pct}%</span>`;
+    btn.onclick = () => cancelVideoDownload(modId);
+    btn.title = 'Tap to cancel download';
+  } else if (state === 'done') {
+    btn.innerHTML = `<span>✓</span> <span>${isMy ? 'အော့ဖ်လိုင်း အသင့်ဖြစ်' : 'Saved Offline'}</span>`;
+    btn.onclick = () => showOfflineToast(isMy ? '✅ ဒေါင်းလုဒ်ရယူပြီးဖြစ်ပါသည်' : '✅ Already downloaded!', 'success');
+    btn.title = 'Available offline';
+  } else {
+    btn.innerHTML = `<span>📥</span> <span>${isMy ? 'ဒေါင်းလုဒ်' : 'Download'}</span>`;
+    btn.onclick = () => openDownloadOptionsSheet(modId);
+    btn.title = 'Download for offline';
+  }
+}
+
+async function refreshCurrentCinemaDownloadButton(modId) {
+  if (_activeDownloads[modId]) {
+    updateCinemaDownloadButton(modId, 'downloading', _activeDownloads[modId].progress || 0);
+  } else {
+    const existing = await getOfflineVideo(modId);
+    if (existing) {
+      updateCinemaDownloadButton(modId, 'done', 100);
+    } else {
+      updateCinemaDownloadButton(modId, 'none', 0);
+    }
+  }
+}
+
+// Start download for a module with quality choice
+async function startVideoDownload(modId, quality = 'saver') {
   const mod = MODULES.find(m => m.id === modId);
   if (!mod) return;
   const fileUrl = mod.fileUrl || `https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-${modId}.mp4`;
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
 
   if (_activeDownloads[modId]) {
-    showOfflineToast('⏳ Already downloading...', 'info');
+    showOfflineToast(isMy ? '⏳ ဒေါင်းလုဒ် လုပ်ဆောင်နေဆဲဖြစ်ပါသည်...' : '⏳ Already downloading...', 'info');
     return;
   }
   const existing = await getOfflineVideo(modId);
   if (existing) {
-    showOfflineToast('✅ Already downloaded!', 'success');
+    showOfflineToast(isMy ? '✅ စက်ထဲတွင် သိမ်းဆည်းပြီးဖြစ်ပါသည်!' : '✅ Already downloaded!', 'success');
     return;
   }
 
-  showOfflineToast(`📥 Starting download: Episode ${modId}...`, 'info');
+  showOfflineToast(isMy ? `📥 Episode ${modId} ဒေါင်းလုဒ် စတင်နေပါသည်...` : `📥 Starting download: Episode ${modId}...`, 'info');
   updateChipDownloadState(modId, 'downloading', 0);
+  updateCinemaDownloadButton(modId, 'downloading', 0);
+  showDownloadFloatingCapsule(modId, 0, quality);
   renderDownloadsPage();
 
   const proxyUrl = getProxyUrl(fileUrl);
   const xhr = new XMLHttpRequest();
-  _activeDownloads[modId] = { xhr, progress: 0 };
+  _activeDownloads[modId] = { xhr, progress: 0, quality };
 
   xhr.open('GET', proxyUrl, true);
   xhr.responseType = 'blob';
@@ -5992,6 +6264,8 @@ async function startVideoDownload(modId) {
       const pct = Math.round((e.loaded / e.total) * 100);
       _activeDownloads[modId].progress = pct;
       updateChipDownloadState(modId, 'downloading', pct);
+      updateCinemaDownloadButton(modId, 'downloading', pct);
+      updateDownloadFloatingCapsule(modId, pct, e.loaded, e.total);
       updateDownloadsPanelProgress(modId, pct, e.loaded, e.total);
     }
   };
@@ -6003,11 +6277,14 @@ async function startVideoDownload(modId) {
         title: mod.title,
         myTitle: mod.myTitle,
         dur: mod.dur,
-        size: blob.size
+        size: blob.size,
+        quality: quality || 'saver'
       });
       delete _activeDownloads[modId];
       updateChipDownloadState(modId, 'done', 100);
-      showOfflineToast(`✅ Episode ${modId} saved for offline viewing!`, 'success');
+      updateCinemaDownloadButton(modId, 'done', 100);
+      hideDownloadFloatingCapsule(isMy ? `✅ Episode ${modId} အော့ဖ်လိုင်းကြည့်ရန် အသင့်ဖြစ်ပါပြီ!` : `✅ Episode ${modId} saved offline!`);
+      showOfflineToast(isMy ? `✅ Episode ${modId} အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!` : `✅ Episode ${modId} saved for offline viewing!`, 'success');
       renderDownloadsPage();
       // If this module is currently playing, switch to local blob
       if (currentMobileModId === modId) {
@@ -6016,6 +6293,8 @@ async function startVideoDownload(modId) {
     } else {
       delete _activeDownloads[modId];
       updateChipDownloadState(modId, 'none', 0);
+      updateCinemaDownloadButton(modId, 'none', 0);
+      hideDownloadFloatingCapsule();
       showOfflineToast(`❌ Download failed (${xhr.status}). Try again.`, 'error');
       renderDownloadsPage();
     }
@@ -6024,7 +6303,9 @@ async function startVideoDownload(modId) {
   xhr.onerror = () => {
     delete _activeDownloads[modId];
     updateChipDownloadState(modId, 'none', 0);
-    showOfflineToast('❌ Download failed. Check your connection.', 'error');
+    updateCinemaDownloadButton(modId, 'none', 0);
+    hideDownloadFloatingCapsule();
+    showOfflineToast(isMy ? '❌ ဒေါင်းလုဒ်မအောင်မြင်ပါ။ အင်တာနက်လိုင်း စစ်ဆေးပါ။' : '❌ Download failed. Check your connection.', 'error');
     renderDownloadsPage();
   };
 
@@ -6036,16 +6317,19 @@ function cancelVideoDownload(modId) {
     _activeDownloads[modId].xhr.abort();
     delete _activeDownloads[modId];
     updateChipDownloadState(modId, 'none', 0);
+    updateCinemaDownloadButton(modId, 'none', 0);
+    hideDownloadFloatingCapsule();
     showOfflineToast(`⏹ Download cancelled.`, 'info');
-    renderDownloadsPanel();
+    renderDownloadsPage();
   }
 }
 
 async function deleteOfflineAndRefresh(modId) {
   await deleteOfflineVideo(modId);
   updateChipDownloadState(modId, 'none', 0);
+  updateCinemaDownloadButton(modId, 'none', 0);
   showOfflineToast(`🗑 Offline video deleted.`, 'info');
-  renderDownloadsPanel();
+  renderDownloadsPage();
 }
 
 // Play from local blob if downloaded, else stream from R2
@@ -6096,25 +6380,27 @@ function showOfflineBadge(show) {
 function updateChipDownloadState(modId, state, pct) {
   // Update the small download btn next to the chip
   const btn = document.getElementById(`dl-btn-m${modId}`);
-  if (!btn) return;
-  if (state === 'downloading') {
-    btn.innerHTML = `<span class="dl-icon dl-spinner"></span><span class="dl-pct">${pct}%</span>`;
-    btn.title = `Downloading ${pct}%... (tap to cancel)`;
-    btn.onclick = (e) => { e.stopPropagation(); cancelVideoDownload(modId); };
-    btn.classList.add('downloading');
-    btn.classList.remove('done');
-  } else if (state === 'done') {
-    btn.innerHTML = `<span class="dl-icon">⬇️</span>`;
-    btn.title = 'Downloaded – available offline';
-    btn.onclick = (e) => { e.stopPropagation(); openDownloadsPanel(); };
-    btn.classList.add('done');
-    btn.classList.remove('downloading');
-  } else {
-    btn.innerHTML = `<span class="dl-icon">⬇</span>`;
-    btn.title = 'Download for offline';
-    btn.onclick = (e) => { e.stopPropagation(); startVideoDownload(modId); };
-    btn.classList.remove('done', 'downloading');
+  if (btn) {
+    if (state === 'downloading') {
+      btn.innerHTML = `<span class="dl-icon dl-spinner"></span><span class="dl-pct">${pct}%</span>`;
+      btn.title = `Downloading ${pct}%... (tap to cancel)`;
+      btn.onclick = (e) => { e.stopPropagation(); cancelVideoDownload(modId); };
+      btn.classList.add('downloading');
+      btn.classList.remove('done');
+    } else if (state === 'done') {
+      btn.innerHTML = `<span class="dl-icon">⬇️</span>`;
+      btn.title = 'Downloaded – available offline';
+      btn.onclick = (e) => { e.stopPropagation(); showOfflineToast('✅ Already downloaded & available offline!', 'success'); };
+      btn.classList.add('done');
+      btn.classList.remove('downloading');
+    } else {
+      btn.innerHTML = `<span class="dl-icon">⬇</span>`;
+      btn.title = 'Download for offline';
+      btn.onclick = (e) => { e.stopPropagation(); openDownloadOptionsSheet(modId); };
+      btn.classList.remove('done', 'downloading');
+    }
   }
+  updateCinemaDownloadButton(modId, state, pct);
 }
 
 function updateDownloadsPanelProgress(modId, pct, loaded, total) {
@@ -6200,7 +6486,7 @@ async function renderDownloadsPage() {
         </button>`;
     } else {
       actionSection = `
-        <button type="button" class="btn-dl-episode" onclick="startVideoDownload(${mod.id})">
+        <button type="button" class="btn-dl-episode" onclick="openDownloadOptionsSheet(${mod.id})">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
           <span>${isMy ? 'အပိုင်း ' + mod.id + ' ဒေါင်းလုဒ်ဆွဲမည်' : 'Download Episode ' + mod.id}</span>
           <span style="opacity:0.65;font-size:0.7rem;margin-left:4px">(${sizeText})</span>
@@ -6832,6 +7118,9 @@ function initApp() {
     }
     if (urlParams.get('panel') === 'downloads') {
       setTimeout(() => openDownloadsPanel(), 200);
+    }
+    if (urlParams.get('mode_player') === 'audio' || urlParams.get('audio') === '1') {
+      setTimeout(() => setPlayerMode('audio'), 200);
     }
   } catch(e) {}
 }

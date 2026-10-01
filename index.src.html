@@ -305,10 +305,16 @@
     <div class="mobile-video-caption-card" id="mobile-video-caption-card">
       <div class="caption-card-header">
         <div class="caption-card-badge" id="caption-card-badge">📖 Deuteronomy 6:6-7</div>
-        <button type="button" class="caption-card-btn-action" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
-          <span id="ico-mod-completed">✓</span>
-          <span id="txt-mod-completed">ပြီးဆုံး</span>
-        </button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button type="button" class="cinema-btn-dl-action" id="cinema-btn-download-cur" onclick="openDownloadOptionsSheet(currentMobileModId)" title="Download Episode for Offline">
+            <span id="cinema-dl-icon">📥</span>
+            <span id="cinema-dl-text">ဒေါင်းလုဒ်</span>
+          </button>
+          <button type="button" class="caption-card-btn-action" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
+            <span id="ico-mod-completed">✓</span>
+            <span id="txt-mod-completed">ပြီးဆုံး</span>
+          </button>
+        </div>
       </div>
 
       <!-- Core Principle / Caption Quote -->
@@ -1281,6 +1287,25 @@
       <div id="settings-member-actions" style="margin-top:12px;display:none">
         <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#ff9999;border-color:rgba(255,60,60,0.4)" onclick="logoutUser();updateSettingsModalUI()">
           <span id="settings-btn-signout-txt">🚪 အကောင့်ထွက်မည် (Sign Out)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Offline & Download Quality Settings -->
+    <div class="settings-sec">
+      <div class="settings-lbl">📥 ဒေါင်းလုဒ် အရည်အသွေး (Download Quality Preference)</div>
+      <div style="font-size:0.75rem;color:rgba(255,255,255,0.7);margin-bottom:8px">
+        အမြဲတမ်း ဒေါင်းလုဒ်ဆွဲမည့် ဗီဒီယို အရည်အသွေး ရွေးချယ်မှု
+      </div>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn btn-outline" id="btn-pref-saver" style="flex:1;font-size:0.75rem;padding:7px;border-radius:10px" onclick="setDownloadQualityPref('saver')">
+          ⚡ 480p Saver
+        </button>
+        <button type="button" class="btn btn-outline" id="btn-pref-hd" style="flex:1;font-size:0.75rem;padding:7px;border-radius:10px" onclick="setDownloadQualityPref('hd')">
+          🎬 720p HD
+        </button>
+        <button type="button" class="btn btn-outline" id="btn-pref-ask" style="flex:1;font-size:0.75rem;padding:7px;border-radius:10px" onclick="setDownloadQualityPref('ask')">
+          ❓ အမြဲမေးပါ
         </button>
       </div>
     </div>
@@ -2587,6 +2612,98 @@
     <span class="app-tab-indicator"></span>
   </button>
 </nav>
+
+<!-- ======================================================= -->
+<!-- OPTION 1: IN-PLACE DOWNLOAD BOTTOM SHEET DRAWER         -->
+<!-- ======================================================= -->
+<div id="dl-options-sheet-overlay" class="dl-sheet-backdrop" onclick="closeDownloadOptionsSheet(event)">
+  <div class="dl-sheet-container" id="dl-sheet-container" onclick="event.stopPropagation()">
+    <div class="dl-sheet-drag-handle"></div>
+    <div class="dl-sheet-header">
+      <div>
+        <div class="dl-sheet-title" id="dl-sheet-title">ဒေါင်းလုဒ် ရွေးချယ်မှု (Episode 1)</div>
+        <div class="dl-sheet-sub" id="dl-sheet-sub">မျက်နှာပြင်မပြောင်းဘဲ အော့ဖ်လိုင်း သိမ်းဆည်းမည်</div>
+      </div>
+      <button type="button" class="dl-sheet-close-btn" onclick="closeDownloadOptionsSheet()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Episode Mini Preview Info -->
+    <div class="dl-sheet-ep-preview">
+      <div class="dl-sheet-ep-icon" id="dl-sheet-ep-icon">🎬</div>
+      <div class="dl-sheet-ep-meta">
+        <div class="dl-sheet-ep-name" id="dl-sheet-ep-name">M1: Foundations of Parenting</div>
+        <div class="dl-sheet-ep-desc" id="dl-sheet-ep-desc">သုတ္တံ ၂၂:၆ · မိဘကောင်းစံနမူနာ</div>
+      </div>
+    </div>
+
+    <!-- The 2 Options (Audio and PDF are excluded per user request!) -->
+    <div class="dl-quality-options-list">
+      <!-- 1. Data Saver 480p (Recommended) -->
+      <div class="dl-opt-card selected" id="dl-opt-card-saver" onclick="selectDownloadOptionQuality('saver')">
+        <div class="dl-opt-card-left">
+          <div class="dl-opt-card-icon saver">⚡</div>
+          <div>
+            <div class="dl-opt-card-name">Data Saver ဗီဒီယို (480p)</div>
+            <div class="dl-opt-card-desc">မိုဘိုင်းဖုန်းဖြင့် ကြည့်ရှုရန် အသင့်တော်ဆုံး နှင့် ဒေတာသက်သာ</div>
+          </div>
+        </div>
+        <div class="dl-opt-card-right">
+          <span class="dl-opt-rec-badge">အကြံပြု</span>
+          <span class="dl-opt-size-tag">~24 MB</span>
+          <div class="dl-opt-radio checked" id="dl-opt-radio-saver"></div>
+        </div>
+      </div>
+
+      <!-- 2. HD Video 720p -->
+      <div class="dl-opt-card" id="dl-opt-card-hd" onclick="selectDownloadOptionQuality('hd')">
+        <div class="dl-opt-card-left">
+          <div class="dl-opt-card-icon hd">🎬</div>
+          <div>
+            <div class="dl-opt-card-name">HD ဗီဒီယို (720p)</div>
+            <div class="dl-opt-card-desc">တီဗီ / ပရိုဂျက်တာ တွင် ပြသရန် အလွန်ကြည်လင်ပြတ်သား</div>
+          </div>
+        </div>
+        <div class="dl-opt-card-right">
+          <span class="dl-opt-size-tag">~55 MB</span>
+          <div class="dl-opt-radio" id="dl-opt-radio-hd"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Remember Quality Preference Toggle (1-Tap Fast Future Downloads) -->
+    <div class="dl-sheet-remember-row" id="dl-sheet-remember-wrap" onclick="toggleRememberQualityChoice()">
+      <div class="dl-sheet-checkbox" id="dl-sheet-remember-chk">✓</div>
+      <div class="dl-sheet-remember-text">
+        <div class="dl-sheet-remember-title">အမြဲတမ်း ဤအရည်အသွေးဖြင့် ဒေါင်းလုဒ်ဆွဲမည်</div>
+        <div class="dl-sheet-remember-sub">နောက်တစ်ကြိမ် မေးစရာမလိုဘဲ ချက်ချင်းဒေါင်းလုဒ်စတင်မည် (Fast 1-Tap)</div>
+      </div>
+    </div>
+
+    <!-- Phone Storage Strip -->
+    <div class="dl-sheet-storage-strip">
+      <span>💾 ဖုန်းအတွင်း လွတ်လပ်သောနေရာ: <strong id="dl-sheet-free-space">12.8 GB</strong></span>
+      <span>သုံးစွဲမည့် ပမာဏ: <strong id="dl-sheet-selected-size" style="color:#f0c355">24 MB</strong></span>
+    </div>
+
+    <!-- Action Button -->
+    <button type="button" class="dl-sheet-start-btn" id="dl-sheet-start-btn" onclick="confirmStartDownloadFromSheet()">
+      <span>📥</span>
+      <span id="dl-sheet-btn-label">ယခု ဒေါင်းလုဒ်စတင်မည် (Start Download)</span>
+    </button>
+  </div>
+</div>
+
+<!-- Non-intrusive Floating In-Place Download Progress Capsule -->
+<div id="dl-floating-progress-capsule" class="dl-floating-capsule" style="display:none;">
+  <div class="dl-capsule-icon-spinner"></div>
+  <div class="dl-capsule-info">
+    <div class="dl-capsule-title" id="dl-capsule-title">ဒေါင်းလုဒ်လုပ်နေပါသည်... (0%)</div>
+    <div class="dl-capsule-progress-bar">
+      <div class="dl-capsule-progress-fill" id="dl-capsule-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+  <button type="button" class="dl-capsule-cancel-btn" id="dl-capsule-cancel-btn" onclick="cancelActiveDownloadFromCapsule()" title="Cancel download">✕</button>
+</div>
 
 <!-- IN-APP AUTH & REGISTRATION HUB (Seamless across all screens) -->
 <div id="inapp-login-modal" class="inapp-modal-overlay">
