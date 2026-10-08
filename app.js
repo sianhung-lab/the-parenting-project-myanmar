@@ -7954,36 +7954,76 @@ window.saveCurrentEpisodeNotes = saveCurrentEpisodeNotes;
 window.resumeFeaturedEpisode = resumeFeaturedEpisode;
 window.renderWindingEpisodesPath = renderWindingEpisodesPath;
 
+// --- Comprehensive Day & Dark Mood System ---
 function initAppTheme() {
-  const saved = localStorage.getItem('tpp_theme') || 'cozy';
-  applyAppTheme(saved);
+  initThemeMood();
+}
+
+function initThemeMood() {
+  const savedMood = localStorage.getItem('tpp_mood') || 'day';
+  applyThemeMood(savedMood, false);
+}
+
+function toggleThemeMood() {
+  const current = document.body.classList.contains('mood-dark') ? 'dark' : 'day';
+  const next = current === 'dark' ? 'day' : 'dark';
+  applyThemeMood(next, true);
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  showToast(next === 'dark' 
+    ? (isMy ? '🌙 ညဘက်အမှောင်စနစ် (Dark Mood) သို့ ပြောင်းလဲပြီးပါပြီ' : '🌙 Dark Mood Activated')
+    : (isMy ? '☀️ နေ့ခင်းဘက်အလင်းစနစ် (Day Mood) သို့ ပြောင်းလဲပြီးပါပြီ' : '☀️ Day Mood Activated')
+  );
 }
 
 function toggleAppTheme() {
-  const current = document.body.classList.contains('theme-dark') ? 'dark' : 'cozy';
-  const next = current === 'cozy' ? 'dark' : 'cozy';
-  applyAppTheme(next);
-  showToast(next === 'dark' ? '🌙 Midnight Navy Mode Active' : '☀️ Warm Linen Cozy Mode Active');
+  toggleThemeMood();
+}
+
+function applyThemeMood(mood, animate = true) {
+  try {
+    localStorage.setItem('tpp_mood', mood);
+    localStorage.setItem('tpp_theme', mood === 'day' ? 'cozy' : 'dark');
+  } catch(e) {}
+
+  const isDay = mood === 'day';
+  if (isDay) {
+    document.body.classList.remove('mood-dark', 'theme-dark');
+    document.documentElement.classList.remove('mood-dark', 'theme-dark');
+    document.body.classList.add('mood-day');
+    document.documentElement.classList.add('mood-day');
+  } else {
+    document.body.classList.remove('mood-day');
+    document.documentElement.classList.remove('mood-day');
+    document.body.classList.add('mood-dark', 'theme-dark');
+    document.documentElement.classList.add('mood-dark', 'theme-dark');
+  }
+
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  const icon = isDay ? '☀️' : '🌙';
+  const text = isDay ? (isMy ? 'နေ့ခင်း' : 'Day') : (isMy ? 'ညဘက်' : 'Night');
+
+  ['tpp-mobile-mood-btn', 'desktop-mood-btn', 'theme-toggle-btn', 'guest-settings-btn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      const ico = btn.querySelector('.mood-btn-icon') || btn.querySelector('#theme-icon');
+      const txt = btn.querySelector('.mood-btn-text') || btn.querySelector('#theme-text');
+      if (ico) ico.textContent = icon;
+      if (txt) txt.textContent = text;
+      if (btn.classList.contains('tpp-mood-toggle-btn')) {
+        btn.className = `tpp-mood-toggle-btn ${isDay ? 'is-day' : 'is-dark'}`;
+      }
+    }
+  });
 }
 
 function applyAppTheme(theme) {
-  try {
-    localStorage.setItem('tpp_theme', theme);
-  } catch(e) {}
-  const icon = document.getElementById('theme-icon');
-  const txt = document.getElementById('theme-text');
-  if (theme === 'dark') {
-    document.body.classList.add('theme-dark');
-    document.documentElement.classList.add('theme-dark');
-    if (icon) icon.textContent = '🌙';
-    if (txt) txt.textContent = 'Navy';
-  } else {
-    document.body.classList.remove('theme-dark');
-    document.documentElement.classList.remove('theme-dark');
-    if (icon) icon.textContent = '☀️';
-    if (txt) txt.textContent = 'Cozy';
-  }
+  applyThemeMood(theme === 'dark' ? 'dark' : 'day', false);
 }
+
+window.initThemeMood = initThemeMood;
+window.toggleThemeMood = toggleThemeMood;
+window.applyThemeMood = applyThemeMood;
+window.toggleAppTheme = toggleThemeMood;
 
 function toggleTakeawayCard(num) {
   const card = document.getElementById(`takeaway-card-${num}`);

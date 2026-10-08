@@ -171,8 +171,14 @@
         <div class="mobile-app-subtitle">CBN MasterClass</div>
       </div>
     </div>
-    <div class="mobile-app-actions" style="display:flex;align-items:center;gap:8px">
-      <button type="button" class="btn btn-outline btn-xs" id="mobile-app-lang-btn" onclick="toggleLang()" style="border-radius:14px;padding:4px 10px;font-size:0.74rem;color:#ffffff;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);cursor:pointer">
+    <div class="mobile-app-actions" style="display:flex;align-items:center;gap:6px">
+      <!-- Day / Dark Mood Toggle -->
+      <button type="button" class="tpp-mood-toggle-btn is-day" id="tpp-mobile-mood-btn" onclick="toggleThemeMood()" title="Day & Dark Mood">
+        <span class="mood-btn-icon">☀️</span>
+        <span class="mood-btn-text">နေ့ခင်း</span>
+      </button>
+
+      <button type="button" class="btn btn-outline btn-xs" id="mobile-app-lang-btn" onclick="toggleLang()" style="border-radius:14px;padding:4px 8px;font-size:0.72rem;cursor:pointer">
         🇲🇲 မြန်မာ
       </button>
       <div class="mobile-header-avatar" onclick="switchAppTab('account')" title="Profile / Account" style="cursor:pointer;position:relative">
@@ -1346,6 +1352,12 @@
       <a href="#faq" class="nav-link" id="nav-fq">FAQ</a>
     </nav>
     <div class="nav-right">
+      <!-- Day / Dark Mood Toggle (Desktop) -->
+      <button type="button" class="tpp-mood-toggle-btn is-day" id="desktop-mood-btn" onclick="toggleThemeMood()" title="Day & Dark Mood">
+        <span class="mood-btn-icon">☀️</span>
+        <span class="mood-btn-text">နေ့ခင်း</span>
+      </button>
+
       <button id="lang-btn" class="lang-btn">🇲🇲 မြန်မာ</button>
       
       <!-- Guest Settings / Admin Unlock Button -->

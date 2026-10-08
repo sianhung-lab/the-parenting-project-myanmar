@@ -11735,3 +11735,286 @@ body.is-mobile-app .tpp-trans-col.victory-amber,
   line-height: 1.15;
   margin-top: 1px;
 }
+
+/* ========================================================================== */
+/* DUAL DAY & DARK MOOD SYSTEM (☀️ Luminous Warm Daylight & 🌙 Cinema Luxury) */
+/* ========================================================================== */
+
+/* Default / Transitions */
+body, #mobile-app-bar, .tpp-hero-banner-card, .tpp-section-card, .tpp-stat-chip,
+.tpp-photo-story-card, .tpp-pillar-photo-card, .tpp-opt4-spotlight, .tpp-trans-col,
+.tpp-bottom-app-bar, #navbar {
+  transition: background-color 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* Mood Toggle Buttons */
+.tpp-mood-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  line-height: 1;
+}
+.tpp-mood-toggle-btn.is-day {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1.5px solid #fde68a !important;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2) !important;
+}
+.tpp-mood-toggle-btn.is-dark {
+  background: rgba(15, 23, 42, 0.85) !important;
+  color: #38bdf8 !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.4) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+}
+.tpp-mood-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* -------------------------------------------------------------------------- */
+/* ☀️ DAY MOOD (Active by Default / User Selected)                            */
+/* -------------------------------------------------------------------------- */
+body.mood-day {
+  background-color: #f7f9fc !important;
+  background-image: 
+    radial-gradient(ellipse at 50% -50px, rgba(254, 240, 199, 0.6) 0%, rgba(240, 246, 255, 0.5) 45%, rgba(247, 249, 252, 0) 80%),
+    linear-gradient(180deg, #fbfcfe 0%, #f4f7fb 100%) !important;
+  color: #0f1c30 !important;
+}
+
+/* Mobile & Desktop Headers */
+body.mood-day #mobile-app-bar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 14px rgba(7, 22, 44, 0.04) !important;
+}
+body.mood-day .mobile-app-title {
+  color: #07162c !important;
+}
+body.mood-day .mobile-app-subtitle {
+  color: #b47804 !important;
+}
+body.mood-day #mobile-app-lang-btn {
+  background: #f1f5f9 !important;
+  color: #07162c !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Desktop Navbar */
+body.mood-day #navbar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(7, 22, 44, 0.05) !important;
+}
+body.mood-day #navbar .logo-main {
+  color: #07162c !important;
+}
+body.mood-day #navbar .nav-link {
+  color: #475569 !important;
+}
+body.mood-day #navbar .nav-link:hover,
+body.mood-day #navbar .nav-link.active {
+  color: #07162c !important;
+  background: #f1f5f9 !important;
+}
+
+/* Hero Card in Day Mood */
+body.mood-day .tpp-hero-banner-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 12px 36px rgba(7, 22, 44, 0.07) !important;
+}
+body.mood-day .tpp-hero-img-overlay {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(255,255,255,0.92) 90%, #ffffff 100%) !important;
+}
+body.mood-day .tpp-hero-main-title {
+  color: #07162c !important;
+}
+body.mood-day .tpp-hero-sub-title,
+body.mood-day .tpp-hero-desc {
+  color: #475569 !important;
+}
+body.mood-day .tpp-btn-learn-vision {
+  background: #f1f5f9 !important;
+  color: #07162c !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Stat Ribbon in Day Mood */
+body.mood-day .tpp-stat-chip {
+  background: #ffffff !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 4px 14px rgba(7, 22, 44, 0.04) !important;
+}
+body.mood-day .tpp-stat-lbl {
+  color: #64748b !important;
+}
+
+/* Section Cards in Day Mood */
+body.mood-day .tpp-section-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 30px rgba(7, 22, 44, 0.05) !important;
+}
+body.mood-day .tpp-section-eyebrow {
+  color: #b47804 !important;
+}
+body.mood-day .tpp-section-title {
+  color: #07162c !important;
+}
+
+/* Vision Poster in Day Mood */
+body.mood-day .tpp-vision-poster {
+  background: radial-gradient(ellipse at 50% -20%, #fffbf0 0%, #ffffff 60%, #f0f5ff 100%) !important;
+  border: 1.5px solid #fde68a !important;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.08) !important;
+}
+body.mood-day .tpp-poster-quote {
+  color: #07162c !important;
+  text-shadow: none !important;
+}
+body.mood-day .tpp-poster-sub {
+  color: #475569 !important;
+}
+body.mood-day .tpp-poster-kicker {
+  color: #b45309 !important;
+}
+
+/* Mission Visual Cards in Day Mood */
+body.mood-day .tpp-mission-visual-card {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+body.mood-day .tpp-mission-visual-title {
+  color: #07162c !important;
+}
+body.mood-day .tpp-mission-visual-desc {
+  color: #64748b !important;
+}
+
+/* Benefits Row in Day Mood */
+body.mood-day .tpp-benefit-pill {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+body.mood-day .tpp-benefit-pill strong {
+  color: #07162c !important;
+}
+body.mood-day .tpp-benefit-pill span {
+  color: #b45309 !important;
+}
+
+/* Milestones in Day Mood */
+body.mood-day .tpp-trans-col.victory-amber {
+  background: #fffbeb !important;
+  border: 1.5px solid #fde68a !important;
+}
+body.mood-day .tpp-trans-col.victory-amber .tpp-trans-badge.gold {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+}
+body.mood-day .tpp-trans-col.victory-amber h5 {
+  color: #07162c !important;
+}
+body.mood-day .tpp-trans-col.victory-amber .tpp-trans-list li strong {
+  color: #07162c !important;
+}
+body.mood-day .tpp-trans-col.victory-amber .tpp-trans-list li span {
+  color: #64748b !important;
+}
+
+body.mood-day .tpp-trans-col.victory {
+  background: #ecfdf5 !important;
+  border: 1.5px solid #a7f3d0 !important;
+}
+body.mood-day .tpp-trans-col.victory .tpp-trans-badge.green {
+  background: #d1fae5 !important;
+  color: #047857 !important;
+}
+body.mood-day .tpp-trans-col.victory h5 {
+  color: #07162c !important;
+}
+body.mood-day .tpp-trans-col.victory .tpp-trans-list li strong {
+  color: #07162c !important;
+}
+body.mood-day .tpp-trans-col.victory .tpp-trans-list li span {
+  color: #059669 !important;
+}
+
+/* 4 Pillars in Day Mood */
+body.mood-day .tpp-pillar-photo-card {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 6px 18px rgba(7, 22, 44, 0.08) !important;
+}
+body.mood-day .tpp-3d-pillar-emblem {
+  background: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Option 4 Spotlight in Day Mood */
+body.mood-day .tpp-opt4-spotlight {
+  background: radial-gradient(ellipse at 50% -20%, #fffbf0 0%, #ffffff 50%, #f4f8ff 100%) !important;
+  border: 2px solid #fde68a !important;
+  box-shadow: 0 12px 36px rgba(217, 119, 6, 0.1), inset 0 0 30px rgba(254, 243, 199, 0.4) !important;
+}
+body.mood-day .tpp-opt4-headline {
+  color: #07162c !important;
+}
+body.mood-day .tpp-opt4-subtext {
+  color: #475569 !important;
+}
+body.mood-day .opt4-idea-btn {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03) !important;
+}
+body.mood-day .opt4-idea-btn strong {
+  color: #07162c !important;
+}
+body.mood-day .opt4-idea-btn span {
+  color: #64748b !important;
+}
+body.mood-day .opt4-idea-btn.active {
+  background: #fffbeb !important;
+  border-color: #f59e0b !important;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2) !important;
+}
+body.mood-day .opt4-idea-btn.active strong {
+  color: #b45309 !important;
+}
+
+/* Bottom App Bar in Day Mood */
+body.mood-day .mobile-bottom-nav,
+body.mood-day .tpp-bottom-app-bar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -4px 14px rgba(7, 22, 44, 0.04) !important;
+}
+body.mood-day .mobile-nav-item,
+body.mood-day .app-nav-btn {
+  color: #64748b !important;
+}
+body.mood-day .mobile-nav-item.active,
+body.mood-day .app-nav-btn.active {
+  color: #d97706 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 🌙 DARK MOOD (Cinema Luxury Dark)                                          */
+/* -------------------------------------------------------------------------- */
+body.mood-dark {
+  background-color: #040c1a !important;
+  background-image: radial-gradient(ellipse at 50% 0%, #0d2854 0%, #06152b 60%, #040c1a 100%) !important;
+  color: #ffffff !important;
+}
+
