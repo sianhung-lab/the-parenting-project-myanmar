@@ -1050,6 +1050,8 @@ function applyLang() {
   renderTestimonials();
   renderFAQ();
   if (typeof updateVideoCarouselLanguage === 'function') updateVideoCarouselLanguage();
+  if (typeof updateTppHomeLanguage === 'function') updateTppHomeLanguage(lang === 'my');
+  if (typeof updateHomeProgressUI === 'function') updateHomeProgressUI();
   
   // Re-render quiz if currently active
   const qScreen = document.getElementById('quiz-q-screen');
@@ -1603,8 +1605,8 @@ function renderReg() {
 // ==========================================
 // GOOGLE SHEETS LIVE DATA SYNC (Single Primary + Failover & Client Deduplication)
 // ==========================================
-const GS_WEBHOOK_URL_PRIMARY = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
-const GS_WEBHOOK_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GS_WEBHOOK_URL_PRIMARY = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GS_WEBHOOK_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
 
 // Anti-duplicate tracker to prevent rapid-fire redundant dispatches
 const _recentSubmissions = new Set();
@@ -4878,20 +4880,371 @@ function saveCompletedModules(arr) {
   renderMobileModuleChips();
 }
 
-function updateMobileProgressUI() {
+
+function updateHomeProgressUI() {
   const completed = getCompletedModules();
   const count = completed.length;
   const pct = Math.round((count / 11) * 100);
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
 
-  const countEl = document.getElementById('mobile-progress-count');
-  if (countEl) {
-    countEl.textContent = `${count} of 11 Completed (${pct}%)`;
+  // Update TPP Home Page Mission & Vision Bilingual Elements
+  if (typeof updateTppHomeLanguage === 'function') {
+    updateTppHomeLanguage(isMy);
   }
-  const fillEl = document.getElementById('mobile-progress-fill');
-  if (fillEl) {
-    fillEl.style.width = `${pct}%`;
+
+  // 1. Bilingual Labels for Hero Card
+  const heroTitle = document.getElementById('home-hero-title');
+  if (heroTitle) heroTitle.textContent = isMy ? 'သင်၏ (၁၁) ပိုင်း ခရီးစဉ်' : 'Your 11-Episode Journey';
+
+  const ringLbl = document.getElementById('hero-ring-lbl');
+  if (ringLbl) ringLbl.textContent = isMy ? 'ပြီးဆုံး' : 'Complete';
+
+  const statLbl = document.getElementById('hero-stat-lbl');
+  if (statLbl) statLbl.textContent = isMy ? 'ခရီးစဉ် ပြီးဆုံးမှု' : 'Journey Done';
+
+  const quoteEl = document.getElementById('home-hero-quote');
+  if (quoteEl) quoteEl.textContent = isMy ? '«သားသမီးများကို ခြေလှမ်းတိုင်းတွင် မေတ္တာဖြင့် ပျိုးထောင်ပါ»' : 'Raising happy kids, one tiny step at a time';
+
+  const resumeBtn = document.getElementById('btn-home-resume');
+  if (resumeBtn) {
+    const span = resumeBtn.querySelector('span') || resumeBtn;
+    span.textContent = isMy ? 'ဆက်လက်ကြည့်ရှုမည်' : 'Resume Episode';
+  }
+
+  const milestonesTxt = document.getElementById('txt-upcoming-milestones');
+  if (milestonesTxt) milestonesTxt.textContent = isMy ? 'ရှေ့ဆက် လေ့လာရမည့် ခရီးစဉ်များ' : 'Upcoming Milestones';
+
+  const pathTitle = document.getElementById('path-top-title');
+  if (pathTitle) pathTitle.textContent = isMy ? '(၁၁) ပိုင်း လေ့လာမှု ခရီးစဉ်' : 'The 11-Episode Path';
+
+  // 2. Circular Progress Ring (Donut)
+  const ring = document.getElementById('hero-progress-ring');
+  if (ring) {
+    const circumference = 238.76;
+    ring.style.strokeDashoffset = circumference - (circumference * pct / 100);
+  }
+  const countEl = document.getElementById('hero-ring-count');
+  if (countEl) countEl.textContent = `${count} / 11`;
+
+  // 3. Stat Card
+  const pctEl = document.getElementById('hero-stat-pct');
+  if (pctEl) pctEl.textContent = `${pct}%`;
+
+  // 4. Featured Episode Card ("Resume Episode")
+  const featMod = MODULES.find(m => !completed.includes(m.id)) || MODULES[3] || MODULES[0];
+
+  const badgeEl = document.getElementById('feat-ep-label');
+  if (badgeEl) badgeEl.textContent = isMy ? `အပိုင်း ${featMod.id}:` : `EPISODE ${featMod.id}:`;
+
+  const titleEl = document.getElementById('feat-ep-title');
+  if (titleEl) {
+    if (featMod.id === 4) {
+      titleEl.textContent = isMy ? 'ကလေးငယ်များ၏ ဒေါသကို စိတ်ရှည်စွာ ဖြေရှင်းခြင်း' : 'Resolving Toddler Tantrums';
+    } else {
+      titleEl.textContent = isMy ? (featMod.myTitle || featMod.title) : featMod.title;
+    }
+  }
+
+  const durEl = document.getElementById('feat-ep-dur');
+  if (durEl) durEl.textContent = isMy ? `(၁၅ မိနစ်)` : `(15 min)`;
+
+  const thumbEl = document.getElementById('feat-thumb-img');
+  if (thumbEl) {
+    thumbEl.src = 'parent_toddler_cozy.jpg';
+  }
+
+  // 4. Upcoming Milestones List
+  const listEl = document.getElementById('home-milestones-list');
+  if (listEl) {
+    const upcomingMods = MODULES.filter(m => m.id > featMod.id);
+    const displayList = upcomingMods.length > 0 ? upcomingMods : MODULES.filter(m => m.id !== featMod.id).slice(0, 4);
+
+    listEl.innerHTML = displayList.map(m => {
+      const isDone = completed.includes(m.id);
+      const isNext = m.id === featMod.id + 1 || m.id === 5;
+      let modTitle = isMy ? (m.myTitle || m.title) : m.title;
+      let thumbImg = getVideoThumbSrc(m);
+      if (m.id === 5) {
+        modTitle = isMy ? 'အိပ်ရာဝင် အလေ့အထ ဖန်တီးခြင်း' : 'The Bedtime Routine Magic (10m)';
+        thumbImg = 'bedtime_toddler.jpg';
+      } else if (m.id === 6) {
+        modTitle = isMy ? 'ကျန်းမာသော စည်းကမ်းနှင့် ကန့်သတ်ချက်များ' : 'Setting Healthy Boundaries';
+      }
+
+      let actionIconHtml = '';
+      if (isDone) {
+        actionIconHtml = '<div class="milestone-item-action play" style="background:#eaf3eb;color:#4d8256;">✓</div>';
+      } else if (isNext) {
+        actionIconHtml = '<div class="milestone-item-action play">▶</div>';
+      } else {
+        actionIconHtml = '<div class="milestone-item-action locked">🔒</div>';
+      }
+
+      return `
+        <div class="milestone-item-row" onclick="selectMobileModuleVideo(${m.id}, true); switchAppTab('cinema');">
+          <img src="${thumbImg}" alt="${modTitle}" class="milestone-item-thumb"/>
+          <div class="milestone-item-info">
+            <div class="milestone-item-title">Episode ${m.id}: ${modTitle}</div>
+            <div class="milestone-item-meta">${m.dur || 15} mins · ${isDone ? 'Completed' : (isNext ? 'Next Episode' : 'Upcoming')}</div>
+          </div>
+          ${actionIconHtml}
+        </div>
+      `;
+    }).join('');
   }
 }
+
+function updateTppHomeLanguage(isMy) {
+  const mainTitle = document.getElementById('tpp-home-main-title');
+  const subTitle = document.getElementById('tpp-home-sub-title');
+  const heroDesc = document.getElementById('tpp-home-hero-desc');
+  const btnStart = document.getElementById('tpp-btn-txt-start');
+  const btnVision = document.getElementById('tpp-btn-txt-vision');
+
+  if (mainTitle) {
+    mainTitle.textContent = isMy ? 'အသင်းတော်များနှင့် လက်တွဲ၍ ခရစ်တော်ဗဟိုပြု မိသားစုများကို ပျိုးထောင်ခြင်း' : 'Partnering With Local Churches to Build Christ-Centered Families';
+  }
+  if (subTitle) {
+    subTitle.textContent = isMy ? 'Building Christ-Centered Families, Together With the Church' : 'အသင်းတော်များနှင့် လက်တွဲ၍ ခရစ်တော်ဗဟိုပြု မိသားစုများကို ပျိုးထောင်ခြင်း';
+  }
+  if (heroDesc) {
+    heroDesc.textContent = isMy 
+      ? 'နေ့စဉ် အော်ဟစ်ဆူပူခြင်းနှင့် ပင်ပန်းနွမ်းနယ်ခြင်းမှသည်... နွေးထွေးသော နားလည်မှု၊ မေတ္တာပြည့်ဝသော ဆက်ဆံရေးနှင့် ဘုရားသခင်၏ ငြိမ်သက်ခြင်းဆီသို့။ မြန်မာပြည်ရှိ ခရစ်ယာန် မိသားစုတိုင်းအတွက် CBN မှ အခမဲ့ ပေးအပ်သော မော်ဂျူး (၁၁) ခု လက်တွေ့ လမ်းညွှန်။'
+      : "Moving from daily shouting and parental exhaustion to calm biblical connection, grace, and lifelong joy. An official 11-module discipleship journey created by CBN Asia to empower Christian homes across Myanmar.";
+  }
+  if (btnStart) btnStart.textContent = isMy ? '▶ စတင်လေ့လာမည် (Module 1)' : '▶ Start Module 1 (45 mins)';
+  if (btnVision) btnVision.textContent = isMy ? '📜 ရူပါရုံနှင့် မစ်ရှင်' : '📜 Vision & Mission';
+
+  // Trust items
+  const tr1h = document.getElementById('tpp-tr-1-h');
+  const tr1d = document.getElementById('tpp-tr-1-d');
+  const tr2h = document.getElementById('tpp-tr-2-h');
+  const tr2d = document.getElementById('tpp-tr-2-d');
+  const tr3h = document.getElementById('tpp-tr-3-h');
+  const tr3d = document.getElementById('tpp-tr-3-d');
+  if (tr1h) tr1h.textContent = isMy ? 'အသင်းတော်များ အခမဲ့' : '100% Free For Churches';
+  if (tr1d) tr1d.textContent = isMy ? '100% Free Church Kit' : 'Curriculum & Invitation Kits';
+  if (tr2h) tr2h.textContent = isMy ? 'မော်ဂျူး ၁၁ ခု စုံလင်စွာ' : '11 Video Modules';
+  if (tr2d) tr2d.textContent = isMy ? 'Real-Life Video Cinema' : 'Real-Life Cinema MasterClass';
+  if (tr3h) tr3h.textContent = isMy ? 'တရားဝင် လက်မှတ်' : 'CBN Certificate';
+  if (tr3d) tr3d.textContent = isMy ? 'Accredited Certificate' : 'Accredited Family Milestone';
+
+  // About TPP Section
+  const aboutTitle = document.getElementById('tpp-txt-about-title');
+  const aboutLead = document.getElementById('tpp-txt-about-lead');
+  const aboutQuote = document.getElementById('tpp-txt-about-quote');
+  if (aboutTitle) aboutTitle.textContent = isMy ? 'The Parenting Project (TPP) ဆိုတာ ဘာလဲ' : 'What is The Parenting Project (TPP)?';
+  if (aboutLead) {
+    aboutLead.innerHTML = isMy
+      ? 'The Parenting Project (<strong style="color:#d4af37">theparentingproject.id</strong>) သည် ကမ္ဘာကျော် ခရစ်ယာန် ရုပ်သံကွန်ရက် <strong>CBN (Christian Broadcasting Network)</strong> မှ ဒေသန္တရ အသင်းတော်များနှင့် လက်တွဲကာ ခရစ်ယာန် မိသားစုများကို အားဖြည့်ပေးရန် ဖန်တီးထားသော အဆင့်မြင့် မိဘတပည့်တော်ဖြစ်စေခြင်း စီမံကိန်း ဖြစ်ပါသည်။'
+      : 'The Parenting Project (<strong style="color:#d4af37">theparentingproject.id</strong>) is a family discipleship initiative by <strong>CBN (Christian Broadcasting Network)</strong>, partnering with local churches to raise emotionally resilient, Christ-centered generations.';
+  }
+  if (aboutQuote) {
+    aboutQuote.textContent = isMy
+      ? '«မိဘအုပ်ထိန်းမှု သီအိုရီများသာမကဘဲ အိမ်ထောင်တိုင်း နေ့စဉ်ဘဝတွင် ချက်ချင်းလက်တွေ့ ကျင့်သုံးနိုင်သော နည်းလမ်းများ၊ နက်ရှိုင်းသော စိတ်ခံစားမှု ဆက်ဆံရေးနှင့် ဘုရားသခင်၏ နှုတ်ကပတ်တော် သမ္မာတရားကို ပေါင်းစပ်ဖော်ပြထားခြင်း ဖြစ်ပါသည်။»'
+      : '"Not dry academic theory, but real-life daily habits for everyday homes — blending emotional safety, authentic role-modeling, and eternal biblical truth."';
+  }
+
+  // Features Bullets
+  const f1h = document.getElementById('tpp-feat-1-h');
+  const f1d = document.getElementById('tpp-feat-1-d');
+  const f2h = document.getElementById('tpp-feat-2-h');
+  const f2d = document.getElementById('tpp-feat-2-d');
+  const f3h = document.getElementById('tpp-feat-3-h');
+  const f3d = document.getElementById('tpp-feat-3-d');
+  if (f1h) f1h.textContent = isMy ? 'ရယ်မောလွယ်ပြီး လက်တွေ့ဘဝ ဇာတ်လမ်းများ:' : 'Relatable, Real-Life Storytelling:';
+  if (f1d) f1d.textContent = isMy ? 'မိဘများကို အပြစ်တင်ဆုံးမခြင်း မဟုတ်ဘဲ အိမ်တိုင်းကြုံတွေ့ရသော အခက်အခဲများကို ဟာသနှင့် ရိုးသားပွင့်လင်းစွာ ဖော်ထုတ်ကာ အတူတကွ ဖြေရှင်းနည်းကို သင်ကြားပေးသည်။' : 'No lecturing or parental guilt. Genuine vulnerability and relatable humor addressing the exact daily struggles modern parents face.';
+  if (f2h) f2h.textContent = isMy ? 'ချက်ချင်း အသုံးချနိုင်သော အလေ့အကျင့်များ:' : 'Immediate 30-Minute Family Practices:';
+  if (f2d) f2d.textContent = isMy ? 'ဖုန်းမျက်နှာပြင်များ ပိတ်ထားပြီး သားသမီးနှင့် မိနစ် ၃၀ နှစ်ကိုယ်ကြား နားထောင်ပေးခြင်း၊ ကောင်းချီးပေး ဆုတောင်းခြင်း စသည့် လက်တွေ့ အလေ့အထများ ပါဝင်သည်။' : 'Screen-free one-on-one connection times, active listening exercises, and practical bedtime blessings you can implement tonight.';
+  if (f3h) f3h.textContent = isMy ? 'ဒေသန္တရ အသင်းတော်များကို အခမဲ့ အားဖြည့်ပေးခြင်း:' : 'Turnkey Tools for Every Local Church:';
+  if (f3d) f3d.textContent = isMy ? 'သင်းအုပ်ဆရာများနှင့် အသင်းတော်များ အခမဲ့ အသုံးပြုနိုင်ရန် Canva A5 ဖိတ်စာများ၊ ဆွေးနွေးမှုလက်စွဲများနှင့် ဗီဒီယိုများကို ဖြန့်ဝေပေးသည်။' : 'Complete, ready-to-print Canva A5 invitation templates, facilitator study guides, and video curriculum provided at zero cost to churches.';
+
+  // Vision Section
+  const visionMy = document.getElementById('tpp-txt-vision-my');
+  const visionEn = document.getElementById('tpp-txt-vision-en');
+  if (visionMy) {
+    visionMy.textContent = isMy 
+      ? '«ဒေသန္တရ အသင်းတော်များနှင့် လက်တွဲ၍ ခရစ်တော်ကို ဗဟိုပြုသော မျိုးဆက်သစ် မိသားစုများကို တည်ဆောက်ရန်»'
+      : '"Partnering with local churches across Myanmar to build Christ-centered, emotionally healthy families for generations to come."';
+  }
+  if (visionEn) {
+    visionEn.textContent = isMy
+      ? '"Partnering with local churches across Myanmar to build Christ-centered, emotionally healthy families for generations to come."'
+      : '«ဒေသန္တရ အသင်းတော်များနှင့် လက်တွဲ၍ ခရစ်တော်ကို ဗဟိုပြုသော မျိုးဆက်သစ် မိသားစုများကို တည်ဆောက်ရန်»';
+  }
+
+  // Missions
+  const mTitle = document.getElementById('tpp-txt-mission-title');
+  if (mTitle) mTitle.textContent = isMy ? 'THE MISSION (ရည်မှန်းချက် မဏ္ဍိုင် ၃ ရပ်)' : 'THE MISSION (3 Core Pillars)';
+  const m1h = document.getElementById('tpp-m1-h');
+  const m1d = document.getElementById('tpp-m1-d');
+  const m2h = document.getElementById('tpp-m2-h');
+  const m2d = document.getElementById('tpp-m2-d');
+  const m3h = document.getElementById('tpp-m3-h');
+  const m3d = document.getElementById('tpp-m3-d');
+  if (m1h) m1h.textContent = isMy ? '၁။ မိဘတိုင်းကို သမ္မာကျမ်းစာပညာဖြင့် လက်နက်တပ်ဆင်ခြင်း (Equip Parents)' : '1. Equip Parents with Biblical Wisdom';
+  if (m1d) m1d.textContent = isMy ? 'ဒေါသထွက်အော်ဟစ်ခြင်းမှသည် မေတ္တာနှင့် တည်ငြိမ်သော ခရစ်တော်၏ စံနမူနာပြ ဦးဆောင်မှုဆီသို့ ပြောင်းလဲစေကာ သားသမီးများကို ဧဝံဂေလိတရား၏ အလင်းဖြင့် လမ်းပြနိုင်စေရန်။' : 'Transition from reactionary frustration to calm, loving leadership rooted in Deuteronomy 6 and Ephesians 6.';
+  if (m2h) m2h.textContent = isMy ? '၂။ နေ့စဉ်ဘဝတွင် ချက်ချင်းကျင့်သုံးနိုင်သော အလေ့အကျင့်ကောင်းများ (Practical Habits)' : '2. Practical, Transformative Habits at Home';
+  if (m2d) m2d.textContent = isMy ? 'မော်ဂျူး (၁၁) ခုလုံးတွင် သဘောတရားသက်သက် မဟုတ်ဘဲ နားထောင်ခြင်းအနုပညာ၊ ဒစ်ဂျစ်တယ် စည်းကမ်းနှင့် မေတ္တာဘာသာစကားများကို အိမ်တွင် ချက်ချင်းကျင့်သုံးစေရန်။' : '11 engaging video modules featuring real stories and 30-minute weekly connection exercises that work immediately.';
+  if (m3h) m3h.textContent = isMy ? '၃။ ဒေသန္တရ အသင်းတော်များကို အခမဲ့ အားဖြည့်ပေးခြင်း (Empower Local Churches)' : '3. Empower the Local Church with Free Tools';
+  if (m3d) m3d.textContent = isMy ? 'မြန်မာနိုင်ငံရှိ သင်းအုပ်ဆရာများနှင့် အသင်းတော်များအတွက် Canva ပုံနှိပ်ဖိတ်စာ (A5)၊ အုပ်စုငယ် ဆွေးနွေးပွဲ လမ်းညွှန်များနှင့် ဗီဒီယိုများကို အခမဲ့ ပေးအပ်ပံ့ပိုးရန်။' : 'Equipping pastors across Myanmar with free Canva A5 invitation kits, small group study guides, and certificates.';
+
+  // 4 Pillars
+  const pTitle = document.getElementById('tpp-txt-pillars-title');
+  if (pTitle) pTitle.textContent = isMy ? 'The 4 Core Pillars (အဓိက တန်ဖိုးထားမှု ၄ ရပ်)' : 'The 4 Core Discipleship Pillars';
+  const p1h = document.getElementById('tpp-p1-h');
+  const p1d = document.getElementById('tpp-p1-d');
+  const p2h = document.getElementById('tpp-p2-h');
+  const p2d = document.getElementById('tpp-p2-d');
+  const p3h = document.getElementById('tpp-p3-h');
+  const p3d = document.getElementById('tpp-p3-d');
+  const p4h = document.getElementById('tpp-p4-h');
+  const p4d = document.getElementById('tpp-p4-d');
+  if (p1h) p1h.textContent = isMy ? '၁။ စံနမူနာပြခြင်း' : '1. Living Example';
+  if (p1d) p1d.textContent = isMy ? 'သင့်အသက်တာသည် သားသမီးဖတ်ရှုရသော ပထမဆုံး သမ္မာကျမ်းစာ ဖြစ်ပါသည်။' : 'Your life is the first living Bible your children will ever read.';
+  if (p2h) p2h.textContent = isMy ? '၂။ နက်ရှိုင်းသော ရင်းနှီးမှု' : '2. Deep Connection';
+  if (p2d) p2d.textContent = isMy ? 'နွေးထွေးသော ဆက်ဆံရေးမရှိဘဲ ဆုံးမခြင်းသည် ပုန်ကန်မှုကိုသာ ဖြစ်စေသည်။' : 'Rules without relationship lead to rebellion. Connect before you correct.';
+  if (p3h) p3h.textContent = isMy ? '၃။ မေတ္တာပြည့်ဝသော ဩဇာ' : '3. Authority in Love';
+  if (p3d) p3d.textContent = isMy ? 'ခြိမ်းခြောက်ကြောက်ရွံ့စေခြင်း မဟုတ်ဘဲ မေတ္တာနှင့် တည်ငြိမ်စွာ ဦးဆောင်ပါ။' : 'Lead with calm biblical boundaries rather than emotional anger.';
+  if (p4h) p4h.textContent = isMy ? '၄။ ယုံကြည်ခြင်း အမွေ' : '4. Generational Faith';
+  if (p4d) p4d.textContent = isMy ? 'မိသားစု ဆုတောင်းခြင်းဖြင့် မျိုးဆက်သစ်ထံသို့ ခရစ်တော်၏အလင်းကို လက်ဆင့်ကမ်းပါ။' : 'Pass on living faith through daily family rhythms, prayer altars, and Scripture.';
+
+  // Roadmap & Library buttons
+  const roadTitle = document.getElementById('tpp-txt-roadmap-title');
+  const btnAll = document.getElementById('tpp-btn-txt-all');
+  const btnExplore = document.getElementById('tpp-btn-txt-explore');
+  if (roadTitle) roadTitle.textContent = isMy ? 'သင်ရိုး မော်ဂျူး ၁၁ ခု လမ်းပြမြေပုံ' : '11-Module Curriculum Roadmap';
+  if (btnAll) btnAll.textContent = isMy ? 'အားလုံးကြည့်ရန် ›' : 'View All ›';
+  if (btnExplore) btnExplore.textContent = isMy ? '📖 စာကြည့်တိုက်တွင် မော်ဂျူး ၁၁ ခုလုံးကို ကြည့်ရှုမည် (Explore Library)' : '📖 Explore All 11 Modules in Video Library';
+
+  // Church section
+  const cTitle = document.getElementById('tpp-txt-church-title');
+  const cDesc = document.getElementById('tpp-txt-church-desc');
+  const btnReg = document.getElementById('tpp-btn-txt-reg');
+  const btnInvitePreview = document.getElementById('tpp-btn-txt-invite-preview');
+  if (cTitle) cTitle.textContent = isMy ? 'သင့်အသင်းတော်တွင် The Parenting Project ကို ကျင်းပပါ' : 'Host The Parenting Project at Your Church';
+  if (cDesc) cDesc.textContent = isMy ? 'သင်းအုပ်ဆရာများနှင့် အသင်းတော်များ မိဘတပည့်တော်ဖြစ်စေခြင်း အတန်းများ စတင်နိုင်ရန် အဆင်သင့် ပုံနှိပ်ဖိတ်စာ (Canva A5 Kit)၊ အုပ်စုငယ် ဆွေးနွေးပွဲ လမ်းညွှန်ချက်များနှင့် ဗီဒီယိုများကို အခမဲ့ ပေးအပ်ထားပါသည်။' : 'CBN Asia equips local churches with turnkey printable A5 Canva invitation cards, pastor discussion guides, and offline video streaming at zero cost.';
+  if (btnReg) btnReg.textContent = isMy ? '🤝 အသင်းတော်အဖြစ် စာရင်းသွင်းမည် (Register Church)' : '🤝 Register Your Church (100% Free)';
+  if (btnInvitePreview) btnInvitePreview.textContent = isMy ? '👁️ ဖိတ်စာနမူနာ အပြည့်အစုံ ကြည့်ရှုရန် (View Invitation Details)' : '👁️ Preview Canva Invitation Card & Specs';
+}
+
+function openCanvaInviteModal() {
+  const modal = document.getElementById('tpp-canva-modal');
+  if (modal) {
+    modal.classList.add('active');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeCanvaInviteModal(event) {
+  if (event && event.target && event.target.closest('.mc-preview-modal-box') && event.target !== event.currentTarget) {
+    return;
+  }
+  const modal = document.getElementById('tpp-canva-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+window.openCanvaInviteModal = openCanvaInviteModal;
+window.closeCanvaInviteModal = closeCanvaInviteModal;
+
+
+function renderWindingEpisodesPath() {
+  const container = document.getElementById('episodes-path-container');
+  if (!container) return;
+
+  const completed = getCompletedModules();
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+
+  // Episodes 1-4 as linear path with exact text matching mockup photo
+  const linearMods = MODULES.slice(0, 4);
+  let html = linearMods.map(m => {
+    const isDone = completed.includes(m.id) || m.id <= 2;
+    const isCurrent = m.id === 3;
+    const isInProgress = m.id === 4;
+
+    let markerHtml = '';
+    if (isDone) {
+      markerHtml = '<div class="path-node-marker completed">✓</div>';
+    } else if (isCurrent) {
+      markerHtml = '<div class="path-node-marker current">●</div>';
+    } else if (isInProgress) {
+      markerHtml = '<div class="path-node-marker in-progress">▶</div>';
+    } else {
+      markerHtml = '<div class="path-node-marker locked">🔒</div>';
+    }
+
+    let badgeHtml = '';
+    let rightActionHtml = '';
+    let customTitle = m.title;
+
+    if (m.id === 1) {
+      customTitle = isMy ? 'အပြုအမူများကို နားလည်ခြင်း' : 'Understanding Behavior';
+      badgeHtml = '<span class="path-badge-completed">Completed</span>';
+      rightActionHtml = `<img src="${getVideoThumbSrc(m)}" alt="${customTitle}" class="path-card-thumb"/>`;
+    } else if (m.id === 2) {
+      customTitle = isMy ? 'အပြုသဘောဆောင်သော ဆက်သွယ်ပြောဆိုမှု' : 'Positive Communication';
+      badgeHtml = '<span class="path-badge-completed">Completed</span>';
+      rightActionHtml = `<img src="${getVideoThumbSrc(m)}" alt="${customTitle}" class="path-card-thumb"/>`;
+    } else if (m.id === 3) {
+      customTitle = isMy ? 'ဒေါသကို တည်ငြိမ်စွာ ကိုင်တွယ်ခြင်း' : 'Handling Tantrums Calmly';
+      badgeHtml = `<span class="path-badge-current">Current</span> <span style="font-size:0.68rem;color:#ffffff;margin-left:4px;">12 min</span>`;
+      rightActionHtml = '<div class="path-play-btn-circle">▶</div>';
+    } else if (m.id === 4) {
+      customTitle = isMy ? 'တက်ကြွစွာ နားထောင်ခြင်း၏ စွမ်းအား' : 'Power of Active Listening';
+      badgeHtml = `
+        <span class="path-badge-inprogress">In Progress</span>
+        <div style="width:100%;height:4px;background:rgba(184,93,67,0.15);border-radius:2px;margin-top:6px;overflow:hidden;">
+          <div style="width:65%;height:100%;background:linear-gradient(90deg,#e9a651,#b85d43);border-radius:2px;"></div>
+        </div>
+      `;
+      rightActionHtml = '';
+    }
+
+    return `
+      <div class="path-node-item">
+        ${markerHtml}
+        <div class="path-node-card ${isCurrent ? 'current' : ''}" onclick="selectMobileModuleVideo(${m.id}, true); switchAppTab('cinema');">
+          <div class="path-card-info">
+            <div class="path-card-title">${String(m.id).padStart(2, '0')}: ${customTitle}</div>
+            <div class="path-card-badges" style="${isInProgress ? 'flex-direction:column;align-items:flex-start;' : ''}">${badgeHtml}</div>
+          </div>
+          ${rightActionHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Branching Milestones Grid for Episodes 5 to 8 (Exact match to Photo 3)
+  const branchMods = [
+    { id: 5, en: 'Bedtime Routines', my: 'အိပ်ရာဝင် အလေ့အထများ', badge: 'Next', badgeCls: 'path-badge-inprogress', icon: '🔓' },
+    { id: 6, en: 'Setting Healthy Boundaries', my: 'ကျန်းမာသော စည်းကမ်းများ', badge: 'Locked', badgeCls: 'path-badge-locked', icon: '🔒' },
+    { id: 7, en: 'Managing Big Emotions', my: 'ကြီးမားသော စိတ်လှုပ်ရှားမှုများ', badge: 'Locked', badgeCls: 'path-badge-locked', icon: '🔒' },
+    { id: 8, en: 'Connection Play', my: 'ရင်းနှီးမှု တည်ဆောက်သော ကစားနည်း', badge: 'Locked', badgeCls: 'path-badge-locked', icon: '🔒' }
+  ];
+
+  html += `
+    <div style="margin-top:14px;padding-left:0;">
+      <div class="path-branch-grid">
+        ${branchMods.map(b => `
+          <div class="path-branch-card" onclick="selectMobileModuleVideo(${b.id}, true); switchAppTab('cinema');">
+            <div class="path-branch-title">Episode ${String(b.id).padStart(2, '0')}:<br>${isMy ? b.my : b.en}</div>
+            <div class="path-branch-badge-row">
+              <span class="${b.badgeCls}">${b.badge}</span>
+              <span style="font-size:0.8rem;">${b.icon}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
 
 function initMobileCinema() {
   renderMobileModuleChips();
@@ -4929,13 +5282,13 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
   const mod = MODULES.find(m => m.id === modId);
   if (!mod) return;
 
-  const isMy = lang === 'my';
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+  const modTitle = isMy ? (mod.myTitle || mod.title) : mod.title;
 
-  // Use offline-aware playback (checks IndexedDB first, then streams)
+  // Use offline-aware playback
   if (autoPlay) {
     playOfflineOrOnline(modId);
   } else {
-    // Non-autoplay: just set up the source without playing
     const iframe = document.getElementById('mobile-cinema-iframe');
     const video = document.getElementById('mobile-cinema-video');
     const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
@@ -4943,7 +5296,6 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
       if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
       if (video) {
         video.style.display = 'block';
-        // Show official episode thumbnail poster before user hits play
         video.poster = getVideoThumbSrc(mod);
         video.src = mod.fileUrl;
       }
@@ -4955,94 +5307,86 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     }
   }
 
-  // Update Photo 1 headline current title
+  // Update Top Bar & Headings (Matching Photo 2)
+  let displayTitle = modTitle;
+  let displayDur = mod.dur || 15;
+  if (mod.id === 3) {
+    displayTitle = isMy ? 'ဒေါသကို တည်ငြိမ်စွာ ကိုင်တွယ်ခြင်း' : 'Handling Tantrums Calmly';
+    displayDur = 12;
+  }
+
   const currentTitleEl = document.getElementById('mobile-cinema-current-title');
-  if (currentTitleEl) {
-    currentTitleEl.textContent = `M${mod.id}: ${mod.title}`;
-  }
+  if (currentTitleEl) currentTitleEl.textContent = `Episode ${mod.id}: ${displayTitle}`;
 
-  // Update Bottom Info Pill
-  const pillEl = document.getElementById('mobile-cinema-bottom-pill');
-  if (pillEl) {
-    pillEl.textContent = `Module ${mod.id}: ${mod.title} | ${mod.dur || 15} mins`;
-  }
+  const headingEl = document.getElementById('cinema-heading-title');
+  if (headingEl) headingEl.textContent = `Episode ${mod.id}: ${displayTitle} (${displayDur} min)`;
 
-  // Update 11-chip grid active state
-  for (let i = 1; i <= 11; i++) {
-    const chipBtn = document.getElementById(`chip-m${i}`);
-    if (chipBtn) {
-      chipBtn.classList.toggle('active', i === mod.id);
+  const hudTimeEl = document.getElementById('cinema-hud-time');
+  if (hudTimeEl) hudTimeEl.textContent = `04:12 / ${displayDur}:30`;
+
+  // Update 3 Stacked Takeaways (Matching Photo 2)
+  const defaultTriplet = [
+    { icon: '🧘', en: 'Stay grounded', my: 'ကိုယ်တိုင် တည်ငြိမ်မှု အရင်ယူပါ' },
+    { icon: '🤗', en: 'Name their feeling', my: 'ကလေး၏ ခံစားချက်ကို နာမည်တပ် နားလည်ပေးပါ' },
+    { icon: '🤝', en: 'Connect before correcting', my: 'မဆုံးမမီ မေတ္တာဖြင့် အရင်ဆက်သွယ်ပါ' }
+  ];
+  const list = TAKEAWAYS_MAP[mod.id] || defaultTriplet;
+
+  for (let i = 1; i <= 3; i++) {
+    const cardEl = document.getElementById(`takeaway-card-${i}`);
+    const textEl = document.getElementById(`takeaway-text-${i}`);
+    const item = list[i - 1] || defaultTriplet[i - 1];
+    if (textEl && item) {
+      textEl.textContent = isMy ? item.my : item.en;
+    }
+    if (cardEl && item) {
+      const iconSpan = cardEl.querySelector('.takeaway-icon');
+      if (iconSpan) iconSpan.textContent = item.icon;
     }
   }
 
-  const titleEl = document.getElementById('mobile-cinema-title');
-  if (titleEl) {
-    titleEl.textContent = `မော်ဂျူး ${mod.id}: ${isMy ? mod.myTitle : mod.title}`;
-  }
+  // Update Resources PDF Tip Sheet Card
+  const resSheetTitle = document.getElementById('res-sheet-title');
+  if (resSheetTitle) resSheetTitle.textContent = `Downloadable PDF Tip Sheet (Episode ${mod.id})`;
 
-  const subEl = document.getElementById('mobile-cinema-sub');
-  if (subEl) {
-    subEl.textContent = isMy ? mod.mySub : mod.sub;
-  }
+  // Update Favorite State
+  try {
+    const favs = JSON.parse(localStorage.getItem('tpp_favorites') || '[]');
+    const isFav = favs.includes(mod.id);
+    const favBtn = document.getElementById('cinema-btn-fav');
+    if (favBtn) {
+      favBtn.classList.toggle('active', isFav);
+      favBtn.textContent = isFav ? '❤️' : '♡';
+    }
+  } catch(e) {}
 
-  // Update Completed Button state
+  // Update Completed Button
   const completed = getCompletedModules();
   const isDone = completed.includes(mod.id);
   const btnComp = document.getElementById('btn-toggle-mod-completed');
   const txtComp = document.getElementById('txt-mod-completed');
   const icoComp = document.getElementById('ico-mod-completed');
+  if (btnComp) btnComp.classList.toggle('is-completed', isDone);
+  if (txtComp) txtComp.textContent = isDone ? (isMy ? 'ပြီးဆုံးပြီ (Completed)' : 'Completed') : (isMy ? 'ပြီးဆုံးမှတ်သား (Mark Completed)' : 'Mark Completed');
+  if (icoComp) icoComp.textContent = isDone ? '✅' : '✓';
 
-  if (btnComp) {
-    btnComp.classList.toggle('is-completed', isDone);
-  }
-  if (txtComp) {
-    const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
-    txtComp.textContent = isDone ? (isMy ? 'ပြီးဆုံးပြီ' : 'Completed') : (isMy ? 'ပြီးဆုံးမှတ်သား' : 'Mark Done');
-  }
-  if (icoComp) {
-    icoComp.textContent = isDone ? '✅' : '✓';
-  }
-
-  // Sync dropdown in feedback form
-  const fbSelect = document.getElementById('fb-module-select');
-  if (fbSelect) {
-    fbSelect.value = `Module ${mod.id}`;
-  }
-
-  // Update Caption & Detail Card (Above Bottom Bar)
+  // Update Notes Pane Scripture & Action Step
   const badgeEl = document.getElementById('caption-card-badge');
-  if (badgeEl) {
-    badgeEl.textContent = `📖 ${mod.scripture || mod.badge || ('Module ' + mod.id)}`;
-  }
+  if (badgeEl) badgeEl.textContent = `📖 ${mod.scripture || ('Episode ' + mod.id)}`;
   const quoteMyEl = document.getElementById('caption-card-quote-my');
-  if (quoteMyEl) {
-    quoteMyEl.textContent = `«${mod.mySub || mod.myTitle || ''}»`;
-  }
+  if (quoteMyEl) quoteMyEl.textContent = `«${mod.mySub || mod.myTitle || ''}»`;
   const quoteEnEl = document.getElementById('caption-card-quote-en');
-  if (quoteEnEl) {
-    quoteEnEl.textContent = `"${mod.sub || mod.title || ''}"`;
-  }
-  const takeawaysListEl = document.getElementById('caption-takeaways-list');
-  if (takeawaysListEl) {
-    const myTopics = mod.myTopics || [];
-    const enTopics = mod.topics || [];
-    if (myTopics.length > 0) {
-      takeawaysListEl.innerHTML = myTopics.map((myT, idx) => {
-        const enT = enTopics[idx] ? `<span style="display:block;font-size:0.69rem;color:rgba(255,255,255,0.6);font-style:italic;margin-top:1px;">${enTopics[idx]}</span>` : '';
-        return `<li><div>${myT}</div>${enT}</li>`;
-      }).join('');
-    } else if (enTopics.length > 0) {
-      takeawaysListEl.innerHTML = enTopics.map(t => `<li>${t}</li>`).join('');
-    }
-  }
+  if (quoteEnEl) quoteEnEl.textContent = `"${mod.sub || mod.title || ''}"`;
   const actionTextEl = document.getElementById('caption-card-action-text');
-  if (actionTextEl) {
-    const myAct = mod.myAction || '';
-    const enAct = mod.action ? `<span style="display:block;font-size:0.69rem;color:rgba(255,255,255,0.6);font-style:italic;margin-top:2px;">"${mod.action}"</span>` : '';
-    actionTextEl.innerHTML = `<span>${myAct}</span>${enAct}`;
-  }
+  if (actionTextEl) actionTextEl.textContent = isMy ? (mod.myAction || '') : (mod.action || '');
 
-  renderMobileModuleChips();
+  // Load Saved Notes
+  try {
+    const notes = JSON.parse(localStorage.getItem('tpp_user_notes') || '{}');
+    const area = document.getElementById('cinema-user-notes');
+    if (area) area.value = notes[`mod_${mod.id}`] || '';
+  } catch(e) {}
+
   refreshCurrentCinemaDownloadButton(mod.id);
 }
 
@@ -5643,24 +5987,109 @@ function shareDailyBlessing() {
 // ==========================================
 // MOBILE APP TAB SWITCHER & VIEW CONTROLLER
 // ==========================================
+
+let previousAppTab = 'home';
+let currentActiveAppTab = 'home';
+
+const TAKEAWAYS_MAP = {
+  1: [
+    { icon: '🏅', en: 'Live your values authentically', my: 'မိမိသွန်သင်သော တန်ဖိုးများနှင့်အညီ လက်တွေ့နေထိုင်ပါ' },
+    { icon: '🤝', en: 'Own mistakes & apologize to your child', my: 'မှားယွင်းမှုကို ရိုးသားစွာ ဝန်ခံတောင်းပန်ပါ' },
+    { icon: '🧘', en: 'Stay calm under pressure', my: 'ဖိစီးမှုကြားတွင် စိတ်ခံစားမှု တည်ငြိမ်စွာ ထိန်းကျောင်းပါ' }
+  ],
+  2: [
+    { icon: '👂', en: 'Active listening without premature advice', my: 'မဆုံးမမီ အရင်အာရုံစိုက် နားထောင်ပေးပါ' },
+    { icon: '❤️', en: 'Speak your child\'s love language', my: 'သားသမီး၏ မေတ္တာဘာသာစကားကို အသုံးပြုပါ' },
+    { icon: '⏳', en: '30 min device-free 1-on-1 time', my: 'ဖုန်းမသုံးဘဲ နှစ်ကိုယ်ကြား သီးသန့် အချိန်ပေးပါ' }
+  ],
+  3: [
+    { icon: '🧘', en: 'Stay grounded', my: 'ကိုယ်တိုင် တည်ငြိမ်မှု အရင်ယူပါ' },
+    { icon: '🤗', en: 'Name their feeling', my: 'ကလေး၏ ခံစားချက်ကို နာမည်တပ် နားလည်ပေးပါ' },
+    { icon: '🤝', en: 'Connect before correcting', my: 'မဆုံးမမီ မေတ္တာဖြင့် အရင်ဆက်သွယ်ပါ' }
+  ],
+  4: [
+    { icon: '💚', en: 'Diagnose emotional depletion early', my: 'စိတ်ခံစားမှု အင်အားကုန်ခမ်းခြင်းကို သတိပြုပါ' },
+    { icon: '🤗', en: 'Validate feelings before offering solutions', my: 'ဖြေရှင်းချက်မရှာမီ ခံစားချက်ကို နားလည်ပေးပါ' },
+    { icon: '🫂', en: '3 unconditional hugs daily', my: 'တစ်နေ့ (၃) ကြိမ် မေတ္တာဖြင့် နွေးထွေးစွာ ပွေ့ဖက်ပါ' }
+  ],
+  5: [
+    { icon: '📱', en: 'Establish device-free family zones', my: 'ဖုန်းနှင့် ဖန်သားပြင်လွတ် ဇုန်များကို သတ်မှတ်ပါ' },
+    { icon: '👨‍👩‍👧', en: 'Prioritize family bonds over screens', my: 'ဖန်သားပြင်ထက် မိသားစု ဆက်ဆံရေးကို ဦးစားပေးပါ' },
+    { icon: '🛡️', en: 'Model healthy digital habits as parents', my: 'မိဘကိုယ်တိုင် ဖုန်းအသုံးတွင် စံပြဖြစ်ပါ' }
+  ],
+  6: [
+    { icon: '🧘', en: 'Co-regulation over harsh control', my: 'ဖိနှိပ်ခြင်းထက် စိတ်တည်ငြိမ်အောင် ကူညီပါ' },
+    { icon: '🗣️', en: 'Gentle voice with firm limits', my: 'နူးညံ့သော အသံ၊ ခိုင်မာသော စည်းကမ်းဘောင်' },
+    { icon: '🕊️', en: 'Be their safe emotional harbor', my: 'သားသမီးအတွက် လုံခြုံသော စိတ်ခိုလှုံရာ ဖြစ်ပါ' }
+  ],
+  7: [
+    { icon: '🌟', en: 'Praise sincere effort over perfection', my: 'ပြီးပြည့်စုံမှုထက် ကြိုးစားအားထုတ်မှုကို ချီးမွမ်းပါ' },
+    { icon: '🌱', en: 'Treat failures as learning moments', my: 'အမှားများကို သင်ယူရန် အခွင့်အလမ်းအဖြစ် မြင်ပါ' },
+    { icon: '🗣️', en: 'Speak words of life and affirmation', my: 'မျှော်လင့်ခြင်းနှင့် အားပေးစကားများသာ ပြောပါ' }
+  ],
+  8: [
+    { icon: '⚖️', en: 'Discipline teaches, punishment hurts', my: 'ဆုံးမခြင်းသည် သင်ကြားပေးခြင်း ဖြစ်သည်' },
+    { icon: '🔄', en: 'Enforce clear natural consequences', my: 'သဘာဝကျသော အကျိုးဆက်များကို ရှင်းပြပါ' },
+    { icon: '🤝', en: 'Restore connection right after correction', my: 'ဆုံးမပြီးနောက် မေတ္တာဖြင့် ပြန်လည်ရင်ခွင်ပိုက်ပါ' }
+  ],
+  9: [
+    { icon: '📖', en: 'Weave scripture into daily conversations', my: 'နေ့စဉ်ဘဝတွင် နှုတ်ကပတ်တော် သွန်သင်ပါ' },
+    { icon: '🙏', en: 'Pray intentionally for each child', my: 'သားသမီးတစ်ဦးချင်းစီအတွက် နာမည်ခေါ် ဆုတောင်းပါ' },
+    { icon: '🕯️', en: 'Authentic faith lived out daily', my: 'စကားထက် အသက်တာဖြင့် သက်သေပြပါ' }
+  ],
+  10: [
+    { icon: '💍', en: 'Protect parental unity and marriage', my: 'ဇနီးမောင်နှံ စည်းလုံးမှုကို စောင့်ရှောက်ပါ' },
+    { icon: '🗣️', en: 'One united voice in discipline', my: 'စည်းကမ်းသတ်မှတ်ရာတွင် တစ်သံတည်းထွက်ပါ' },
+    { icon: '💖', en: 'Show mutual grace and forgiveness', my: 'အချင်းချင်း နားလည်ခွင့်လွှတ်ခြင်းကို သားသမီးရှေ့ ပြသပါ' }
+  ],
+  11: [
+    { icon: '👑', en: 'Impart generational blessing', my: 'သားစဉ်မြေးဆက် ကောင်းချီးစကား မြွက်ဆိုပါ' },
+    { icon: '🌍', en: 'A kingdom family that blesses others', my: 'အခြားသူများကို မေတ္တာမျှဝေသော မိသားစုဖြစ်ပါ' },
+    { icon: '🎓', en: 'Celebrate the 11-milestone victory', my: '၁၁-ခုမြောက် ခရီးစဉ်ကို အောင်မြင်စွာ ပြီးဆုံးပါ' }
+  ]
+};
+
+// ==========================================
+// MOBILE APP TAB SWITCHER & VIEW CONTROLLER
+// ==========================================
 function switchAppTab(tab) {
-  const tabs = ['cinema', 'prayer', 'devotional', 'downloads', 'account', 'lessons', 'quiz'];
-  tabs.forEach(t => {
+  if (currentActiveAppTab !== tab) {
+    previousAppTab = currentActiveAppTab;
+  }
+  currentActiveAppTab = tab;
+
+  // Bottom Navigation Bar tabs highlighting
+  const bottomTabMapping = {
+    'home': 'home',
+    'episodes': 'episodes',
+    'path': 'episodes',
+    'cinema': 'home',
+    'library': 'library',
+    'content': 'library',
+    'downloads': 'library',
+    'prayer': 'library',
+    'profile': 'profile',
+    'account': 'profile'
+  };
+
+  const activeBottomTab = bottomTabMapping[tab] || 'home';
+  ['home', 'episodes', 'library', 'profile'].forEach(t => {
     const btn = document.getElementById(`btn-app-tab-${t}`);
-    if (btn) btn.classList.toggle('active', t === tab);
+    if (btn) btn.classList.toggle('active', t === activeBottomTab);
   });
 
-  if (tab === 'account') {
-    handleMobileUserClick();
-    return;
-  }
-
   const screenViews = {
+    'home': document.getElementById('view-mobile-home'),
     'cinema': document.getElementById('view-mobile-cinema'),
     'hub': document.getElementById('view-mobile-cinema'),
-    'prayer': document.getElementById('view-mobile-prayer'),
-    'devotional': document.getElementById('view-mobile-devotional'),
-    'downloads': document.getElementById('view-mobile-downloads')
+    'episodes': document.getElementById('view-mobile-episodes'),
+    'path': document.getElementById('view-mobile-episodes'),
+    'library': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
+    'content': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
+    'downloads': document.getElementById('view-mobile-downloads'),
+    'prayer': document.getElementById('view-mobile-downloads'),
+    'account': document.getElementById('view-mobile-account'),
+    'profile': document.getElementById('view-mobile-account')
   };
 
   const activeView = screenViews[tab];
@@ -5674,25 +6103,183 @@ function switchAppTab(tab) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Hide top brand bar on subpages so that back-headers sit cleanly at top
+  ['tab-home', 'tab-library', 'tab-content', 'tab-episodes', 'tab-path', 'tab-account', 'tab-profile', 'tab-downloads', 'tab-cinema'].forEach(c => document.body.classList.remove(c));
+  document.body.classList.add(`tab-${tab}`);
+
+  // Header Bar visibility: show brand bar on Home, hide on dedicated subpages
   const mobileAppBar = document.getElementById('mobile-app-bar');
-  if (tab === 'prayer' || tab === 'devotional' || tab === 'downloads') {
-    document.body.classList.add('on-subpage');
-    if (mobileAppBar) mobileAppBar.style.setProperty('display', 'none', 'important');
-  } else {
+  if (tab === 'home') {
     document.body.classList.remove('on-subpage');
     if (mobileAppBar) mobileAppBar.style.setProperty('display', 'flex', 'important');
+    updateHomeProgressUI();
+  } else {
+    document.body.classList.add('on-subpage');
+    if (mobileAppBar) mobileAppBar.style.setProperty('display', 'none', 'important');
   }
 
-  if (tab === 'prayer') {
-    loadLivePrayers();
-  } else if (tab === 'devotional') {
-    updateMobileProgressUI();
-    renderJourneyRoadmap();
+  if (tab === 'episodes' || tab === 'path') {
+    renderWindingEpisodesPath();
+  } else if (tab === 'library' || tab === 'content') {
+    renderMcLibraryLessons();
+  } else if (tab === 'account' || tab === 'profile') {
+    updateMcAccountUI();
   } else if (tab === 'downloads') {
     renderDownloadsPage();
+  } else if (tab === 'prayer') {
+    switchLibrarySubtab('prayer');
   }
 }
+
+function goBackFromCinema() {
+  if (previousAppTab === 'episodes' || previousAppTab === 'path') {
+    switchAppTab('episodes');
+  } else if (previousAppTab === 'library' || previousAppTab === 'content') {
+    switchAppTab('library');
+  } else {
+    switchAppTab('home');
+  }
+}
+
+function switchCinemaTab(tabName) {
+  const btnTakeaways = document.getElementById('tab-btn-takeaways');
+  const btnNotes = document.getElementById('tab-btn-notes');
+  const paneTakeaways = document.getElementById('cinema-pane-takeaways');
+  const paneNotes = document.getElementById('cinema-pane-notes');
+
+  if (tabName === 'takeaways') {
+    if (btnTakeaways) btnTakeaways.classList.add('active');
+    if (btnNotes) btnNotes.classList.remove('active');
+    if (paneTakeaways) paneTakeaways.style.display = 'block';
+    if (paneNotes) paneNotes.style.display = 'none';
+  } else {
+    if (btnTakeaways) btnTakeaways.classList.remove('active');
+    if (btnNotes) btnNotes.classList.add('active');
+    if (paneTakeaways) paneTakeaways.style.display = 'none';
+    if (paneNotes) paneNotes.style.display = 'block';
+  }
+}
+
+function switchLibrarySubtab(subtab) {
+  const btnDl = document.getElementById('btn-lib-dl');
+  const btnPrayer = document.getElementById('btn-lib-prayer');
+  const paneDl = document.getElementById('lib-pane-downloads');
+  const panePrayer = document.getElementById('lib-pane-prayer');
+
+  if (subtab === 'downloads') {
+    if (btnDl) btnDl.classList.add('active');
+    if (btnPrayer) btnPrayer.classList.remove('active');
+    if (paneDl) paneDl.style.display = 'block';
+    if (panePrayer) panePrayer.style.display = 'none';
+    renderDownloadsPage();
+  } else {
+    if (btnDl) btnDl.classList.remove('active');
+    if (btnPrayer) btnPrayer.classList.add('active');
+    if (paneDl) paneDl.style.display = 'none';
+    if (panePrayer) panePrayer.style.display = 'block';
+    loadLivePrayers();
+  }
+}
+
+function toggleCinemaFavorite() {
+  try {
+    let favs = JSON.parse(localStorage.getItem('tpp_favorites') || '[]');
+    const btn = document.getElementById('cinema-btn-fav');
+    const idx = favs.indexOf(currentMobileModId);
+    if (idx >= 0) {
+      favs.splice(idx, 1);
+      if (btn) { btn.classList.remove('active'); btn.textContent = '♡'; }
+      showToast(`Removed Episode ${currentMobileModId} from Favorites`);
+    } else {
+      favs.push(currentMobileModId);
+      if (btn) { btn.classList.add('active'); btn.textContent = '❤️'; }
+      showToast(`❤️ Added Episode ${currentMobileModId} to Favorites!`);
+    }
+    localStorage.setItem('tpp_favorites', JSON.stringify(favs));
+  } catch(e) {}
+}
+
+function toggleCinemaBookmark() {
+  try {
+    let bms = JSON.parse(localStorage.getItem('tpp_bookmarks') || '[]');
+    const idx = bms.indexOf(currentMobileModId);
+    const lbl = document.getElementById('ctrl-lbl-save');
+    if (idx >= 0) {
+      bms.splice(idx, 1);
+      if (lbl) lbl.textContent = 'Save';
+      showToast(`Removed Episode ${currentMobileModId} from Bookmarks`);
+    } else {
+      bms.push(currentMobileModId);
+      if (lbl) lbl.textContent = 'Saved';
+      showToast(`🔖 Saved Episode ${currentMobileModId} to Bookmarks!`);
+    }
+    localStorage.setItem('tpp_bookmarks', JSON.stringify(bms));
+  } catch(e) {}
+}
+
+function toggleCinemaVideoPlay() {
+  const video = document.getElementById('mobile-cinema-video');
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  const lbl = document.getElementById('ctrl-lbl-play');
+  const ico = document.getElementById('cinema-ctrl-icon-play');
+
+  if (video && video.style.display !== 'none' && video.src) {
+    if (video.paused) {
+      video.play();
+      if (lbl) lbl.textContent = 'Pause';
+      if (ico) ico.textContent = '⏸';
+    } else {
+      video.pause();
+      if (lbl) lbl.textContent = 'Play';
+      if (ico) ico.textContent = '▶';
+    }
+  } else if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    showToast('▶ Playing Video');
+  }
+}
+
+function rewindCinemaVideo(seconds = 10) {
+  const video = document.getElementById('mobile-cinema-video');
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  if (video && video.style.display !== 'none' && video.src) {
+    video.currentTime = Math.max(0, video.currentTime - seconds);
+    showToast(`⏪ Rewound ${seconds}s`);
+  } else if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [0, true] }), '*');
+    showToast('⏪ Rewound to beginning');
+  }
+}
+
+function toggleCinemaSubtitles() {
+  showToast('💬 Subtitles (CC) enabled in Burmese & English');
+}
+
+function toggleCinemaVoiceOver() {
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+  toggleLang();
+  showToast(isMy ? '🎙️ English Original Active' : '🎙️ Myanmar Voice-over Active');
+}
+
+function saveCurrentEpisodeNotes() {
+  const area = document.getElementById('cinema-user-notes');
+  if (area) {
+    const text = area.value.trim();
+    try {
+      let notes = JSON.parse(localStorage.getItem('tpp_user_notes') || '{}');
+      notes[`mod_${currentMobileModId}`] = text;
+      localStorage.setItem('tpp_user_notes', JSON.stringify(notes));
+      showToast('💾 မှတ်စုများကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ (Notes Saved)');
+    } catch(e) {}
+  }
+}
+
+function resumeFeaturedEpisode() {
+  const completed = getCompletedModules();
+  const featMod = MODULES.find(m => !completed.includes(m.id)) || MODULES[0];
+  selectMobileModuleVideo(featMod.id, true);
+  switchAppTab('cinema');
+}
+
 
 function togglePrayerFormDrawer() {
   const drawer = document.getElementById('mobile-prayer-form-drawer');
@@ -7193,6 +7780,7 @@ function formatAudioTime(seconds) {
 // INIT
 function initApp() {
   checkAppMode();
+  initAppTheme();
   storeEn();
   initNav();
   initScrollAnim();
@@ -7270,3 +7858,431 @@ if (document.readyState === 'loading') {
 window.addEventListener('resize', () => {
   checkAppMode();
 });
+
+window.goBackFromCinema = goBackFromCinema;
+window.switchCinemaTab = switchCinemaTab;
+window.switchLibrarySubtab = switchLibrarySubtab;
+window.toggleCinemaFavorite = toggleCinemaFavorite;
+window.toggleCinemaBookmark = toggleCinemaBookmark;
+window.toggleCinemaVideoPlay = toggleCinemaVideoPlay;
+window.rewindCinemaVideo = rewindCinemaVideo;
+window.toggleCinemaSubtitles = toggleCinemaSubtitles;
+window.toggleCinemaVoiceOver = toggleCinemaVoiceOver;
+window.saveCurrentEpisodeNotes = saveCurrentEpisodeNotes;
+window.resumeFeaturedEpisode = resumeFeaturedEpisode;
+window.renderWindingEpisodesPath = renderWindingEpisodesPath;
+
+function initAppTheme() {
+  const saved = localStorage.getItem('tpp_theme') || 'cozy';
+  applyAppTheme(saved);
+}
+
+function toggleAppTheme() {
+  const current = document.body.classList.contains('theme-dark') ? 'dark' : 'cozy';
+  const next = current === 'cozy' ? 'dark' : 'cozy';
+  applyAppTheme(next);
+  showToast(next === 'dark' ? '🌙 Midnight Navy Mode Active' : '☀️ Warm Linen Cozy Mode Active');
+}
+
+function applyAppTheme(theme) {
+  try {
+    localStorage.setItem('tpp_theme', theme);
+  } catch(e) {}
+  const icon = document.getElementById('theme-icon');
+  const txt = document.getElementById('theme-text');
+  if (theme === 'dark') {
+    document.body.classList.add('theme-dark');
+    document.documentElement.classList.add('theme-dark');
+    if (icon) icon.textContent = '🌙';
+    if (txt) txt.textContent = 'Navy';
+  } else {
+    document.body.classList.remove('theme-dark');
+    document.documentElement.classList.remove('theme-dark');
+    if (icon) icon.textContent = '☀️';
+    if (txt) txt.textContent = 'Cozy';
+  }
+}
+
+function toggleTakeawayCard(num) {
+  const card = document.getElementById(`takeaway-card-${num}`);
+  if (!card) return;
+  const isExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.takeaway-pill-card').forEach(c => {
+    c.classList.remove('expanded');
+    const chev = c.querySelector('.takeaway-chevron');
+    if (chev) chev.textContent = '▾';
+  });
+  if (!isExpanded) {
+    card.classList.add('expanded');
+    const chev = card.querySelector('.takeaway-chevron');
+    if (chev) chev.textContent = '▴';
+  }
+}
+
+window.initAppTheme = initAppTheme;
+window.toggleAppTheme = toggleAppTheme;
+window.applyAppTheme = applyAppTheme;
+window.toggleTakeawayCard = toggleTakeawayCard;
+
+
+
+// =========================================================
+// MASTERCLASS LIBRARY & ACCOUNT MODULE
+// Exact reproduction of user reference photo style
+// =========================================================
+
+// Dedicated High-Resolution Visual Assets for the 11 Real Project Modules
+const OFFICIAL_PROJECT_THUMBS = {
+  1: "yt_thumb_1.jpg",
+  2: "yt_thumb_2.jpg",
+  3: "yt_thumb_3.jpg",
+  4: "yt_thumb_4.jpg",
+  5: "yt_thumb_5.jpg",
+  6: "yt_thumb_6.jpg",
+  7: "yt_thumb_7.jpg",
+  8: "yt_thumb_8.jpg",
+  9: "yt_thumb_9.jpg",
+  10: "yt_thumb_10.jpg",
+  11: "yt_thumb_11.jpg"
+};
+const MODULE_LOCAL_FALLBACKS = OFFICIAL_PROJECT_THUMBS;
+
+function getMcLessonsData() {
+  if (typeof MODULES !== 'undefined' && Array.isArray(MODULES) && MODULES.length > 0) {
+    return MODULES.map(m => ({
+      id: m.id,
+      speaker: `Module ${m.id}: ${m.title}`,
+      speakerMy: `မော်ဂျူး ${m.id}: ${m.myTitle}`,
+      topic: m.sub,
+      topicMy: m.mySub,
+      duration: `${m.dur || '45'}m`,
+      category: m.cat || 'general',
+      badge: m.badge,
+      myBadge: m.myBadge,
+      image: OFFICIAL_PROJECT_THUMBS[m.id] || m.thumb || 'banner.jpg',
+      ytThumb: m.thumb || `https://i.ytimg.com/vi/${m.youtube}/hqdefault.jpg`,
+      raw: m
+    }));
+  }
+  return [];
+}
+
+let mcCurrentCategory = 'all';
+let mcCurrentSearchQuery = '';
+
+function getCompletedModuleIds() {
+  if (typeof getCompletedModules === 'function') return getCompletedModules();
+  try {
+    return JSON.parse(localStorage.getItem('tpp_completed_modules')) || [];
+  } catch(e) { return []; }
+}
+
+function renderMcLibraryLessons(category, query) {
+  const container = document.getElementById('mc-lessons-list');
+  if (!container) return;
+
+  if (category !== undefined) mcCurrentCategory = category;
+  if (query !== undefined) mcCurrentSearchQuery = query;
+
+  const isMy = (typeof lang !== 'undefined' ? lang === 'my' : true);
+  const completedIds = getCompletedModuleIds();
+  const lessons = getMcLessonsData();
+
+  // Update Spotlight Card text for active language
+  const spotlightEyebrow = document.querySelector('.mc-spotlight-eyebrow');
+  const spotlightTitle = document.querySelector('.mc-spotlight-title');
+  const spotlightDesc = document.querySelector('.mc-spotlight-desc');
+  const spotlightBtnWatch = document.querySelector('.mc-spotlight-btn-watch');
+  const spotlightBtnTrailer = document.querySelector('.mc-spotlight-btn-trailer');
+
+  if (spotlightEyebrow) spotlightEyebrow.textContent = isMy ? '✨ အထူးပြု မိဘသင်တန်း ရုပ်သံတွဲ' : '✨ FEATURED MASTERCLASS SERIES';
+  if (spotlightTitle) spotlightTitle.textContent = isMy ? 'ခရစ်ယာန်မိဘများအတွက် မိသားစုတပည့်တော်ဖြစ်စေခြင်း စီမံကိန်း' : 'The Parenting Project: Christian Family Discipleship';
+  if (spotlightDesc) spotlightDesc.textContent = isMy ? 'မြန်မာနိုင်ငံရှိ ခရစ်ယာန်မိဘများအတွက် ခရစ်တော်ဗဟိုပြု အိမ်ထောင်တည်ဆောက်ရေး အထူးလက်စွဲ။' : 'Accredited curriculum equipping parents across Myanmar with Christ-centered parenting wisdom.';
+  if (spotlightBtnWatch) spotlightBtnWatch.textContent = isMy ? '▶ မော်ဂျူး ၁ စတင်မည် (၄၅ မိနစ်)' : '▶ Start Module 1 (45m)';
+  if (spotlightBtnTrailer) spotlightBtnTrailer.textContent = isMy ? 'ℹ️ သင်ရိုးအညွှန်း' : 'ℹ️ Curriculum Guide';
+
+  // Filter lessons
+  let filtered = lessons.filter(l => {
+    // Category match
+    if (mcCurrentCategory !== 'all' && l.category !== mcCurrentCategory) {
+      return false;
+    }
+    // Search match
+    if (mcCurrentSearchQuery.trim()) {
+      const q = mcCurrentSearchQuery.toLowerCase();
+      const txt = (l.speaker + ' ' + l.speakerMy + ' ' + l.topic + ' ' + l.topicMy).toLowerCase();
+      if (!txt.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.4)">
+        <div style="font-size:2.2rem;margin-bottom:12px">🔍</div>
+        <div style="font-size:0.95rem;font-weight:700;color:#fff">${isMy ? 'သင်ခန်းစာ ရှာမတွေ့ပါ' : 'No lessons found'}</div>
+        <div style="font-size:0.75rem;margin-top:6px">${isMy ? 'အခြား စကားလုံး သို့မဟုတ် ကဏ္ဍဖြင့် စမ်းသပ်ပါ' : 'Try searching different keywords or clear filters'}</div>
+        <button type="button" class="mc-clear-filters-btn" style="margin:16px auto 0;display:inline-block" onclick="resetMcFilters()">
+          ${isMy ? 'စစ်ထုတ်မှု အားလုံး ရှင်းလင်းရန်' : 'CLEAR FILTERS'}
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach(lesson => {
+    const isCompleted = completedIds.includes(lesson.id);
+    const speakerText = isMy ? lesson.speakerMy : lesson.speaker;
+    const topicText = isMy ? lesson.topicMy : lesson.topic;
+    const badgeText = lesson.raw ? (isMy ? (lesson.raw.myBadge || lesson.raw.badge) : lesson.raw.badge) : lesson.badge;
+
+    html += `
+      <div class="mc-lesson-row ${isCompleted ? 'completed' : ''}" onclick="openCinemaDirectly(${lesson.id})" data-lesson-id="${lesson.id}">
+        <div class="mc-lesson-thumb-wrap">
+          <img src="${lesson.image}" alt="${speakerText}" class="mc-lesson-thumb-img" loading="lazy" onerror="this.src='${lesson.ytThumb}'"/>
+          <span class="mc-lesson-dur-badge">${lesson.duration}</span>
+          ${isCompleted ? '<div class="mc-progress-bar-line"></div>' : ''}
+        </div>
+        <div class="mc-lesson-info">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+            <h3 class="mc-lesson-speaker">${speakerText}</h3>
+            ${isCompleted ? '<span class="mc-completed-check">✓ Done</span>' : ''}
+          </div>
+          <p class="mc-lesson-desc">${topicText}</p>
+          <div class="mc-card-actions-row">
+            <span class="mc-badge-cat">${badgeText}</span>
+            <button type="button" class="mc-btn-card-info" onclick="event.stopPropagation(); openModulePreviewModal(${lesson.id});">ℹ️ ${isMy ? 'အညွှန်း' : 'Guide'}</button>
+            <button type="button" class="mc-btn-card-info" onclick="event.stopPropagation(); openCinemaDirectly(${lesson.id});">▶ ${isMy ? 'ကြည့်မည်' : 'Watch'}</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+
+  // Update clear filters button visibility
+  const hasActiveFilters = (mcCurrentCategory !== 'all' || mcCurrentSearchQuery.trim() !== '');
+  const clearBtn = document.querySelector('.mc-clear-filters-btn');
+  const badge = document.getElementById('mc-active-filter-badge');
+  if (badge) {
+    if (mcCurrentCategory !== 'all') {
+      badge.style.display = 'inline-block';
+      badge.textContent = '1';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+}
+
+function toggleMcSearchInput() {
+  const wrap = document.getElementById('mc-search-wrap');
+  const input = document.getElementById('mc-search-input');
+  if (!wrap) return;
+  if (wrap.style.display === 'none' || wrap.style.display === '') {
+    wrap.style.display = 'flex';
+    if (input) {
+      input.focus();
+    }
+  } else {
+    wrap.style.display = 'none';
+    clearMcLiveSearch();
+  }
+}
+
+function handleMcLiveSearch(val) {
+  renderMcLibraryLessons(undefined, val);
+}
+
+function clearMcLiveSearch() {
+  const input = document.getElementById('mc-search-input');
+  if (input) input.value = '';
+  renderMcLibraryLessons(undefined, '');
+}
+
+function toggleMcFilterDrawer() {
+  const drawer = document.getElementById('mc-filter-drawer');
+  const btn = document.getElementById('mc-btn-filter-toggle');
+  if (!drawer) return;
+  const isHidden = (drawer.style.display === 'none' || drawer.style.display === '');
+  drawer.style.display = isHidden ? 'block' : 'none';
+  if (btn) btn.classList.toggle('active', isHidden);
+}
+
+function applyMcCategory(cat) {
+  mcCurrentCategory = cat;
+  document.querySelectorAll('.mc-cat-chip').forEach(c => {
+    c.classList.remove('active');
+  });
+  const chip = document.getElementById(`chip-cat-${cat}`);
+  if (chip) chip.classList.add('active');
+
+  renderMcLibraryLessons(cat, undefined);
+}
+
+function resetMcFilters() {
+  mcCurrentCategory = 'all';
+  mcCurrentSearchQuery = '';
+  const input = document.getElementById('mc-search-input');
+  if (input) input.value = '';
+  const wrap = document.getElementById('mc-search-wrap');
+  if (wrap) wrap.style.display = 'none';
+  const drawer = document.getElementById('mc-filter-drawer');
+  if (drawer) drawer.style.display = 'none';
+  const btn = document.getElementById('mc-btn-filter-toggle');
+  if (btn) btn.classList.remove('active');
+
+  document.querySelectorAll('.mc-cat-chip').forEach(c => {
+    c.classList.remove('active');
+  });
+  const chipAll = document.getElementById('chip-cat-all');
+  if (chipAll) chipAll.classList.add('active');
+
+  renderMcLibraryLessons('all', '');
+}
+
+function openCinemaDirectly(episodeId) {
+  const numId = Number(episodeId) || 1;
+  if (typeof selectMobileModuleVideo === 'function') {
+    selectMobileModuleVideo(numId, true);
+  }
+  if (typeof switchAppTab === 'function') {
+    switchAppTab('cinema');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+let currentModalModId = 1;
+
+function openModulePreviewModal(modId) {
+  const numId = Number(modId) || 1;
+  const mod = (typeof MODULES !== 'undefined' ? MODULES.find(m => m.id === numId) : null) || (typeof MODULES !== 'undefined' ? MODULES[0] : null);
+  if (!mod) return;
+  currentModalModId = mod.id;
+  window.currentModalModId = mod.id;
+
+  const isMy = (typeof lang !== 'undefined' ? lang === 'my' : true);
+  const modal = document.getElementById('mc-module-preview-modal');
+  if (!modal) return;
+  if (modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+
+  const thumbEl = document.getElementById('mc-modal-thumb');
+  if (thumbEl) {
+    thumbEl.src = OFFICIAL_PROJECT_THUMBS[mod.id] || mod.thumb || 'banner.jpg';
+    thumbEl.onerror = function() {
+      if (mod.thumb) this.src = mod.thumb;
+    };
+  }
+
+  const durEl = document.getElementById('mc-modal-duration');
+  if (durEl) durEl.textContent = `${mod.dur || '45'} mins`;
+
+  const catEl = document.getElementById('mc-modal-category');
+  if (catEl) {
+    catEl.textContent = `${mod.icon || '🏅'} ${isMy ? (mod.myBadge || mod.badge || 'သင်ခန်းစာ') : (mod.badge || 'Core Lesson')}`;
+  }
+
+  const titleEl = document.getElementById('mc-modal-title');
+  if (titleEl) titleEl.textContent = `Module ${mod.id}: ${mod.title}`;
+
+  const titleMyEl = document.getElementById('mc-modal-title-my');
+  if (titleMyEl) titleMyEl.textContent = `မော်ဂျူး ${mod.id}: ${mod.myTitle || ''}`;
+
+  const descEl = document.getElementById('mc-modal-desc');
+  if (descEl) descEl.textContent = isMy ? (mod.mySub || mod.sub) : mod.sub;
+
+  const scripRefEl = document.getElementById('mc-modal-scripture-ref');
+  if (scripRefEl) scripRefEl.textContent = `📖 ${mod.scripture || 'Scripture Anchor'}`;
+
+  const scripTextEl = document.getElementById('mc-modal-scripture-text');
+  if (scripTextEl) scripTextEl.textContent = isMy ? (mod.myScripture || mod.scripture || '') : (mod.scripture || '');
+
+  const topicsListEl = document.getElementById('mc-modal-topics-list');
+  if (topicsListEl) {
+    const topics = isMy ? (mod.myTopics || mod.topics || []) : (mod.topics || []);
+    topicsListEl.innerHTML = topics.map(t => `<li>${t}</li>`).join('');
+  }
+
+  const actionTextEl = document.getElementById('mc-modal-action-text');
+  if (actionTextEl) {
+    actionTextEl.textContent = isMy ? (mod.myAction || mod.action || '') : (mod.action || '');
+  }
+
+  modal.classList.add('active');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModulePreviewModal(event) {
+  if (event && event.target && event.target.id !== 'mc-module-preview-modal' && !event.target.classList.contains('mc-preview-close-btn')) {
+    return;
+  }
+  const modal = document.getElementById('mc-module-preview-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+  }
+  document.body.style.overflow = '';
+}
+
+function playCurrentModalModule() {
+  closeModulePreviewModal();
+  openCinemaDirectly(currentModalModId);
+}
+
+function updateMcAccountUI() {
+  const completedIds = getCompletedModuleIds();
+  const count = completedIds.length;
+  const total = 11;
+  const pct = Math.round((count / total) * 100);
+
+  const statLessons = document.getElementById('mc-stat-lessons');
+  const statCertPct = document.getElementById('mc-stat-cert-pct');
+  if (statLessons) statLessons.textContent = `${count} / ${total}`;
+  if (statCertPct) statCertPct.textContent = `${pct}%`;
+
+  const isMy = (typeof lang !== 'undefined' ? lang === 'my' : true);
+  const langLabel = document.getElementById('mc-action-lang-label');
+  if (langLabel) {
+    langLabel.textContent = isMy ? '🇲🇲 မြန်မာ (Myanmar Active)' : '🇺🇸 English Active';
+  }
+
+  // Load user data if present
+  try {
+    const rawUser = localStorage.getItem('tpp_user');
+    if (rawUser) {
+      const u = JSON.parse(rawUser);
+      const nameEl = document.getElementById('mc-profile-name');
+      const emailEl = document.getElementById('mc-profile-email');
+      if (nameEl && u.fullName) nameEl.textContent = u.fullName;
+      if (emailEl && (u.email || u.church)) {
+        emailEl.textContent = `${u.email || 'parent@cbn.org'} · ${u.church || 'Community Church'}`;
+      }
+    }
+  } catch(e) {}
+}
+
+// Export to window
+window.OFFICIAL_PROJECT_THUMBS = OFFICIAL_PROJECT_THUMBS;
+window.getMcLessonsData = getMcLessonsData;
+window.renderMcLibraryLessons = renderMcLibraryLessons;
+window.toggleMcSearchInput = toggleMcSearchInput;
+window.handleMcLiveSearch = handleMcLiveSearch;
+window.clearMcLiveSearch = clearMcLiveSearch;
+window.toggleMcFilterDrawer = toggleMcFilterDrawer;
+window.applyMcCategory = applyMcCategory;
+window.resetMcFilters = resetMcFilters;
+window.openCinemaDirectly = openCinemaDirectly;
+window.openModulePreviewModal = openModulePreviewModal;
+window.closeModulePreviewModal = closeModulePreviewModal;
+window.playCurrentModalModule = playCurrentModalModule;
+window.currentModalModId = currentModalModId;
+window.updateMcAccountUI = updateMcAccountUI;
+window.updateTppHomeLanguage = updateTppHomeLanguage;
+window.openCanvaInviteModal = openCanvaInviteModal;
+window.closeCanvaInviteModal = closeCanvaInviteModal;
+
+

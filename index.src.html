@@ -164,22 +164,20 @@
 <!-- DEDICATED NATIVE MOBILE APP HEADER (Appears ONLY in Android App Mode) -->
 <header id="mobile-app-bar" class="mobile-app-only">
   <div class="mobile-app-bar-inner">
-    <div class="mobile-app-brand">
-      <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="mobile-app-logo"/>
+    <div class="mobile-app-brand" onclick="switchAppTab('home')">
+      <span class="mc-brand-mark">P</span>
       <div class="mobile-app-brand-text">
         <div class="mobile-app-title">The Parenting Project</div>
-        <div class="mobile-app-subtitle">Myanmar</div>
+        <div class="mobile-app-subtitle">CBN MasterClass</div>
       </div>
     </div>
-    <div class="mobile-app-actions" style="display:flex;align-items:center;gap:6px">
-      <button type="button" class="btn btn-outline btn-xs" id="mobile-app-lang-btn" onclick="toggleLang()" style="border-radius:14px;padding:3px 9px;font-size:0.75rem;color:#ffcc00;border-color:rgba(255,204,0,0.4)">
+    <div class="mobile-app-actions" style="display:flex;align-items:center;gap:8px">
+      <button type="button" class="btn btn-outline btn-xs" id="mobile-app-lang-btn" onclick="toggleLang()" style="border-radius:14px;padding:4px 10px;font-size:0.74rem;color:#ffffff;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);cursor:pointer">
         🇲🇲 မြန်မာ
       </button>
-      <button type="button" class="mobile-app-btn-menu" onclick="openSettingsModal()" aria-label="Menu" title="Menu">
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-      </button>
+      <div class="mobile-header-avatar" onclick="switchAppTab('account')" title="Profile / Account" style="cursor:pointer;position:relative">
+        <img src="mother_avatar.jpg" alt="Profile" class="mobile-avatar-img" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #ff2442;object-fit:cover"/>
+      </div>
     </div>
   </div>
 </header>
@@ -188,491 +186,1019 @@
 <section id="mobile-app-home" class="mobile-app-only">
 
   <!-- ============================================== -->
-  <!-- SCREEN 1: VIDEO LEARNING HUB (Photo 1 - Left)  -->
+  <!-- SCREEN 1: HOME SCREEN (Photo 1 - Left)         -->
   <!-- ============================================== -->
-  <div id="view-mobile-cinema" class="mobile-screen-view active">
-    <!-- Screen Headline -->
-    <div class="mobile-hub-headline">Video Learning Hub</div>
-    <div class="mobile-hub-current-title" id="mobile-cinema-current-title">M1: Foundations of Parenting</div>
+  <div id="view-mobile-home" class="mobile-screen-view active">
+    <!-- ========================================================= -->
+    <!-- HERO SHOWCASE: THE PARENTING PROJECT (CBN)                -->
+    <!-- Official Mission, Vision, and Mentors Introduction        -->
+    <!-- ========================================================= -->
+    <div class="tpp-home-hero">
+      <div class="tpp-hero-badge-row">
+        <span class="tpp-cbn-badge">🛡️ CBN ASIA · THE PARENTING PROJECT</span>
+        <span class="tpp-free-badge">🏛️ 100% FREE FOR CHURCHES</span>
+      </div>
 
-    <!-- 16:9 Video Player Frame -->
+      <!-- Mentors Portrait Banner (Full Couple Framing) -->
+      <div class="tpp-hero-banner-card">
+        <div class="tpp-hero-img-wrap">
+          <img src="tpp_mentors_official.jpg" alt="The Parenting Project CBN Official Mentors" class="tpp-hero-mentors-img"/>
+          <div class="tpp-hero-img-overlay"></div>
+          
+          <div class="tpp-hero-overlay-tags">
+            <span class="tpp-mentor-cred-pill">✨ CBN Asia Mentors</span>
+            <div class="tpp-hero-bottom-badges">
+              <span class="tpp-badge-curriculum">★ 11 ACCREDITED MODULES</span>
+              <span class="tpp-badge-church-pill">⛪ CHURCH PARTNER KIT</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tpp-hero-text-content">
+          <h1 class="tpp-hero-main-title" id="tpp-home-main-title">
+            အသင်းတော်များနှင့် လက်တွဲ၍ ခရစ်တော်ဗဟိုပြု မိသားစုများကို ပျိုးထောင်ခြင်း
+          </h1>
+          <h2 class="tpp-hero-sub-title" id="tpp-home-sub-title">
+            Partnering With Local Churches to Build Christ-Centered Families
+          </h2>
+          <p class="tpp-hero-desc" id="tpp-home-hero-desc">
+            နေ့စဉ် အော်ဟစ်ဆူပူခြင်းနှင့် ပင်ပန်းနွမ်းနယ်ခြင်းမှသည်... နွေးထွေးသော နားလည်မှု၊ မေတ္တာပြည့်ဝသော ဆက်ဆံရေးနှင့် ဘုရားသခင်၏ ငြိမ်သက်ခြင်းဆီသို့။ မြန်မာပြည်ရှိ ခရစ်ယာန် မိသားစုတိုင်းအတွက် CBN မှ အခမဲ့ ပေးအပ်သော မော်ဂျူး (၁၁) ခု လက်တွေ့ လမ်းညွှန်။
+          </p>
+
+          <div class="tpp-hero-action-buttons">
+            <button type="button" class="tpp-btn-start-mod1" onclick="openCinemaDirectly(1)">
+              <span id="tpp-btn-txt-start">▶ စတင်လေ့လာမည် (Module 1)</span>
+            </button>
+            <button type="button" class="tpp-btn-learn-vision" onclick="document.getElementById('sec-what-is-tpp').scrollIntoView({behavior:'smooth'})">
+              <span id="tpp-btn-txt-vision">📜 ရူပါရုံနှင့် မစ်ရှင်</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Key Pillars of Trust Banner -->
+      <div class="tpp-trust-grid">
+        <div class="tpp-trust-item">
+          <span class="tpp-trust-icon">🏛️</span>
+          <div>
+            <strong id="tpp-tr-1-h">အသင်းတော်များ အခမဲ့</strong>
+            <p id="tpp-tr-1-d">100% Free Church Kit</p>
+          </div>
+        </div>
+        <div class="tpp-trust-item">
+          <span class="tpp-trust-icon">🎬</span>
+          <div>
+            <strong id="tpp-tr-2-h">မော်ဂျူး ၁၁ ခု စုံလင်စွာ</strong>
+            <p id="tpp-tr-2-d">Real-Life Video Cinema</p>
+          </div>
+        </div>
+        <div class="tpp-trust-item">
+          <span class="tpp-trust-icon">📜</span>
+          <div>
+            <strong id="tpp-tr-3-h">တရားဝင် လက်မှတ်</strong>
+            <p id="tpp-tr-3-d">Accredited Certificate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 1: WHAT IS THE PARENTING PROJECT? (TPP ဆိုတာ ဘာလဲ) -->
+    <!-- ========================================================= -->
+    <section class="tpp-section-card" id="sec-what-is-tpp">
+      <div class="tpp-section-eyebrow">🌱 THE HEART OF THE MINISTRY</div>
+      <h3 class="tpp-section-title" id="tpp-txt-about-title">The Parenting Project (TPP) ဆိုတာ ဘာလဲ</h3>
+      <p class="tpp-section-lead" id="tpp-txt-about-lead">
+        The Parenting Project (<strong style="color:#d4af37">theparentingproject.id</strong>) သည် ကမ္ဘာကျော် ခရစ်ယာန် ရုပ်သံကွန်ရက် <strong>CBN (Christian Broadcasting Network)</strong> မှ ဒေသန္တရ အသင်းတော်များနှင့် လက်တွဲကာ ခရစ်ယာန် မိသားစုများကို အားဖြည့်ပေးရန် ဖန်တီးထားသော အဆင့်မြင့် မိဘတပည့်တော်ဖြစ်စေခြင်း စီမံကိန်း ဖြစ်ပါသည်။
+      </p>
+
+      <div class="tpp-story-highlight-box">
+        <div class="tpp-quote-icon">❝</div>
+        <p class="tpp-quote-text" id="tpp-txt-about-quote">
+          «မိဘအုပ်ထိန်းမှု သီအိုရီများသာမကဘဲ အိမ်ထောင်တိုင်း နေ့စဉ်ဘဝတွင် ချက်ချင်းလက်တွေ့ ကျင့်သုံးနိုင်သော နည်းလမ်းများ၊ နက်ရှိုင်းသော စိတ်ခံစားမှု ဆက်ဆံရေးနှင့် ဘုရားသခင်၏ နှုတ်ကပတ်တော် သမ္မာတရားကို ပေါင်းစပ်ဖော်ပြထားခြင်း ဖြစ်ပါသည်။»
+        </p>
+      </div>
+
+      <div class="tpp-features-list">
+        <div class="tpp-feature-bullet">
+          <span class="tpp-bullet-check">✓</span>
+          <div>
+            <strong id="tpp-feat-1-h">ရယ်မောလွယ်ပြီး လက်တွေ့ဘဝ ဇာတ်လမ်းများ:</strong>
+            <span id="tpp-feat-1-d">မိဘများကို အပြစ်တင်ဆုံးမခြင်း မဟုတ်ဘဲ အိမ်တိုင်းကြုံတွေ့ရသော အခက်အခဲများကို ဟာသနှင့် ရိုးသားပွင့်လင်းစွာ ဖော်ထုတ်ကာ အတူတကွ ဖြေရှင်းနည်းကို သင်ကြားပေးသည်။</span>
+          </div>
+        </div>
+        <div class="tpp-feature-bullet">
+          <span class="tpp-bullet-check">✓</span>
+          <div>
+            <strong id="tpp-feat-2-h">ချက်ချင်း အသုံးချနိုင်သော အလေ့အကျင့်များ:</strong>
+            <span id="tpp-feat-2-d">ဖုန်းမျက်နှာပြင်များ ပိတ်ထားပြီး သားသမီးနှင့် မိနစ် ၃၀ နှစ်ကိုယ်ကြား နားထောင်ပေးခြင်း၊ ကောင်းချီးပေး ဆုတောင်းခြင်း စသည့် လက်တွေ့ အလေ့အထများ ပါဝင်သည်။</span>
+          </div>
+        </div>
+        <div class="tpp-feature-bullet">
+          <span class="tpp-bullet-check">✓</span>
+          <div>
+            <strong id="tpp-feat-3-h">ဒေသန္တရ အသင်းတော်များကို အခမဲ့ အားဖြည့်ပေးခြင်း:</strong>
+            <span id="tpp-feat-3-d">သင်းအုပ်ဆရာများနှင့် အသင်းတော်များ အခမဲ့ အသုံးပြုနိုင်ရန် Canva A5 ဖိတ်စာများ၊ ဆွေးနွေးမှုလက်စွဲများနှင့် ဗီဒီယိုများကို ဖြန့်ဝေပေးသည်။</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 2: VISION & MISSION (ရူပါရုံနှင့် ရည်မှန်းချက်)         -->
+    <!-- ========================================================= -->
+    <section class="tpp-section-card tpp-vision-section">
+      <div class="tpp-section-eyebrow">🧭 VISION & PURPOSE</div>
+
+      <!-- The Grand Vision -->
+      <div class="tpp-vision-banner">
+        <div class="tpp-vision-tag">THE GRAND VISION · မဟာ ရူပါရုံ</div>
+        <h3 class="tpp-vision-headline-my" id="tpp-txt-vision-my">
+          «ဒေသန္တရ အသင်းတော်များနှင့် လက်တွဲ၍ ခရစ်တော်ကို ဗဟိုပြုသော မျိုးဆက်သစ် မိသားစုများကို တည်ဆောက်ရန်»
+        </h3>
+        <p class="tpp-vision-sub" id="tpp-txt-vision-en">
+          "Partnering with local churches across Myanmar to build Christ-centered, emotionally healthy families for generations to come."
+        </p>
+        <div class="tpp-vision-origin">
+          Global CBN Foundation: <em>"Bersama Gereja Membangun Keluarga yang Berpusat pada Kristus"</em>
+        </div>
+        <div class="tpp-vision-scripture">
+          📖 တရားဟောရာ ၆:၆-၇ · သုတ္တံ ၂၂:၆ · ဧဖက် ၆:၄
+        </div>
+      </div>
+
+      <!-- The 3 Core Missions -->
+      <div class="tpp-mission-title-row">
+        <h4 id="tpp-txt-mission-title">THE MISSION (ရည်မှန်းချက် မဏ္ဍိုင် ၃ ရပ်)</h4>
+      </div>
+
+      <div class="tpp-mission-cards-stack">
+        <!-- Mission 1 -->
+        <div class="tpp-mission-card">
+          <div class="tpp-mission-icon-wrap" style="background:rgba(0, 48, 135, 0.25);color:#3b82f6">🎯</div>
+          <div class="tpp-mission-info">
+            <h5 id="tpp-m1-h">၁။ မိဘတိုင်းကို သမ္မာကျမ်းစာပညာဖြင့် လက်နက်တပ်ဆင်ခြင်း (Equip Parents)</h5>
+            <p id="tpp-m1-d">
+              ဒေါသထွက်အော်ဟစ်ခြင်းမှသည် မေတ္တာနှင့် တည်ငြိမ်သော ခရစ်တော်၏ စံနမူနာပြ ဦးဆောင်မှုဆီသို့ ပြောင်းလဲစေကာ သားသမီးများကို ဧဝံဂေလိတရား၏ အလင်းဖြင့် လမ်းပြနိုင်စေရန်။
+            </p>
+          </div>
+        </div>
+
+        <!-- Mission 2 -->
+        <div class="tpp-mission-card">
+          <div class="tpp-mission-icon-wrap" style="background:rgba(212, 175, 55, 0.25);color:#d4af37">💡</div>
+          <div class="tpp-mission-info">
+            <h5 id="tpp-m2-h">၂။ နေ့စဉ်ဘဝတွင် ချက်ချင်းကျင့်သုံးနိုင်သော အလေ့အကျင့်ကောင်းများ (Practical Habits)</h5>
+            <p id="tpp-m2-d">
+              မော်ဂျူး (၁၁) ခုလုံးတွင် သဘောတရားသက်သက် မဟုတ်ဘဲ နားထောင်ခြင်းအနုပညာ၊ ဒစ်ဂျစ်တယ် စည်းကမ်းနှင့် မေတ္တာဘာသာစကားများကို အိမ်တွင် ချက်ချင်းကျင့်သုံးစေရန်။
+            </p>
+          </div>
+        </div>
+
+        <!-- Mission 3 -->
+        <div class="tpp-mission-card">
+          <div class="tpp-mission-icon-wrap" style="background:rgba(16, 185, 129, 0.25);color:#10b981">⛪</div>
+          <div class="tpp-mission-info">
+            <h5 id="tpp-m3-h">၃။ ဒေသန္တရ အသင်းတော်များကို အခမဲ့ အားဖြည့်ပေးခြင်း (Empower Local Churches)</h5>
+            <p id="tpp-m3-d">
+              မြန်မာနိုင်ငံရှိ သင်းအုပ်ဆရာများနှင့် အသင်းတော်များအတွက် Canva ပုံနှိပ်ဖိတ်စာ (A5)၊ အုပ်စုငယ် ဆွေးနွေးပွဲ လမ်းညွှန်များနှင့် ဗီဒီယိုများကို အခမဲ့ ပေးအပ်ပံ့ပိုးရန်။
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 3: 4 CORE PILLARS (အဓိက တန်ဖိုး ၄ ရပ်)              -->
+    <!-- ========================================================= -->
+    <section class="tpp-section-card">
+      <div class="tpp-section-eyebrow">🛡️ FOUNDATIONS</div>
+      <h3 class="tpp-section-title" id="tpp-txt-pillars-title">The 4 Core Pillars (အဓိက တန်ဖိုးထားမှု ၄ ရပ်)</h3>
+
+      <div class="tpp-pillars-grid">
+        <div class="tpp-pillar-item" onclick="openCinemaDirectly(1)">
+          <span class="tpp-pillar-icon">🏅</span>
+          <h5 id="tpp-p1-h">၁။ စံနမူနာပြခြင်း</h5>
+          <p id="tpp-p1-d">သင့်အသက်တာသည် သားသမီးဖတ်ရှုရသော ပထမဆုံး သမ္မာကျမ်းစာ ဖြစ်ပါသည်။</p>
+          <span class="tpp-pillar-mod-link">Module 1 ›</span>
+        </div>
+
+        <div class="tpp-pillar-item" onclick="openCinemaDirectly(2)">
+          <span class="tpp-pillar-icon">🤝</span>
+          <h5 id="tpp-p2-h">၂။ နက်ရှိုင်းသော ရင်းနှီးမှု</h5>
+          <p id="tpp-p2-d">နွေးထွေးသော ဆက်ဆံရေးမရှိဘဲ ဆုံးမခြင်းသည် ပုန်ကန်မှုကိုသာ ဖြစ်စေသည်။</p>
+          <span class="tpp-pillar-mod-link">Module 2 ›</span>
+        </div>
+
+        <div class="tpp-pillar-item" onclick="openCinemaDirectly(3)">
+          <span class="tpp-pillar-icon">🛡️</span>
+          <h5 id="tpp-p3-h">၃။ မေတ္တာပြည့်ဝသော ဩဇာ</h5>
+          <p id="tpp-p3-d">ခြိမ်းခြောက်ကြောက်ရွံ့စေခြင်း မဟုတ်ဘဲ မေတ္တာနှင့် တည်ငြိမ်စွာ ဦးဆောင်ပါ။</p>
+          <span class="tpp-pillar-mod-link">Module 3 ›</span>
+        </div>
+
+        <div class="tpp-pillar-item" onclick="openCinemaDirectly(9)">
+          <span class="tpp-pillar-icon">🙏</span>
+          <h5 id="tpp-p4-h">၄။ ယုံကြည်ခြင်း အမွေ</h5>
+          <p id="tpp-p4-d">မိသားစု ဆုတောင်းခြင်းဖြင့် မျိုးဆက်သစ်ထံသို့ ခရစ်တော်၏အလင်းကို လက်ဆင့်ကမ်းပါ။</p>
+          <span class="tpp-pillar-mod-link">Module 9 ›</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 4: 11-MODULE ROADMAP PREVIEW                      -->
+    <!-- ========================================================= -->
+    <section class="tpp-section-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div class="tpp-section-eyebrow">📚 COMPLETE CURRICULUM</div>
+          <h3 class="tpp-section-title" style="margin-bottom:0" id="tpp-txt-roadmap-title">သင်ရိုး မော်ဂျူး ၁၁ ခု လမ်းပြမြေပုံ</h3>
+        </div>
+        <button type="button" class="tpp-btn-link-library" onclick="switchAppTab('library')">
+          <span id="tpp-btn-txt-all">အားလုံးကြည့်ရန် ›</span>
+        </button>
+      </div>
+
+      <!-- Quick Module Horizontal Reel -->
+      <div class="tpp-modules-reel">
+        <div class="tpp-reel-card" onclick="openCinemaDirectly(1)">
+          <img src="yt_thumb_1.jpg" alt="M1" class="tpp-reel-thumb"/>
+          <div class="tpp-reel-info">
+            <span class="tpp-reel-tag">M1 · 45m</span>
+            <div class="tpp-reel-title">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
+          </div>
+        </div>
+        <div class="tpp-reel-card" onclick="openCinemaDirectly(2)">
+          <img src="yt_thumb_2.jpg" alt="M2" class="tpp-reel-thumb"/>
+          <div class="tpp-reel-info">
+            <span class="tpp-reel-tag">M2 · 50m</span>
+            <div class="tpp-reel-title">နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး</div>
+          </div>
+        </div>
+        <div class="tpp-reel-card" onclick="openCinemaDirectly(3)">
+          <img src="yt_thumb_3.jpg" alt="M3" class="tpp-reel-thumb"/>
+          <div class="tpp-reel-info">
+            <span class="tpp-reel-tag">M3 · 40m</span>
+            <div class="tpp-reel-title">မေတ္တာနှင့် တည်ဆောက်သော မိဘဩဇာ</div>
+          </div>
+        </div>
+        <div class="tpp-reel-card" onclick="openCinemaDirectly(4)">
+          <img src="yt_thumb_4.jpg" alt="M4" class="tpp-reel-thumb"/>
+          <div class="tpp-reel-info">
+            <span class="tpp-reel-tag">M4 · 45m</span>
+            <div class="tpp-reel-title">သားသမီး၏ စိတ်ခံစားချက် ဖြည့်ဆည်းပေးခြင်း</div>
+          </div>
+        </div>
+        <div class="tpp-reel-card" onclick="openCinemaDirectly(5)">
+          <img src="yt_thumb_5.jpg" alt="M5" class="tpp-reel-thumb"/>
+          <div class="tpp-reel-info">
+            <span class="tpp-reel-tag">M5 · 55m</span>
+            <div class="tpp-reel-title">ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု</div>
+          </div>
+        </div>
+        <div class="tpp-reel-card" onclick="openCinemaDirectly(6)">
+          <img src="yt_thumb_6.jpg" alt="M6" class="tpp-reel-thumb"/>
+          <div class="tpp-reel-info">
+            <span class="tpp-reel-tag">M6 · 45m</span>
+            <div class="tpp-reel-title">စည်းဘောင်များနှင့် အပြုသဘော ဆုံးမခြင်း</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:14px">
+        <button type="button" class="tpp-btn-full-library" onclick="switchAppTab('library')">
+          <span id="tpp-btn-txt-explore">📖 စာကြည့်တိုက်တွင် မော်ဂျူး ၁၁ ခုလုံးကို ကြည့်ရှုမည် (Explore Library)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 5: CHURCH PARTNERSHIP & CANVA INVITATION KIT     -->
+    <!-- ========================================================= -->
+    <section class="tpp-section-card tpp-church-card">
+      <div class="tpp-church-top-row">
+        <div class="tpp-church-badge">⛪ FOR PASTORS & CHURCHES</div>
+        <span class="tpp-church-free-tag">100% FREE</span>
+      </div>
+      <h3 class="tpp-church-title" id="tpp-txt-church-title">
+        သင့်အသင်းတော်တွင် The Parenting Project ကို ကျင်းပပါ
+      </h3>
+      <p class="tpp-church-desc" id="tpp-txt-church-desc">
+        သင်းအုပ်ဆရာများနှင့် အသင်းတော်များ မိဘတပည့်တော်ဖြစ်စေခြင်း အတန်းများ စတင်နိုင်ရန် အဆင်သင့် ပုံနှိပ်ဖိတ်စာ (Canva A5 Kit)၊ အုပ်စုငယ် ဆွေးနွေးပွဲ လမ်းညွှန်ချက်များနှင့် ဗီဒီယိုများကို အခမဲ့ ပေးအပ်ထားပါသည်။
+      </p>
+
+      <!-- Real Canva Invitation Card Visual Preview -->
+      <div class="tpp-canva-invite-preview-wrap" onclick="openCanvaInviteModal()">
+        <img src="tpp_canva_invite_card.jpg" alt="Official A5 Canva Invitation Card for Churches" class="tpp-canva-invite-img"/>
+        <div class="tpp-canva-invite-overlay-badge">
+          <span>🎨 Canva A5 Printable Template</span>
+          <span style="color:#d4af37">Tap to Preview ›</span>
+        </div>
+      </div>
+
+      <!-- Key Print & Church Kit Specs -->
+      <div class="tpp-canva-specs-grid">
+        <div class="tpp-spec-chip">📐 <strong>A5 Standard</strong> (14.8 × 21 cm)</div>
+        <div class="tpp-spec-chip">📄 <strong>Inkjet 220 GSM</strong> Cardstock</div>
+        <div class="tpp-spec-chip">🎨 <strong>Canva Web Link</strong> (No app needed)</div>
+        <div class="tpp-spec-chip">🖨️ <strong>2-Sided Full Color</strong> Ready</div>
+      </div>
+
+      <div class="tpp-church-btn-row">
+        <button type="button" class="tpp-btn-church-primary" onclick="openInAppLoginModal('register')">
+          <span id="tpp-btn-txt-reg">🤝 အသင်းတော်အဖြစ် စာရင်းသွင်းမည် (Register Church)</span>
+        </button>
+        <button type="button" class="tpp-btn-church-secondary" onclick="openCanvaInviteModal()">
+          <span id="tpp-btn-txt-invite-preview">👁️ ဖိတ်စာနမူနာ အပြည့်အစုံ ကြည့်ရှုရန် (View Invitation Details)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- SECTION 6: USER PROGRESS & RESUME LEARNING HUB            -->
+    <!-- ========================================================= -->
+    <div class="home-hero-journey-card" style="margin-top:20px">
+      <div class="hero-journey-header">
+        <div class="hero-journey-title" id="home-hero-title">Your 11-Episode Journey</div>
+      </div>
+      
+      <div class="hero-journey-body">
+        <div class="hero-progress-ring-wrap">
+          <svg class="hero-progress-svg" viewBox="0 0 100 100">
+            <circle class="hero-ring-track" cx="50" cy="50" r="38"></circle>
+            <circle class="hero-ring-fill" id="hero-progress-ring" cx="50" cy="50" r="38" stroke-dasharray="238.76" stroke-dashoffset="174.3"></circle>
+          </svg>
+          <div class="hero-ring-center-content">
+            <span class="hero-ring-num" id="hero-ring-count">0 / 11</span>
+            <span class="hero-ring-lbl" id="hero-ring-lbl">Complete</span>
+          </div>
+        </div>
+
+        <div class="hero-stat-card">
+          <div class="hero-stat-pct" id="hero-stat-pct">0%</div>
+          <div class="hero-stat-lbl" id="hero-stat-lbl">Journey Done</div>
+        </div>
+      </div>
+
+      <div class="hero-journey-footer">
+        <span class="hero-quote-text" id="home-hero-quote">Raising happy kids, one tiny step at a time</span>
+      </div>
+    </div>
+  </div>
+
+    <!-- SCREEN 2: VIDEO PLAYBACK SCREEN (Photo 2 - M)  -->
+  <!-- ============================================== -->
+  <div id="view-mobile-cinema" class="mobile-screen-view" style="display:none">
+    <!-- Playback Top Bar -->
+    <div class="cinema-top-bar">
+      <button type="button" class="cinema-btn-back" onclick="goBackFromCinema()" aria-label="Back">‹</button>
+      <div class="cinema-top-title" id="mobile-cinema-current-title">Episode 3: Handling Tantrums Calmly</div>
+      <button type="button" class="cinema-btn-fav" id="cinema-btn-fav" onclick="toggleCinemaFavorite()" aria-label="Favorite">♡</button>
+    </div>
+
+    <!-- 16:9 Video Player Container -->
     <div class="mobile-cinema-player-frame" id="mobile-video-player-container">
-      <iframe id="mobile-cinema-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1" title="The Parenting Project Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <video id="mobile-cinema-video" controls playsinline poster="https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
-      <!-- Offline Playing Badge — inside frame so position:absolute works -->
+      <iframe id="mobile-cinema-iframe" src="https://www.youtube.com/embed/lmtVOhpszCQ?rel=0&enablejsapi=1" title="The Parenting Project Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <video id="mobile-cinema-video" controls playsinline poster="parent_toddler_cozy.jpg" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
+      <!-- Offline Badge -->
       <div id="offline-playing-badge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,180,80,0.92);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;align-items:center;gap:4px;z-index:10;">📲 OFFLINE</div>
     </div>
 
-    <!-- 11-Module Video Cinema Stage Header -->
-    <div class="mobile-stage-header">
-      <span>11-Module Video Cinema Stage</span>
-      <span style="font-size:1.1rem;color:#f0c355">›</span>
+    <!-- Video HUD Timestamp & Scrubber -->
+    <div class="cinema-hud-row">
+      <span class="cinema-hud-time" id="cinema-hud-time">04:12 / 12:30</span>
+      <div class="cinema-hud-progress-bar">
+        <div class="cinema-hud-progress-fill" id="cinema-hud-progress-fill" style="width: 33.6%;"></div>
+      </div>
     </div>
 
-    <!-- 11 Modules Chips Grid (Row 1: M1 to M5, Row 2: M6 to M11) -->
-    <div class="mobile-chips-grid">
-      <button type="button" class="mobile-chip-btn active" id="chip-m1" onclick="selectMobileModuleVideo(1, true)">M1</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m2" onclick="selectMobileModuleVideo(2, true)">M2</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m3" onclick="selectMobileModuleVideo(3, true)">M3</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m4" onclick="selectMobileModuleVideo(4, true)">M4</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m5" onclick="selectMobileModuleVideo(5, true)">M5</button>
-    </div>
-    <div class="mobile-chips-grid-row2">
-      <button type="button" class="mobile-chip-btn" id="chip-m6" onclick="selectMobileModuleVideo(6, true)">M6</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m7" onclick="selectMobileModuleVideo(7, true)">M7</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m8" onclick="selectMobileModuleVideo(8, true)">M8</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m9" onclick="selectMobileModuleVideo(9, true)">M9</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m10" onclick="selectMobileModuleVideo(10, true)">M10</button>
-      <button type="button" class="mobile-chip-btn" id="chip-m11" onclick="selectMobileModuleVideo(11, true)">M11</button>
+    <!-- Floating Frosted Glass Control Capsule (Matching Photo 2) -->
+    <div class="cinema-controls-capsule">
+      <button type="button" class="capsule-ctrl-btn" id="cinema-ctrl-play" onclick="toggleCinemaVideoPlay()">
+        <span class="ctrl-icon" id="cinema-ctrl-icon-play">▶</span>
+        <span class="ctrl-lbl" id="ctrl-lbl-play">Play</span>
+      </button>
+      <button type="button" class="capsule-ctrl-btn" id="cinema-ctrl-rewind" onclick="rewindCinemaVideo(10)">
+        <span class="ctrl-icon">⏪</span>
+        <span class="ctrl-lbl">Rewind</span>
+      </button>
+      <button type="button" class="capsule-ctrl-btn" id="cinema-ctrl-save" onclick="toggleCinemaBookmark()">
+        <span class="ctrl-icon" id="ctrl-ico-bookmark">🔖</span>
+        <span class="ctrl-lbl" id="ctrl-lbl-save">Saved</span>
+      </button>
+      <button type="button" class="capsule-ctrl-btn" id="cinema-ctrl-sub" onclick="toggleCinemaSubtitles()">
+        <span class="ctrl-icon">💬</span>
+        <span class="ctrl-lbl">Subtitle</span>
+      </button>
+      <button type="button" class="capsule-ctrl-btn" id="cinema-ctrl-voice" onclick="toggleCinemaVoiceOver()">
+        <span class="ctrl-icon">🎙️</span>
+        <span class="ctrl-lbl" id="ctrl-lbl-voice">Voice-over</span>
+      </button>
     </div>
 
-    <!-- Bottom Info Pill -->
-    <div class="mobile-cinema-bottom-pill" id="mobile-cinema-bottom-pill">
-      Module 1: Being a Positive Role Model | 45 mins
-    </div>
-    <div class="mobile-video-caption-card" id="mobile-video-caption-card">
-      <div class="caption-card-header">
-        <div class="caption-card-badge" id="caption-card-badge">📖 Deuteronomy 6:6-7</div>
-        <div class="caption-card-actions">
-          <button type="button" class="cinema-btn-dl-action" id="cinema-btn-download-cur" onclick="openDownloadOptionsSheet(currentMobileModId)" title="Download Episode for Offline">
-            <span id="cinema-dl-icon">📥</span>
-            <span id="cinema-dl-text">ဒေါင်းလုဒ်</span>
-          </button>
-          <button type="button" class="caption-card-btn-action" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
+    <!-- Episode Heading & Details -->
+    <div class="cinema-details-section">
+      <div class="cinema-heading-title" id="cinema-heading-title">
+        Episode 3: Handling Tantrums Calmly (12 min)
+      </div>
+
+      <!-- Segmented Tab Switcher (Takeaways ▾ / Notes/Exercises) -->
+      <div class="cinema-tabs-switcher">
+        <button type="button" class="cinema-tab-toggle active" id="tab-btn-takeaways" onclick="switchCinemaTab('takeaways')">
+          <span>Takeaways</span> <span style="font-size:0.75rem;margin-left:2px">▾</span>
+        </button>
+        <button type="button" class="cinema-tab-toggle" id="tab-btn-notes" onclick="switchCinemaTab('notes')">
+          <span>Notes/Exercises</span>
+        </button>
+      </div>
+
+      <!-- PANE 1: TAKEAWAYS (Photo 2) -->
+      <div id="cinema-pane-takeaways" class="cinema-tab-pane active">
+        <!-- 3 Stacked Takeaway Pill Cards -->
+        <div class="takeaways-stack" id="takeaways-stack">
+          <div class="takeaway-pill-card terracotta" id="takeaway-card-1" onclick="toggleTakeawayCard(1)">
+            <div class="takeaway-header-row">
+              <span class="takeaway-icon">🧘</span>
+              <span class="takeaway-text" id="takeaway-text-1">Stay grounded</span>
+              <span class="takeaway-chevron" style="font-size:0.75rem;opacity:0.8">▾</span>
+            </div>
+            <div class="takeaway-detail-body" id="takeaway-body-1">
+              Your calm regulates their storm. Take 3 deep breaths before speaking. Lower your voice pitch instead of raising it.
+            </div>
+          </div>
+          <div class="takeaway-pill-card amber" id="takeaway-card-2" onclick="toggleTakeawayCard(2)">
+            <div class="takeaway-header-row">
+              <span class="takeaway-icon">🤗</span>
+              <span class="takeaway-text" id="takeaway-text-2">Name their feeling</span>
+              <span class="takeaway-chevron" style="font-size:0.75rem;opacity:0.8">▾</span>
+            </div>
+            <div class="takeaway-detail-body" id="takeaway-body-2">
+              Help them name what they feel: "You are feeling disappointed right now." Naming an emotion tames its intensity.
+            </div>
+          </div>
+          <div class="takeaway-pill-card warm-gold" id="takeaway-card-3" onclick="toggleTakeawayCard(3)">
+            <div class="takeaway-header-row">
+              <span class="takeaway-icon">🤝</span>
+              <span class="takeaway-text" id="takeaway-text-3">Connect before correcting</span>
+              <span class="takeaway-chevron" style="font-size:0.75rem;opacity:0.8">▾</span>
+            </div>
+            <div class="takeaway-detail-body" id="takeaway-body-3">
+              Offer a warm hug, gentle touch, or soft eye contact. Connection opens a child's receptive state before offering guidance.
+            </div>
+          </div>
+        </div>
+
+        <!-- Episode Resources Section -->
+        <div class="episode-resources-section">
+          <div class="resources-title">Episode Resources</div>
+          <div class="resource-card" onclick="openDownloadOptionsSheet(currentMobileModId)">
+            <div class="res-icon-box">📥</div>
+            <div class="res-info">
+              <div class="res-title" id="res-sheet-title">Downloadable PDF Tip Sheet (Episode 3)</div>
+              <div class="res-sub">Offline Practical Summary & Action Steps</div>
+            </div>
+            <div class="res-arrow">›</div>
+          </div>
+
+          <!-- Mark Completed Button -->
+          <button type="button" class="btn-mark-completed-lux" id="btn-toggle-mod-completed" onclick="toggleModuleCompletedCurrent()">
             <span id="ico-mod-completed">✓</span>
-            <span id="txt-mod-completed">ပြီးဆုံးမှတ်သား</span>
+            <span id="txt-mod-completed">ပြီးဆုံးမှတ်သား (Mark Completed)</span>
           </button>
         </div>
       </div>
 
-      <!-- Core Principle / Caption Quote -->
-      <div class="caption-card-quote-box">
-        <div class="caption-card-quote-my" id="caption-card-quote-my">
-          «မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှု စရိုက်လက္ခဏာသည် သားသမီးများ ပထမဆုံး ဖတ်ရှုရသော ပြဋ္ဌာန်းစာအုပ်ဖြစ်ပါသည်။»
+      <!-- PANE 2: NOTES & EXERCISES -->
+      <div id="cinema-pane-notes" class="cinema-tab-pane" style="display:none">
+        <div class="notes-action-box" id="caption-card-action-box">
+          <span class="action-icon">💡</span>
+          <div class="action-text-wrap">
+            <strong id="notes-action-lbl">ယခုအပတ် လက်တွေ့လေ့ကျင့်ခန်း:</strong>
+            <span id="caption-card-action-text">«စိတ်တိုဒေါသထွက်တဲ့အခါ အဖေ/အမေ ဘာကို ပြုပြင်သင့်လဲ» ဟု သားသမီးအား မေးမြန်းနားထောင်ပါ။</span>
+          </div>
         </div>
-        <div class="caption-card-quote-en" id="caption-card-quote-en">
-          "Your daily character is the first textbook your child reads."
-        </div>
-      </div>
 
-      <!-- Key Practical Takeaways (3 Bullet Points) -->
-      <div class="caption-card-takeaways">
-        <div class="caption-takeaways-title">
-          <span>🎯 လက်တွေ့ သင်ခန်းစာ အနှစ်ချုပ် (Key Takeaways):</span>
+        <div class="notes-scripture-box">
+          <div class="caption-card-badge" id="caption-card-badge">📖 Ephesians 6:4</div>
+          <div class="caption-card-quote-my" id="caption-card-quote-my" style="margin-top:6px">
+            «မိမိအိမ်ထောင်ကို ခြိမ်းခြောက်ကြောက်ရွံ့စေခြင်းဖြင့် မဟုတ်ဘဲ၊ ချစ်ခြင်းမေတ္တာပြည့်ဝသော အုပ်ထိန်းမှုဖြင့် ဦးဆောင်ပါ။»
+          </div>
+          <div class="caption-card-quote-en" id="caption-card-quote-en" style="margin-top:4px">
+            "Lead your home with loving authority, not intimidation."
+          </div>
         </div>
-        <ul class="caption-takeaways-list" id="caption-takeaways-list">
-          <li>မိမိသွန်သင်သော တန်ဖိုးများနှင့်အညီ လက်တွေ့ ညီညွတ်စွာ နေထိုင်ခြင်း</li>
-          <li>မှားယွင်းမှုကို ရိုးသားစွာ ဝန်ခံပြီး သားသမီးထံ တောင်းပန်ခြင်း</li>
-          <li>မိသားစု ဖိစီးမှုများကြားတွင် စိတ်ခံစားမှုကို တည်ငြိမ်စွာ ထိန်းကျောင်းခြင်း</li>
-        </ul>
-      </div>
 
-      <!-- Weekly Family Action Step Callout -->
-      <div class="caption-card-action-box" id="caption-card-action-box">
-        <span class="action-icon">💡</span>
-        <div class="action-text-wrap">
-          <strong>ယခုအပတ် လက်တွေ့လေ့ကျင့်ခန်း:</strong>
-          <span id="caption-card-action-text">«စိတ်တိုဒေါသထွက်တဲ့အခါ အဖေ/အမေ ဘာကို ပြုပြင်သင့်လဲ» ဟု သားသမီးအား မေးမြန်းနားထောင်ပါ။</span>
+        <div class="notes-input-box">
+          <label for="cinema-user-notes" style="font-size:0.75rem;font-weight:700;color:#f5a800;display:block;margin-bottom:4px;">
+            📝 သင်၏ ကိုယ်ပိုင် မှတ်စု (Personal Notes):
+          </label>
+          <textarea id="cinema-user-notes" class="cinema-notes-textarea" rows="3" placeholder="ဒီအပိုင်းမှ သင်ရရှိသော ထိုးထွင်းသိမြင်မှုများကို မှတ်သားပါ..."></textarea>
+          <button type="button" class="btn btn-outline btn-xs" onclick="saveCurrentEpisodeNotes()" style="margin-top:6px;border-radius:12px;color:#f5a800;border-color:rgba(245,168,0,0.4)">
+            💾 မှတ်စု သိမ်းဆည်းမည် (Save)
+          </button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ============================================== -->
-  <!-- SCREEN 2: PRAYER COMMUNITY (Photo 1 - Middle)  -->
+  <!-- SCREEN 3: EPISODES PATH SCREEN (Photo 3 - R)   -->
   <!-- ============================================== -->
-  <div id="view-mobile-prayer" class="mobile-screen-view" style="display:none">
-    <!-- Top Header Bar -->
-    <div class="mobile-subpage-header">
-      <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')">‹</button>
-      <div class="mobile-subpage-title">Prayer Community</div>
-      <div class="mobile-bell-btn" onclick="showToast('🔔 အသင်းတော် ဆုတောင်းသတိပေးချက် ဖွင့်ထားပါသည်')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#f0c355"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        <span class="mobile-bell-dot">3</span>
-      </div>
+  <div id="view-mobile-episodes" class="mobile-screen-view" style="display:none">
+    <!-- Path Screen Top Bar -->
+    <div class="path-top-bar">
+      <button type="button" class="path-btn-back" onclick="switchAppTab('home')" aria-label="Back">‹</button>
+      <div class="path-top-title" id="path-top-title">The 11-Episode Path</div>
     </div>
 
-    <!-- Warm Candle Greeting Card (Feature 2) -->
-    <div class="prayer-greeting-card">
-      <div>
-        <div class="pgc-title">ဆုတောင်းခြင်းနှင့် မိသားစု မိတ်သဟာယ</div>
-        <div class="pgc-sub">သခင်ယေရှု၌ တစ်စိတ်တစ်ဝမ်းတည်း ဆုတောင်းခြင်းသည် မိသားစုကို ခိုင်ခံ့စေပါသည်</div>
-      </div>
-      <div class="pgc-candle">🕯️</div>
-    </div>
-
-    <!-- Weekly Couple & Family Discussion Card (Feature 2) -->
-    <div class="couple-discussion-card">
-      <div class="couple-disc-badge">💬 ယခုအပတ် ဇနီးမောင်နှံနှင့် မိသားစု ဆွေးနွေးတိုင်ပင်ရန်</div>
-      <div class="couple-disc-title" id="disc-topic-title">Loving Communication & Mutual Grace</div>
-      <div class="couple-disc-my" id="disc-topic-my">အပြန်အလှန် လေးစားတန်ဖိုးထားမှုနှင့် နားထောင်ခြင်း</div>
-      <div class="couple-scripture-box" id="disc-scripture-box">
-        📖 <strong>ကောလောသဲ ၃:၁၂-၁၃:</strong> «ထို့ကြောင့် ဘုရားသခင် ရွေးကောက်တော်မူသော သန့်ရှင်းသောသူကဲ့သို့ သနားစုံမက်ခြင်း၊ ကျေးဇူးပြုခြင်း၊ စိတ်နှိမ့်ချခြင်း၊ နူးညံ့သိမ်မွေ့ခြင်း၊ စိတ်ရှည်ခြင်းတို့ကို ဝတ်ဆင်ကြလော့။»
-      </div>
-      <div class="couple-questions-list" id="disc-questions-list">
-        <div class="couple-question-item">
-          <span class="cq-num">၁</span>
-          <span>ဒီတစ်ပတ်အတွင်း တစ်ဦးကိုတစ်ဦး စိတ်မကျေနပ်ခဲ့တာမျိုးရှိရင် ခွင့်လွှတ်ခြင်းနဲ့ ဘယ်လိုရင်ဖွင့်မလဲ?</span>
-        </div>
-        <div class="couple-question-item">
-          <span class="cq-num">၂</span>
-          <span>သားသမီးတွေရှေ့မှာ ငါတို့နှစ်ယောက် မေတ္တာနှင့် လေးစားမှုကို အကောင်းဆုံး ဘယ်လိုပြသနိုင်မလဲ?</span>
-        </div>
-        <div class="couple-question-item">
-          <span class="cq-num">၃</span>
-          <span>ဒီည သားသမီးတွေ အိပ်ရာမဝင်မီ ငါတို့နှစ်ယောက် သူတို့ခေါင်းပေါ် လက်တင်ပြီး အတူတူ ဆုတောင်းပေးကြမယ်။</span>
-        </div>
-      </div>
-      <div class="couple-disc-actions">
-        <button type="button" class="btn-couple-complete" id="btn-complete-disc" onclick="markDiscussionCompleted()">
-          <span>✓</span> <span id="txt-complete-disc">ဆွေးနွေးတိုင်ပင်ပြီးပါပြီ (+50 XP)</span>
-        </button>
-        <button type="button" class="btn-couple-next" onclick="cycleDiscussionPrompt()" title="Next topic">
-          နောက်တစ်ခု ↻
-        </button>
+    <!-- Winding Roadmap Path Container -->
+    <div class="episodes-path-wrapper">
+      <div id="episodes-path-container" class="episodes-path-timeline">
+        <!-- Rendered dynamically by renderWindingEpisodesPath() -->
       </div>
     </div>
-
-    <!-- Pastor Voice Note Blessing Audio Player (Feature 2) -->
-    <div class="voice-prayer-card">
-      <button type="button" class="vp-play-btn" id="btn-vp-play" onclick="toggleVoicePrayerPlay()" title="Play Benediction Audio">
-        <span id="ico-vp-play">▶</span>
-      </button>
-      <div class="vp-info">
-        <div class="vp-tag">🎧 အသင်းတော် သင်းအုပ်ဆရာ၏ မိသားစု ကောင်းချီး</div>
-        <div class="vp-title">Pastor's Family Benediction & Healing</div>
-        <div class="vp-waveform" id="vp-waveform">
-          <div class="vp-bar" style="height:6px"></div>
-          <div class="vp-bar" style="height:12px"></div>
-          <div class="vp-bar" style="height:16px"></div>
-          <div class="vp-bar" style="height:8px"></div>
-          <div class="vp-bar" style="height:14px"></div>
-          <div class="vp-bar" style="height:10px"></div>
-          <div class="vp-bar" style="height:18px"></div>
-          <div class="vp-bar" style="height:7px"></div>
-          <div class="vp-bar" style="height:13px"></div>
-          <div class="vp-bar" style="height:5px"></div>
-        </div>
-      </div>
-      <div class="vp-time" id="vp-duration">02:15</div>
-      <audio id="pastor-voice-audio" preload="metadata"></audio>
-    </div>
-
-
-    <!-- Share a Prayer Pill Button -->
-    <button type="button" class="mobile-share-prayer-pill" onclick="togglePrayerFormDrawer()">
-      <div class="mobile-share-avatar">
-        <img src="avatar_couple.jpg" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"/>
-      </div>
-      <span style="color:rgba(255,255,255,0.7);font-size:0.84rem;font-weight:600">Share a Prayer</span>
-    </button>
-
-    <!-- Expandable Prayer Submission Drawer -->
-    <div id="mobile-prayer-form-drawer" class="prayer-form-card" style="display:none">
-      <div style="font-size:0.88rem;font-weight:800;color:#f0c355;margin-bottom:6px">
-        🙏 မိသားစု ဆုတောင်းချက် အသစ် တင်သွင်းရန်
-      </div>
-      <form id="prayer-form" onsubmit="handlePrayerSubmit(event)">
-        <div style="display:flex;gap:8px">
-          <input type="text" id="prayer-author" class="prayer-input" placeholder="သင့်အမည် (သို့) မေမေ/ဖေဖေ" required style="flex:1"/>
-          <input type="text" id="prayer-city" class="prayer-input" placeholder="မြို့/ဒေသ (ဥပမာ- ရန်ကုန်)" style="flex:1"/>
-        </div>
-        <select id="prayer-cat" class="prayer-select" required>
-          <option value="child">👶 ကလေးများ စရိုက်လက္ခဏာ (Child Character & Faith)</option>
-          <option value="family">👨‍👩‍👧‍👦 မိသားစု ညီညွတ်ရေးနှင့် မေတ္တာ (Family Unity & Love)</option>
-          <option value="digital">📱 ဖုန်းနှင့် ဂိမ်း စွဲလမ်းမှုမှ လွတ်မြောက်ရေး (Digital Freedom)</option>
-          <option value="mental">🕊️ စိတ်ပိုင်းဆိုင်ရာ အနာရောဂါငြိမ်းခြင်း (Emotional Healing)</option>
-          <option value="other">🙏 အခြား အထူး ဆုတောင်းချက် (General Request)</option>
-        </select>
-        <textarea id="prayer-text" class="prayer-textarea" rows="3" placeholder="ဆုတောင်းပေးစေလိုသော အကြောင်းအရာကို ရေးသားပါ..." required></textarea>
-        <button type="submit" class="prayer-submit-btn" id="btn-submit-prayer">
-          🙏 ဆုတောင်းလွှာ တင်သွင်းမည် (Submit Prayer)
-        </button>
-      </form>
-    </div>
-
-    <!-- Prayer Cards (Authentic match to Photo 1 with Photo 3 Avatar) -->
-    <div class="mobile-prayer-card-lux">
-      <div class="mobile-prayer-card-top">
-        <img src="avatar_couple.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
-        <div class="mobile-prayer-author-group">
-          <div class="mobile-prayer-card-title">Myanmar Family Support <span style="color:#f0c355;font-size:0.8rem">›</span></div>
-          <div class="mobile-prayer-card-sub">Ko Min & Ma Hla<br>Pyidaungsu Font</div>
-        </div>
-      </div>
-      <p class="mobile-prayer-body-text">
-        လူငယ်များအကြား မျှော်လင့်ချက်ပေးစွမ်းနိုင်သော မိဘများဖြစ်လာစေရန် မိသားစုများ အချင်းချင်း ဝိုင်းဝန်းဆုတောင်းပေးကြပါအုံးရှင်။
-      </p>
-      <div class="mobile-prayer-card-footer">
-        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p1">142</span><br>Comments: 28</div>
-        <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-1')">
-          <span>🙏</span> <span>Pray</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="mobile-prayer-card-lux">
-      <div class="mobile-prayer-card-top">
-        <img src="avatar_refugee.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
-        <div class="mobile-prayer-author-group">
-          <div class="mobile-prayer-card-title">Refugee Families <span style="color:#f0c355;font-size:0.8rem">›</span></div>
-          <div class="mobile-prayer-card-sub">Refugee Families</div>
-        </div>
-      </div>
-      <p class="mobile-prayer-body-text">
-        လူငယ်လေးများ စိတ်ဒဏ်ရာများ သက်သာပျောက်ကင်းစေရန်နှင့် မိဘများနှင့်အတူ မေတ္တာမေတ္တာများ ရရှိနိုင်ကြစေရန် ဝိုင်းဝန်းဆုတောင်းပေးတော်မူပါ။
-      </p>
-      <div class="mobile-prayer-card-footer">
-        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p2">142</span><br>Comments: 28</div>
-        <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-2')">
-          <span>🙏</span> <span>Pray</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="mobile-prayer-card-lux">
-      <div class="mobile-prayer-card-top">
-        <img src="avatar_education.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
-        <div class="mobile-prayer-author-group">
-          <div class="mobile-prayer-card-title">Education Path <span style="color:#f0c355;font-size:0.8rem">›</span></div>
-          <div class="mobile-prayer-card-sub">Education Path</div>
-        </div>
-      </div>
-      <p class="mobile-prayer-body-text">
-        မောင်တစ်ထောင်တို့ရဲ့ ပညာရေးအတွက် မိဘများ လိုအပ်သော ခွန်အားနှင့် ငွေကြေး အရင်းအနှီးများ ပြည့်စုံစေရန် မေတ္တာဖြင့် ဆုတောင်းပေးကြပါရန် တောင်းခံအပ်ပါသည်။
-      </p>
-      <div class="mobile-prayer-card-footer">
-        <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p3">18</span><br>Comments: 78</div>
-        <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-3')">
-          <span>🙏</span> <span>Pray</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Live Dynamic Submissions Container -->
-    <div id="prayers-container"></div>
   </div>
 
   <!-- ============================================== -->
-  <!-- SCREEN 3: DEVOTIONAL & CERTIFICATE (Photo 1 - R) -->
+  <!-- SCREEN 4: LIBRARY & COMMUNITY HUB (Tab 3)      -->
   <!-- ============================================== -->
-  <div id="view-mobile-devotional" class="mobile-screen-view" style="display:none">
-    <!-- Top Header Bar -->
-    <div class="mobile-subpage-header">
-      <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')">‹</button>
-      <div class="mobile-subpage-title" style="font-size:0.75rem;letter-spacing:0">October 26, 2023 | Day 45: Cultivating Kindness</div>
-      <div class="journey-header-streak" id="journey-streak-badge">🔥 7-Day Streak · Lv 3</div>
-      <button type="button" class="mobile-subpage-gear" onclick="openSettingsModal()">⚙️</button>
-    </div>
-
-    <!-- Feature 3: Discipleship Journey Level & XP Card -->
-    <div class="journey-level-card">
-      <div class="journey-level-tag">Parenting Discipleship Journey</div>
-      <div class="journey-level-name" id="journey-level-name">အဆင့် ၃: မေတ္တာနှင့် သွန်သင်သူ (Devoted Mentor)</div>
-      <div class="journey-bar-bg">
-        <div class="journey-bar-fill" id="journey-progress-fill" style="width: 27%;"></div>
-      </div>
-      <div class="journey-level-meta">
-        <span id="journey-completed-count">3 of 11 Modules Completed</span>
-        <span id="journey-xp-text" style="color:#f0c355;font-weight:800;">850 XP</span>
-      </div>
-    </div>
-
-    <!-- Daily Devotional Card (Exact match to Photo 1) -->
-    <div class="mobile-devotional-card-lux">
-      <div class="mobile-devotional-headline">Daily Devotional</div>
-      <div class="mobile-devotional-mm-title">သတိထားပါ၊ မေတ္တာနှင့်ကောင်းသောအကျင့်စောင့်ထိန်းပါ</div>
-      <div class="mobile-scripture-badge">Proverbs 22:6</div>
-      <p class="mobile-scripture-quote">
-        Proverbs 22:6. The scripture & foundation to Myanmar & English text.
-      </p>
-
-      <div class="mobile-reading-block">
-        <strong style="color:#f0c355">Reading:</strong> The loving passage of the mandate the orientation and accepted to see the net services the sustainment and our earth of a passage and veneration the holdings.
-      </div>
-      <div class="mobile-reflection-block">
-        <strong style="color:#f0c355">Reflections:</strong> The profound discovery, the beware character and pact of god; reflections on decisions, reflections.
-      </div>
-    </div>
-
-    <!-- Feature 3: Interactive 11-Milestone Roadmap Track -->
-    <div class="roadmap-container">
-      <div class="roadmap-section-title">🎯 11-Milestone Parenting Roadmap (ခရီးစဉ်မှတ်တမ်း)</div>
-      <div id="roadmap-nodes-list">
-        <!-- Rendered dynamically by renderJourneyRoadmap() with static baseline -->
-        <div class="roadmap-node-card completed" onclick="jumpToModuleFromRoadmap(1)">
-          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#003087,#0050d0);">🛡️</div>
-          <div class="roadmap-node-body">
-            <div class="roadmap-node-tag">Milestone 1 · Foundations</div>
-            <div class="roadmap-node-title">ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</div>
-            <div class="roadmap-node-meta">Deut 6:6-7 · 45 mins</div>
-          </div>
-          <div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>
-        </div>
-
-        <div class="roadmap-node-card completed" onclick="jumpToModuleFromRoadmap(2)">
-          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#8e44ad,#9b59b6);">❤️</div>
-          <div class="roadmap-node-body">
-            <div class="roadmap-node-tag">Milestone 2 · Connection</div>
-            <div class="roadmap-node-title">နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး</div>
-            <div class="roadmap-node-meta">1 Cor 13:4-7 · 45 mins</div>
-          </div>
-          <div class="roadmap-action-badge done">✓ ပြီးဆုံး</div>
-        </div>
-
-        <div class="roadmap-node-card active" onclick="jumpToModuleFromRoadmap(3)">
-          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#1a5276,#2980b9);">👥</div>
-          <div class="roadmap-node-body">
-            <div class="roadmap-node-tag">Milestone 3 · Character (Active)</div>
-            <div class="roadmap-node-title">စရိုက်လက္ခဏာ သွန်သင်တည်ဆောက်ခြင်း</div>
-            <div class="roadmap-node-meta">Prov 22:6 · 45 mins</div>
-          </div>
-          <div class="roadmap-action-badge resume">▶ ဆက်လက်ကြည့်ရန်</div>
-        </div>
-
-        <div class="roadmap-node-card" onclick="jumpToModuleFromRoadmap(4)">
-          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#117864,#16a085);">🕊️</div>
-          <div class="roadmap-node-body">
-            <div class="roadmap-node-tag">Milestone 4 · Emotional Health</div>
-            <div class="roadmap-node-title">စိတ်ခံစားမှုနှင့် သက်သာပျောက်ကင်းခြင်း</div>
-            <div class="roadmap-node-meta">Phil 4:6-7 · 45 mins</div>
-          </div>
-          <div class="roadmap-action-badge locked">စတင်ရန် ›</div>
-        </div>
-
-        <div class="roadmap-node-card" onclick="jumpToModuleFromRoadmap(5)">
-          <div class="roadmap-icon-box" style="background:linear-gradient(135deg,#b7950b,#d4ac0d);">📱</div>
-          <div class="roadmap-node-body">
-            <div class="roadmap-node-tag">Milestone 5 · Digital Safety</div>
-            <div class="roadmap-node-title">ဒစ်ဂျစ်တယ်ခေတ်နှင့် သားသမီးများ</div>
-            <div class="roadmap-node-meta">Ps 101:3 · 45 mins</div>
-          </div>
-          <div class="roadmap-action-badge locked">စတင်ရန် ›</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature 3: Certificate Preview Box -->
-    <div class="journey-cert-box">
-      <div class="jcb-icon">🎓</div>
-      <div class="jcb-title">CBN Family Discipleship Certificate</div>
-      <div class="jcb-desc">
-        မော်ဂျူး (၁၁) ခု စလုံး ပြီးဆုံးပါက CBN Asia နှင့် The Parenting Project Myanmar မှ တရားဝင် အသိအမှတ်ပြု ဂုဏ်ပြုလက်မှတ် ရရှိပါမည်
-      </div>
-      <button type="button" class="jcb-btn" onclick="openCertificateModal()">
-        📜 ဂုဏ်ပြုလက်မှတ် ကြည့်ရှုထုတ်ယူမည် (View Certificate)
-      </button>
-    </div>
-  </div>
-
-
-  <!-- ======================================================== -->
-  <!-- SCREEN 4: OFFLINE DOWNLOADS PAGE (Per-Episode Downloads) -->
-  <!-- ======================================================== -->
   <div id="view-mobile-downloads" class="mobile-screen-view" style="display:none">
     <!-- Top Header Bar -->
     <div class="mobile-subpage-header">
-      <button type="button" class="mobile-subpage-back" onclick="switchAppTab('cinema')" aria-label="Back">‹</button>
-      <div class="mobile-subpage-title" id="downloads-page-header-title">Offline Downloads</div>
+      <button type="button" class="mobile-subpage-back" onclick="switchAppTab('home')" aria-label="Back">‹</button>
+      <div class="mobile-subpage-title" id="downloads-page-header-title">Library & Offline Hub</div>
       <div id="downloads-page-storage-badge" class="downloads-storage-pill">0 MB Used</div>
     </div>
 
-    <!-- Feature 1: Next-Gen Storage Meter Card -->
-    <div class="downloads-storage-meter-card">
-      <div class="dsm-header">
-        <div>
-          <div class="dsm-title">Storage & Offline Hub</div>
-          <div class="dsm-sub">စက်တွင်း သိုလှောင်မှုနှင့် အော့ဖ်လိုင်း စီမံခန့်ခွဲမှု</div>
+    <!-- Library Subnav Tabs: Downloads vs Prayer Wall -->
+    <div class="library-subnav">
+      <button type="button" class="lib-sub-btn active" id="btn-lib-dl" onclick="switchLibrarySubtab('downloads')">📥 Offline Downloads</button>
+      <button type="button" class="lib-sub-btn" id="btn-lib-prayer" onclick="switchLibrarySubtab('prayer')">🙏 Prayer Community</button>
+    </div>
+
+    <!-- PANE A: OFFLINE DOWNLOADS & STORAGE METER -->
+    <div id="lib-pane-downloads" class="lib-pane active">
+      <div class="downloads-storage-meter-card">
+        <div class="dsm-header">
+          <div>
+            <div class="dsm-title">Storage & Offline Hub</div>
+            <div class="dsm-sub">စက်တွင်း သိုလှောင်မှုနှင့် အော့ဖ်လိုင်း စီမံခန့်ခွဲမှု</div>
+          </div>
+          <button type="button" class="btn btn-outline btn-xs" onclick="confirmDeleteAllDownloads()" style="border-radius:12px;font-size:0.65rem;border-color:rgba(255,100,100,0.4);color:#ff8888;" title="Clear all downloads">
+            🗑 ရှင်းလင်းမည်
+          </button>
         </div>
-        <button type="button" class="btn btn-outline btn-xs" onclick="confirmDeleteAllDownloads()" style="border-radius:12px;font-size:0.65rem;border-color:rgba(255,100,100,0.4);color:#ff8888;" title="Clear all downloads">
-          🗑 ရှင်းလင်းမည်
+
+        <div class="dsm-ring-row">
+          <div class="dsm-ring-chart">
+            <svg viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f5a800"/>
+                  <stop offset="100%" stop-color="#ffd978"/>
+                </linearGradient>
+              </defs>
+              <circle class="dsm-ring-bg" cx="50" cy="50" r="42"/>
+              <circle class="dsm-ring-fill" id="dsm-svg-ring" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
+            </svg>
+            <div class="dsm-ring-center">
+              <div class="dsm-ring-pct" id="dsm-ring-pct">0%</div>
+              <div class="dsm-ring-lbl" id="dsm-ring-lbl">Used</div>
+            </div>
+          </div>
+
+          <div class="dsm-stats-col">
+            <div class="dsm-stat-line">
+              <span><span class="dsm-stat-dot gold"></span>ဗီဒီယို ဖိုင်များ:</span>
+              <strong id="dsm-videos-size" style="color:#f5a800">0 MB</strong>
+            </div>
+            <div class="dsm-stat-line">
+              <span><span class="dsm-stat-dot blue"></span>ဆုတောင်းနှင့် အချက်အလက်:</span>
+              <strong id="dsm-cache-size" style="color:#3498db">4.2 MB</strong>
+            </div>
+            <div class="dsm-stat-line">
+              <span><span class="dsm-stat-dot gray"></span>ဖုန်းတွင်း နေရာလွတ်:</span>
+              <strong id="dsm-free-size" style="color:rgba(255,255,255,0.7)">~14.5 GB</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="dl-quality-section">
+          <div class="dl-quality-label">Download Quality (ဒေါင်းလုဒ် အရည်အသွေး)</div>
+          <div class="dl-quality-options">
+            <button type="button" class="quality-btn" id="qb-hd" onclick="setDownloadQuality('hd')">
+              <span class="q-badge">720p HD</span>
+              <span class="q-size">~180MB/ep</span>
+            </button>
+            <button type="button" class="quality-btn active" id="qb-sd" onclick="setDownloadQuality('sd')">
+              <span class="q-badge">480p SD</span>
+              <span class="q-size">~45MB/ep</span>
+            </button>
+            <button type="button" class="quality-btn" id="qb-audio" onclick="setDownloadQuality('audio')">
+              <span class="q-badge">Audio</span>
+              <span class="q-size">~12MB/ep</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="smart-dl-row">
+          <div class="smart-dl-info">
+            <div class="smart-dl-title">Auto-Download Next Episode</div>
+            <div class="smart-dl-sub">Wi-Fi ချိတ်ဆက်ချိန်တွင် နောက်တစ်ပိုင်း အလိုအလျောက် ဒေါင်းလုဒ်လုပ်မည်</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="smart-dl-checkbox" checked onchange="toggleSmartDownload(this.checked)"/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="downloads-filter-bar">
+        <button type="button" class="downloads-filter-btn active" id="df-filter-all" onclick="filterDownloadsList('all')">အားလုံး (All 11)</button>
+        <button type="button" class="downloads-filter-btn" id="df-filter-saved" onclick="filterDownloadsList('saved')">သိမ်းပြီး (Saved)</button>
+        <button type="button" class="downloads-filter-btn" id="df-filter-available" onclick="filterDownloadsList('available')">ဒေါင်းလုဒ်လုပ်နိုင် (Available)</button>
+      </div>
+
+      <div id="downloads-episodes-list" class="downloads-episodes-container"></div>
+    </div>
+
+    <!-- PANE B: PRAYER COMMUNITY WALL -->
+    <div id="lib-pane-prayer" class="lib-pane" style="display:none">
+      <div class="prayer-greeting-card">
+        <div>
+          <div class="pgc-title">ဆုတောင်းခြင်းနှင့် မိသားစု မိတ်သဟာယ</div>
+          <div class="pgc-sub">သခင်ယေရှု၌ တစ်စိတ်တစ်ဝမ်းတည်း ဆုတောင်းခြင်းသည် မိသားစုကို ခိုင်ခံ့စေပါသည်</div>
+        </div>
+        <div class="pgc-candle">🕯️</div>
+      </div>
+
+      <div class="voice-prayer-card">
+        <button type="button" class="vp-play-btn" id="btn-vp-play" onclick="toggleVoicePrayerPlay()" title="Play Benediction Audio">
+          <span id="ico-vp-play">▶</span>
+        </button>
+        <div class="vp-info">
+          <div class="vp-tag">🎧 အသင်းတော် သင်းအုပ်ဆရာ၏ မိသားစု ကောင်းချီး</div>
+          <div class="vp-title">Pastor's Family Benediction & Healing</div>
+          <div class="vp-waveform" id="vp-waveform">
+            <div class="vp-bar" style="height:6px"></div>
+            <div class="vp-bar" style="height:12px"></div>
+            <div class="vp-bar" style="height:16px"></div>
+            <div class="vp-bar" style="height:8px"></div>
+            <div class="vp-bar" style="height:14px"></div>
+            <div class="vp-bar" style="height:10px"></div>
+            <div class="vp-bar" style="height:18px"></div>
+          </div>
+        </div>
+        <div class="vp-time" id="vp-duration">02:15</div>
+        <audio id="pastor-voice-audio" preload="metadata"></audio>
+      </div>
+
+      <button type="button" class="mobile-share-prayer-pill" onclick="togglePrayerFormDrawer()">
+        <div class="mobile-share-avatar">
+          <img src="avatar_couple.jpg" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"/>
+        </div>
+        <span style="color:rgba(255,255,255,0.85);font-size:0.84rem;font-weight:600">Share a Prayer (ဆုတောင်းချက် တင်သွင်းရန်)</span>
+      </button>
+
+      <div id="mobile-prayer-form-drawer" class="prayer-form-card" style="display:none">
+        <div style="font-size:0.88rem;font-weight:800;color:#f5a800;margin-bottom:6px">
+          🙏 မိသားစု ဆုတောင်းချက် အသစ် တင်သွင်းရန်
+        </div>
+        <form id="prayer-form" onsubmit="handlePrayerSubmit(event)">
+          <div style="display:flex;gap:8px">
+            <input type="text" id="prayer-author" class="prayer-input" placeholder="သင့်အမည် (သို့) မေမေ/ဖေဖေ" required style="flex:1"/>
+            <input type="text" id="prayer-city" class="prayer-input" placeholder="မြို့/ဒေသ (ဥပမာ- ရန်ကုန်)" style="flex:1"/>
+          </div>
+          <select id="prayer-cat" class="prayer-select" required>
+            <option value="child">👶 ကလေးများ စရိုက်လက္ခဏာ (Child Character & Faith)</option>
+            <option value="family">👨‍👩‍👧‍👦 မိသားစု ညီညွတ်ရေးနှင့် မေတ္တာ (Family Unity & Love)</option>
+            <option value="digital">📱 ဖုန်းနှင့် ဂိမ်း စွဲလမ်းမှုမှ လွတ်မြောက်ရေး (Digital Freedom)</option>
+            <option value="mental">🕊️ စိတ်ပိုင်းဆိုင်ရာ အနာရောဂါငြိမ်းခြင်း (Emotional Healing)</option>
+            <option value="other">🙏 အခြား အထူး ဆုတောင်းချက် (General Request)</option>
+          </select>
+          <textarea id="prayer-text" class="prayer-textarea" rows="3" placeholder="ဆုတောင်းပေးစေလိုသော အကြောင်းအရာကို ရေးသားပါ..." required></textarea>
+          <button type="submit" class="prayer-submit-btn" id="btn-submit-prayer">
+            🙏 ဆုတောင်းလွှာ တင်သွင်းမည် (Submit Prayer)
+          </button>
+        </form>
+      </div>
+
+      <div class="mobile-prayer-card-lux">
+        <div class="mobile-prayer-card-top">
+          <img src="avatar_couple.jpg" alt="Avatar" class="mobile-prayer-avatar"/>
+          <div class="mobile-prayer-author-group">
+            <div class="mobile-prayer-card-title">Myanmar Family Support <span style="color:#f5a800;font-size:0.8rem">›</span></div>
+            <div class="mobile-prayer-card-sub">Ko Min & Ma Hla · Yangon</div>
+          </div>
+        </div>
+        <p class="mobile-prayer-body-text">
+          လူငယ်များအကြား မျှော်လင့်ချက်ပေးစွမ်းနိုင်သော မိဘများဖြစ်လာစေရန် မိသားစုများ အချင်းချင်း ဝိုင်းဝန်းဆုတောင်းပေးကြပါအုံးရှင်။
+        </p>
+        <div class="mobile-prayer-card-footer">
+          <div class="mobile-prayer-stats">Prayers: <span id="prayer-count-p1">142</span> · Comments: 28</div>
+          <button type="button" class="mobile-btn-pray-gold" onclick="incrementPrayer('p-1')">
+            <span>🙏</span> <span>Pray</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="prayers-container"></div>
+
+      <!-- Certificate Box -->
+      <div class="journey-cert-box" style="margin-top:16px">
+        <div class="jcb-icon">🎓</div>
+        <div class="jcb-title">CBN Family Discipleship Certificate</div>
+        <div class="jcb-desc">
+          မော်ဂျူး (၁၁) ခု စလုံး ပြီးဆုံးပါက CBN Asia နှင့် The Parenting Project Myanmar မှ တရားဝင် အသိအမှတ်ပြု ဂုဏ်ပြုလက်မှတ် ရရှိပါမည်
+        </div>
+        <button type="button" class="jcb-btn" onclick="openCertificateModal()">
+          📜 ဂုဏ်ပြုလက်မှတ် ကြည့်ရှုထုတ်ယူမည် (View Certificate)
         </button>
       </div>
-
-      <div class="dsm-ring-row">
-        <!-- Circular Storage Ring Chart -->
-        <div class="dsm-ring-chart">
-          <svg viewBox="0 0 100 100">
-            <defs>
-              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f0c355"/>
-                <stop offset="100%" stop-color="#ffd978"/>
-              </linearGradient>
-            </defs>
-            <circle class="dsm-ring-bg" cx="50" cy="50" r="42"/>
-            <circle class="dsm-ring-fill" id="dsm-svg-ring" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
-          </svg>
-          <div class="dsm-ring-center">
-            <div class="dsm-ring-pct" id="dsm-ring-pct">0%</div>
-            <div class="dsm-ring-lbl" id="dsm-ring-lbl">Used</div>
-          </div>
-        </div>
-
-        <!-- Breakdown Stats -->
-        <div class="dsm-stats-col">
-          <div class="dsm-stat-line">
-            <span><span class="dsm-stat-dot gold"></span>ဗီဒီယို ဖိုင်များ:</span>
-            <strong id="dsm-videos-size" style="color:#f0c355">0 MB</strong>
-          </div>
-          <div class="dsm-stat-line">
-            <span><span class="dsm-stat-dot blue"></span>ဆုတောင်းနှင့် အချက်အလက်:</span>
-            <strong id="dsm-cache-size" style="color:#3498db">4.2 MB</strong>
-          </div>
-          <div class="dsm-stat-line">
-            <span><span class="dsm-stat-dot gray"></span>ဖုန်းတွင်း နေရာလွတ်:</span>
-            <strong id="dsm-free-size" style="color:rgba(255,255,255,0.7)">~14.5 GB</strong>
-          </div>
-        </div>
-      </div>
-
-      <!-- Download Quality Selector -->
-      <div class="dl-quality-section">
-        <div class="dl-quality-label">Download Quality (ဒေါင်းလုဒ် အရည်အသွေး)</div>
-        <div class="dl-quality-pills">
-          <div class="dl-quality-pill active" id="ql-saver" onclick="setDownloadQuality('saver')">
-            <div class="dl-quality-pill-title">Data Saver (480p)</div>
-            <div class="dl-quality-pill-sub">~24 MB/ep · ဖုန်းအတွက် အကောင်းဆုံး</div>
-          </div>
-          <div class="dl-quality-pill" id="ql-hd" onclick="setDownloadQuality('hd')">
-            <div class="dl-quality-pill-title">HD (720p)</div>
-            <div class="dl-quality-pill-sub">~55 MB/ep · ပိုမိုကြည်လင်</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Smart Auto-Download Toggle -->
-      <div class="smart-dl-toggle-row">
-        <div>
-          <div class="smart-dl-text-title">Smart Auto-Download</div>
-          <div class="smart-dl-text-sub">နောက်အပိုင်းကို Wi-Fi ရချိန် အလိုအလျောက် ရယူရန်</div>
-        </div>
-        <label class="toggle-switch-ios">
-          <input type="checkbox" id="smart-dl-checkbox" checked onchange="toggleSmartDownload(this.checked)"/>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </div>
-
-
-    <!-- Filter Pills (All / Saved Offline / Available) -->
-    <div class="downloads-filter-bar">
-      <button type="button" class="downloads-filter-btn active" id="df-filter-all" onclick="filterDownloadsList('all')">
-        အားလုံး (All 11)
-      </button>
-      <button type="button" class="downloads-filter-btn" id="df-filter-saved" onclick="filterDownloadsList('saved')">
-        သိမ်းပြီး (Saved)
-      </button>
-      <button type="button" class="downloads-filter-btn" id="df-filter-available" onclick="filterDownloadsList('available')">
-        ဒေါင်းလုဒ်လုပ်နိုင် (Available)
-      </button>
-    </div>
-
-    <!-- Episode Cards List Container -->
-    <div id="downloads-episodes-list" class="downloads-episodes-container">
-      <!-- Populated dynamically by renderDownloadsPage() -->
     </div>
   </div>
+
+  <!-- ========================================================= -->
+  <!-- SCREEN: MASTERCLASS CONTENT / LIBRARY PAGE                -->
+  <!-- Exact reproduction of user-uploaded reference photo       -->
+  <!-- ========================================================= -->
+  <div id="view-mobile-library" class="mobile-screen-view" style="display:none">
+    <!-- Top Header Bar: Red M Logo + "Library" + Search 🔍 -->
+    <div class="mc-library-top-bar">
+      <div class="mc-library-brand">
+        <span class="mc-brand-mark">P</span>
+        <h2 class="mc-library-title" id="mc-library-title">Library</h2>
+      </div>
+      <button type="button" class="mc-btn-search" onclick="toggleMcSearchInput()" aria-label="Search" title="Search Lessons">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Search Input (Toggled) -->
+    <div id="mc-search-wrap" class="mc-search-wrap" style="display:none">
+      <input type="text" id="mc-search-input" class="mc-search-input" placeholder="Search lessons, instructors, or topics..." oninput="handleMcLiveSearch(this.value)"/>
+      <button type="button" class="mc-search-clear" onclick="clearMcLiveSearch()">✕</button>
+    </div>
+
+    <!-- Filters Row: [FILTERS] & CLEAR FILTERS -->
+    <div class="mc-filters-row">
+      <button type="button" class="mc-pill-filter-btn" id="mc-btn-filter-toggle" onclick="toggleMcFilterDrawer()">
+        <span>FILTERS</span>
+        <span class="mc-filter-count-badge" id="mc-active-filter-badge" style="display:none">1</span>
+      </button>
+      <button type="button" class="mc-clear-filters-btn" onclick="resetMcFilters()">
+        CLEAR FILTERS
+      </button>
+    </div>
+
+    <!-- Filter Drawer (Select Category) -->
+    <div id="mc-filter-drawer" class="mc-filter-drawer" style="display:none">
+      <div class="mc-filter-chips-wrap">
+        <button type="button" class="mc-cat-chip active" id="chip-cat-all" onclick="applyMcCategory('all')">All Modules (11)</button>
+        <button type="button" class="mc-cat-chip" id="chip-cat-character" onclick="applyMcCategory('character')">🏅 Role Model & Character</button>
+        <button type="button" class="mc-cat-chip" id="chip-cat-connection" onclick="applyMcCategory('connection')">🤝 Deep Connection & Emotions</button>
+        <button type="button" class="mc-cat-chip" id="chip-cat-digital" onclick="applyMcCategory('digital')">📱 Digital & Discipline</button>
+        <button type="button" class="mc-cat-chip" id="chip-cat-faith" onclick="applyMcCategory('faith')">🙏 Family Faith & Legacy</button>
+      </div>
+    </div>
+
+        <!-- Curriculum Spotlight Feature (2025 Official Series) -->
+    <div class="mc-spotlight-card" onclick="openCinemaDirectly(1)">
+      <div class="mc-spotlight-img-wrap">
+        <img src="yt_thumb_1.jpg" alt="Official Series Spotlight" class="mc-spotlight-img"/>
+        <div class="mc-spotlight-play-btn">▶</div>
+        <span class="mc-spotlight-dur-badge">11 EPISODES</span>
+      </div>
+      <div class="mc-spotlight-content">
+        <div class="mc-spotlight-eyebrow">✨ FEATURED MASTERCLASS SERIES</div>
+        <div class="mc-spotlight-title">The Parenting Project: Christian Family Discipleship</div>
+        <div class="mc-spotlight-desc">Accredited curriculum equipping parents across Myanmar with Christ-centered parenting wisdom.</div>
+        <div class="mc-spotlight-actions-bar">
+          <button type="button" class="mc-spotlight-btn-watch" onclick="event.stopPropagation(); openCinemaDirectly(1);">▶ Start Module 1 (45m)</button>
+          <button type="button" class="mc-spotlight-btn-trailer" onclick="event.stopPropagation(); openModulePreviewModal(1);">ℹ️ Curriculum Guide</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lessons Content List (Horizontal card layout matching photo) -->
+    <div id="mc-lessons-list" class="mc-lessons-list">
+      <!-- Populated dynamically by renderMcLibraryLessons() in app.js -->
+    </div>
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- SCREEN: MASTERCLASS ACCOUNT / MEMBERSHIP PAGE             -->
+  <!-- VIP Member Profile, Certificate, Storage, and Settings    -->
+  <!-- ========================================================= -->
+  <div id="view-mobile-account" class="mobile-screen-view" style="display:none">
+    <!-- Top Bar -->
+    <div class="mc-account-top-bar">
+      <button type="button" class="mc-account-btn-back" onclick="switchAppTab('home')" aria-label="Back">‹</button>
+      <div class="mc-account-top-title" id="txt-account-header">Account & Membership</div>
+      <button type="button" class="mc-btn-settings" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
+    </div>
+
+    <!-- Member Hero Card -->
+    <div class="mc-member-hero-card">
+      <div class="mc-member-avatar-wrap">
+        <img src="mother_avatar.jpg" alt="Member Avatar" class="mc-member-avatar-img"/>
+        <div class="mc-member-badge-gold">⭐</div>
+      </div>
+      <div class="mc-member-info">
+        <div class="mc-member-name" id="mc-profile-name">စံပြမိဘ (Daw Thida)</div>
+        <div class="mc-member-email" id="mc-profile-email">parent@cbn.org · Grace Community Church</div>
+        <div class="mc-member-tier-pill">
+          <span>👑 ALL-ACCESS SCHOLARSHIP (11 LESSONS)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learning Metrics Bar -->
+    <div class="mc-metrics-grid">
+      <div class="mc-metric-box">
+        <div class="mc-metric-val" id="mc-stat-lessons">3 / 11</div>
+        <div class="mc-metric-lbl" id="lbl-mc-lessons">Lessons Done</div>
+      </div>
+      <div class="mc-metric-box">
+        <div class="mc-metric-val">2.5 hrs</div>
+        <div class="mc-metric-lbl" id="lbl-mc-time">Watch Time</div>
+      </div>
+      <div class="mc-metric-box">
+        <div class="mc-metric-val" id="mc-stat-cert-pct">27%</div>
+        <div class="mc-metric-lbl" id="lbl-mc-cert">Certificate</div>
+      </div>
+    </div>
+
+    <!-- Certificate Feature Card -->
+    <div class="mc-cert-feature-card" onclick="openCertificateModal()">
+      <div class="mc-cert-icon-col">🎓</div>
+      <div class="mc-cert-info-col">
+        <div class="mc-cert-title" id="mc-cert-card-title">CBN Family Discipleship Certificate</div>
+        <div class="mc-cert-sub" id="mc-cert-card-sub">Official accredited parenting diploma issued upon module completion</div>
+        <div class="mc-cert-status-badge">📜 View / Download Certificate ›</div>
+      </div>
+    </div>
+
+    <!-- Account Actions List -->
+    <div class="mc-account-actions-list">
+      <div class="mc-action-item-row" onclick="switchLibrarySubtab('downloads'); switchAppTab('downloads');">
+        <div class="mc-action-icon">📥</div>
+        <div class="mc-action-text-col">
+          <div class="mc-action-title">Offline Downloads & Storage</div>
+          <div class="mc-action-sub">3 Lessons downloaded · 184 MB Used</div>
+        </div>
+        <div class="mc-action-arrow">›</div>
+      </div>
+
+      <div class="mc-action-item-row" onclick="togglePrayerFormDrawer(); switchAppTab('downloads');">
+        <div class="mc-action-icon">🙏</div>
+        <div class="mc-action-text-col">
+          <div class="mc-action-title">Family Prayer Community</div>
+          <div class="mc-action-sub">Connect with 140+ Myanmar Christian families</div>
+        </div>
+        <div class="mc-action-arrow">›</div>
+      </div>
+
+      <div class="mc-action-item-row" onclick="toggleLang()">
+        <div class="mc-action-icon">🌐</div>
+        <div class="mc-action-text-col">
+          <div class="mc-action-title">Language (ဘာသာစကား)</div>
+          <div class="mc-action-sub" id="mc-action-lang-label">🇲🇲 မြန်မာ (Myanmar Active)</div>
+        </div>
+        <div class="mc-action-arrow">›</div>
+      </div>
+
+      <div class="mc-action-item-row" onclick="toggleAppTheme()">
+        <div class="mc-action-icon">🎬</div>
+        <div class="mc-action-text-col">
+          <div class="mc-action-title">Display Theme</div>
+          <div class="mc-action-sub" id="mc-action-theme-label">🎬 MasterClass Dark Cinema / ☀️ Cozy Linen</div>
+        </div>
+        <div class="mc-action-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- Sign Out Button -->
+    <button type="button" class="mc-btn-signout" onclick="handleMobileLogout()">
+      🚪 အကောင့်ထွက်မည် (Sign Out)
+    </button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- PREMIUM MODULE PREVIEW DRAWER (Deep Curriculum Guide)     -->
+  <!-- ========================================================= -->
+  <div id="mc-module-preview-modal" class="mc-preview-modal-overlay" style="display:none" onclick="closeModulePreviewModal(event)">
+    <div class="mc-preview-modal-box" onclick="event.stopPropagation()">
+      <button type="button" class="mc-preview-close-btn" onclick="closeModulePreviewModal()">✕</button>
+      
+      <div class="mc-preview-thumb-wrap">
+        <img id="mc-modal-thumb" src="yt_thumb_1.jpg" alt="Module Preview" class="mc-preview-thumb-img"/>
+        <button type="button" class="mc-preview-play-btn" id="mc-modal-btn-play" onclick="playCurrentModalModule()">
+          <span>▶</span>
+        </button>
+        <span class="mc-preview-dur-badge" id="mc-modal-duration">45 mins</span>
+      </div>
+
+      <div class="mc-preview-body">
+        <div class="mc-preview-cat-badge" id="mc-modal-category">🏅 Role Model & Character</div>
+        <h3 class="mc-preview-title" id="mc-modal-title">Module 1: Being a Positive Role Model</h3>
+        <h4 class="mc-preview-title-my" id="mc-modal-title-my">မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</h4>
+        <p class="mc-preview-desc" id="mc-modal-desc">Your daily character is the first textbook your child reads.</p>
+
+        <!-- Scripture Anchor -->
+        <div class="mc-preview-scripture-box">
+          <div class="mc-preview-scripture-ref" id="mc-modal-scripture-ref">📖 Deuteronomy 6:6-7</div>
+          <div class="mc-preview-scripture-text" id="mc-modal-scripture-text">«ယနေ့ ငါမှာထားသော စကားကို နှလုံးသွင်းရမည်။ ထိုစကားကို သားမြေးတို့အား ကြိုးစား၍ သွန်သင်ရမည်။»</div>
+        </div>
+
+        <!-- Topics Covered -->
+        <div class="mc-preview-section-title">Core Sessions Covered (သင်ကြားမည့် အကြောင်းအရာများ):</div>
+        <ul class="mc-preview-topics-list" id="mc-modal-topics-list"></ul>
+
+        <!-- Action Assignment -->
+        <div class="mc-preview-action-card">
+          <span class="mc-action-lightbulb">💡</span>
+          <div>
+            <strong>Weekly Practical Exercise (လက်တွေ့ လေ့ကျင့်ခန်း):</strong>
+            <p id="mc-modal-action-text" style="margin:4px 0 0;font-size:0.75rem;color:rgba(255,255,255,0.85);line-height:1.4"></p>
+          </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div class="mc-preview-btn-row">
+          <button type="button" class="mc-btn-primary-watch" id="mc-modal-btn-watch" onclick="playCurrentModalModule()">
+            ▶ Watch Full Video (စတင်ကြည့်ရှုမည်)
+          </button>
+          <button type="button" class="mc-btn-secondary-guide" onclick="openDownloadOptionsSheet(currentModalModId)">
+            📥 Study Guide (PDF)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- CANVA CHURCH INVITATION KIT MODAL                          -->
+  <!-- ========================================================= -->
+  <div id="tpp-canva-modal" class="mc-preview-modal-overlay" style="display:none" onclick="closeCanvaInviteModal(event)">
+    <div class="mc-preview-modal-box" onclick="event.stopPropagation()">
+      <button type="button" class="mc-preview-close-btn" onclick="closeCanvaInviteModal()">✕</button>
+      
+      <div class="tpp-canva-modal-header">
+        <div class="tpp-canva-modal-badge">⛪ CHURCH PARTNER RESOURCE</div>
+        <h3 class="tpp-canva-modal-title">Official Church Invitation Card (Canva Template)</h3>
+        <p class="tpp-canva-modal-sub">Ready-to-print A5 invitation cards to invite parents in your local church and community.</p>
+      </div>
+
+      <div class="tpp-canva-modal-img-wrap">
+        <img src="tpp_canva_invite_card.jpg" alt="Canva Invitation Card Preview" class="tpp-canva-modal-img"/>
+      </div>
+
+      <div class="tpp-canva-modal-body">
+        <div class="tpp-canva-modal-section">
+          <h4>📩 Official Invitation Letter Copy (ဖိတ်စာ အကြောင်းအရာ)</h4>
+          <div class="tpp-canva-letter-box">
+            <p><strong>Kepada Yth. Papa & Mama (ချစ်လှစွာသော မိဘများ ခင်ဗျား/ရှင်)</strong></p>
+            <p>မင်္ဂလာအပေါင်းနှင့် ပြည့်စုံပါစေ။ ကျွန်ုပ်တို့ အသင်းတော်တွင် ပြုလုပ်မည့် <strong>The Parenting Project</strong> မိဘသင်တန်းသို့ နွေးထွေးစွာ ဖိတ်ခေါ်အပ်ပါသည်။ ဤအစီအစဉ်သည် သားသမီးများကို မေတ္တာ၊ ပညာနှင့် ဘုရားသခင်၏ နှုတ်ကပတ်တော်အတိုင်း ပျိုးထောင်နိုင်ရန် ကူညီပေးပါမည်။ လက်တွေ့ဘဝ ဇာတ်လမ်းများစွာ ပါဝင်ပြီး အိမ်တွင် ချက်ချင်းလက်တွေ့ ကျင့်သုံးနိုင်ပါသည်။ သင်တန်းသည် အခမဲ့ဖြစ်ပြီး မိဘအားလုံး တက်ရောက်နိုင်ပါသည်။</p>
+            <div class="tpp-canva-placeholders">
+              <div>🎯 <strong>The Parenting Project</strong> — Modul ......</div>
+              <div>📅 <strong>Hari/Tanggal (နေ့ရက်):</strong> ........</div>
+              <div>⏰ <strong>Waktu (အချိန်):</strong> ........</div>
+              <div>📍 <strong>Tempat (နေရာ):</strong> ........</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tpp-canva-modal-section">
+          <h4>🖨️ Printing & Canva Guidelines (ပုံနှိပ်ထုတ်ဝေမှု လမ်းညွှန်ချက်)</h4>
+          <ul class="tpp-canva-guideline-list">
+            <li><strong>Canva Online Access:</strong> Edit directly in any web browser without downloading software.</li>
+            <li><strong>Duplicate First:</strong> Click <em>File › Make a copy (Buat salinan)</em> before editing.</li>
+            <li><strong>Print Size:</strong> A5 (14.8 × 21 cm) — 1 sheet of A4 prints 2 invitations.</li>
+            <li><strong>Recommended Paper:</strong> Inkjet Paper 220 GSM or Concord White 220 GSM.</li>
+            <li><strong>Print Format:</strong> Download as <em>PDF Print (CMYK color profile)</em> for vibrant colors.</li>
+          </ul>
+        </div>
+
+        <div class="tpp-canva-modal-actions">
+          <button type="button" class="tpp-btn-church-primary" onclick="closeCanvaInviteModal(); openInAppLoginModal('register');">
+            🤝 Register Church to Get Free Canva Template Link
+          </button>
+          <button type="button" class="tpp-btn-church-secondary" onclick="closeCanvaInviteModal()">
+            Close (ပိတ်မည်)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
+
 
 <!-- NAVBAR (For Desktop / Standard Web Visitors) -->
 <header id="navbar">
@@ -2504,36 +3030,29 @@
 
 <!-- FIXED BOTTOM NAVIGATION BAR FOR NATIVE PHONE EXPERIENCE (Appears ONLY in Android App Mode) -->
 <nav id="mobile-app-bottom-bar" class="mobile-app-only">
-  <button type="button" class="app-bottom-tab active" id="btn-app-tab-cinema" onclick="switchAppTab('cinema')" aria-label="Home">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
+  <button type="button" class="app-bottom-tab active" id="btn-app-tab-home" onclick="switchAppTab('home')" aria-label="Home">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
     </svg>
-    <span class="app-tab-indicator"></span>
+    <span class="app-tab-label">Home</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-prayer" onclick="switchAppTab('prayer')" aria-label="Prayer Community">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
-      <path d="M12.5 2c-.28 0-.5.22-.5.5v7.2c-.3-.2-.67-.32-1.07-.32-.93 0-1.7.67-1.88 1.56L9.6 13.2c-.17.81.33 1.58 1.14 1.75.8.17 1.58-.33 1.76-1.14l.43-2.06c.04-.18.19-.31.37-.31h.7v6.62l-2.61-1.3c-.49-.25-1.08-.18-1.5.17l-.82.68 4.3 4.3c.75.75 1.77 1.17 2.83 1.17h4.8c1.66 0 3-1.34 3-3V11.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v-7c0-.28-.22-.5-.5-.5s-.5.22-.5.5v5.5a1.5 1.5 0 0 1-3 0V2.5c0-.28-.22-.5-.5-.5z"/>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-library" onclick="switchAppTab('library')" aria-label="Library">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
     </svg>
-    <span class="app-tab-indicator"></span>
+    <span class="app-tab-label">Library</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-devotional" onclick="switchAppTab('devotional')" aria-label="Daily Devotion">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
-      <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-episodes" onclick="switchAppTab('episodes')" aria-label="Episodes">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
     </svg>
-    <span class="app-tab-indicator"></span>
+    <span class="app-tab-label">Path</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-downloads" onclick="switchAppTab('downloads')" aria-label="Downloads" style="position:relative;">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
-      <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+  <button type="button" class="app-bottom-tab" id="btn-app-tab-profile" onclick="switchAppTab('account')" aria-label="Account">
+    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
     </svg>
-    <span id="downloads-tab-badge" style="display:none;position:absolute;top:4px;right:calc(50% - 20px);background:#f0c355;color:#000;font-size:0.55rem;font-weight:900;min-width:16px;height:16px;border-radius:8px;padding:0 3px;align-items:center;justify-content:center;">0</span>
-    <span class="app-tab-indicator"></span>
-  </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-account" onclick="openSettingsModal()" aria-label="Settings">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
-      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-    </svg>
-    <span class="app-tab-indicator"></span>
+    <span class="app-tab-label">Account</span>
   </button>
 </nav>
 

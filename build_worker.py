@@ -69,6 +69,65 @@ cbn_dash_b64 = get_b64('cbn_lms_dashboard_opt.jpg', 'image/jpeg') or get_b64('cb
 if cbn_dash_b64:
     index_compiled = index_compiled.replace('src="cbn_lms_dashboard_opt.jpg"', f'src="{cbn_dash_b64}"')
 
+parent_toddler_b64 = get_b64('parent_toddler_cozy.jpg', 'image/jpeg')
+mother_avatar_b64 = get_b64('mother_avatar.jpg', 'image/jpeg')
+bedtime_toddler_b64 = get_b64('bedtime_toddler.jpg', 'image/jpeg')
+
+if parent_toddler_b64:
+    index_compiled = index_compiled.replace('src="parent_toddler_cozy.jpg"', f'src="{parent_toddler_b64}"')
+    index_compiled = index_compiled.replace("src='parent_toddler_cozy.jpg'", f"src='{parent_toddler_b64}'")
+    index_compiled = index_compiled.replace('poster="parent_toddler_cozy.jpg"', f'poster="{parent_toddler_b64}"')
+    index_compiled = index_compiled.replace("'parent_toddler_cozy.jpg'", f"'{parent_toddler_b64}'")
+    index_compiled = index_compiled.replace('"parent_toddler_cozy.jpg"', f'"{parent_toddler_b64}"')
+if mother_avatar_b64:
+    index_compiled = index_compiled.replace('src="mother_avatar.jpg"', f'src="{mother_avatar_b64}"')
+    index_compiled = index_compiled.replace("src='mother_avatar.jpg'", f"src='{mother_avatar_b64}'")
+    index_compiled = index_compiled.replace("'mother_avatar.jpg'", f"'{mother_avatar_b64}'")
+    index_compiled = index_compiled.replace('"mother_avatar.jpg"', f'"{mother_avatar_b64}"')
+if bedtime_toddler_b64:
+    index_compiled = index_compiled.replace('src="bedtime_toddler.jpg"', f'src="{bedtime_toddler_b64}"')
+    index_compiled = index_compiled.replace("src='bedtime_toddler.jpg'", f"src='{bedtime_toddler_b64}'")
+    index_compiled = index_compiled.replace("'bedtime_toddler.jpg'", f"'{bedtime_toddler_b64}'")
+    index_compiled = index_compiled.replace('"bedtime_toddler.jpg"', f'"{bedtime_toddler_b64}"')
+
+# Official Project YouTube Thumbnails (1 to 11 and trailer)
+for i in range(1, 12):
+    t_name = f'yt_thumb_{i}.jpg'
+    t_b64 = get_b64(t_name, 'image/jpeg')
+    if t_b64:
+        index_compiled = index_compiled.replace(f'src="{t_name}"', f'src="{t_b64}"')
+        index_compiled = index_compiled.replace(f"src='{t_name}'", f"src='{t_b64}'")
+        index_compiled = index_compiled.replace(f'"{t_name}"', f'"{t_b64}"')
+        index_compiled = index_compiled.replace(f"'{t_name}'", f"'{t_b64}'")
+
+trailer_b64 = get_b64('yt_thumb_trailer.jpg', 'image/jpeg')
+if trailer_b64:
+    index_compiled = index_compiled.replace('src="yt_thumb_trailer.jpg"', f'src="{trailer_b64}"')
+    index_compiled = index_compiled.replace("src='yt_thumb_trailer.jpg'", f"src='{trailer_b64}'")
+    index_compiled = index_compiled.replace('"yt_thumb_trailer.jpg"', f'"{trailer_b64}"')
+    index_compiled = index_compiled.replace("'yt_thumb_trailer.jpg'", f"'{trailer_b64}'")
+
+mentors_b64 = get_b64('tpp_mentors_official.jpg', 'image/jpeg')
+if mentors_b64:
+    index_compiled = index_compiled.replace('src="tpp_mentors_official.jpg"', f'src="{mentors_b64}"')
+    index_compiled = index_compiled.replace("src='tpp_mentors_official.jpg'", f"src='{mentors_b64}'")
+    index_compiled = index_compiled.replace('"tpp_mentors_official.jpg"', f'"{mentors_b64}"')
+    index_compiled = index_compiled.replace("'tpp_mentors_official.jpg'", f"'{mentors_b64}'")
+
+canva_invite_b64 = get_b64('tpp_canva_invite_card.jpg', 'image/jpeg')
+if canva_invite_b64:
+    index_compiled = index_compiled.replace('src="tpp_canva_invite_card.jpg"', f'src="{canva_invite_b64}"')
+    index_compiled = index_compiled.replace("src='tpp_canva_invite_card.jpg'", f"src='{canva_invite_b64}'")
+    index_compiled = index_compiled.replace('"tpp_canva_invite_card.jpg"', f'"{canva_invite_b64}"')
+    index_compiled = index_compiled.replace("'tpp_canva_invite_card.jpg'", f"'{canva_invite_b64}'")
+
+canva_cover_b64 = get_b64('tpp_canva_guide_cover.jpg', 'image/jpeg')
+if canva_cover_b64:
+    index_compiled = index_compiled.replace('src="tpp_canva_guide_cover.jpg"', f'src="{canva_cover_b64}"')
+    index_compiled = index_compiled.replace("src='tpp_canva_guide_cover.jpg'", f"src='{canva_cover_b64}'")
+    index_compiled = index_compiled.replace('"tpp_canva_guide_cover.jpg"', f'"{canva_cover_b64}"')
+    index_compiled = index_compiled.replace("'tpp_canva_guide_cover.jpg'", f"'{canva_cover_b64}'")
+
 
 # Default custom videos
 default_videos = []
@@ -188,8 +247,8 @@ worker_code = f"""
 // Cloudflare Worker for The Parenting Project Myanmar
 // Edge-accelerated with instant Google Sheets sync and In-Page Admin Hub
 
-const GOOGLE_SHEETS_URL_PRIMARY = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
-const GOOGLE_SHEETS_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GOOGLE_SHEETS_URL_PRIMARY = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec";
+const GOOGLE_SHEETS_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec";
 const STAFF_PASSCODE = "cbn2026";
 
 const _recentWorkerSyncKeys = new Set();
