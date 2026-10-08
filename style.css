@@ -10832,4 +10832,480 @@ body.is-mobile-app .tpp-canva-modal-actions {
   margin-top: 16px;
 }
 
+/* ========================================================================== */
+/* VISUAL & GRAPHIC-RICH HOME REDESIGN (Friendly, Photo-Filled, Scannable)    */
+/* ========================================================================== */
+
+/* 1. Stat & Metric Ribbon */
+body.is-mobile-app .tpp-stat-ribbon {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+body.is-mobile-app .tpp-stat-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 4px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+body.is-mobile-app .tpp-stat-num {
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+body.is-mobile-app .tpp-stat-num.gold { color: #d4af37; text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
+body.is-mobile-app .tpp-stat-num.emerald { color: #10b981; text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+body.is-mobile-app .tpp-stat-num.cyan { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+body.is-mobile-app .tpp-stat-num.rose { color: #f43f5e; text-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
+
+body.is-mobile-app .tpp-stat-lbl {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* 2. Photo Story Card (Cozy Mother & Child) */
+body.is-mobile-app .tpp-photo-story-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body.is-mobile-app .tpp-photo-story-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+body.is-mobile-app .tpp-photo-story-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+body.is-mobile-app .tpp-photo-story-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(10, 10, 15, 0.85) 75%, #0c0c12 100%);
+}
+
+body.is-mobile-app .tpp-photo-story-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  right: 14px;
+}
+
+body.is-mobile-app .tpp-photo-chip {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: #ffd700;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  backdrop-filter: blur(6px);
+}
+
+body.is-mobile-app .tpp-photo-story-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 3px;
+  line-height: 1.25;
+}
+
+body.is-mobile-app .tpp-photo-story-sub {
+  font-size: 0.72rem;
+  color: #d4af37;
+  margin: 0;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+/* 3. Transformation Comparison Infographic (Red vs Green) */
+body.is-mobile-app .tpp-transformation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+body.is-mobile-app .tpp-trans-col {
+  border-radius: 14px;
+  padding: 12px 10px;
+}
+
+body.is-mobile-app .tpp-trans-col.struggle {
+  background: rgba(244, 63, 94, 0.08);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+body.is-mobile-app .tpp-trans-col.victory {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+body.is-mobile-app .tpp-trans-header {
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+body.is-mobile-app .tpp-trans-badge {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+body.is-mobile-app .tpp-trans-badge.red { background: rgba(244, 63, 94, 0.2); color: #fda4af; }
+body.is-mobile-app .tpp-trans-badge.green { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+
+body.is-mobile-app .tpp-trans-header h5 {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+body.is-mobile-app .tpp-trans-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+body.is-mobile-app .tpp-trans-list li {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.25;
+}
+
+body.is-mobile-app .tpp-trans-list li strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+body.is-mobile-app .tpp-trans-list li span {
+  font-size: 0.6rem;
+  opacity: 0.8;
+  display: block;
+}
+
+/* 4. Visual Benefit Pills Row */
+body.is-mobile-app .tpp-visual-benefits-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+body.is-mobile-app .tpp-benefit-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body.is-mobile-app .tpp-benefit-icon {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+body.is-mobile-app .tpp-benefit-pill strong {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+body.is-mobile-app .tpp-benefit-pill span {
+  font-size: 0.55rem;
+  color: #d4af37;
+  margin-top: 2px;
+  line-height: 1.15;
+}
+
+/* 5. Vision Poster */
+body.is-mobile-app .tpp-vision-poster {
+  background: radial-gradient(ellipse at 50% 0%, #0d2854 0%, #06152b 70%, #040d1a 100%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 18px;
+  padding: 18px 14px;
+  text-align: center;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+body.is-mobile-app .tpp-poster-kicker {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #d4af37;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+body.is-mobile-app .tpp-poster-quote {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.35;
+  margin: 0 0 6px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.is-mobile-app .tpp-poster-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-style: italic;
+  line-height: 1.35;
+  margin: 0 0 12px;
+}
+
+body.is-mobile-app .tpp-scripture-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+body.is-mobile-app .tpp-scripture-chip {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #ffd700;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+/* 6. Visual Mission Cards with Real Photo Thumbnails */
+body.is-mobile-app .tpp-mission-visual-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+body.is-mobile-app .tpp-mission-visual-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+body.is-mobile-app .tpp-mission-visual-card:active {
+  transform: scale(0.98);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+body.is-mobile-app .tpp-mission-photo-thumb {
+  width: 72px;
+  height: 64px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body.is-mobile-app .tpp-mission-photo-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.5rem;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+body.is-mobile-app .tpp-mission-photo-badge.gold { color: #ffd700; border-color: rgba(212, 175, 55, 0.5); }
+body.is-mobile-app .tpp-mission-photo-badge.emerald { color: #34d399; border-color: rgba(16, 185, 129, 0.5); }
+
+body.is-mobile-app .tpp-mission-visual-info {
+  flex: 1;
+  min-width: 0;
+}
+
+body.is-mobile-app .tpp-mission-visual-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 3px;
+  line-height: 1.25;
+}
+
+body.is-mobile-app .tpp-mission-visual-desc {
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* 7. 4 Core Pillars 2x2 Photo Card Gallery */
+body.is-mobile-app .tpp-pillars-photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+body.is-mobile-app .tpp-pillar-photo-card {
+  position: relative;
+  height: 150px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease;
+}
+
+body.is-mobile-app .tpp-pillar-photo-card:active {
+  transform: scale(0.97);
+}
+
+body.is-mobile-app .tpp-pillar-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+body.is-mobile-app .tpp-pillar-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 10, 15, 0.4) 0%, rgba(10, 10, 15, 0.88) 60%, #0c0c12 100%);
+}
+
+body.is-mobile-app .tpp-pillar-photo-content {
+  position: absolute;
+  inset: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+body.is-mobile-app .tpp-pillar-num-pill {
+  align-self: flex-start;
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  background: rgba(0, 0, 0, 0.65);
+}
+body.is-mobile-app .tpp-pillar-num-pill.gold { color: #ffd700; border: 1px solid rgba(212, 175, 55, 0.4); }
+body.is-mobile-app .tpp-pillar-num-pill.cyan { color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+body.is-mobile-app .tpp-pillar-num-pill.rose { color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); }
+body.is-mobile-app .tpp-pillar-num-pill.emerald { color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+body.is-mobile-app .tpp-pillar-photo-content h5 {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+body.is-mobile-app .tpp-pillar-photo-content p {
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 4px;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.is-mobile-app .tpp-pillar-cta {
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #d4af37;
+  display: inline-block;
+}
+
+/* 8. Dual-Sided Canva Card Showcase */
+body.is-mobile-app .tpp-canva-dual-showcase {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+body.is-mobile-app .tpp-canva-dual-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+body.is-mobile-app .tpp-canva-dual-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  display: block;
+}
+
+body.is-mobile-app .tpp-canva-side-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.5rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.4px;
+  backdrop-filter: blur(4px);
+}
+
+
 

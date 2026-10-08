@@ -49,6 +49,7 @@ imgs = {
     'yt_thumb_trailer.jpg':             os.path.join(DIR, 'yt_thumb_trailer.jpg'),
     'tpp_mentors_official.jpg':         os.path.join(DIR, 'tpp_mentors_official.jpg'),
     'tpp_canva_invite_card.jpg':        os.path.join(DIR, 'tpp_canva_invite_card.jpg'),
+    'tpp_canva_invite_back.jpg':        os.path.join(DIR, 'tpp_canva_invite_back.jpg'),
     'tpp_canva_guide_cover.jpg':        os.path.join(DIR, 'tpp_canva_guide_cover.jpg'),
 }
 img_data = {}

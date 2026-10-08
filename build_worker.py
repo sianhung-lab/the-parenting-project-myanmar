@@ -128,6 +128,14 @@ if canva_cover_b64:
     index_compiled = index_compiled.replace('"tpp_canva_guide_cover.jpg"', f'"{canva_cover_b64}"')
     index_compiled = index_compiled.replace("'tpp_canva_guide_cover.jpg'", f"'{canva_cover_b64}'")
 
+canva_back_b64 = get_b64('tpp_canva_invite_back.jpg', 'image/jpeg')
+if canva_back_b64:
+    index_compiled = index_compiled.replace('src="tpp_canva_invite_back.jpg"', f'src="{canva_back_b64}"')
+    index_compiled = index_compiled.replace("src='tpp_canva_invite_back.jpg'", f"src='{canva_back_b64}'")
+    index_compiled = index_compiled.replace('"tpp_canva_invite_back.jpg"', f'"{canva_back_b64}"')
+    index_compiled = index_compiled.replace("'tpp_canva_invite_back.jpg'", f"'{canva_back_b64}'")
+
+
 
 # Default custom videos
 default_videos = []
