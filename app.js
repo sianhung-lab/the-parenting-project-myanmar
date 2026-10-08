@@ -5151,6 +5151,88 @@ function closeCanvaInviteModal(event) {
 window.openCanvaInviteModal = openCanvaInviteModal;
 window.closeCanvaInviteModal = closeCanvaInviteModal;
 
+// --- Option 4: 3D Symbol Showcase Data & Interactive Logic ---
+window.tppOpt4CurrentIdx = 0;
+window.tppOpt4Data = [
+  {
+    icon: '🕊️',
+    titleMy: '၁။ ငြိမ်သက်ခြင်း ချိုးငှက် (Celestial Dove of Peace)',
+    titleEn: 'Concept 1: Celestial Dove of Peace',
+    scriptureMy: '«တရားဟောရာ ၆:၆-၇ · အိပ်ရာဝင်ချိန် သားသမီးများကို ကောင်းချီးပေးခြင်း»',
+    scriptureEn: 'Deuteronomy 6:6-7 · Bedtime Blessing & Living Faith',
+    quoteMy: 'အော်ဟစ်ဒေါသထွက်ခြင်း မရှိတော့ဘဲ သန့်ရှင်းသော ဝိညာဉ်တော်၏ ငြိမ်သက်ခြင်းနှင့် မေတ္တာတော် အလင်းကို မျိုးဆက်သစ်ဆီသို့ လက်ဆင့်ကမ်းပါ။',
+    quoteEn: 'Moving beyond frustration into divine peace and Holy Spirit warmth passed faithfully to the next generation.',
+    img: 'bedtime_toddler.jpg',
+    tag: 'CONCEPT 1 · CELESTIAL DOVE'
+  },
+  {
+    icon: '🛡️',
+    titleMy: '၂။ ယုံကြည်ခြင်း ဒိုင်းလွှား (CBN Covenant Shield)',
+    titleEn: 'Concept 2: CBN Covenant Shield of Faith',
+    scriptureMy: '«ဧဖက် ၆:၁၆ · မာရ်နတ်၏ မီးစက်လက်နက်များကို ကာကွယ်သော ဒိုင်း»',
+    scriptureEn: 'Ephesians 6:16 · The Shield of Faith for Families',
+    quoteMy: 'လောကီလှည့်စားမှုနှင့် စိတ်ဖိစီးမှုများကြားတွင် အိမ်ထောင်ကို ဘုရားသခင်၏ သမ္မာတရားဖြင့် ကာကွယ်စောင့်ရှောက်သော မြင့်မြတ်သည့် ဒိုင်းလွှား။',
+    quoteEn: 'Protecting our home and children from toxic culture and anxiety, securely anchored in Christ.',
+    img: 'church_couple_welcoming.jpg',
+    tag: 'CONCEPT 2 · COVENANT SHIELD'
+  },
+  {
+    icon: '👑',
+    titleMy: '၃။ မျိုးဆက်သစ် သရဖူ (Crown of Generational Legacy)',
+    titleEn: 'Concept 3: Crown of Generational Legacy',
+    scriptureMy: '«သုတ္တံ ၁၇:၆ · သားသမီးတို့၏ ဘုန်းကား မိဘပေတည်း»',
+    scriptureEn: 'Proverbs 17:6 · Children as Crown of Joy',
+    quoteMy: 'ကြောက်ရွံ့ခြင်းဖြင့် အုပ်ချုပ်ခြင်း မဟုတ်ဘဲ ဘုရားသခင်၏ သားသမီးများအဖြစ် ဂုဏ်သိက္ခာနှင့် မေတ္တာသရဖူကို ဆောင်းနှင်းပေးခြင်း။',
+    quoteEn: 'Guiding children not with fear, but honoring them as royalty in Christ crowned with eternal dignity.',
+    img: 'parent_toddler_cozy.jpg',
+    tag: 'CONCEPT 3 · ROYAL LEGACY CROWN'
+  },
+  {
+    icon: '📖',
+    titleMy: '၄။ သမ္မာကျမ်းစာ သေတ္တာ (Living Scripture Ark & Light)',
+    titleEn: 'Concept 4: Living Scripture Ark & Lamp',
+    scriptureMy: '«ဆာလံ ၁၁၉:၁၀၅ · ခြေရှေ့မှာ မီးခွက်၊ လမ်းခရီး၌ အလင်း»',
+    scriptureEn: 'Psalm 119:105 · Lamp Unto My Feet, Light Unto My Path',
+    quoteMy: 'နေ့စဉ်ဘဝတွင် သမ္မာကျမ်းစာ သမ္မာတရားကို အခြေပြု၍ မျိုးဆက်တစ်ဆက်ပြီးတစ်ဆက် ခရစ်တော်၏အလင်းကို လက်ဆင့်ကမ်း အမွေပေးခြင်း။',
+    quoteEn: 'Anchoring daily home rhythms in living Scripture, passing an unshakable spiritual heritage to our grandchildren.',
+    img: 'yt_thumb_9.jpg',
+    tag: 'CONCEPT 4 · LIVING SCRIPTURE ARK'
+  }
+];
+
+function selectOpt4Symbol(idx) {
+  window.tppOpt4CurrentIdx = idx;
+  const data = window.tppOpt4Data[idx];
+  if (!data) return;
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+  
+  const card = document.getElementById('opt4-hero-card');
+  const img = document.getElementById('opt4-card-img');
+  const icon = document.getElementById('opt4-card-icon');
+  const pill = document.getElementById('opt4-card-pill');
+  const headline = document.getElementById('opt4-card-headline');
+  const scripture = document.getElementById('opt4-card-scripture');
+  const quote = document.getElementById('opt4-card-quote');
+
+  if (card) {
+    card.classList.add('flipping');
+    setTimeout(() => {
+      if (img) img.src = data.img;
+      if (icon) icon.textContent = data.icon;
+      if (pill) pill.textContent = data.tag;
+      if (headline) headline.textContent = isMy ? data.titleMy : data.titleEn;
+      if (scripture) scripture.textContent = isMy ? data.scriptureMy : data.scriptureEn;
+      if (quote) quote.textContent = isMy ? data.quoteMy : data.quoteEn;
+      card.classList.remove('flipping');
+    }, 180);
+  }
+
+  document.querySelectorAll('.opt4-idea-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+}
+window.selectOpt4Symbol = selectOpt4Symbol;
+
 
 function renderWindingEpisodesPath() {
   const container = document.getElementById('episodes-path-container');

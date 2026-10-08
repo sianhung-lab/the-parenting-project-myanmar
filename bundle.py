@@ -51,6 +51,7 @@ imgs = {
     'tpp_canva_invite_card.jpg':        os.path.join(DIR, 'tpp_canva_invite_card.jpg'),
     'tpp_canva_invite_back.jpg':        os.path.join(DIR, 'tpp_canva_invite_back.jpg'),
     'tpp_canva_guide_cover.jpg':        os.path.join(DIR, 'tpp_canva_guide_cover.jpg'),
+    'shield_extracted.png':             os.path.join(DIR, 'shield_extracted.png'),
 }
 img_data = {}
 for name, path in imgs.items():

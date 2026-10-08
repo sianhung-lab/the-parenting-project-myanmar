@@ -50,6 +50,9 @@ if hero_b64:
     index_compiled = index_compiled.replace('src="hero_couple_opt.jpg"', f'src="{hero_b64}"')
 if church_b64:
     index_compiled = index_compiled.replace('src="church_couple_welcoming.jpg"', f'src="{church_b64}"')
+    index_compiled = index_compiled.replace("src='church_couple_welcoming.jpg'", f"src='{church_b64}'")
+    index_compiled = index_compiled.replace('"church_couple_welcoming.jpg"', f'"{church_b64}"')
+    index_compiled = index_compiled.replace("'church_couple_welcoming.jpg'", f"'{church_b64}'")
 if banner_b64:
     index_compiled = index_compiled.replace('src="banner.jpg"', f'src="{banner_b64}"')
 if avatar_couple_b64:
@@ -134,6 +137,13 @@ if canva_back_b64:
     index_compiled = index_compiled.replace("src='tpp_canva_invite_back.jpg'", f"src='{canva_back_b64}'")
     index_compiled = index_compiled.replace('"tpp_canva_invite_back.jpg"', f'"{canva_back_b64}"')
     index_compiled = index_compiled.replace("'tpp_canva_invite_back.jpg'", f"'{canva_back_b64}'")
+
+shield_b64 = get_b64('shield_extracted.png', 'image/png')
+if shield_b64:
+    index_compiled = index_compiled.replace('src="shield_extracted.png"', f'src="{shield_b64}"')
+    index_compiled = index_compiled.replace("src='shield_extracted.png'", f"src='{shield_b64}'")
+    index_compiled = index_compiled.replace('"shield_extracted.png"', f'"{shield_b64}"')
+    index_compiled = index_compiled.replace("'shield_extracted.png'", f"'{shield_b64}'")
 
 
 
