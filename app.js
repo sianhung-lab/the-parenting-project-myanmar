@@ -2475,13 +2475,8 @@ async function checkAuthStatus() {
 
   const gateEl = document.getElementById('phone-welcome-gate');
   if (gateEl) {
-    if (isAuthenticated) {
-      gateEl.classList.add('hidden');
-      gateEl.style.display = 'none';
-    } else {
-      gateEl.classList.remove('hidden');
-      gateEl.style.display = '';
-    }
+    gateEl.classList.add('hidden');
+    gateEl.style.display = 'none';
   }
 
   if (typeof updateWelcomeGateUI === 'function') {
@@ -4800,7 +4795,11 @@ function checkAppMode() {
     const isAuthenticated = !!(session && session.loggedIn);
     document.body.classList.toggle('is-authenticated', isAuthenticated);
     document.documentElement.classList.toggle('is-authenticated', isAuthenticated);
-    if (typeof updateWelcomeGateUI === 'function') updateWelcomeGateUI();
+    const gateEl = document.getElementById('phone-welcome-gate');
+    if (gateEl) {
+      gateEl.classList.add('hidden');
+      gateEl.style.display = 'none';
+    }
 
     // Upgrade banner disabled to ensure 100% clean view on phones
     /*
@@ -4881,11 +4880,19 @@ function saveCompletedModules(arr) {
 }
 
 
+function updateMobileProgressUI() {
+  if (typeof updateHomeProgressUI === 'function') updateHomeProgressUI();
+}
+window.updateMobileProgressUI = updateMobileProgressUI;
+
 function updateHomeProgressUI() {
   const completed = getCompletedModules();
   const count = completed.length;
   const pct = Math.round((count / 11) * 100);
   const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+
+  const nhBadgePill = document.querySelector('.nh-milestone-badge-pill span');
+  if (nhBadgePill) nhBadgePill.textContent = `${count}/11`;
 
   // Update TPP Home Page Mission & Vision Bilingual Elements
   if (typeof updateTppHomeLanguage === 'function') {
@@ -5014,6 +5021,142 @@ function updateTppHomeLanguage(isMy) {
   }
   if (btnStart) btnStart.textContent = isMy ? '▶ စတင်လေ့လာမည် (Module 1)' : '▶ Start Module 1 (45 mins)';
   if (btnVision) btnVision.textContent = isMy ? '📜 ရူပါရုံနှင့် မစ်ရှင်' : '📜 Vision & Mission';
+
+  // Legacy Elements (if present)
+  const trKicker = document.getElementById('tpp-trailora-kicker');
+  const trHeadline = document.getElementById('tpp-trailora-headline');
+  const trSubtext = document.getElementById('tpp-trailora-subtext');
+  const trScript = document.getElementById('tpp-trailora-script-text');
+  const trCtaText = document.getElementById('tpp-trailora-cta-text');
+  const trReelTitle = document.getElementById('tpp-trailora-reel-title');
+  const trChurchTitle = document.getElementById('tpp-trailora-church-title');
+  const trFoundationsTitle = document.getElementById('tpp-foundations-title');
+
+  if (trKicker) trKicker.innerHTML = isMy ? '<span>ခရစ်တော် · ဗဟိုပြု · မိသားစု</span>' : '<span>CHRIST · CENTERED · FAMILY</span>';
+  if (trHeadline) {
+    trHeadline.innerHTML = isMy
+      ? 'နောင်တမဲ့<br>မေတ္တာဖြင့်<br><span class=\"trailora-accent\" style=\"white-space:nowrap\">အိမ်ထောင်ကို</span><br>တည်ဆောက်'
+      : 'Build<br>a Christ-<br><span class=\"trailora-accent\">Centered</span><br>Family';
+  }
+  if (trSubtext) {
+    trSubtext.textContent = isMy
+      ? 'ကလေးများဘဝအတွက် အခြေခံအုတ်မြစ် (၁၁) ခုနှင့် ဓမ္မသစ် မိဘလမ်းညွှန်။'
+      : '11 practical biblical foundations to guide your children with love and grace.';
+  }
+  if (trScript) trScript.textContent = isMy ? 'Grace & Truth at Home' : 'Grace & Truth for Every Child';
+  if (trCtaText) trCtaText.textContent = isMy ? 'စတင်လေ့လာမည်' : 'Start Learning';
+  if (trFoundationsTitle) trFoundationsTitle.textContent = isMy ? 'အခြေခံအုတ်မြစ် (၄) ခု' : '4 CORE FOUNDATIONS';
+  if (trReelTitle) trReelTitle.textContent = isMy ? '၁၁ ခန်းတွဲ သင်ခန်းစာများ' : '11 Video Modules';
+  if (trChurchTitle) trChurchTitle.textContent = isMy ? 'အသင်းတော်သုံး A5 ဖိတ်စာ & လက်စွဲ အခမဲ့ရယူပါ' : 'Free A5 Invitation Card & Church Guide';
+
+  // Brand New Executive Home Elements
+  const nhBadge = document.getElementById('nh-hero-badge-txt');
+  const nhDur = document.getElementById('nh-hero-duration-txt');
+  const nhKicker = document.getElementById('nh-hero-kicker');
+  const nhTitle = document.getElementById('nh-hero-title');
+  const nhSub = document.getElementById('nh-hero-subtitle');
+  const nhBtnP = document.getElementById('nh-btn-primary-txt');
+  const nhBtnS = document.getElementById('nh-btn-secondary-txt');
+  if (nhBadge) nhBadge.textContent = isMy ? 'CBN MASTERCLASS · တရားဝင် သင်တန်း' : 'CBN MASTERCLASS · OFFICIAL DISCIPLESHIP';
+  if (nhDur) nhDur.textContent = isMy ? '၁၈:၄၂ မိနစ်' : '18:42';
+  if (nhKicker) nhKicker.textContent = isMy ? 'ခရစ်တော် · မေတ္တာ · မိသားစု' : 'CHRIST · LOVE · FAMILY';
+  if (nhTitle) nhTitle.textContent = isMy ? 'နောင်တမဲ့ မေတ္တာဖြင့် အိမ်ထောင်ကို တည်ဆောက်' : 'Build a Christ-Centered Family That Flourishes';
+  if (nhSub) nhSub.textContent = isMy
+    ? 'သားသမီးများ၏ စိတ်နှလုံးကို မေတ္တာနှင့် သမ္မာတရားဖြင့် ပျိုးထောင်မည့် လက်တွေ့ကျသော ဓမ္မသစ် မိဘလမ်းညွှန် (၁၁) ခန်း။'
+    : '11 practical, biblical video lessons crafted by CBN Myanmar to guide your children with love, truth, and lasting peace.';
+  if (nhBtnP) nhBtnP.textContent = isMy ? 'စံပြမိဘ ဖြစ်လာခြင်း (၁၈ မိနစ်)' : 'Becoming Model Parents (18m)';
+  if (nhBtnS) nhBtnS.textContent = isMy ? 'သင်ရိုးမာတိကာ' : 'Curriculum';
+
+  const nhDevTag = document.getElementById('nh-devotional-tag');
+  const nhDevVerse = document.getElementById('nh-devotional-verse');
+  const nhDevRef = document.getElementById('nh-devotional-ref');
+  const nhDevIns = document.getElementById('nh-devotional-insight');
+  if (nhDevTag) nhDevTag.textContent = isMy ? 'နေ့စဉ် မိသားစု ကျမ်းစကား · TODAY\'S ANCHOR' : 'DAILY FAMILY SCRIPTURE · TODAY\'S ANCHOR';
+  if (nhDevVerse) nhDevVerse.textContent = isMy
+    ? '"သူ့လမ်းအတိုင်း ကလေးကို ဆုံးမသွန်သင်လော့။ သို့ပြုလျှင် အိုသောအခါ၌ပင် ထိုလမ်းမှ မလွှဲမရှောင်ဘဲ နေလိမ့်မည်။"'
+    : '"Train up a child in the way he should go; even when he is old he will not depart from it."';
+  if (nhDevRef) nhDevRef.textContent = isMy ? '— သုတ္တံ ၂၂:၆ (Proverbs 22:6)' : '— Proverbs 22:6';
+  if (nhDevIns) nhDevIns.textContent = isMy
+    ? '💡 စည်းကမ်းမချမှတ်မီ ကလေး၏ စိတ်ခံစားချက်နှင့် ရင်းနှီးသော နားလည်မှုကို ဦးစွာ တည်ဆောက်ပါ။'
+    : '💡 Connect with your child\'s heart before correcting their behavior.';
+
+  const nhPilTitle = document.getElementById('nh-pillars-title');
+  if (nhPilTitle) nhPilTitle.textContent = isMy ? 'အဓိက အခြေခံအုတ်မြစ် (၄) ခု' : '4 Core Biblical Foundations';
+  const p1 = document.getElementById('nh-p1-name');
+  const p2 = document.getElementById('nh-p2-name');
+  const p3 = document.getElementById('nh-p3-name');
+  const p4 = document.getElementById('nh-p4-name');
+  if (p1) p1.textContent = isMy ? 'စံပြမိဘ' : 'Model Parents';
+  if (p2) p2.textContent = isMy ? 'သံယောဇဉ်' : 'Deep Bonding';
+  if (p3) p3.textContent = isMy ? 'စည်းကမ်း' : 'Loving Discipline';
+  if (p4) p4.textContent = isMy ? 'အမွေအနှစ်' : 'Faith Legacy';
+
+  const nhModEye = document.getElementById('nh-modules-eyebrow');
+  const nhModTitle = document.getElementById('nh-modules-title');
+  const nhBtnAll = document.getElementById('nh-btn-all-modules');
+  if (nhModEye) nhModEye.textContent = '🎙️ CBN PARENTING PODCAST';
+  if (nhModTitle) nhModTitle.textContent = isMy ? '၁၁ ခန်းတွဲ အသံနှင့် ဗီဒီယို သင်ခန်းစာများ' : '11 Podcast Video Episodes';
+  if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
+  if (nhBtnAll) nhBtnAll.textContent = isMy ? 'အားလုံးကြည့် ›' : 'View All ›';
+
+  const nhMenTitle = document.getElementById('nh-mentors-title');
+  if (nhMenTitle) nhMenTitle.textContent = isMy ? 'သင်တန်းဆရာ/ဆရာမများ' : 'Meet Your Mentors';
+
+  const nhM1b = document.getElementById('nh-m1-badge');
+  const nhM1n = document.getElementById('nh-m1-name');
+  const nhM1d = document.getElementById('nh-m1-desc');
+  if (nhM1b) nhM1b.textContent = isMy ? 'စံပြမိဘနှင့် ခိုင်မြဲသော သံယောဇဉ်' : 'Model Parents & Deep Bonding';
+  if (nhM1n) nhM1n.textContent = isMy ? 'မေတ္တာသံယောဇဉ်နှင့် စံပြမိဘ' : 'Connection & Role Modeling';
+  if (nhM1d) nhM1d.textContent = isMy ? '"ပျော်ရွှင်သော ရင်းနှီးမှုသည် ကလေး၏ စိတ်နှလုံးကို ဘုရားသခင်ထံ ဖွင့်လှစ်ပေးသည်။"' : '"Joyful connection opens a child’s heart to God’s grace."';
+
+  const nhM2b = document.getElementById('nh-m2-badge');
+  const nhM2n = document.getElementById('nh-m2-name');
+  const nhM2d = document.getElementById('nh-m2-desc');
+  if (nhM2b) nhM2b.textContent = isMy ? 'ကျမ်းစာအခြေခံနှင့် မေတ္တာစည်းကမ်း' : 'Biblical Wisdom & Loving Discipline';
+  if (nhM2n) nhM2n.textContent = isMy ? 'ကျမ်းစာအခြေခံနှင့် မေတ္တာစည်းကမ်း' : 'Biblical Wisdom & Discipline';
+  if (nhM2d) nhM2d.textContent = isMy ? '"ဆယ်စုနှစ်များစွာ အိမ်ထောင်အတွေ့အကြုံနှင့် ခရစ်တော်၏ သည်းခံခြင်း နည်းလမ်းများ။"' : '"Decades of family wisdom rooted in Christlike patience."';
+
+  const nhM3b = document.getElementById('nh-m3-badge');
+  const nhM3n = document.getElementById('nh-m3-name');
+  const nhM3d = document.getElementById('nh-m3-desc');
+  if (nhM3b) nhM3b.textContent = isMy ? 'ဆယ်ကျော်သက်နှင့် နားလည်မှုမေတ္တာ' : 'Adolescent Guidance & Legacy';
+  if (nhM3n) nhM3n.textContent = isMy ? 'ဆယ်ကျော်သက်နှင့် နားလည်မှုမေတ္တာ' : 'Adolescent Guidance & Legacy';
+  if (nhM3d) nhM3d.textContent = isMy ? '"ကလေးကြီးပြင်းလာချိန် စိန်ခေါ်မှုများကို နားထောင်ပေးခြင်းဖြင့် အတူကျော်ဖြတ်ပါ။"' : '"Navigating teen transitions through empathetic listening."';
+
+  // 11 Video Lessons Straight Titles
+  const reelTitles = [
+    { my: 'စံပြမိဘ ဖြစ်လာခြင်း', en: 'Becoming Model Parents' },
+    { my: 'ခိုင်မြဲသော သံယောဇဉ်', en: 'Deep Family Bonding' },
+    { my: 'မေတ္တာနှင့် စည်းကမ်း', en: 'Loving Discipline' },
+    { my: 'နားထောင်ခြင်း အနုပညာ', en: 'The Art of Listening' },
+    { my: 'ဒေါသကို ထိန်းချုပ်ခြင်း', en: 'Anger Management' },
+    { my: 'အိမ်ထောင်၌ ခွင့်လွှတ်ခြင်း', en: 'Forgiveness in Marriage' },
+    { my: 'နှုတ်ထွက်စကား တန်ခိုး', en: 'Power of Spoken Words' },
+    { my: 'အဖိုးတန် အရည်အသွေးအချိန်', en: 'Quality Family Time' },
+    { my: 'ယုံကြည်ခြင်း အမွေလက်ဆင့်ကမ်း', en: 'Passing Faith Legacy' },
+    { my: 'ဆယ်ကျော်သက်နှင့် နားလည်မှု', en: 'Guiding Teenagers' },
+    { my: 'ခရစ်တော်၌ အောင်မြင်ခြင်း', en: 'Thriving Family in Christ' }
+  ];
+  for (let i = 1; i <= 11; i++) {
+    const el = document.getElementById('nh-reel-t' + i);
+    if (el) el.textContent = isMy ? reelTitles[i - 1].my : reelTitles[i - 1].en;
+  }
+
+  const nhChBadge = document.getElementById('nh-church-badge');
+  const nhChTitle = document.getElementById('nh-church-title');
+  const nhChDesc = document.getElementById('nh-church-desc');
+  const nhChBtn = document.getElementById('nh-church-btn-txt');
+  if (nhChBadge) nhChBadge.textContent = isMy ? 'CHURCH FACILITATOR KIT' : 'CHURCH FACILITATOR KIT';
+  if (nhChTitle) nhChTitle.textContent = isMy ? 'အသင်းတော်သုံး A5 ဖိတ်စာနှင့် ဆွေးနွေးမှုလက်စွဲ အခမဲ့ရယူပါ' : 'Free Church A5 Invitation Card & Discussion Guide';
+  if (nhChDesc) nhChDesc.textContent = isMy ? 'Canva Template ဖြင့် အသင်းတော်အမည် ထည့်သွင်းပြင်ဆင်နိုင်ပါသည်။' : 'Customise with your church name on Canva instantly.';
+  if (nhChBtn) nhChBtn.textContent = isMy ? 'Canva ဖိတ်စာ & လက်စွဲ ကြည့်မည်' : 'Open Canva Kit & Materials';
+
+  const nhMsEye = document.getElementById('nh-ms-eyebrow');
+  const nhMsTitle = document.getElementById('nh-ms-title');
+  const nhMsSub = document.getElementById('nh-ms-sub');
+  if (nhMsEye) nhMsEye.textContent = isMy ? 'CBN ACCREDITATION' : 'CBN ACCREDITATION';
+  if (nhMsTitle) nhMsTitle.textContent = isMy ? 'တရားဝင် မိသားစု သင်တန်းဆင်းလက်မှတ်' : 'Official Family Milestone Certificate';
+  if (nhMsSub) nhMsSub.textContent = isMy ? 'သင်ခန်းစာ (၁၁) ခု ပြီးဆုံးပါက ဂုဏ်ပြုလက်မှတ် ရယူပါ' : 'Complete all 11 lessons to receive your certificate';
 
   // Trust items
   const tr1h = document.getElementById('tpp-tr-1-h');
@@ -5332,6 +5475,33 @@ function initMobileCinema() {
   renderMobileModuleChips();
   selectMobileModuleVideo(currentMobileModId, false);
   updateMobileProgressUI();
+
+  // Keep simplified Play button in sync with HTML5 video events
+  const vid = document.getElementById('mobile-cinema-video');
+  if (vid && !vid._listenersBound) {
+    vid._listenersBound = true;
+    vid.addEventListener('play', () => {
+      const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+      const lbl = document.getElementById('ctrl-lbl-play');
+      const ico = document.getElementById('cinema-ctrl-icon-play');
+      if (lbl) lbl.textContent = isMy ? 'ခေတ္တရပ်ရန်' : 'Pause';
+      if (ico) ico.textContent = '⏸';
+    });
+    vid.addEventListener('pause', () => {
+      const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+      const lbl = document.getElementById('ctrl-lbl-play');
+      const ico = document.getElementById('cinema-ctrl-icon-play');
+      if (lbl) lbl.textContent = isMy ? 'ဖွင့်ရန်' : 'Play';
+      if (ico) ico.textContent = '▶';
+    });
+    vid.addEventListener('ended', () => {
+      const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+      const lbl = document.getElementById('ctrl-lbl-play');
+      const ico = document.getElementById('cinema-ctrl-icon-play');
+      if (lbl) lbl.textContent = isMy ? 'ဖွင့်ရန်' : 'Play';
+      if (ico) ico.textContent = '▶';
+    });
+  }
 }
 
 function renderMobileModuleChips() {
@@ -5397,11 +5567,21 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     displayDur = 12;
   }
 
+  const epNum = String(mod.id).padStart(2, '0');
   const currentTitleEl = document.getElementById('mobile-cinema-current-title');
-  if (currentTitleEl) currentTitleEl.textContent = `Episode ${mod.id}: ${displayTitle}`;
+  if (currentTitleEl) currentTitleEl.textContent = `🎙️ EP ${epNum}: ${displayTitle}`;
 
   const headingEl = document.getElementById('cinema-heading-title');
-  if (headingEl) headingEl.textContent = `Episode ${mod.id}: ${displayTitle} (${displayDur} min)`;
+  if (headingEl) headingEl.textContent = `🎙️ Episode ${mod.id}: ${displayTitle} (${displayDur} min)`;
+
+  const quoteSpotlightEl = document.getElementById('cinema-meta-quote');
+  if (quoteSpotlightEl) {
+    quoteSpotlightEl.textContent = isMy ? `«${mod.mySub || mod.sub}»` : `“${mod.sub || mod.mySub}”`;
+  }
+  const scriptureSpotlightEl = document.getElementById('cinema-meta-scripture');
+  if (scriptureSpotlightEl) {
+    scriptureSpotlightEl.textContent = `📖 ${isMy ? (mod.myScripture || mod.scripture) : mod.scripture}`;
+  }
 
   const hudTimeEl = document.getElementById('cinema-hud-time');
   if (hudTimeEl) hudTimeEl.textContent = `04:12 / ${displayDur}:30`;
@@ -5438,9 +5618,32 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
     const favBtn = document.getElementById('cinema-btn-fav');
     if (favBtn) {
       favBtn.classList.toggle('active', isFav);
-      favBtn.textContent = isFav ? '❤️' : '♡';
+      favBtn.innerHTML = isFav
+        ? '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
     }
   } catch(e) {}
+
+  // Update Simplified 2-Button Capsule: Play and Save State
+  try {
+    const bms = JSON.parse(localStorage.getItem('tpp_bookmarks') || '[]');
+    const isSaved = bms.includes(mod.id);
+    const saveBtn = document.getElementById('cinema-ctrl-save');
+    const saveLbl = document.getElementById('ctrl-lbl-save');
+    const saveIco = document.getElementById('ctrl-ico-bookmark');
+    if (saveBtn) saveBtn.classList.toggle('active', isSaved);
+    if (saveLbl) saveLbl.textContent = isSaved ? (isMy ? 'သိမ်းပြီး' : 'Saved') : (isMy ? 'သိမ်းဆည်း' : 'Save');
+    const _svgSave = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>';
+    const _svgSaved = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+    if (saveIco) saveIco.innerHTML = isSaved ? _svgSaved : _svgSave;
+  } catch(e) {}
+
+  const playLbl = document.getElementById('ctrl-lbl-play');
+  const playIco = document.getElementById('cinema-ctrl-icon-play');
+  if (playLbl) playLbl.textContent = autoPlay ? (isMy ? 'ခေတ္တရပ်ရန်' : 'Pause') : (isMy ? 'ဖွင့်ရန်' : 'Play');
+  if (playIco) playIco.innerHTML = autoPlay
+    ? '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M8 5v14l11-7z"/></svg>';
 
   // Update Completed Button
   const completed = getCompletedModules();
@@ -6168,7 +6371,7 @@ function switchAppTab(tab) {
     'path': document.getElementById('view-mobile-episodes'),
     'library': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
     'content': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
-    'downloads': document.getElementById('view-mobile-downloads'),
+    'downloads': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
     'prayer': document.getElementById('view-mobile-downloads'),
     'account': document.getElementById('view-mobile-account'),
     'profile': document.getElementById('view-mobile-account')
@@ -6202,10 +6405,12 @@ function switchAppTab(tab) {
   if (tab === 'episodes' || tab === 'path') {
     renderWindingEpisodesPath();
   } else if (tab === 'library' || tab === 'content') {
+    if (typeof switchMcLibraryTab === 'function') switchMcLibraryTab('content');
     renderMcLibraryLessons();
   } else if (tab === 'account' || tab === 'profile') {
     updateMcAccountUI();
   } else if (tab === 'downloads') {
+    if (typeof switchMcLibraryTab === 'function') switchMcLibraryTab('downloads');
     renderDownloadsPage();
   } else if (tab === 'prayer') {
     switchLibrarySubtab('prayer');
@@ -6267,14 +6472,16 @@ function toggleCinemaFavorite() {
     let favs = JSON.parse(localStorage.getItem('tpp_favorites') || '[]');
     const btn = document.getElementById('cinema-btn-fav');
     const idx = favs.indexOf(currentMobileModId);
+    const svgHeart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    const svgHeartFilled = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
     if (idx >= 0) {
       favs.splice(idx, 1);
-      if (btn) { btn.classList.remove('active'); btn.textContent = '♡'; }
+      if (btn) { btn.classList.remove('active'); btn.innerHTML = svgHeart; }
       showToast(`Removed Episode ${currentMobileModId} from Favorites`);
     } else {
       favs.push(currentMobileModId);
-      if (btn) { btn.classList.add('active'); btn.textContent = '❤️'; }
-      showToast(`❤️ Added Episode ${currentMobileModId} to Favorites!`);
+      if (btn) { btn.classList.add('active'); btn.innerHTML = svgHeartFilled; }
+      showToast(`Added Episode ${currentMobileModId} to Favorites!`);
     }
     localStorage.setItem('tpp_favorites', JSON.stringify(favs));
   } catch(e) {}
@@ -6284,15 +6491,24 @@ function toggleCinemaBookmark() {
   try {
     let bms = JSON.parse(localStorage.getItem('tpp_bookmarks') || '[]');
     const idx = bms.indexOf(currentMobileModId);
+    const saveBtn = document.getElementById('cinema-ctrl-save');
     const lbl = document.getElementById('ctrl-lbl-save');
+    const ico = document.getElementById('ctrl-ico-bookmark');
+    const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+    const svgSave = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>';
+    const svgSaved = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
     if (idx >= 0) {
       bms.splice(idx, 1);
-      if (lbl) lbl.textContent = 'Save';
-      showToast(`Removed Episode ${currentMobileModId} from Bookmarks`);
+      if (lbl) lbl.textContent = isMy ? 'သိမ်းဆည်း' : 'Save';
+      if (ico) ico.innerHTML = svgSave;
+      if (saveBtn) saveBtn.classList.remove('active');
+      showToast(isMy ? `သင်ခန်းစာ ${currentMobileModId} ကို မှတ်သားမှုမှ ဖယ်ရှားလိုက်ပါပြီ` : `Removed Episode ${currentMobileModId} from Bookmarks`);
     } else {
       bms.push(currentMobileModId);
-      if (lbl) lbl.textContent = 'Saved';
-      showToast(`🔖 Saved Episode ${currentMobileModId} to Bookmarks!`);
+      if (lbl) lbl.textContent = isMy ? 'သိမ်းပြီး' : 'Saved';
+      if (ico) ico.innerHTML = svgSaved;
+      if (saveBtn) saveBtn.classList.add('active');
+      showToast(isMy ? `သင်ခန်းစာ ${currentMobileModId} ကို မှတ်သားပြီးပါပြီ!` : `Saved Episode ${currentMobileModId}!`);
     }
     localStorage.setItem('tpp_bookmarks', JSON.stringify(bms));
   } catch(e) {}
@@ -6303,22 +6519,160 @@ function toggleCinemaVideoPlay() {
   const iframe = document.getElementById('mobile-cinema-iframe');
   const lbl = document.getElementById('ctrl-lbl-play');
   const ico = document.getElementById('cinema-ctrl-icon-play');
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
 
   if (video && video.style.display !== 'none' && video.src) {
     if (video.paused) {
-      video.play();
-      if (lbl) lbl.textContent = 'Pause';
-      if (ico) ico.textContent = '⏸';
+      video.play().catch(() => {});
+      if (lbl) lbl.textContent = isMy ? 'ခေတ္တရပ်ရန်' : 'Pause';
+      if (ico) ico.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+      showToast(isMy ? 'Playing' : 'Playing');
     } else {
       video.pause();
-      if (lbl) lbl.textContent = 'Play';
-      if (ico) ico.textContent = '▶';
+      if (lbl) lbl.textContent = isMy ? 'ဖွင့်ရန်' : 'Play';
+      if (ico) ico.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M8 5v14l11-7z"/></svg>';
+      showToast(isMy ? 'Paused' : 'Paused');
     }
   } else if (iframe && iframe.contentWindow) {
-    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    showToast('▶ Playing Video');
+    const isCurrentlyPlaying = lbl && (lbl.textContent.includes('Pause') || lbl.textContent.includes('ရပ်'));
+    if (isCurrentlyPlaying) {
+      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      if (lbl) lbl.textContent = isMy ? 'ဖွင့်ရန်' : 'Play';
+      if (ico) ico.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M8 5v14l11-7z"/></svg>';
+      showToast(isMy ? 'Paused' : 'Paused');
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      if (lbl) lbl.textContent = isMy ? 'ခေတ္တရပ်ရန်' : 'Pause';
+      if (ico) ico.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+      showToast(isMy ? 'Playing' : 'Playing');
+    }
   }
 }
+
+// Auto-Rotate Landscape Fullscreen Playback System
+async function enterCinemaFullscreenLandscape() {
+  const container = document.getElementById('mobile-video-player-container');
+  const video = document.getElementById('mobile-cinema-video');
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  if (!container) return;
+
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+  const isVideoFile = video && video.style.display !== 'none' && video.src;
+
+  // 1. Automatically start playing video when entering fullscreen
+  const playLbl = document.getElementById('ctrl-lbl-play');
+  const playIco = document.getElementById('cinema-ctrl-icon-play');
+  if (isVideoFile) {
+    if (video.paused) {
+      video.play().catch(() => {});
+    }
+    if (playLbl) playLbl.textContent = isMy ? 'ခေတ္တရပ်ရန်' : 'Pause';
+    if (playIco) playIco.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  } else if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    if (playLbl) playLbl.textContent = isMy ? 'ခေတ္တရပ်ရန်' : 'Pause';
+    if (playIco) playIco.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  }
+
+  // 2. iOS Safari HTML5 video native fullscreen automatically rotates 16:9 media to landscape
+  if (isVideoFile && video.webkitEnterFullscreen && !container.requestFullscreen) {
+    try {
+      video.webkitEnterFullscreen();
+      return;
+    } catch(e) {}
+  }
+
+  // 3. Request Standard Fullscreen API
+  const reqFs = container.requestFullscreen ||
+                container.webkitRequestFullscreen ||
+                container.mozRequestFullScreen ||
+                container.msRequestFullscreen;
+
+  if (reqFs) {
+    try {
+      await reqFs.call(container);
+    } catch(err) {
+      console.warn('Fullscreen request bypassed:', err);
+    }
+  }
+
+  // 4. Automatically Lock Screen Orientation to Landscape
+  let lockedOk = false;
+  if (screen.orientation && typeof screen.orientation.lock === 'function') {
+    try {
+      await screen.orientation.lock('landscape');
+      lockedOk = true;
+    } catch(err) {
+      console.warn('Orientation lock rejected or requires user setting:', err);
+    }
+  }
+
+  // 5. In-app Simulated Fullscreen Landscape (for WebViews or portrait orientation)
+  if (!lockedOk && window.innerHeight > window.innerWidth) {
+    container.classList.add('simulated-landscape-fullscreen');
+    document.body.classList.add('cinema-landscape-fullscreen-active');
+  }
+
+  let closeBtn = document.getElementById('cinema-fs-close-btn');
+  if (!closeBtn) {
+    closeBtn = document.createElement('button');
+    closeBtn.id = 'cinema-fs-close-btn';
+    closeBtn.innerHTML = '✕';
+    closeBtn.setAttribute('aria-label', 'Exit Fullscreen');
+    closeBtn.style.cssText = 'position:fixed;top:16px;right:16px;z-index:2147483647;background:rgba(0,0,0,0.82);color:#ffffff;border:1.5px solid rgba(255,255,255,0.45);border-radius:50%;width:42px;height:42px;font-size:20px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.6);';
+    closeBtn.onclick = exitCinemaFullscreenLandscape;
+    document.body.appendChild(closeBtn);
+  }
+  closeBtn.style.display = 'flex';
+
+  showToast(isMy ? '🔄 မျက်နှာပြင်ပြည့် အလျားလိုက် ဖွင့်ပြနေသည်' : '🔄 Landscape Fullscreen Playing');
+}
+
+function exitCinemaFullscreenLandscape() {
+  const container = document.getElementById('mobile-video-player-container');
+  if (container) {
+    container.classList.remove('simulated-landscape-fullscreen');
+  }
+  const closeBtn = document.getElementById('cinema-fs-close-btn');
+  if (closeBtn) closeBtn.style.display = 'none';
+
+  document.body.classList.remove('cinema-landscape-fullscreen-active');
+
+  if (document.exitFullscreen && (document.fullscreenElement || document.webkitFullscreenElement)) {
+    document.exitFullscreen().catch(() => {});
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen().catch(() => {});
+  }
+
+  if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+    try { screen.orientation.unlock(); } catch(e) {}
+  }
+}
+
+// Global Fullscreen Change Listener
+document.addEventListener('fullscreenchange', () => {
+  const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  const container = document.getElementById('mobile-video-player-container');
+  const closeBtn = document.getElementById('cinema-fs-close-btn');
+  if (!isFs) {
+    if (container) container.classList.remove('simulated-landscape-fullscreen');
+    if (closeBtn) closeBtn.style.display = 'none';
+    document.body.classList.remove('cinema-landscape-fullscreen-active');
+    if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+      try { screen.orientation.unlock(); } catch(e) {}
+    }
+  } else {
+    if (screen.orientation && typeof screen.orientation.lock === 'function') {
+      screen.orientation.lock('landscape').catch(() => {});
+    }
+  }
+});
+document.addEventListener('webkitfullscreenchange', () => {
+  const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  if (!isFs && screen.orientation && typeof screen.orientation.unlock === 'function') {
+    try { screen.orientation.unlock(); } catch(e) {}
+  }
+});
 
 function rewindCinemaVideo(seconds = 10) {
   const video = document.getElementById('mobile-cinema-video');
@@ -6403,6 +6757,7 @@ function setAppLanguage(newLang) {
   updateWelcomeGateUI();
   if (typeof renderModules === 'function') renderModules();
   if (typeof initMobileCinema === 'function') initMobileCinema();
+  if (typeof updateTppHomeLanguage === 'function') updateTppHomeLanguage(lang === 'my');
 }
 window.setAppLanguage = setAppLanguage;
 
@@ -7053,6 +7408,9 @@ async function startVideoDownload(modId, quality = 'saver') {
   updateCinemaDownloadButton(modId, 'downloading', 0);
   showDownloadFloatingCapsule(modId, 0, quality);
   renderDownloadsPage();
+  if (typeof renderNetflixDownloadsTab === 'function') renderNetflixDownloadsTab();
+  if (typeof renderMcLibraryLessons === 'function') renderMcLibraryLessons();
+    if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
 
   const proxyUrl = getProxyUrl(fileUrl);
   const xhr = new XMLHttpRequest();
@@ -7069,6 +7427,7 @@ async function startVideoDownload(modId, quality = 'saver') {
       updateCinemaDownloadButton(modId, 'downloading', pct);
       updateDownloadFloatingCapsule(modId, pct, e.loaded, e.total);
       updateDownloadsPanelProgress(modId, pct, e.loaded, e.total);
+      if (typeof updateNetflixLibraryProgress === 'function') updateNetflixLibraryProgress(modId, pct);
     }
   };
 
@@ -7088,6 +7447,9 @@ async function startVideoDownload(modId, quality = 'saver') {
       hideDownloadFloatingCapsule(isMy ? `✅ Episode ${modId} အော့ဖ်လိုင်းကြည့်ရန် အသင့်ဖြစ်ပါပြီ!` : `✅ Episode ${modId} saved offline!`);
       showOfflineToast(isMy ? `✅ Episode ${modId} အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!` : `✅ Episode ${modId} saved for offline viewing!`, 'success');
       renderDownloadsPage();
+      if (typeof renderNetflixDownloadsTab === 'function') renderNetflixDownloadsTab();
+      if (typeof renderMcLibraryLessons === 'function') renderMcLibraryLessons();
+    if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
       // If this module is currently playing, switch to local blob
       if (currentMobileModId === modId) {
         playOfflineOrOnline(modId);
@@ -7099,6 +7461,9 @@ async function startVideoDownload(modId, quality = 'saver') {
       hideDownloadFloatingCapsule();
       showOfflineToast(`❌ Download failed (${xhr.status}). Try again.`, 'error');
       renderDownloadsPage();
+      if (typeof renderNetflixDownloadsTab === 'function') renderNetflixDownloadsTab();
+      if (typeof renderMcLibraryLessons === 'function') renderMcLibraryLessons();
+    if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
     }
   };
 
@@ -7109,6 +7474,9 @@ async function startVideoDownload(modId, quality = 'saver') {
     hideDownloadFloatingCapsule();
     showOfflineToast(isMy ? '❌ ဒေါင်းလုဒ်မအောင်မြင်ပါ။ အင်တာနက်လိုင်း စစ်ဆေးပါ။' : '❌ Download failed. Check your connection.', 'error');
     renderDownloadsPage();
+    if (typeof renderNetflixDownloadsTab === 'function') renderNetflixDownloadsTab();
+    if (typeof renderMcLibraryLessons === 'function') renderMcLibraryLessons();
+    if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
   };
 
   xhr.send();
@@ -7123,6 +7491,9 @@ function cancelVideoDownload(modId) {
     hideDownloadFloatingCapsule();
     showOfflineToast(`⏹ Download cancelled.`, 'info');
     renderDownloadsPage();
+    if (typeof renderNetflixDownloadsTab === 'function') renderNetflixDownloadsTab();
+    if (typeof renderMcLibraryLessons === 'function') renderMcLibraryLessons();
+    if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
   }
 }
 
@@ -7132,6 +7503,9 @@ async function deleteOfflineAndRefresh(modId) {
   updateCinemaDownloadButton(modId, 'none', 0);
   showOfflineToast(`🗑 Offline video deleted.`, 'info');
   renderDownloadsPage();
+  if (typeof renderNetflixDownloadsTab === 'function') renderNetflixDownloadsTab();
+  if (typeof renderMcLibraryLessons === 'function') renderMcLibraryLessons();
+    if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
 }
 
 // Play from local blob if downloaded, else stream from R2
@@ -7947,6 +8321,8 @@ window.switchLibrarySubtab = switchLibrarySubtab;
 window.toggleCinemaFavorite = toggleCinemaFavorite;
 window.toggleCinemaBookmark = toggleCinemaBookmark;
 window.toggleCinemaVideoPlay = toggleCinemaVideoPlay;
+window.enterCinemaFullscreenLandscape = enterCinemaFullscreenLandscape;
+window.exitCinemaFullscreenLandscape = exitCinemaFullscreenLandscape;
 window.rewindCinemaVideo = rewindCinemaVideo;
 window.toggleCinemaSubtitles = toggleCinemaSubtitles;
 window.toggleCinemaVoiceOver = toggleCinemaVoiceOver;
@@ -7962,6 +8338,7 @@ function initAppTheme() {
 function initThemeMood() {
   const savedMood = localStorage.getItem('tpp_mood') || 'day';
   applyThemeMood(savedMood, false);
+  updateTwoOptionUIStrings();
 }
 
 function toggleThemeMood() {
@@ -7997,6 +8374,7 @@ function applyThemeMood(mood, animate = true) {
     document.body.classList.add('mood-dark', 'theme-dark');
     document.documentElement.classList.add('mood-dark', 'theme-dark');
   }
+  updateTwoOptionUIStrings();
 
   const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
   const icon = isDay ? '☀️' : '🌙';
@@ -8073,8 +8451,8 @@ function getMcLessonsData() {
   if (typeof MODULES !== 'undefined' && Array.isArray(MODULES) && MODULES.length > 0) {
     return MODULES.map(m => ({
       id: m.id,
-      speaker: `Module ${m.id}: ${m.title}`,
-      speakerMy: `မော်ဂျူး ${m.id}: ${m.myTitle}`,
+      speaker: m.title,
+      speakerMy: m.myTitle,
       topic: m.sub,
       topicMy: m.mySub,
       duration: `${m.dur || '45'}m`,
@@ -8099,7 +8477,32 @@ function getCompletedModuleIds() {
   } catch(e) { return []; }
 }
 
-function renderMcLibraryLessons(category, query) {
+let mcCurrentLibraryTab = 'content'; // 'content' | 'downloads'
+
+async function switchMcLibraryTab(tab) {
+  mcCurrentLibraryTab = tab;
+  const btnContent = document.getElementById('btn-mc-tab-content');
+  const btnDl = document.getElementById('btn-mc-tab-downloads');
+  const paneContent = document.getElementById('mc-pane-content');
+  const paneDl = document.getElementById('mc-pane-downloads');
+
+  if (tab === 'downloads') {
+    if (btnContent) btnContent.classList.remove('active');
+    if (btnDl) btnDl.classList.add('active');
+    if (paneContent) { paneContent.classList.remove('active'); paneContent.style.display = 'none'; }
+    if (paneDl) { paneDl.classList.add('active'); paneDl.style.display = 'block'; }
+    await renderNetflixDownloadsTab();
+  } else {
+    if (btnContent) btnContent.classList.add('active');
+    if (btnDl) btnDl.classList.remove('active');
+    if (paneContent) { paneContent.classList.add('active'); paneContent.style.display = 'block'; }
+    if (paneDl) { paneDl.classList.remove('active'); paneDl.style.display = 'none'; }
+    await renderMcLibraryLessons();
+  }
+}
+window.switchMcLibraryTab = switchMcLibraryTab;
+
+async function renderMcLibraryLessons(category, query) {
   const container = document.getElementById('mc-lessons-list');
   if (!container) return;
 
@@ -8110,26 +8513,43 @@ function renderMcLibraryLessons(category, query) {
   const completedIds = getCompletedModuleIds();
   const lessons = getMcLessonsData();
 
-  // Update Spotlight Card text for active language
-  const spotlightEyebrow = document.querySelector('.mc-spotlight-eyebrow');
-  const spotlightTitle = document.querySelector('.mc-spotlight-title');
-  const spotlightDesc = document.querySelector('.mc-spotlight-desc');
-  const spotlightBtnWatch = document.querySelector('.mc-spotlight-btn-watch');
-  const spotlightBtnTrailer = document.querySelector('.mc-spotlight-btn-trailer');
+  // Get offline saved videos to show Netflix download state
+  let offlineMap = {};
+  let totalOfflineCount = 0;
+  let totalOfflineBytes = 0;
+  try {
+    const allOffline = await getAllOfflineVideos();
+    totalOfflineCount = allOffline.length;
+    allOffline.forEach(item => {
+      offlineMap[item.id] = item;
+      totalOfflineBytes += (item.meta?.size || item.blob?.size || 0);
+    });
+  } catch(e) {}
 
-  if (spotlightEyebrow) spotlightEyebrow.textContent = isMy ? '✨ အထူးပြု မိဘသင်တန်း ရုပ်သံတွဲ' : '✨ FEATURED MASTERCLASS SERIES';
-  if (spotlightTitle) spotlightTitle.textContent = isMy ? 'ခရစ်ယာန်မိဘများအတွက် မိသားစုတပည့်တော်ဖြစ်စေခြင်း စီမံကိန်း' : 'The Parenting Project: Christian Family Discipleship';
-  if (spotlightDesc) spotlightDesc.textContent = isMy ? 'မြန်မာနိုင်ငံရှိ ခရစ်ယာန်မိဘများအတွက် ခရစ်တော်ဗဟိုပြု အိမ်ထောင်တည်ဆောက်ရေး အထူးလက်စွဲ။' : 'Accredited curriculum equipping parents across Myanmar with Christ-centered parenting wisdom.';
-  if (spotlightBtnWatch) spotlightBtnWatch.textContent = isMy ? '▶ မော်ဂျူး ၁ စတင်မည် (၄၅ မိနစ်)' : '▶ Start Module 1 (45m)';
-  if (spotlightBtnTrailer) spotlightBtnTrailer.textContent = isMy ? 'ℹ️ သင်ရိုးအညွှန်း' : 'ℹ️ Curriculum Guide';
+  // Update downloads badge on tab switcher
+  const badge = document.getElementById('mc-dl-count-badge');
+  if (badge) {
+    if (totalOfflineCount > 0) {
+      badge.textContent = totalOfflineCount;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  // Update Account page storage label
+  const accDlSub = document.getElementById('mc-account-downloads-sub');
+  if (accDlSub) {
+    accDlSub.textContent = isMy
+      ? `${totalOfflineCount} ပိုင်း ဒေါင်းလုဒ်ရယူထားသည် · ${formatFileSize(totalOfflineBytes) || '0 MB'} သုံးစွဲထားသည်`
+      : `${totalOfflineCount} lessons downloaded · ${formatFileSize(totalOfflineBytes) || '0 MB'} used`;
+  }
 
   // Filter lessons
   let filtered = lessons.filter(l => {
-    // Category match
     if (mcCurrentCategory !== 'all' && l.category !== mcCurrentCategory) {
       return false;
     }
-    // Search match
     if (mcCurrentSearchQuery.trim()) {
       const q = mcCurrentSearchQuery.toLowerCase();
       const txt = (l.speaker + ' ' + l.speakerMy + ' ' + l.topic + ' ' + l.topicMy).toLowerCase();
@@ -8140,13 +8560,10 @@ function renderMcLibraryLessons(category, query) {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.4)">
+      <div style="text-align:center;padding:48px 20px;color:#64748B">
         <div style="font-size:2.2rem;margin-bottom:12px">🔍</div>
-        <div style="font-size:0.95rem;font-weight:700;color:#fff">${isMy ? 'သင်ခန်းစာ ရှာမတွေ့ပါ' : 'No lessons found'}</div>
+        <div style="font-size:0.95rem;font-weight:700;color:#0F172A">${isMy ? 'သင်ခန်းစာ ရှာမတွေ့ပါ' : 'No lessons found'}</div>
         <div style="font-size:0.75rem;margin-top:6px">${isMy ? 'အခြား စကားလုံး သို့မဟုတ် ကဏ္ဍဖြင့် စမ်းသပ်ပါ' : 'Try searching different keywords or clear filters'}</div>
-        <button type="button" class="mc-clear-filters-btn" style="margin:16px auto 0;display:inline-block" onclick="resetMcFilters()">
-          ${isMy ? 'စစ်ထုတ်မှု အားလုံး ရှင်းလင်းရန်' : 'CLEAR FILTERS'}
-        </button>
       </div>
     `;
     return;
@@ -8157,25 +8574,75 @@ function renderMcLibraryLessons(category, query) {
     const isCompleted = completedIds.includes(lesson.id);
     const speakerText = isMy ? lesson.speakerMy : lesson.speaker;
     const topicText = isMy ? lesson.topicMy : lesson.topic;
-    const badgeText = lesson.raw ? (isMy ? (lesson.raw.myBadge || lesson.raw.badge) : lesson.raw.badge) : lesson.badge;
+
+    const isDownloaded = !!offlineMap[lesson.id];
+    const isDownloading = !!_activeDownloads[lesson.id];
+    const downloadProgress = isDownloading ? (_activeDownloads[lesson.id].progress || 0) : 0;
+
+    let dlActionHtml = '';
+    if (isDownloading) {
+      dlActionHtml = `
+        <button type="button" class="mc-btn-netflix-dl downloading" onclick="event.stopPropagation(); cancelVideoDownload(${lesson.id});" title="Cancel Download">
+          <span style="display:inline-block;animation:spin 1s linear infinite">⏳</span>
+          <span id="netflix-dl-pct-${lesson.id}">${downloadProgress}%</span>
+        </button>
+      `;
+    } else if (isDownloaded) {
+      dlActionHtml = `
+        <button type="button" class="mc-btn-netflix-dl downloaded" onclick="event.stopPropagation(); switchMcLibraryTab('downloads');" title="Downloaded offline">
+          <span style="font-weight:900">✓</span>
+          <span>${isMy ? 'သိမ်းပြီး' : 'Saved'}</span>
+        </button>
+      `;
+    } else {
+      dlActionHtml = `
+        <button type="button" class="mc-btn-netflix-dl" onclick="event.stopPropagation(); startVideoDownload(${lesson.id});" title="Download offline">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>${isMy ? 'ဒေါင်းလုဒ်' : 'Download'}</span>
+        </button>
+      `;
+    }
+
+    const epNum = String(lesson.id).padStart(2, '0');
+    const rawMod = lesson.raw || (typeof MODULES !== 'undefined' ? MODULES.find(m => m.id === lesson.id) : {}) || {};
+    const quote = isMy ? (rawMod.mySub || rawMod.sub || topicText) : (rawMod.sub || topicText);
+    const scripture = rawMod.scripture || '';
+    const badgeText = isMy ? (rawMod.myBadge || lesson.myBadge || lesson.badge) : (rawMod.badge || lesson.badge);
 
     html += `
-      <div class="mc-lesson-row ${isCompleted ? 'completed' : ''}" onclick="openCinemaDirectly(${lesson.id})" data-lesson-id="${lesson.id}">
-        <div class="mc-lesson-thumb-wrap">
-          <img src="${lesson.image}" alt="${speakerText}" class="mc-lesson-thumb-img" loading="lazy" onerror="this.src='${lesson.ytThumb}'"/>
-          <span class="mc-lesson-dur-badge">${lesson.duration}</span>
+      <div class="podcast-episode-row ${isCompleted ? 'completed' : ''}" onclick="openCinemaDirectly(${lesson.id})" data-lesson-id="${lesson.id}">
+        <div class="podcast-ep-artwork-wrap">
+          <img src="${lesson.image}" alt="${speakerText}" class="podcast-ep-artwork" loading="lazy" onerror="this.src='${lesson.ytThumb}'"/>
+          <span class="podcast-ep-artwork-num">🎙️ EP ${epNum}</span>
+          <span class="podcast-ep-artwork-dur">${lesson.duration}</span>
+          <div class="podcast-artwork-play-overlay">▶</div>
           ${isCompleted ? '<div class="mc-progress-bar-line"></div>' : ''}
         </div>
-        <div class="mc-lesson-info">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-            <h3 class="mc-lesson-speaker">${speakerText}</h3>
+        <div class="podcast-ep-meta-wrap">
+          <div class="podcast-ep-header-line">
+            <div class="podcast-ep-tag-group">
+              <span class="podcast-ep-label-pill">🎙️ EPISODE ${epNum}</span>
+              <span class="podcast-topic-category-pill">${rawMod.icon || '🏅'} ${badgeText}</span>
+            </div>
             ${isCompleted ? '<span class="mc-completed-check">✓ Done</span>' : ''}
           </div>
-          <p class="mc-lesson-desc">${topicText}</p>
-          <div class="mc-card-actions-row">
-            <span class="mc-badge-cat">${badgeText}</span>
-            <button type="button" class="mc-btn-card-info" onclick="event.stopPropagation(); openModulePreviewModal(${lesson.id});">ℹ️ ${isMy ? 'အညွှန်း' : 'Guide'}</button>
-            <button type="button" class="mc-btn-card-info" onclick="event.stopPropagation(); openCinemaDirectly(${lesson.id});">▶ ${isMy ? 'ကြည့်မည်' : 'Watch'}</button>
+          <h3 class="podcast-ep-title">${speakerText}</h3>
+          <div class="podcast-ep-quote-snippet">
+            “${quote}”
+          </div>
+          ${scripture ? `<div class="podcast-ep-scripture-line">📖 ${scripture}</div>` : ''}
+          <div class="podcast-ep-actions-row">
+            <button type="button" class="mc-btn-netflix-watch" onclick="event.stopPropagation(); openCinemaDirectly(${lesson.id});">
+              ▶ ${isMy ? 'နားဆင်/ကြည့်မည်' : 'Play Episode'}
+            </button>
+            <button type="button" class="mc-btn-netflix-guide" onclick="event.stopPropagation(); openModulePreviewModal(${lesson.id});">
+              ℹ️ ${isMy ? 'အညွှန်း' : 'Show Notes'}
+            </button>
+            ${dlActionHtml}
           </div>
         </div>
       </div>
@@ -8183,20 +8650,120 @@ function renderMcLibraryLessons(category, query) {
   });
 
   container.innerHTML = html;
+}
 
-  // Update clear filters button visibility
-  const hasActiveFilters = (mcCurrentCategory !== 'all' || mcCurrentSearchQuery.trim() !== '');
-  const clearBtn = document.querySelector('.mc-clear-filters-btn');
-  const badge = document.getElementById('mc-active-filter-badge');
+function updateNetflixLibraryProgress(modId, pct) {
+  const pctEl = document.getElementById(`netflix-dl-pct-${modId}`);
+  if (pctEl) pctEl.textContent = `${pct}%`;
+}
+window.updateNetflixLibraryProgress = updateNetflixLibraryProgress;
+
+async function renderNetflixDownloadsTab() {
+  const container = document.getElementById('netflix-downloads-list');
+  if (!container) return;
+
+  const isMy = (typeof lang !== 'undefined' ? lang === 'my' : true);
+  let allDownloaded = [];
+  try {
+    allDownloaded = await getAllOfflineVideos();
+  } catch(e) {}
+
+  let totalBytes = 0;
+  allDownloaded.forEach(item => {
+    totalBytes += (item.meta?.size || item.blob?.size || 0);
+  });
+
+  // Update storage summary
+  const usedEl = document.getElementById('netflix-storage-used');
+  const freeEl = document.getElementById('netflix-storage-free');
+  const fillEl = document.getElementById('netflix-storage-fill');
+  const badge = document.getElementById('mc-dl-count-badge');
+
+  if (usedEl) usedEl.textContent = `${formatFileSize(totalBytes) || '0 MB'} ${isMy ? 'အသုံးပြုထားသည်' : 'Used'}`;
+  if (fillEl) {
+    const pct = Math.min(100, Math.max(3, Math.round((totalBytes / (1024 * 1024 * 1024)) * 10)));
+    fillEl.style.width = pct + '%';
+  }
   if (badge) {
-    if (mcCurrentCategory !== 'all') {
-      badge.style.display = 'inline-block';
-      badge.textContent = '1';
+    if (allDownloaded.length > 0) {
+      badge.textContent = allDownloaded.length;
+      badge.style.display = 'inline-flex';
     } else {
       badge.style.display = 'none';
     }
   }
+
+  // Update Account page storage label
+  const accDlSub = document.getElementById('mc-account-downloads-sub');
+  if (accDlSub) {
+    accDlSub.textContent = isMy
+      ? `${allDownloaded.length} ပိုင်း ဒေါင်းလုဒ်ရယူထားသည် · ${formatFileSize(totalBytes) || '0 MB'} သုံးစွဲထားသည်`
+      : `${allDownloaded.length} lessons downloaded · ${formatFileSize(totalBytes) || '0 MB'} used`;
+  }
+
+  if (allDownloaded.length === 0) {
+    container.innerHTML = `
+      <div class="netflix-empty-state">
+        <div class="netflix-empty-ico">📥</div>
+        <div class="netflix-empty-title">
+          ${isMy ? 'ဒေါင်းလုဒ် ရယူထားသော ဗီဒီယို မရှိသေးပါ' : 'No Downloads Yet'}
+        </div>
+        <div class="netflix-empty-desc">
+          ${isMy ? 'အင်တာနက် မရှိသည့်အခါ အော့ဖ်လိုင်း ကြည့်ရှုနိုင်ရန် မိမိနှစ်သက်ရာ သင်ခန်းစာများကို ဒေါင်းလုဒ်ဆွဲထားနိုင်ပါသည်။' : 'Download lessons to watch anytime offline without internet.'}
+        </div>
+        <button type="button" class="netflix-empty-btn" onclick="switchMcLibraryTab('content')">
+          <span>🎬 ${isMy ? 'ဗီဒီယိုများ သွားရောက် ဒေါင်းလုဒ်ဆွဲမည်' : 'Find Videos to Download'}</span>
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  allDownloaded.forEach(item => {
+    const mod = MODULES.find(m => m.id === item.id) || {};
+    const title = isMy ? (mod.myTitle || item.meta?.myTitle || mod.title || `Episode ${item.id}`) : (mod.title || item.meta?.title || `Episode ${item.id}`);
+    const size = formatFileSize(item.meta?.size || item.blob?.size);
+    const thumb = OFFICIAL_PROJECT_THUMBS[item.id] || mod.thumb || 'banner.jpg';
+    const dur = mod.dur ? `${mod.dur}m` : '45m';
+
+    html += `
+      <div class="netflix-dl-card" id="netflix-dl-${item.id}">
+        <div class="netflix-dl-thumb-wrap">
+          <img src="${thumb}" alt="${title}" class="netflix-dl-thumb-img" onerror="this.src='yt_thumb_${item.id}.jpg'"/>
+          <span class="mc-lesson-dur-badge">${dur}</span>
+        </div>
+        <div class="netflix-dl-info">
+          <div class="netflix-dl-title">${title}</div>
+          <div class="netflix-dl-meta">
+            <span style="color:#059669;font-weight:700">✓ ${isMy ? 'အော့ဖ်လိုင်း အဆင်သင့်' : 'Offline Ready'}</span>
+            <span>·</span>
+            <span>${size}</span>
+          </div>
+          <div class="netflix-dl-actions">
+            <button type="button" class="netflix-btn-play-offline" onclick="watchOfflineEpisode(${item.id})">
+              ▶ ${isMy ? 'ကြည့်ရှုမည်' : 'Watch'}
+            </button>
+            <button type="button" class="netflix-btn-delete-offline" onclick="deleteOfflineEpisodeAndRefresh(${item.id})" title="Delete download">
+              🗑
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
 }
+window.renderNetflixDownloadsTab = renderNetflixDownloadsTab;
+
+async function deleteOfflineEpisodeAndRefresh(modId) {
+  await deleteOfflineVideo(modId);
+  showOfflineToast(`🗑 Episode ${modId} deleted from device`, 'info');
+  await renderNetflixDownloadsTab();
+  await renderMcLibraryLessons();
+}
+window.deleteOfflineEpisodeAndRefresh = deleteOfflineEpisodeAndRefresh;
 
 function toggleMcSearchInput() {
   const wrap = document.getElementById('mc-search-wrap');
@@ -8385,12 +8952,31 @@ function updateMcAccountUI() {
       }
     }
   } catch(e) {}
+
+  // Update offline storage info in Account
+  try {
+    if (typeof getAllOfflineVideos === 'function') {
+      getAllOfflineVideos().then(allOffline => {
+        let totalBytes = 0;
+        allOffline.forEach(item => { totalBytes += (item.meta?.size || item.blob?.size || 0); });
+        const accDlSub = document.getElementById('mc-account-downloads-sub');
+        if (accDlSub) {
+          accDlSub.textContent = isMy
+            ? `${allOffline.length} ပိုင်း ဒေါင်းလုဒ်ရယူထားသည် · ${formatFileSize(totalBytes) || '0 MB'} သုံးစွဲထားသည်`
+            : `${allOffline.length} lessons downloaded · ${formatFileSize(totalBytes) || '0 MB'} used`;
+        }
+      });
+    }
+  } catch(e) {}
 }
 
 // Export to window
 window.OFFICIAL_PROJECT_THUMBS = OFFICIAL_PROJECT_THUMBS;
 window.getMcLessonsData = getMcLessonsData;
 window.renderMcLibraryLessons = renderMcLibraryLessons;
+window.switchMcLibraryTab = switchMcLibraryTab;
+window.renderNetflixDownloadsTab = renderNetflixDownloadsTab;
+window.deleteOfflineEpisodeAndRefresh = deleteOfflineEpisodeAndRefresh;
 window.toggleMcSearchInput = toggleMcSearchInput;
 window.handleMcLiveSearch = handleMcLiveSearch;
 window.clearMcLiveSearch = clearMcLiveSearch;
@@ -8407,4 +8993,242 @@ window.updateTppHomeLanguage = updateTppHomeLanguage;
 window.openCanvaInviteModal = openCanvaInviteModal;
 window.closeCanvaInviteModal = closeCanvaInviteModal;
 
+
+
+
+// =========================================================
+// PODCAST UI DESIGN: DYNAMIC HOME REEL GENERATOR
+// =========================================================
+function renderHomePodcastReel() {
+  const container = document.getElementById('tpp-trailora-video-reel');
+  if (!container) return;
+
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+  const durations = ['18:42', '16:15', '17:30', '19:10', '15:45', '18:00', '16:50', '17:20', '20:15', '18:35', '21:00'];
+
+  const modulesList = (typeof MODULES !== 'undefined' && Array.isArray(MODULES) && MODULES.length > 0)
+    ? MODULES
+    : [];
+
+  if (modulesList.length === 0) return;
+
+  let html = '';
+  modulesList.forEach((m, idx) => {
+    const epNum = String(m.id).padStart(2, '0');
+    const thumb = (typeof OFFICIAL_PROJECT_THUMBS !== 'undefined' && OFFICIAL_PROJECT_THUMBS[m.id]) || m.thumb || `yt_thumb_${m.id}.jpg`;
+    const dur = durations[idx] || `${m.dur || '18'}:00`;
+    const title = isMy ? (m.myTitle || m.title) : m.title;
+    const badgeText = isMy ? (m.myBadge || m.badge || 'သင်ခန်းစာ') : (m.badge || 'Episode');
+    const quote = isMy ? (m.mySub || m.sub) : m.sub;
+    const scripture = isMy ? (m.scripture || '') : (m.scripture || '');
+
+    html += `
+      <div class="podcast-reel-card" onclick="openCinemaDirectly(${m.id})" data-module-id="${m.id}" title="${title}">
+        <div class="podcast-reel-cover">
+          <img src="${thumb}" alt="${title}" class="podcast-reel-cover-img" loading="lazy" onerror="this.src='yt_thumb_${m.id}.jpg'"/>
+          <div class="podcast-reel-scrim"></div>
+          <span class="podcast-ep-badge">🎙️ EP ${epNum}</span>
+          <span class="podcast-dur-badge">⏱️ ${dur}</span>
+          <span class="podcast-soundwave-chip">
+            <span class="podcast-soundwave-bars">
+              <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </span>
+            <span>PODCAST</span>
+          </span>
+        </div>
+        <div class="podcast-reel-body">
+          <span class="podcast-topic-pill">${m.icon || '🏅'} ${badgeText}</span>
+          <h3 class="podcast-reel-title" id="nh-reel-t${m.id}">${title}</h3>
+          <p class="podcast-reel-quote" id="nh-reel-q${m.id}">“${quote}”</p>
+          <div class="podcast-reel-footer">
+            <span class="podcast-scripture-chip" id="nh-reel-s${m.id}">📖 ${scripture}</span>
+            <span class="podcast-play-arrow-chip" title="Play">▶</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+window.renderHomePodcastReel = renderHomePodcastReel;
+
+
+
+// =========================================================
+// TWO-OPTION DESIGN SYSTEM HELPERS (Day & Night Moods)
+// Strict reproduction of user reference photo
+// =========================================================
+const TPP_11_TITLES = [
+  { id: 1, en: "Your Child's Emotional Tank", my: "စံပြမိဘ ဖြစ်လာခြင်း", dur: "8 min" },
+  { id: 2, en: "Healthy Sexuality", my: "ခိုင်မြဲသော သံယောဇဉ်", dur: "9 min" },
+  { id: 3, en: "The Digital Home", my: "မေတ္တာနှင့် စည်းကမ်း", dur: "8 min" },
+  { id: 4, en: "Building Good Habits", my: "နားထောင်ခြင်း အနုပညာ", dur: "8 min" },
+  { id: 5, en: "Discipline with Love", my: "ဒေါသကို ထိန်းချုပ်ခြင်း", dur: "9 min" },
+  { id: 6, en: "Communication That Connects", my: "အပြုသဘော ဆုံးမပဲ့ပြင်ခြင်း", dur: "8 min" },
+  { id: 7, en: "Confidence & Identity", my: "ဖခင်၏ နှလုံးသား", dur: "8 min" },
+  { id: 8, en: "Handling Tantrums", my: "အလုပ်နှင့် မိသားစု ဟန်ချက်", dur: "8 min" },
+  { id: 9, en: "Screen Time & Balance", my: "ခိုင်မာသော ယုံကြည်ခြင်း", dur: "8 min" },
+  { id: 10, en: "Family Routines", my: "ကျန်းမာသော လိင်ပညာပေး", dur: "8 min" },
+  { id: 11, en: "Raising Emotionally Healthy Kids", my: "ဘဝအဆင့်တိုင်း ပြုစုပျိုးထောင်ခြင်း", dur: "9 min" }
+];
+
+function updateTwoOptionHeroText(isDay, isMy) {
+  const kickerEl = document.getElementById('tpp-hero-kicker');
+  const titleEl = document.getElementById('tpp-hero-title');
+  const subEl = document.getElementById('tpp-hero-sub');
+  const btnEl = document.getElementById('tpp-btn-start');
+
+  if (isDay) {
+    if (kickerEl) {
+      kickerEl.style.display = 'block';
+      kickerEl.textContent = isMy ? 'မိဘကောင်း ဖြစ်လာစေရန်' : 'PARENT BETTER.';
+    }
+    if (titleEl) {
+      titleEl.textContent = isMy ? 'ခိုင်ခံ့သော မိသားစု တည်ဆောက်ခြင်း' : 'BUILD STRONGER HOMES.';
+    }
+    if (subEl) {
+      subEl.textContent = isMy
+        ? 'ယုံကြည်စိတ်ချပြီး ကြင်နာတတ်သော သားသမီးများကို ပျိုးထောင်မည့် လက်တွေ့ကျသော ဓမ္မသစ် မိဘလမ်းညွှန်။'
+        : 'Practical, biblical parenting tips to help you raise confident, kind and resilient children.';
+    }
+  } else {
+    // Night mood: Option 2 Modern & Visual with Golden Cursive Script
+    if (kickerEl) {
+      kickerEl.style.display = 'none';
+    }
+    if (titleEl) {
+      titleEl.innerHTML = isMy
+        ? 'ပိုမိုကောင်းမွန်သော မိဘ<br>ပိုမိုတောက်ပသော အနာဂတ်'
+        : 'Better Parents<br>Brighter Futures';
+    }
+    if (subEl) {
+      subEl.textContent = isMy
+        ? 'ယနေ့ခေတ် စိန်ခေါ်မှုများအတွက် မိနစ်ပိုင်းအတွင်း လက်တွေ့ကျသော မိဘလမ်းညွှန်။'
+        : 'Practical, biblical parenting tips for today\'s challenges — in just a few minutes.';
+    }
+  }
+
+  if (btnEl) {
+    btnEl.textContent = isMy ? '▶ စတင်ကြည့်ရှုရန်' : '▶ Start Watching';
+  }
+}
+
+function updateTwoOptionUIStrings() {
+  const isDay = !document.body.classList.contains('mood-dark');
+  const isMy = (typeof lang !== 'undefined' ? lang : 'my') === 'my';
+
+  updateTwoOptionHeroText(isDay, isMy);
+
+  // Section titles
+  const txtCont = document.getElementById('tpp-txt-continue-watching');
+  if (txtCont) txtCont.textContent = isMy ? 'ဆက်လက်ကြည့်ရှုရန်' : 'Continue Watching';
+
+  const txtAll = document.getElementById('tpp-txt-all-videos');
+  if (txtAll) txtAll.textContent = isMy ? 'မော်ဂျူး (၁၁) ခုလုံး' : 'All 11 Videos';
+
+  const lnkCont = document.getElementById('tpp-lnk-view-all-continue');
+  if (lnkCont) lnkCont.textContent = isMy ? 'အားလုံးကြည့် ›' : 'View all ›';
+
+  const lnkAll = document.getElementById('tpp-lnk-view-all-videos');
+  if (lnkAll) lnkAll.textContent = isMy ? 'အားလုံးကြည့် ›' : 'View all ›';
+
+  const contTitle = document.getElementById('tpp-cont-title');
+  if (contTitle) contTitle.textContent = isMy ? 'စံပြမိဘ ဖြစ်လာခြင်း' : "Your Child's Emotional Tank";
+
+  const contSub = document.getElementById('tpp-cont-sub');
+  if (contSub) contSub.textContent = isMy ? 'အပိုင်း ၁ · ၈ မိနစ်' : 'Episode 1 · 8 min';
+
+  // 11 Grid Titles on Home
+  TPP_11_TITLES.forEach(item => {
+    const gridT = document.getElementById(`tpp-grid-title-${item.id}`);
+    if (gridT) gridT.textContent = isMy ? item.my : item.en;
+
+    const libT = document.getElementById(`tpp-lib-row-t-${item.id}`);
+    if (libT) libT.textContent = isMy ? item.my : item.en;
+  });
+
+  // Library Screen
+  const libTitle = document.getElementById('tpp-lib-title');
+  if (libTitle) libTitle.textContent = isDay ? (isMy ? 'စာကြည့်တိုက်' : 'Library') : (isMy ? '← စာကြည့်တိုက်' : '← Library');
+
+  const libSub = document.getElementById('tpp-lib-sub');
+  if (libSub) libSub.textContent = isMy ? '၁၁ ခန်းတွဲ သင်ခန်းစာများ' : '11 Video Lectures';
+
+  // Account Screen
+  const accRole = document.getElementById('tpp-acc-role');
+  if (accRole) accRole.textContent = isMy ? 'မိဘ · လေ့လာသူ · တည်ဆောက်သူ' : 'Parent · Learner · Builder';
+
+  const accQuote = document.getElementById('tpp-acc-quote');
+  if (accQuote) accQuote.textContent = isMy
+    ? 'ပိုမိုကောင်းမွန်သော မိဘဖြစ်ခြင်းသည် ပိုမိုတောက်ပသော အနာဂတ်ကို ဖန်တီးပေးသည်။'
+    : 'Better parenting leads to brighter tomorrows.';
+
+  const accProgTitle = document.getElementById('tpp-txt-my-progress');
+  if (accProgTitle) accProgTitle.textContent = isMy ? 'သင်ယူမှု တိုးတက်မှု' : 'My Progress';
+
+  const accProgDone = document.getElementById('tpp-txt-videos-completed');
+  if (accProgDone) accProgDone.textContent = isMy ? 'ပြီးမြောက်သော ဗီဒီယိုများ' : 'Videos Completed';
+
+  const accLnkProg = document.getElementById('tpp-lnk-view-all-progress');
+  if (accLnkProg) accLnkProg.textContent = isMy ? 'အားလုံးကြည့် ›' : 'View all ›';
+
+  const tSaved = document.getElementById('tpp-menu-t-saved');
+  const sSaved = document.getElementById('tpp-menu-s-saved');
+  if (tSaved) tSaved.textContent = isMy ? 'သိမ်းဆည်းထားသော ဗီဒီယိုများ' : 'Saved Videos';
+  if (sSaved) sSaved.textContent = isMy ? 'သင်ကြိုက်နှစ်သက်သော အပိုင်းများ' : 'Keep your favorite episodes';
+
+  const tNotes = document.getElementById('tpp-menu-t-notes');
+  const sNotes = document.getElementById('tpp-menu-s-notes');
+  if (tNotes) tNotes.textContent = isMy ? 'ကိုယ်ပိုင် မှတ်စုများ' : 'My Notes';
+  if (sNotes) sNotes.textContent = isMy ? 'အဓိက ထိုးထွင်းသိမြင်မှုများ မှတ်သားပါ' : 'Jot down key takeaways';
+
+  const tSettings = document.getElementById('tpp-menu-t-settings');
+  const sSettings = document.getElementById('tpp-menu-s-settings');
+  if (tSettings) tSettings.textContent = isMy ? 'အထွေထွေ ဆက်တင်များ' : 'Settings';
+  if (sSettings) sSettings.textContent = isMy ? 'အသိပေးချက်၊ ဘာသာစကား၊ ဗီဒီယို' : 'Notifications, language, playback';
+
+  const tHelp = document.getElementById('tpp-menu-t-help');
+  const sHelp = document.getElementById('tpp-menu-s-help');
+  if (tHelp) tHelp.textContent = isMy ? 'အကူအညီ & ပံ့ပိုးမှု' : 'Help & Support';
+  if (sHelp) sHelp.textContent = isMy ? 'မေးလေ့ရှိသော မေးခွန်းများ၊ ဆက်သွယ်ရန်' : 'FAQs, contact us';
+
+  const abDesc = document.getElementById('tpp-about-desc');
+  if (abDesc) abDesc.textContent = isMy
+    ? 'သမ္မာတရားနှင့် လက်တွေ့ဉာဏ်ပညာဖြင့် သားသမီးများကို ပျိုးထောင်ပေးမည့် (၁၁) ပိုင်းတွဲ ဗီဒီယိုစီးရီး။'
+    : 'A 11-part video series to help parents raise confident, kind and resilient children — grounded in truth and real-life wisdom.';
+
+  const abLink = document.getElementById('tpp-about-link');
+  if (abLink) abLink.textContent = isMy ? 'အသေးစိတ် လေ့လာရန် →' : 'Learn more →';
+
+  const btnSignout = document.getElementById('tpp-txt-signout');
+  if (btnSignout) btnSignout.textContent = isMy ? 'အကောင့်ထွက်မည် (Sign Out)' : 'Sign Out';
+}
+
+function filterTppLib(cat) {
+  document.querySelectorAll('.tpp-chip').forEach(c => c.classList.remove('active'));
+  const activeBtn = document.getElementById(`tpp-chip-${cat}`);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  const rows = document.querySelectorAll('.tpp-lib-row');
+  const catMap = {
+    'all': [1,2,3,4,5,6,7,8,9,10,11],
+    'basics': [1,3,5,6,10],
+    'dev': [2,4,7,8,11],
+    'rel': [2,4,6,7,9]
+  };
+  const allowed = catMap[cat] || catMap['all'];
+  rows.forEach(r => {
+    const mid = parseInt(r.getAttribute('data-mid'));
+    r.style.display = allowed.includes(mid) ? 'flex' : 'none';
+  });
+}
+
+function openInAppHelpSupport() {
+  openCurriculumModal();
+}
+
+window.filterTppLib = filterTppLib;
+window.openInAppHelpSupport = openInAppHelpSupport;
+window.updateTwoOptionUIStrings = updateTwoOptionUIStrings;
 
