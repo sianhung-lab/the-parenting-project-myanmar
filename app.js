@@ -9232,3 +9232,52 @@ window.filterTppLib = filterTppLib;
 window.openInAppHelpSupport = openInAppHelpSupport;
 window.updateTwoOptionUIStrings = updateTwoOptionUIStrings;
 
+// Interactive 3D Card Tilt & Parallax Physics
+function init3DCardPhysics() {
+  const cards = document.querySelectorAll('.tpp-hero-card, .cinema-podcast-quote-card, .tpp-continue-card');
+  cards.forEach(card => {
+    let ticking = false;
+    function applyTilt(clientX, clientY) {
+      const rect = card.getBoundingClientRect();
+      const x = clientX - rect.left - rect.width / 2;
+      const y = clientY - rect.top - rect.height / 2;
+      const rotateX = (-y / (rect.height / 2)) * 6.5;
+      const rotateY = (x / (rect.width / 2)) * 6.5;
+      card.style.transform = `perspective(850px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(4px)`;
+    }
+    card.addEventListener('mousemove', e => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          applyTilt(e.clientX, e.clientY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(850px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    });
+    card.addEventListener('touchmove', e => {
+      if (e.touches && e.touches[0] && !ticking) {
+        requestAnimationFrame(() => {
+          applyTilt(e.touches[0].clientX, e.touches[0].clientY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    card.addEventListener('touchend', () => {
+      card.style.transform = 'perspective(850px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    });
+    card.addEventListener('touchcancel', () => {
+      card.style.transform = 'perspective(850px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init3DCardPhysics);
+} else {
+  init3DCardPhysics();
+}
+

@@ -229,6 +229,10 @@
       <section class="tpp-hero-card" onclick="openCinemaDirectly(1)">
         <div class="tpp-hero-media">
           <img src="hero_celebrating_couple.jpg" alt="The Parenting Project" class="tpp-hero-img" />
+          <div class="tpp-3d-floating-badge">
+            <span class="badge-sparkle">✨</span>
+            <span>MASTERCLASS HIGHLIGHT</span>
+          </div>
         </div>
         <div class="tpp-hero-body">
           <span class="tpp-hero-kicker" id="tpp-hero-kicker">PARENT BETTER.</span>
@@ -755,13 +759,6 @@
       <video id="mobile-cinema-video" controls playsinline poster="parent_toddler_cozy.jpg" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;border:none;"></video>
       <!-- Offline Badge -->
       <div id="offline-playing-badge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,180,80,0.92);color:#fff;font-size:0.65rem;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;align-items:center;gap:4px;z-index:10;">📲 OFFLINE</div>
-      <!-- Auto Landscape Fullscreen Button -->
-      <button type="button" class="cinema-btn-fullscreen-auto" onclick="enterCinemaFullscreenLandscape()" aria-label="Fullscreen Landscape" title="Full Screen (Auto-Rotate Landscape)">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-        </svg>
-        <span>Full Screen</span>
-      </button>
     </div>
 
     <!-- Video HUD Timestamp & Scrubber -->
@@ -791,6 +788,12 @@
     <!-- Featured Episode Podcast Spotlight Card -->
     <div class="cinema-podcast-quote-card" id="cinema-podcast-spotlight">
       <div class="quote-badge">
+        <div class="podcast-equalizer" aria-hidden="true">
+          <span class="eq-bar bar-1"></span>
+          <span class="eq-bar bar-2"></span>
+          <span class="eq-bar bar-3"></span>
+          <span class="eq-bar bar-4"></span>
+        </div>
         <span>🎙️ CBN PARENTING PODCAST · EPISODE HIGHLIGHT</span>
       </div>
       <div class="quote-text" id="cinema-meta-quote">
