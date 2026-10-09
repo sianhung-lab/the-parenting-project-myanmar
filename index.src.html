@@ -252,18 +252,18 @@
           <h2 class="tpp-section-title" id="tpp-txt-continue-watching">Continue Watching</h2>
           <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-continue">View all ›</a>
         </div>
-        <div class="tpp-continue-card" onclick="openCinemaDirectly(1)">
+        <div class="tpp-continue-card" id="tpp-continue-card" onclick="resumeLastWatchedVideo()">
           <div class="tpp-continue-thumb-wrap">
-            <img src="yt_thumb_1.jpg" alt="Your Child's Emotional Tank" class="tpp-continue-thumb" />
+            <img src="yt_thumb_1.jpg" alt="Your Child's Emotional Tank" class="tpp-continue-thumb" id="tpp-cont-thumb" />
           </div>
           <div class="tpp-continue-info">
             <div class="tpp-continue-title" id="tpp-cont-title">Your Child's Emotional Tank</div>
             <div class="tpp-continue-meta" id="tpp-cont-sub">Episode 1 · 8 min</div>
             <div style="display:flex;align-items:center;gap:8px">
               <div class="tpp-progress-track" style="flex:1">
-                <div class="tpp-progress-fill" style="width: 45%;"></div>
+                <div class="tpp-progress-fill" id="tpp-cont-progress-fill" style="width: 45%;"></div>
               </div>
-              <span style="font-size:0.68rem;font-weight:700;color:currentColor;opacity:0.8">45%</span>
+              <span id="tpp-cont-pct" style="font-size:0.68rem;font-weight:700;color:currentColor;opacity:0.8">45%</span>
             </div>
           </div>
         </div>
@@ -763,10 +763,17 @@
 
     <!-- Video HUD Timestamp & Scrubber -->
     <div class="cinema-hud-row">
-      <span class="cinema-hud-time" id="cinema-hud-time">04:12 / 12:30</span>
-      <div class="cinema-hud-progress-bar">
-        <div class="cinema-hud-progress-fill" id="cinema-hud-progress-fill" style="width: 33.6%;"></div>
+      <span class="cinema-hud-time" id="cinema-hud-time">00:00 / 12:00</span>
+      <div class="cinema-hud-progress-bar" id="cinema-hud-progress-bar" onclick="seekCinemaByClick(event)" style="cursor:pointer;">
+        <div class="cinema-hud-progress-fill" id="cinema-hud-progress-fill" style="width: 0%;"></div>
       </div>
+    </div>
+
+    <!-- Resume Indicator Toast Pill -->
+    <div id="cinema-resume-pill" class="cinema-resume-pill" style="display:none;" onclick="restartCinemaFromBeginning()">
+      <span class="resume-pill-icon">⏱️</span>
+      <span class="resume-pill-text" id="cinema-resume-pill-text">Resumed at 00:00</span>
+      <button type="button" class="resume-pill-restart-btn" onclick="event.stopPropagation(); restartCinemaFromBeginning();">Restart ↺</button>
     </div>
 
     <!-- Simple 2-Button Capsule Below Video: Play and Save Only -->

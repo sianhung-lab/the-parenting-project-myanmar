@@ -15354,4 +15354,47 @@ body.mood-dark .tpp-hero-title {
 .podcast-equalizer .bar-3 { height: 8px; animation-delay: 0.2s !important; }
 .podcast-equalizer .bar-4 { height: 14px; animation-delay: 0.45s !important; }
 
+/* Cinema Resume Notification Pill */
+.cinema-resume-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(17, 66, 50, 0.94);
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin: 10px auto 4px auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  width: fit-content;
+}
+
+body.mood-dark .cinema-resume-pill {
+  background: rgba(20, 47, 40, 0.95);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: #F0FDF4;
+}
+
+.cinema-resume-pill .resume-pill-restart-btn {
+  background: rgba(255, 255, 255, 0.22);
+  border: none;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cinema-resume-pill .resume-pill-restart-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
 

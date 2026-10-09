@@ -6397,9 +6397,16 @@ function switchAppTab(tab) {
     document.body.classList.remove('on-subpage');
     if (mobileAppBar) mobileAppBar.style.setProperty('display', 'flex', 'important');
     updateHomeProgressUI();
+    if (typeof updateContinueWatchingCard === 'function') updateContinueWatchingCard();
   } else {
     document.body.classList.add('on-subpage');
     if (mobileAppBar) mobileAppBar.style.setProperty('display', 'none', 'important');
+  }
+
+  // If leaving cinema screen, pause video and save progress
+  if (previousAppTab === 'cinema' && tab !== 'cinema') {
+    if (typeof saveCurrentCinemaPosition === 'function') saveCurrentCinemaPosition();
+    if (typeof pauseCinemaPlayback === 'function') pauseCinemaPlayback();
   }
 
   if (tab === 'episodes' || tab === 'path') {
@@ -6418,6 +6425,8 @@ function switchAppTab(tab) {
 }
 
 function goBackFromCinema() {
+  if (typeof saveCurrentCinemaPosition === 'function') saveCurrentCinemaPosition();
+  if (typeof pauseCinemaPlayback === 'function') pauseCinemaPlayback();
   if (previousAppTab === 'episodes' || previousAppTab === 'path') {
     switchAppTab('episodes');
   } else if (previousAppTab === 'library' || previousAppTab === 'content') {
@@ -7508,13 +7517,229 @@ async function deleteOfflineAndRefresh(modId) {
     if (typeof renderHomePodcastReel === 'function') renderHomePodcastReel();
 }
 
-// Play from local blob if downloaded, else stream from R2
+// ==========================================
+// VIDEO PLAYBACK RESUME & PROGRESS TRACKING
+// ==========================================
+
+function getStoredPlaybackProgress() {
+  try {
+    const raw = localStorage.getItem('tpp_playback_progress');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return { lastWatchedEpisode: 1, episodes: {} };
+}
+
+function getEpisodeProgress(modId) {
+  const data = getStoredPlaybackProgress();
+  return (data.episodes && data.episodes[modId]) ? data.episodes[modId] : null;
+}
+
+function formatCinemaTime(sec) {
+  if (!sec || isNaN(sec) || sec < 0) return '00:00';
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function saveVideoProgress(modId, currentTime, duration) {
+  if (!modId || typeof currentTime !== 'number' || currentTime < 1) return;
+  const mod = MODULES.find(m => m.id === modId);
+  const dur = (duration && duration > 0) ? duration : ((mod && mod.dur) ? mod.dur * 60 : 720);
+  const pct = Math.min(100, Math.max(0, Math.round((currentTime / dur) * 100)));
+  const isComplete = pct >= 92;
+
+  try {
+    const data = getStoredPlaybackProgress();
+    if (!data.episodes) data.episodes = {};
+    data.lastWatchedEpisode = modId;
+    data.episodes[modId] = {
+      currentTime: Math.round(currentTime * 10) / 10,
+      duration: Math.round(dur),
+      percent: pct,
+      completed: isComplete,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem('tpp_playback_progress', JSON.stringify(data));
+  } catch (e) {}
+
+  // Update Cinema HUD
+  const hudTime = document.getElementById('cinema-hud-time');
+  const hudBar = document.getElementById('cinema-hud-progress-fill');
+  if (hudTime) hudTime.textContent = `${formatCinemaTime(currentTime)} / ${formatCinemaTime(dur)}`;
+  if (hudBar) hudBar.style.width = `${pct}%`;
+
+  // Update Continue Watching card if on Home
+  const contBar = document.getElementById('tpp-cont-progress-fill');
+  const contPct = document.getElementById('tpp-cont-pct');
+  if (contBar) contBar.style.width = `${pct}%`;
+  if (contPct) contPct.textContent = `${pct}%`;
+}
+
+function showResumePill(resumeSeconds) {
+  const pill = document.getElementById('cinema-resume-pill');
+  const txt = document.getElementById('cinema-resume-pill-text');
+  if (!pill) return;
+  if (txt) {
+    const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+    txt.textContent = isMy ? `${formatCinemaTime(resumeSeconds)} မှ ပြန်လည်စတင်ပါသည်` : `Resumed at ${formatCinemaTime(resumeSeconds)}`;
+  }
+  pill.style.display = 'inline-flex';
+  clearTimeout(pill._timer);
+  pill._timer = setTimeout(() => {
+    pill.style.display = 'none';
+  }, 7000);
+}
+
+function hideResumePill() {
+  const pill = document.getElementById('cinema-resume-pill');
+  if (pill) pill.style.display = 'none';
+}
+
+function restartCinemaFromBeginning() {
+  const video = document.getElementById('mobile-cinema-video');
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  hideResumePill();
+
+  if (video && video.style.display !== 'none') {
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  } else if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [0, true] }), '*');
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: '' }), '*');
+  }
+
+  saveVideoProgress(currentMobileModId, 0, 0);
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+  showToast(isMy ? 'အစမှ ပြန်လည်ဖွင့်လှစ်ပါသည်' : 'Restarted from beginning');
+}
+
+function resumeLastWatchedVideo() {
+  const data = getStoredPlaybackProgress();
+  const lastId = data.lastWatchedEpisode || 1;
+  openCinemaDirectly(lastId);
+}
+
+function seekCinemaByClick(event) {
+  const bar = document.getElementById('cinema-hud-progress-bar');
+  if (!bar) return;
+  const rect = bar.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  const pct = Math.max(0, Math.min(1, clickX / rect.width));
+
+  const video = document.getElementById('mobile-cinema-video');
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  const mod = MODULES.find(m => m.id === currentMobileModId);
+  const durSec = (video && video.duration) ? video.duration : ((mod && mod.dur) ? mod.dur * 60 : 720);
+  const targetSec = pct * durSec;
+
+  if (video && video.style.display !== 'none') {
+    video.currentTime = targetSec;
+  } else if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [Math.floor(targetSec), true] }), '*');
+  }
+  saveVideoProgress(currentMobileModId, targetSec, durSec);
+}
+
+function saveCurrentCinemaPosition() {
+  const video = document.getElementById('mobile-cinema-video');
+  if (video && video.style.display !== 'none' && video.currentTime > 0) {
+    saveVideoProgress(currentMobileModId, video.currentTime, video.duration);
+  }
+}
+
+function pauseCinemaPlayback() {
+  const video = document.getElementById('mobile-cinema-video');
+  const iframe = document.getElementById('mobile-cinema-iframe');
+  if (video && video.style.display !== 'none') {
+    try { video.pause(); } catch(e) {}
+  } else if (iframe && iframe.contentWindow) {
+    try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+  }
+}
+
+function updateContinueWatchingCard(forceIsMy) {
+  const isMy = forceIsMy !== undefined ? forceIsMy : ((typeof lang !== 'undefined' ? lang : 'en') === 'my');
+  const card = document.getElementById('tpp-continue-card');
+  const titleEl = document.getElementById('tpp-cont-title');
+  const subEl = document.getElementById('tpp-cont-sub');
+  const thumbEl = document.getElementById('tpp-cont-thumb');
+  const barEl = document.getElementById('tpp-cont-progress-fill');
+  const pctEl = document.getElementById('tpp-cont-pct');
+
+  const data = getStoredPlaybackProgress();
+  const lastId = data.lastWatchedEpisode || 1;
+  const mod = MODULES.find(m => m.id === lastId) || MODULES[0];
+  const epProg = (data.episodes && data.episodes[lastId]) ? data.episodes[lastId] : null;
+
+  const title = isMy ? (mod.myTitle || mod.title) : mod.title;
+  const durMin = mod.dur || 12;
+
+  if (titleEl) titleEl.textContent = title;
+  if (subEl) subEl.textContent = isMy ? `အပိုင်း ${mod.id} · ${durMin} မိနစ်` : `Episode ${mod.id} · ${durMin} min`;
+  if (thumbEl) thumbEl.src = `yt_thumb_${mod.id}.jpg`;
+
+  const pct = epProg ? epProg.percent : 45;
+  if (barEl) barEl.style.width = `${pct}%`;
+  if (pctEl) pctEl.textContent = `${pct}%`;
+
+  if (card) {
+    card.onclick = () => openCinemaDirectly(mod.id);
+  }
+}
+
+function setupVideoProgressTracking() {
+  const video = document.getElementById('mobile-cinema-video');
+  if (video) {
+    video.addEventListener('timeupdate', () => {
+      if (!video.paused && video.currentTime > 0) {
+        saveVideoProgress(currentMobileModId, video.currentTime, video.duration);
+      }
+    });
+    video.addEventListener('pause', () => {
+      if (video.currentTime > 0) {
+        saveVideoProgress(currentMobileModId, video.currentTime, video.duration);
+      }
+    });
+    video.addEventListener('ended', () => {
+      saveVideoProgress(currentMobileModId, video.duration || 1, video.duration || 1);
+    });
+  }
+
+  // YouTube postMessage event listener
+  window.addEventListener('message', (event) => {
+    try {
+      const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+      if (data && data.event === 'infoDelivery' && data.info) {
+        const t = data.info.currentTime;
+        const d = data.info.duration;
+        if (typeof t === 'number' && t > 0) {
+          saveVideoProgress(currentMobileModId, t, d || 0);
+        }
+      }
+    } catch(e) {}
+  });
+
+  window.addEventListener('beforeunload', saveCurrentCinemaPosition);
+  window.addEventListener('pagehide', saveCurrentCinemaPosition);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupVideoProgressTracking);
+} else {
+  setupVideoProgressTracking();
+}
+
+// Play from local blob if downloaded, else stream from R2 with automatic resume
 async function playOfflineOrOnline(modId) {
   const mod = MODULES.find(m => m.id === modId);
   if (!mod) return;
   const iframe = document.getElementById('mobile-cinema-iframe');
   const video = document.getElementById('mobile-cinema-video');
   const isFile = mod.videoType === 'file' || (!mod.youtube && mod.fileUrl);
+
+  // Check saved resume point
+  const epProg = getEpisodeProgress(modId);
+  const resumeSeconds = (epProg && epProg.currentTime > 4 && !epProg.completed) ? Math.floor(epProg.currentTime) : 0;
 
   if (isFile) {
     const offline = await getOfflineVideo(modId);
@@ -7529,20 +7754,43 @@ async function playOfflineOrOnline(modId) {
         const blobUrl = URL.createObjectURL(offline.blob);
         video._blobUrl = blobUrl;
         video.src = blobUrl;
-        // Show offline badge
         showOfflineBadge(true);
       } else {
         video.src = mod.fileUrl;
         showOfflineBadge(false);
       }
       video.load();
+
+      // Resume position on metadata loaded
+      if (resumeSeconds > 0) {
+        const applyResume = () => {
+          try {
+            if (video.duration && resumeSeconds < video.duration - 5) {
+              video.currentTime = resumeSeconds;
+              showResumePill(resumeSeconds);
+            }
+          } catch(e) {}
+        };
+        video.addEventListener('loadedmetadata', applyResume, { once: true });
+        video.addEventListener('canplay', applyResume, { once: true });
+        if (video.readyState >= 1) applyResume();
+      } else {
+        hideResumePill();
+      }
+
       video.play().catch(e => console.log('Autoplay deferred:', e));
     }
   } else {
     if (video) { video.pause(); video.src = ''; video.style.display = 'none'; }
     if (iframe) {
       iframe.style.display = 'block';
-      iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1&autoplay=1`;
+      if (resumeSeconds > 0) {
+        iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1&autoplay=1&start=${resumeSeconds}`;
+        showResumePill(resumeSeconds);
+      } else {
+        iframe.src = `https://www.youtube.com/embed/${mod.youtube}?rel=0&enablejsapi=1&autoplay=1`;
+        hideResumePill();
+      }
     }
     showOfflineBadge(false);
   }
@@ -9133,11 +9381,15 @@ function updateTwoOptionUIStrings() {
   const lnkAll = document.getElementById('tpp-lnk-view-all-videos');
   if (lnkAll) lnkAll.textContent = isMy ? 'အားလုံးကြည့် ›' : 'View all ›';
 
-  const contTitle = document.getElementById('tpp-cont-title');
-  if (contTitle) contTitle.textContent = isMy ? 'စံပြမိဘ ဖြစ်လာခြင်း' : "Your Child's Emotional Tank";
+  if (typeof updateContinueWatchingCard === 'function') {
+    updateContinueWatchingCard(isMy);
+  } else {
+    const contTitle = document.getElementById('tpp-cont-title');
+    if (contTitle) contTitle.textContent = isMy ? 'စံပြမိဘ ဖြစ်လာခြင်း' : "Your Child's Emotional Tank";
 
-  const contSub = document.getElementById('tpp-cont-sub');
-  if (contSub) contSub.textContent = isMy ? 'အပိုင်း ၁ · ၈ မိနစ်' : 'Episode 1 · 8 min';
+    const contSub = document.getElementById('tpp-cont-sub');
+    if (contSub) contSub.textContent = isMy ? 'အပိုင်း ၁ · ၈ မိနစ်' : 'Episode 1 · 8 min';
+  }
 
   // 11 Grid Titles on Home
   TPP_11_TITLES.forEach(item => {
@@ -9231,6 +9483,13 @@ function openInAppHelpSupport() {
 window.filterTppLib = filterTppLib;
 window.openInAppHelpSupport = openInAppHelpSupport;
 window.updateTwoOptionUIStrings = updateTwoOptionUIStrings;
+window.resumeLastWatchedVideo = resumeLastWatchedVideo;
+window.restartCinemaFromBeginning = restartCinemaFromBeginning;
+window.seekCinemaByClick = seekCinemaByClick;
+window.saveVideoProgress = saveVideoProgress;
+window.getEpisodeProgress = getEpisodeProgress;
+window.getStoredPlaybackProgress = getStoredPlaybackProgress;
+window.updateContinueWatchingCard = updateContinueWatchingCard;
 
 // Interactive 3D Card Tilt & Parallax Physics
 function init3DCardPhysics() {
