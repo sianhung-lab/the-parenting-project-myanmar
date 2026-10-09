@@ -25,16 +25,14 @@
   var isAppUrl = window.location.href.indexOf('app=true') > -1 || window.location.href.indexOf('mode=app') > -1;
   if (isAppUrl || isAppUA || isWebView || isStandalone || (isPhone && w <= 820) || (w <= 820 && window.location.href.indexOf('desktop=true') === -1)) {
     document.documentElement.classList.add('is-mobile-app');
-    document.documentElement.style.setProperty('--body-opacity','0');
-    document.addEventListener('DOMContentLoaded', function(){
-      document.documentElement.style.removeProperty('--body-opacity');
-    });
+    document.write('<style>html.is-mobile-app body > section:not(#mobile-app-home), html.is-mobile-app body > header:not(#mobile-app-bar), html.is-mobile-app body > footer, html.is-mobile-app body #navbar, html.is-mobile-app body #home, html.is-mobile-app body .hero, html.is-mobile-app body #videos, html.is-mobile-app body #modules, html.is-mobile-app body #church, html.is-mobile-app body #quiz, html.is-mobile-app body #about, html.is-mobile-app body .host-sec, html.is-mobile-app body #testimonials, html.is-mobile-app body #faq, html.is-mobile-app body #steps, html.is-mobile-app body #benefits { display: none !important; } html.is-mobile-app body #mobile-app-home, html.is-mobile-app body #mobile-app-bar { display: block !important; }</style>');
   }
 })();
 </script>
 <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="mood-day">
+<script>if (document.documentElement.classList.contains('is-mobile-app')) { document.body.classList.add('is-mobile-app'); }</script>
 
 <!-- DEDICATED PHONE APP WELCOME GATEWAY (Disabled so all mobile users can directly access the app) -->
 <div id="phone-welcome-gate" class="phone-welcome-gate" style="display:none !important;">

@@ -145,6 +145,98 @@ if shield_b64:
     index_compiled = index_compiled.replace('"shield_extracted.png"', f'"{shield_b64}"')
     index_compiled = index_compiled.replace("'shield_extracted.png'", f"'{shield_b64}'")
 
+portrait_1_b64 = get_b64('clean_portrait_1.png', 'image/png')
+if portrait_1_b64:
+    index_compiled = index_compiled.replace('src="clean_portrait_1.png"', f'src="{portrait_1_b64}"')
+    index_compiled = index_compiled.replace("src='clean_portrait_1.png'", f"src='{portrait_1_b64}'")
+    index_compiled = index_compiled.replace('"clean_portrait_1.png"', f'"{portrait_1_b64}"')
+    index_compiled = index_compiled.replace("'clean_portrait_1.png'", f"'{portrait_1_b64}'")
+
+portrait_2_b64 = get_b64('clean_portrait_2.png', 'image/png')
+if portrait_2_b64:
+    index_compiled = index_compiled.replace('src="clean_portrait_2.png"', f'src="{portrait_2_b64}"')
+    index_compiled = index_compiled.replace("src='clean_portrait_2.png'", f"src='{portrait_2_b64}'")
+    index_compiled = index_compiled.replace('"clean_portrait_2.png"', f'"{portrait_2_b64}"')
+    index_compiled = index_compiled.replace("'clean_portrait_2.png'", f"'{portrait_2_b64}'")
+
+portrait_3_b64 = get_b64('clean_portrait_3.png', 'image/png')
+if portrait_3_b64:
+    index_compiled = index_compiled.replace('src="clean_portrait_3.png"', f'src="{portrait_3_b64}"')
+    index_compiled = index_compiled.replace("src='clean_portrait_3.png'", f"src='{portrait_3_b64}'")
+    index_compiled = index_compiled.replace('"clean_portrait_3.png"', f'"{portrait_3_b64}"')
+    index_compiled = index_compiled.replace("'clean_portrait_3.png'", f"'{portrait_3_b64}'")
+
+card_top_b64 = get_b64('card_photo_top.jpg', 'image/jpeg')
+if card_top_b64:
+    index_compiled = index_compiled.replace('src="card_photo_top.jpg"', f'src="{card_top_b64}"')
+    index_compiled = index_compiled.replace("src='card_photo_top.jpg'", f"src='{card_top_b64}'")
+    index_compiled = index_compiled.replace('"card_photo_top.jpg"', f'"{card_top_b64}"')
+    index_compiled = index_compiled.replace("'card_photo_top.jpg'", f"'{card_top_b64}'")
+
+card_bottom_b64 = get_b64('card_photo_bottom.jpg', 'image/jpeg')
+if card_bottom_b64:
+    index_compiled = index_compiled.replace('src="card_photo_bottom.jpg"', f'src="{card_bottom_b64}"')
+    index_compiled = index_compiled.replace("src='card_photo_bottom.jpg'", f"src='{card_bottom_b64}'")
+    index_compiled = index_compiled.replace('"card_photo_bottom.jpg"', f'"{card_bottom_b64}"')
+    index_compiled = index_compiled.replace("'card_photo_bottom.jpg'", f"'{card_bottom_b64}'")
+
+mentor_young_b64 = get_b64('mentor_couple_young_source.jpg', 'image/jpeg')
+if mentor_young_b64:
+    index_compiled = index_compiled.replace('src="mentor_couple_young_source.jpg"', f'src="{mentor_young_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_couple_young_source.jpg'", f"src='{mentor_young_b64}'")
+    index_compiled = index_compiled.replace('"mentor_couple_young_source.jpg"', f'"{mentor_young_b64}"')
+    index_compiled = index_compiled.replace("'mentor_couple_young_source.jpg'", f"'{mentor_young_b64}'")
+
+mentor_senior_b64 = get_b64('mentor_couple_senior_source.jpg', 'image/jpeg')
+if mentor_senior_b64:
+    index_compiled = index_compiled.replace('src="mentor_couple_senior_source.jpg"', f'src="{mentor_senior_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_couple_senior_source.jpg'", f"src='{mentor_senior_b64}'")
+    index_compiled = index_compiled.replace('"mentor_couple_senior_source.jpg"', f'"{mentor_senior_b64}"')
+    index_compiled = index_compiled.replace("'mentor_couple_senior_source.jpg'", f"'{mentor_senior_b64}'")
+
+mentor_pink_b64 = get_b64('mentor_couple_pink_source.jpg', 'image/jpeg')
+if mentor_pink_b64:
+    index_compiled = index_compiled.replace('src="mentor_couple_pink_source.jpg"', f'src="{mentor_pink_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_couple_pink_source.jpg'", f"src='{mentor_pink_b64}'")
+    index_compiled = index_compiled.replace('"mentor_couple_pink_source.jpg"', f'"{mentor_pink_b64}"')
+    index_compiled = index_compiled.replace("'mentor_couple_pink_source.jpg'", f"'{mentor_pink_b64}'")
+
+mentor_hero_b64 = get_b64('mentor_hero_perfect_frame.jpg', 'image/jpeg')
+if mentor_hero_b64:
+    index_compiled = index_compiled.replace('src="mentor_hero_perfect_frame.jpg"', f'src="{mentor_hero_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_hero_perfect_frame.jpg'", f"src='{mentor_hero_b64}'")
+    index_compiled = index_compiled.replace('"mentor_hero_perfect_frame.jpg"', f'"{mentor_hero_b64}"')
+    index_compiled = index_compiled.replace("'mentor_hero_perfect_frame.jpg'", f"'{mentor_hero_b64}'")
+
+mentor_ay_b64 = get_b64('mentor_avatar_young.jpg', 'image/jpeg')
+if mentor_ay_b64:
+    index_compiled = index_compiled.replace('src="mentor_avatar_young.jpg"', f'src="{mentor_ay_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_avatar_young.jpg'", f"src='{mentor_ay_b64}'")
+    index_compiled = index_compiled.replace('"mentor_avatar_young.jpg"', f'"{mentor_ay_b64}"')
+    index_compiled = index_compiled.replace("'mentor_avatar_young.jpg'", f"'{mentor_ay_b64}'")
+
+mentor_as_b64 = get_b64('mentor_avatar_senior.jpg', 'image/jpeg')
+if mentor_as_b64:
+    index_compiled = index_compiled.replace('src="mentor_avatar_senior.jpg"', f'src="{mentor_as_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_avatar_senior.jpg'", f"src='{mentor_as_b64}'")
+    index_compiled = index_compiled.replace('"mentor_avatar_senior.jpg"', f'"{mentor_as_b64}"')
+    index_compiled = index_compiled.replace("'mentor_avatar_senior.jpg'", f"'{mentor_as_b64}'")
+
+mentor_ap_b64 = get_b64('mentor_avatar_pink.jpg', 'image/jpeg')
+if mentor_ap_b64:
+    index_compiled = index_compiled.replace('src="mentor_avatar_pink.jpg"', f'src="{mentor_ap_b64}"')
+    index_compiled = index_compiled.replace("src='mentor_avatar_pink.jpg'", f"src='{mentor_ap_b64}'")
+    index_compiled = index_compiled.replace('"mentor_avatar_pink.jpg"', f'"{mentor_ap_b64}"')
+    index_compiled = index_compiled.replace("'mentor_avatar_pink.jpg'", f"'{mentor_ap_b64}'")
+
+hero_couple_b64 = get_b64('hero_celebrating_couple.jpg', 'image/jpeg')
+if hero_couple_b64:
+    index_compiled = index_compiled.replace('src="hero_celebrating_couple.jpg"', f'src="{hero_couple_b64}"')
+    index_compiled = index_compiled.replace("src='hero_celebrating_couple.jpg'", f"src='{hero_couple_b64}'")
+    index_compiled = index_compiled.replace('"hero_celebrating_couple.jpg"', f'"{hero_couple_b64}"')
+    index_compiled = index_compiled.replace("'hero_celebrating_couple.jpg'", f"'{hero_couple_b64}'")
+
+
 
 
 # Default custom videos
