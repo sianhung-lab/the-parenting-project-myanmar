@@ -1,6 +1,7 @@
 /* ===== THE PARENTING PROJECT MYANMAR — LUXURY DESIGN SYSTEM ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth;font-size:16px;height:100%;}
+html.is-mobile-app{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 body{
   font-family:'Plus Jakarta Sans','Noto Sans Myanmar',sans-serif;
   background:#ffffff;
@@ -8,6 +9,15 @@ body{
   overflow-x:hidden;
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
+  min-height:100%;
+}
+body.is-mobile-app{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch !important;
+  height:auto !important;
+  min-height:100vh !important;
+  position:relative !important;
 }
 body.lang-my{
   font-family:'Noto Sans Myanmar','Plus Jakarta Sans',sans-serif;
@@ -3818,11 +3828,11 @@ body.is-mobile-app.theme-dark {
   color: #ffffff;
 }
 body.is-mobile-app.is-authenticated {
-  padding-bottom: 86px !important;
+  padding-bottom: max(86px, calc(64px + env(safe-area-inset-bottom, 16px))) !important;
 }
 body.is-mobile-app:not(.is-authenticated) {
   padding-bottom: 0 !important;
-  overflow: hidden !important;
+  /* Do NOT set overflow:hidden here — it prevents scrolling on mobile */
 }
 
 /* Hide desktop navbar, desktop hero, and desktop sections in app */
@@ -5046,11 +5056,17 @@ body.is-mobile-app .gate-modal-card {
 /* Screen Views */
 body.is-mobile-app .mobile-screen-view {
   display: none;
-  padding: 12px 16px 96px;
+  padding: 12px 16px 100px;
+  padding-bottom: max(100px, calc(64px + env(safe-area-inset-bottom, 24px))) !important;
   animation: fadeInAppScreen 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 body.is-mobile-app .mobile-screen-view.active {
   display: block !important;
+  overflow-y: visible;
 }
 
 @keyframes fadeInAppScreen {
@@ -9076,7 +9092,11 @@ body.is-mobile-app #view-mobile-library {
   background-color: #FFFFFF !important;
   color: #0F172A !important;
   min-height: 100vh;
-  padding: 14px 16px 96px;
+  padding: 14px 16px 100px;
+  padding-bottom: max(100px, calc(64px + env(safe-area-inset-bottom, 24px))) !important;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body.is-mobile-app .mc-library-top-bar {
@@ -9706,7 +9726,11 @@ body.is-mobile-app #view-mobile-account {
   background-color: #FFFFFF !important;
   color: #0F172A !important;
   min-height: 100vh;
-  padding: 14px 16px 96px;
+  padding: 14px 16px 100px;
+  padding-bottom: max(100px, calc(64px + env(safe-area-inset-bottom, 24px))) !important;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body.is-mobile-app .mc-account-top-bar {
@@ -15397,4 +15421,200 @@ body.mood-dark .cinema-resume-pill {
   background: rgba(255, 255, 255, 0.35);
 }
 
+/* ========================================================
+   CUSTOM AVATAR & BACK-TO-HOME NAVIGATION ENHANCEMENTS
+   ======================================================== */
+
+/* Account Top Bar Navigation */
+.tpp-nav-back-home-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  border-radius: 20px !important;
+  padding: 6px 14px !important;
+  font-weight: 700 !important;
+  font-size: 0.86rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+body:not(.mood-dark) .tpp-nav-back-home-btn {
+  background: #EDF3EE !important;
+  border: 1px solid #D6E4D9 !important;
+  color: #114232 !important;
+}
+body:not(.mood-dark) .tpp-nav-back-home-btn:hover {
+  background: #E2ECE4 !important;
+}
+
+body.mood-dark .tpp-nav-back-home-btn {
+  background: #142F28 !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+  color: #34D399 !important;
+}
+body.mood-dark .tpp-nav-back-home-btn:hover {
+  background: #1C4037 !important;
+}
+
+/* Avatar Camera Badge */
+.tpp-avatar-camera-badge {
+  position: absolute !important;
+  bottom: -2px !important;
+  right: -2px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: #114232 !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25) !important;
+  border: 2px solid #FFFFFF !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease !important;
+}
+.tpp-avatar-camera-badge:hover {
+  transform: scale(1.1) !important;
+}
+
+body.mood-dark .tpp-avatar-camera-badge {
+  background: #34D399 !important;
+  color: #061830 !important;
+  border-color: #0B1E19 !important;
+}
+
+/* Change Photo Link Button */
+.tpp-btn-change-photo {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: none !important;
+  border: none !important;
+  padding: 3px 0 !important;
+  font-size: 0.76rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  color: #114232 !important;
+  text-decoration: underline !important;
+}
+body.mood-dark .tpp-btn-change-photo {
+  color: #34D399 !important;
+}
+
+/* Settings Modal & Avatar Modal Styling */
+.settings-card {
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+body.mood-dark #avatarPickerModal .settings-card,
+body.mood-dark #settingsModal .settings-card {
+  background: #0B1E19 !important;
+  border-color: rgba(52, 211, 153, 0.25) !important;
+  color: #FFFFFF !important;
+}
+body.mood-dark #avatarPickerModal #avatar-modal-hint {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+body.mood-dark #avatarPickerModal #avatar-lbl-presets {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+body.mood-dark .settings-top-nav-bar {
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+body.mood-dark .settings-back-home-btn {
+  background: rgba(52, 211, 153, 0.15) !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+  color: #34D399 !important;
+}
+body.mood-dark #settingsModal .settings-sec {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+body.mood-dark #settingsModal .settings-val {
+  color: #FFFFFF !important;
+}
+body.mood-dark #settingsModal .settings-lbl {
+  color: #86A79C !important;
+}
+
+
+
+
+/* =========================================================
+   COMPREHENSIVE MOBILE SCROLL FIX
+   Ensures content is always scrollable on every phone/screen size.
+   This block is the authoritative scroll override.
+   ========================================================= */
+
+/* Ensure html and body never block scroll in mobile app mode */
+html.is-mobile-app,
+html.is-mobile-app body {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+/* All screen views: allow full natural document scroll */
+html.is-mobile-app body .mobile-screen-view,
+html.is-mobile-app body .mobile-screen-view.active {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  /* Adequate bottom padding for bottom nav bar + iPhone home indicator */
+  padding-bottom: max(100px, calc(64px + env(safe-area-inset-bottom, 28px))) !important;
+}
+
+/* Mobile app home container: always allow scroll */
+html.is-mobile-app body #mobile-app-home {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure new-home-container does not clip content */
+html.is-mobile-app body .new-home-container {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Bottom nav bar: always sits above content, does not trap scroll */
+html.is-mobile-app body #mobile-app-bottom-bar {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  padding-bottom: env(safe-area-inset-bottom, 0) !important;
+  box-sizing: border-box !important;
+}
+
+/* Small-phone specific fix (< 375px wide, e.g. iPhone SE 1st gen) */
+@media screen and (max-width: 374px) {
+  html.is-mobile-app body .mobile-screen-view.active {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  html.is-mobile-app body #view-mobile-library,
+  html.is-mobile-app body #view-mobile-account {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+/* Tall phones (> 800px viewport height) */
+@media screen and (min-height: 800px) {
+  html.is-mobile-app body .mobile-screen-view {
+    min-height: 100svh;
+  }
+}
 

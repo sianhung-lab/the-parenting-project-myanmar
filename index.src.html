@@ -209,7 +209,7 @@
 
       <!-- Avatar -->
       <div class="mobile-header-avatar" onclick="switchAppTab('account')" title="Profile / Account" style="cursor:pointer;position:relative">
-        <img src="mother_avatar.jpg" alt="Profile" class="mobile-avatar-img" style="width:34px;height:34px;border-radius:50%;border:1.5px solid currentColor;object-fit:cover"/>
+        <img src="mother_avatar.jpg" id="tpp-header-avatar-img" alt="Profile" class="mobile-avatar-img" style="width:34px;height:34px;border-radius:50%;border:1.5px solid currentColor;object-fit:cover"/>
       </div>
     </div>
   </div>
@@ -254,11 +254,11 @@
         </div>
         <div class="tpp-continue-card" id="tpp-continue-card" onclick="resumeLastWatchedVideo()">
           <div class="tpp-continue-thumb-wrap">
-            <img src="yt_thumb_1.jpg" alt="Your Child's Emotional Tank" class="tpp-continue-thumb" id="tpp-cont-thumb" />
+            <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-continue-thumb" id="tpp-cont-thumb" />
           </div>
           <div class="tpp-continue-info">
-            <div class="tpp-continue-title" id="tpp-cont-title">Your Child's Emotional Tank</div>
-            <div class="tpp-continue-meta" id="tpp-cont-sub">Episode 1 · 8 min</div>
+            <div class="tpp-continue-title" id="tpp-cont-title">Becoming a Good Example</div>
+            <div class="tpp-continue-meta" id="tpp-cont-sub">Episode 1 · 45 min</div>
             <div style="display:flex;align-items:center;gap:8px">
               <div class="tpp-progress-track" style="flex:1">
                 <div class="tpp-progress-fill" id="tpp-cont-progress-fill" style="width: 45%;"></div>
@@ -278,112 +278,112 @@
         <div class="tpp-videos-grid-3col" id="tpp-home-grid-11">
           <div class="tpp-grid-card" onclick="openCinemaDirectly(1)" data-mid="1">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_1.jpg" alt="Your Child's Emotional Tank" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">1</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-1">Your Child's Emotional Tank</h4>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-1">Becoming a Good Example</h4>
               <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(2)" data-mid="2">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_2.jpg" alt="Healthy Sexuality" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_2.jpg" alt="Your Child's Emotional Tank" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">2</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-2">Healthy Sexuality</h4>
-              <span class="tpp-grid-duration">9 min</span>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-2">Your Child's Emotional Tank</h4>
+              <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(3)" data-mid="3">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_3.jpg" alt="The Digital Home" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_3.jpg" alt="Building Togetherness" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">3</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-3">The Digital Home</h4>
-              <span class="tpp-grid-duration">8 min</span>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-3">Building Togetherness</h4>
+              <span class="tpp-grid-duration">9 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(4)" data-mid="4">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_4.jpg" alt="Building Good Habits" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_4.jpg" alt="Boundaries and Discipline" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">4</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-4">Building Good Habits</h4>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-4">Boundaries and Discipline</h4>
               <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(5)" data-mid="5">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_5.jpg" alt="Discipline with Love" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_5.jpg" alt="Becoming A Father" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">5</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-5">Discipline with Love</h4>
-              <span class="tpp-grid-duration">9 min</span>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-5">Becoming A Father</h4>
+              <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(6)" data-mid="6">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_6.jpg" alt="Communication That Connects" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_6.jpg" alt="Healthy Sexuality in the Family" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">6</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-6">Communication That Connects</h4>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-6">Healthy Sexuality in the Family</h4>
               <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(7)" data-mid="7">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_7.jpg" alt="Confidence & Identity" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_7.jpg" alt="Parenting For a Lifetime" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">7</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-7">Confidence & Identity</h4>
-              <span class="tpp-grid-duration">8 min</span>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-7">Parenting For a Lifetime</h4>
+              <span class="tpp-grid-duration">9 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(8)" data-mid="8">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_8.jpg" alt="Handling Tantrums" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_8.jpg" alt="Parental Authority" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">8</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-8">Handling Tantrums</h4>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-8">Parental Authority</h4>
               <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(9)" data-mid="9">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_9.jpg" alt="Screen Time & Balance" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_9.jpg" alt="The Digital Home" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">9</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-9">Screen Time & Balance</h4>
-              <span class="tpp-grid-duration">8 min</span>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-9">The Digital Home</h4>
+              <span class="tpp-grid-duration">9 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(10)" data-mid="10">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_10.jpg" alt="Family Routines" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_10.jpg" alt="Working Dads and Moms" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">10</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-10">Family Routines</h4>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-10">Working Dads and Moms</h4>
               <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
           <div class="tpp-grid-card" onclick="openCinemaDirectly(11)" data-mid="11">
             <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_11.jpg" alt="Raising Emotionally Healthy Kids" class="tpp-grid-thumb" loading="lazy">
+              <img src="yt_thumb_11.jpg" alt="Guiding Your Children into Faith" class="tpp-grid-thumb" loading="lazy">
               <span class="tpp-grid-num-pill">11</span>
             </div>
             <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-11">Raising Emotionally Healthy Kids</h4>
-              <span class="tpp-grid-duration">9 min</span>
+              <h4 class="tpp-grid-title" id="tpp-grid-title-11">Guiding Your Children into Faith</h4>
+              <span class="tpp-grid-duration">8 min</span>
             </div>
           </div>
         </div>
@@ -1176,10 +1176,10 @@
         <div class="tpp-lib-row" onclick="openCinemaDirectly(1)" data-mid="1">
           <span class="tpp-lib-num">1</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_1.jpg" alt="Your Child's Emotional Tank" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-1">Your Child's Emotional Tank</div>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-1">Becoming a Good Example</div>
             <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
@@ -1187,32 +1187,32 @@
         <div class="tpp-lib-row" onclick="openCinemaDirectly(2)" data-mid="2">
           <span class="tpp-lib-num">2</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_2.jpg" alt="Healthy Sexuality" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_2.jpg" alt="Your Child's Emotional Tank" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-2">Healthy Sexuality</div>
-            <span class="tpp-lib-row-dur">9 min</span>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-2">Your Child's Emotional Tank</div>
+            <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
         </div>
         <div class="tpp-lib-row" onclick="openCinemaDirectly(3)" data-mid="3">
           <span class="tpp-lib-num">3</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_3.jpg" alt="The Digital Home" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_3.jpg" alt="Building Togetherness" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-3">The Digital Home</div>
-            <span class="tpp-lib-row-dur">8 min</span>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-3">Building Togetherness</div>
+            <span class="tpp-lib-row-dur">9 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
         </div>
         <div class="tpp-lib-row" onclick="openCinemaDirectly(4)" data-mid="4">
           <span class="tpp-lib-num">4</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_4.jpg" alt="Building Good Habits" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_4.jpg" alt="Boundaries and Discipline" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-4">Building Good Habits</div>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-4">Boundaries and Discipline</div>
             <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
@@ -1220,21 +1220,21 @@
         <div class="tpp-lib-row" onclick="openCinemaDirectly(5)" data-mid="5">
           <span class="tpp-lib-num">5</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_5.jpg" alt="Discipline with Love" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_5.jpg" alt="Becoming A Father" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-5">Discipline with Love</div>
-            <span class="tpp-lib-row-dur">9 min</span>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-5">Becoming A Father</div>
+            <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
         </div>
         <div class="tpp-lib-row" onclick="openCinemaDirectly(6)" data-mid="6">
           <span class="tpp-lib-num">6</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_6.jpg" alt="Communication That Connects" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_6.jpg" alt="Healthy Sexuality in the Family" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-6">Communication That Connects</div>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-6">Healthy Sexuality in the Family</div>
             <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
@@ -1242,21 +1242,21 @@
         <div class="tpp-lib-row" onclick="openCinemaDirectly(7)" data-mid="7">
           <span class="tpp-lib-num">7</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_7.jpg" alt="Confidence & Identity" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_7.jpg" alt="Parenting For a Lifetime" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-7">Confidence & Identity</div>
-            <span class="tpp-lib-row-dur">8 min</span>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-7">Parenting For a Lifetime</div>
+            <span class="tpp-lib-row-dur">9 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
         </div>
         <div class="tpp-lib-row" onclick="openCinemaDirectly(8)" data-mid="8">
           <span class="tpp-lib-num">8</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_8.jpg" alt="Handling Tantrums" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_8.jpg" alt="Parental Authority" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-8">Handling Tantrums</div>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-8">Parental Authority</div>
             <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
@@ -1264,21 +1264,21 @@
         <div class="tpp-lib-row" onclick="openCinemaDirectly(9)" data-mid="9">
           <span class="tpp-lib-num">9</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_9.jpg" alt="Screen Time & Balance" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_9.jpg" alt="The Digital Home" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-9">Screen Time & Balance</div>
-            <span class="tpp-lib-row-dur">8 min</span>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-9">The Digital Home</div>
+            <span class="tpp-lib-row-dur">9 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
         </div>
         <div class="tpp-lib-row" onclick="openCinemaDirectly(10)" data-mid="10">
           <span class="tpp-lib-num">10</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_10.jpg" alt="Family Routines" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_10.jpg" alt="Working Dads and Moms" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-10">Family Routines</div>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-10">Working Dads and Moms</div>
             <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
@@ -1286,11 +1286,11 @@
         <div class="tpp-lib-row" onclick="openCinemaDirectly(11)" data-mid="11">
           <span class="tpp-lib-num">11</span>
           <div class="tpp-lib-thumb-wrap">
-            <img src="yt_thumb_11.jpg" alt="Raising Emotionally Healthy Kids" class="tpp-lib-thumb" loading="lazy" />
+            <img src="yt_thumb_11.jpg" alt="Guiding Your Children into Faith" class="tpp-lib-thumb" loading="lazy" />
           </div>
           <div class="tpp-lib-info">
-            <div class="tpp-lib-row-title" id="tpp-lib-row-t-11">Raising Emotionally Healthy Kids</div>
-            <span class="tpp-lib-row-dur">9 min</span>
+            <div class="tpp-lib-row-title" id="tpp-lib-row-t-11">Guiding Your Children into Faith</div>
+            <span class="tpp-lib-row-dur">8 min</span>
           </div>
           <span class="tpp-lib-chevron">›</span>
         </div>
@@ -1332,21 +1332,46 @@
   <!-- VIP Member Profile, Certificate, Storage, and Settings    -->
   <!-- ========================================================= -->
   <div id="view-mobile-account" class="mobile-screen-view" style="display:none">
-    <!-- Profile Header (Richard, Parent · Learner · Builder) -->
-    <div class="tpp-profile-header">
-      <div class="tpp-profile-avatar-wrap">
-        <img src="mother_avatar.jpg" alt="Richard" class="tpp-profile-avatar"/>
-      </div>
-      <div style="flex:1">
-        <div class="tpp-profile-name" id="tpp-acc-name">Richard</div>
-        <div class="tpp-profile-role" id="tpp-acc-role">Parent · Learner · Builder</div>
-      </div>
+    <!-- Dedicated Top Navigation Bar for Account Screen with Back to Home -->
+    <div class="tpp-account-top-bar" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px 6px 14px;">
+      <button type="button" class="tpp-nav-back-home-btn" onclick="switchAppTab('home')" aria-label="Back to Home" title="Back to Home">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span id="tpp-acc-back-home-txt">Back to Home</span>
+      </button>
+
       <button type="button" class="tpp-icon-btn" onclick="openSettingsModal()" aria-label="Settings" title="Settings">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"/>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
       </button>
+    </div>
+
+    <!-- Profile Header (Richard, Parent · Learner · Builder) -->
+    <div class="tpp-profile-header">
+      <div class="tpp-profile-avatar-container" onclick="openAvatarPickerModal()" title="Change Profile Photo / မိမိဓာတ်ပုံ ပြောင်းရန်" style="position:relative;cursor:pointer;display:inline-block">
+        <div class="tpp-profile-avatar-wrap">
+          <img src="mother_avatar.jpg" alt="Profile" id="tpp-profile-avatar-img" class="tpp-profile-avatar"/>
+        </div>
+        <div class="tpp-avatar-camera-badge" title="Change Photo">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="tpp-profile-name" id="tpp-acc-name">Richard</div>
+          <button type="button" class="btn btn-ghost btn-xs" onclick="promptEditUserName()" title="Edit Name" style="padding:2px 6px;font-size:0.75rem;opacity:0.75;cursor:pointer;border-radius:6px">✏️</button>
+        </div>
+        <div class="tpp-profile-role" id="tpp-acc-role">Parent · Learner · Builder</div>
+        <button type="button" class="tpp-btn-change-photo" onclick="openAvatarPickerModal()">
+          <span>📷</span> <span id="tpp-acc-change-photo-txt">Change Photo</span>
+        </button>
+      </div>
     </div>
 
     <!-- Sage / Emerald Quote Card with Leaf Icon -->
@@ -1489,8 +1514,8 @@
 
       <div class="mc-preview-body">
         <div class="mc-preview-cat-badge" id="mc-modal-category">🏅 Role Model & Character</div>
-        <h3 class="mc-preview-title" id="mc-modal-title">Module 1: Being a Positive Role Model</h3>
-        <h4 class="mc-preview-title-my" id="mc-modal-title-my">မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း</h4>
+        <h3 class="mc-preview-title" id="mc-modal-title">Module 1: Becoming a Good Example</h3>
+        <h4 class="mc-preview-title-my" id="mc-modal-title-my">မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ ဖြစ်လာခြင်း</h4>
         <p class="mc-preview-desc" id="mc-modal-desc">Your daily character is the first textbook your child reads.</p>
 
         <!-- Scripture Anchor -->
@@ -2083,7 +2108,7 @@
       <span class="gate-modal-tag" id="gate-tag">🔒 Partner Church Privilege</span>
     </div>
     <h2 class="gate-modal-title" id="gate-title">Full Movie Access Restricted</h2>
-    <div class="gate-modal-module" id="gate-module-name">Module 2: Building Deep Connection</div>
+    <div class="gate-modal-module" id="gate-module-name">Module 2: Your Child's Emotional Tank</div>
     <p class="gate-modal-desc" id="gate-desc">
       This curriculum video is reserved for authorized partner churches and certified facilitators. Please sign in or register your church to access all 11 full curriculum movies.
     </p>
@@ -2097,7 +2122,17 @@
 <!-- SETTINGS & ADMIN ACCESS MODAL -->
 <div id="settingsModal" class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
   <div class="settings-card">
-    <button class="gate-modal-close" onclick="closeSettingsModal()" aria-label="Close settings">✕</button>
+    <!-- Settings Top Navigation Bar with Back to Home -->
+    <div class="settings-top-nav-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:0.75rem;border-bottom:1px solid rgba(0,0,0,0.08)">
+      <button type="button" class="settings-back-home-btn" onclick="backToHomeFromSettings()" style="display:inline-flex;align-items:center;gap:6px;background:rgba(17,66,50,0.08);border:1px solid rgba(17,66,50,0.18);border-radius:20px;padding:6px 14px;color:#114232;font-size:0.86rem;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.2s ease;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span id="settings-top-back-txt">← Back to Home</span>
+      </button>
+      <button class="gate-modal-close" onclick="closeSettingsModal()" aria-label="Close settings" style="position:static;margin:0">✕</button>
+    </div>
+
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
       <span style="font-size:1.6rem">⚙️</span>
       <div>
@@ -2184,6 +2219,69 @@
       <span id="settings-portal-lang-lbl" style="font-size:0.82rem;color:rgba(255,255,255,0.7)">Portal Language:</span>
       <button type="button" class="btn btn-outline btn-xs" onclick="toggleLang();updateSettingsModalUI()">
         <span id="settings-lang-txt">🇲🇲 မြန်မာဘာသာ သို့ ပြောင်းရန်</span>
+      </button>
+    </div>
+
+    <!-- Big Dedicated Back to Home Button at Bottom of Settings -->
+    <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.08)">
+      <button type="button" class="btn btn-gold" style="width:100%;justify-content:center;gap:8px;font-weight:800;padding:12px;border-radius:12px;font-size:0.95rem;box-shadow:0 4px 14px rgba(255,204,0,0.25);" onclick="backToHomeFromSettings()">
+        <span>🏠</span> <span id="settings-main-back-txt">Back to Home Screen (မူလစာမျက်နှာသို့)</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HIDDEN AVATAR FILE INPUT (Camera & Device Photos) -->
+<input type="file" id="tpp-avatar-file-input" accept="image/*" style="display:none" onchange="handleUserAvatarUpload(event)"/>
+
+<!-- AVATAR CUSTOMIZATION PICKER MODAL -->
+<div id="avatarPickerModal" class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="avatar-modal-title" style="display:none">
+  <div class="settings-card" style="max-width:400px;text-align:center;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+      <h2 id="avatar-modal-title" style="margin:0;font-size:1.2rem;font-weight:800;text-align:left">Customize Profile Photo</h2>
+      <button class="gate-modal-close" onclick="closeAvatarPickerModal()" aria-label="Close" style="position:static;margin:0">✕</button>
+    </div>
+
+    <!-- Active Avatar Preview -->
+    <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:1.25rem">
+      <div style="position:relative;width:96px;height:96px;border-radius:50%;overflow:hidden;border:3px solid #114232;box-shadow:0 4px 16px rgba(0,0,0,0.15)">
+        <img id="tpp-avatar-preview-img" src="mother_avatar.jpg" alt="Avatar Preview" style="width:100%;height:100%;object-fit:cover"/>
+      </div>
+      <p id="avatar-modal-hint" style="margin:8px 0 0;font-size:0.82rem;color:#7A7062;line-height:1.4">
+        Upload your personal photo or select a ready family portrait
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:0.5rem">
+      <button type="button" class="btn btn-gold" style="width:100%;justify-content:center;gap:8px;font-weight:800;padding:12px;border-radius:12px" onclick="document.getElementById('tpp-avatar-file-input').click()">
+        <span>📸</span> <span id="avatar-btn-upload-txt">Upload Photo from Phone / Camera</span>
+      </button>
+
+      <div style="margin-top:6px;font-size:0.75rem;font-weight:700;color:#7A7062;text-transform:uppercase;letter-spacing:0.5px" id="avatar-lbl-presets">
+        Or Choose a Portrait:
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button type="button" class="tpp-preset-thumb-btn" onclick="selectPresetAvatar('mother')" title="Mother" style="background:none;border:none;cursor:pointer;padding:2px">
+          <img src="mother_avatar.jpg" alt="Mother" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,0.12)"/>
+        </button>
+        <button type="button" class="tpp-preset-thumb-btn" onclick="selectPresetAvatar('couple')" title="Couple" style="background:none;border:none;cursor:pointer;padding:2px">
+          <img src="avatar_couple.jpg" alt="Couple" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,0.12)"/>
+        </button>
+        <button type="button" class="tpp-preset-thumb-btn" onclick="selectPresetAvatar('young')" title="Young Mentor" style="background:none;border:none;cursor:pointer;padding:2px">
+          <img src="mentor_avatar_young.jpg" alt="Young Mentor" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,0.12)"/>
+        </button>
+        <button type="button" class="tpp-preset-thumb-btn" onclick="selectPresetAvatar('pink')" title="Pink Mentor" style="background:none;border:none;cursor:pointer;padding:2px">
+          <img src="mentor_avatar_pink.jpg" alt="Pink Mentor" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,0.12)"/>
+        </button>
+        <button type="button" class="tpp-preset-thumb-btn" onclick="selectPresetAvatar('family')" title="Family" style="background:none;border:none;cursor:pointer;padding:2px">
+          <img src="couple_hd.jpg" alt="Family" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,0.12)"/>
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;gap:6px;font-size:0.8rem;border-radius:10px;margin-top:6px" onclick="resetUserAvatarToDefault()">
+        <span>🔄</span> <span id="avatar-btn-reset-txt">Reset to Default Photo</span>
       </button>
     </div>
   </div>
@@ -2815,17 +2913,17 @@
                 <div style="margin-bottom:0.9rem">
                   <label style="display:block;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:4px">Assign to Module / Curriculum Lesson</label>
                   <select id="up-module-target" class="rule-select" onchange="handleTargetModuleChange()" style="margin-bottom:0">
-                    <option value="1">Module 1: Being a Positive Role Model</option>
-                    <option value="2">Module 2: Building Deep Connection</option>
-                    <option value="3">Module 3: Healthy Parental Authority</option>
-                    <option value="4">Module 4: Filling the Emotional Tank</option>
-                    <option value="5">Module 5: Navigating the Digital Household</option>
-                    <option value="6">Module 6: Boundaries & Positive Discipline</option>
-                    <option value="7">Module 7: The Father's Heart & Presence</option>
-                    <option value="8">Module 8: Working Parents: Career & Home</option>
-                    <option value="9">Module 9: Nurturing Foundational Faith</option>
-                    <option value="10">Module 10: Healthy Sexuality in the Family</option>
-                    <option value="11">Module 11: Parenting Through Every Life Stage</option>
+                    <option value="1">Module 1: Becoming a Good Example</option>
+                    <option value="2">Module 2: Your Child's Emotional Tank</option>
+                    <option value="3">Module 3: Building Togetherness</option>
+                    <option value="4">Module 4: Boundaries and Discipline</option>
+                    <option value="5">Module 5: Becoming A Father</option>
+                    <option value="6">Module 6: Healthy Sexuality in the Family</option>
+                    <option value="7">Module 7: Parenting For a Lifetime</option>
+                    <option value="8">Module 8: Parental Authority</option>
+                    <option value="9">Module 9: The Digital Home</option>
+                    <option value="10">Module 10: Working Dads and Moms</option>
+                    <option value="11">Module 11: Guiding Your Children into Faith</option>
                     <option value="trailer">Official 2025 Trailer</option>
                     <option value="new_bonus">+ Add New Bonus Video / Testimonial Lesson</option>
                   </select>
@@ -3423,28 +3521,28 @@
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
     </svg>
-    <span class="app-tab-label">Home</span>
+    <span class="app-tab-label" id="tab-lbl-home">Home</span>
   </button>
   <button type="button" class="app-bottom-tab" id="btn-app-tab-library" onclick="switchAppTab('library')" aria-label="Library">
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
     </svg>
-    <span class="app-tab-label">Library</span>
+    <span class="app-tab-label" id="tab-lbl-library">Library</span>
   </button>
   <button type="button" class="app-bottom-tab" id="btn-app-tab-episodes" onclick="switchAppTab('episodes')" aria-label="Progress">
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 17c3.5-6.5 5.5-6.5 8.5-1.5s4.5 4.5 6.5-1.5c1.5-4.5 3-7 3-7"/>
       <circle cx="15" cy="11" r="2.2" fill="currentColor"/>
     </svg>
-    <span class="app-tab-label">Progress</span>
+    <span class="app-tab-label" id="tab-lbl-episodes">Progress</span>
   </button>
   <button type="button" class="app-bottom-tab" id="btn-app-tab-profile" onclick="switchAppTab('account')" aria-label="Account">
     <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
       <circle cx="12" cy="7" r="4"/>
     </svg>
-    <span class="app-tab-label">Account</span>
+    <span class="app-tab-label" id="tab-lbl-profile">Account</span>
   </button>
 </nav>
 
