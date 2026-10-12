@@ -5127,7 +5127,7 @@ function updateTppHomeLanguage(isMy) {
   const nhSub = document.getElementById('nh-hero-subtitle');
   const nhBtnP = document.getElementById('nh-btn-primary-txt');
   const nhBtnS = document.getElementById('nh-btn-secondary-txt');
-  if (nhBadge) nhBadge.textContent = isMy ? 'CBN MASTERCLASS · တရားဝင် သင်တန်း' : 'CBN MASTERCLASS · OFFICIAL DISCIPLESHIP';
+  if (nhBadge) nhBadge.textContent = isMy ? 'The Parenting Project · တရားဝင် သင်တန်း' : 'The Parenting Project · Official Course';
   if (nhDur) nhDur.textContent = isMy ? '၁၈:၄၂ မိနစ်' : '18:42';
   if (nhKicker) nhKicker.textContent = isMy ? 'ခရစ်တော် · မေတ္တာ · မိသားစု' : 'CHRIST · LOVE · FAMILY';
   if (nhTitle) nhTitle.textContent = isMy ? 'နောင်တမဲ့ မေတ္တာဖြင့် အိမ်ထောင်ကို တည်ဆောက်' : 'Build a Christ-Centered Family That Flourishes';
@@ -5238,7 +5238,7 @@ function updateTppHomeLanguage(isMy) {
   if (tr1h) tr1h.textContent = isMy ? 'အသင်းတော်များ အခမဲ့' : '100% Free For Churches';
   if (tr1d) tr1d.textContent = isMy ? '100% Free Church Kit' : 'Curriculum & Invitation Kits';
   if (tr2h) tr2h.textContent = isMy ? 'မော်ဂျူး ၁၁ ခု စုံလင်စွာ' : '11 Video Modules';
-  if (tr2d) tr2d.textContent = isMy ? 'Real-Life Video Cinema' : 'Real-Life Cinema MasterClass';
+  if (tr2d) tr2d.textContent = isMy ? 'Real-Life Video Cinema' : 'Real-Life Video Cinema';
   if (tr3h) tr3h.textContent = isMy ? 'တရားဝင် လက်မှတ်' : 'CBN Certificate';
   if (tr3d) tr3d.textContent = isMy ? 'Accredited Certificate' : 'Accredited Family Milestone';
 
