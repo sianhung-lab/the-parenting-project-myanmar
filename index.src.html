@@ -241,13 +241,6 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
       <section class="tpp-hero-card" onclick="openCinemaDirectly(1)">
         <div class="tpp-hero-media">
           <img src="hero_celebrating_couple.jpg" alt="The Parenting Project" class="tpp-hero-img" />
-          <div class="tpp-hero-brand-lockup">
-            <img src="official_logo.png" alt="The Parenting Project" class="tpp-hero-lockup-logo" />
-            <div class="tpp-hero-lockup-info">
-              <span class="tpp-hero-lockup-brand">THE PARENTING PROJECT</span>
-              <span class="tpp-hero-lockup-sub" id="tpp-hero-lockup-sub">MYANMAR · OFFICIAL SERIES</span>
-            </div>
-          </div>
         </div>
         <div class="tpp-hero-body">
           <span class="tpp-hero-kicker" id="tpp-hero-kicker">PARENT BETTER.</span>
@@ -2151,8 +2144,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
       <span style="font-size:1.6rem">⚙️</span>
       <div>
-        <h2 id="settings-title" style="font-size:1.3rem;font-weight:800;letter-spacing:-0.01em">Settings & Access Control</h2>
-        <div style="font-size:0.78rem;color:rgba(255,255,255,0.65)">The Parenting Project · Myanmar</div>
+        <h2 id="settings-title" style="font-size:1.3rem;font-weight:800;letter-spacing:-0.01em;margin:0">Settings & Access Control</h2>
+        <div class="settings-sub-tag" style="font-size:0.78rem;color:#64748B;font-weight:600">The Parenting Project · Myanmar</div>
       </div>
     </div>
 
@@ -2160,21 +2153,21 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
     <div class="settings-sec">
       <div class="settings-lbl" id="settings-sec-lbl-account">Current Account & Role</div>
       <div class="settings-val" id="settings-user-info">Guest Visitor</div>
-      <div id="settings-role-badge" style="margin-top:6px;font-size:0.8rem;color:#4cd964;font-weight:700">● Public Guest Mode</div>
+      <div id="settings-role-badge" style="margin-top:6px;font-size:0.8rem;color:#16A34A;font-weight:700">● Public Guest Mode</div>
       
       <!-- Guest Action Buttons (Sign In / Register) -->
       <div id="settings-guest-actions" style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
         <button type="button" class="btn btn-gold" style="width:100%;justify-content:center;font-weight:800" onclick="closeSettingsModal();openInAppLoginModal('signin')">
           <span id="settings-btn-signin-txt">🔑 အကောင့်ဝင်ရောက်ရန် (Sign In)</span>
         </button>
-        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#ffcc00;border-color:rgba(255,204,0,0.4)" onclick="closeSettingsModal();openInAppLoginModal('register')">
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#B45309;border-color:rgba(180,83,9,0.35);font-weight:700" onclick="closeSettingsModal();openInAppLoginModal('register')">
           <span id="settings-btn-reg-txt">✍️ အခမဲ့ စာရင်းသွင်းရန် (Register Free)</span>
         </button>
       </div>
 
       <!-- Logged In Action Button (Sign Out) -->
       <div id="settings-member-actions" style="margin-top:12px;display:none">
-        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#ff9999;border-color:rgba(255,60,60,0.4)" onclick="logoutUser();updateSettingsModalUI()">
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;color:#DC2626;border-color:rgba(220,38,38,0.35);font-weight:700" onclick="logoutUser();updateSettingsModalUI()">
           <span id="settings-btn-signout-txt">🚪 အကောင့်ထွက်မည် (Sign Out)</span>
         </button>
       </div>
@@ -2183,7 +2176,7 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
     <!-- Offline & Download Quality Settings -->
     <div class="settings-sec">
       <div class="settings-lbl">📥 ဒေါင်းလုဒ် အရည်အသွေး (Download Quality Preference)</div>
-      <div style="font-size:0.75rem;color:rgba(255,255,255,0.7);margin-bottom:8px">
+      <div class="settings-desc-note" style="font-size:0.75rem;color:#64748B;margin-bottom:8px">
         အမြဲတမ်း ဒေါင်းလုဒ်ဆွဲမည့် ဗီဒီယို အရည်အသွေး ရွေးချယ်မှု
       </div>
       <div style="display:flex;gap:8px">
@@ -2200,38 +2193,38 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
     </div>
 
     <!-- Admin / Owner Privilege Unlock Section -->
-    <div id="settings-admin-sec" class="settings-sec" style="border-color:rgba(255,204,0,0.3);background:rgba(255,204,0,0.05)">
-      <div class="settings-lbl" id="settings-sec-lbl-ministry" style="color:#ffcc00">🛡️ Ministry Owner & Administrator Hub</div>
-      <p id="settings-sec-desc-ministry" style="font-size:0.82rem;color:rgba(255,255,255,0.75);margin-bottom:0.85rem;line-height:1.45">
+    <div id="settings-admin-sec" class="settings-sec" style="border-color:rgba(217,119,6,0.25);background:rgba(245,158,11,0.06)">
+      <div class="settings-lbl" id="settings-sec-lbl-ministry" style="color:#B45309;font-weight:800">🛡️ Ministry Owner & Administrator Hub</div>
+      <p id="settings-sec-desc-ministry" class="settings-desc-note" style="font-size:0.82rem;color:#475569;margin-bottom:0.85rem;line-height:1.45">
         Authorized CBN Asia Myanmar coordinators and portal owners can manage church video permissions, modify curriculum access rules, and export data directly on this website.
       </p>
 
       <div id="settings-admin-unlocked" style="display:none">
-        <div style="color:#4cd964;font-weight:700;font-size:0.85rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:6px">
+        <div style="color:#16A34A;font-weight:700;font-size:0.85rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:6px">
           <span>✓</span> <span id="settings-admin-active-txt">Admin Mode Active (Full Permissions)</span>
         </div>
         <button type="button" class="btn btn-gold" style="width:100%;justify-content:center;margin-bottom:0.5rem" onclick="closeSettingsModal();openAdminHub()">
           <span id="settings-btn-launch-txt">🚀 Launch Admin Hub Panel</span>
         </button>
-        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;font-size:0.8rem;color:#ff9999" onclick="lockAdminSession()">
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;font-size:0.8rem;color:#DC2626;border-color:rgba(220,38,38,0.35);font-weight:700" onclick="lockAdminSession()">
           <span id="settings-btn-lock-txt">🔒 Lock Admin Session</span>
         </button>
       </div>
 
       <div id="settings-admin-locked">
         <div style="margin-bottom:0.6rem">
-          <input type="password" id="settings-staff-passcode" placeholder="Enter Staff Passcode" style="width:100%;padding:0.75rem 0.9rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-family:inherit;font-size:0.9rem;outline:none" onkeydown="if(event.key==='Enter')verifySettingsAdmin()"/>
+          <input type="password" id="settings-staff-passcode" placeholder="Enter Staff Passcode" style="width:100%;padding:0.75rem 0.9rem;border-radius:8px;border:1.5px solid #CBD5E1;background:#FFFFFF;color:#0F172A;font-family:inherit;font-size:0.9rem;outline:none" onkeydown="if(event.key==='Enter')verifySettingsAdmin()"/>
         </div>
         <button type="button" class="btn btn-gold" style="width:100%;justify-content:center" onclick="verifySettingsAdmin()">
           <span id="settings-btn-unlock-txt">🔓 Unlock Admin Hub</span>
         </button>
-        <div id="settings-pass-err" style="color:#ff6b6b;font-size:0.78rem;font-weight:600;margin-top:0.4rem;min-height:1rem"></div>
+        <div id="settings-pass-err" style="color:#EF4444;font-size:0.78rem;font-weight:600;margin-top:0.4rem;min-height:1rem"></div>
       </div>
     </div>
 
     <!-- Quick Preferences -->
     <div style="display:flex;gap:10px;justify-content:space-between;align-items:center;padding-top:0.5rem">
-      <span id="settings-portal-lang-lbl" style="font-size:0.82rem;color:rgba(255,255,255,0.7)">Portal Language:</span>
+      <span id="settings-portal-lang-lbl" style="font-size:0.82rem;color:#64748B;font-weight:600">Portal Language:</span>
       <button type="button" class="btn btn-outline btn-xs" onclick="toggleLang();updateSettingsModalUI()">
         <span id="settings-lang-txt">🇲🇲 မြန်မာဘာသာ သို့ ပြောင်းရန်</span>
       </button>

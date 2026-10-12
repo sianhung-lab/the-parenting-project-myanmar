@@ -120,18 +120,29 @@ ul{list-style:none}
   transform:translateY(-2px);
   box-shadow:0 12px 32px rgba(0,48,135,0.45);
 }
-.btn-outline-gold{
-  background:rgba(245,168,0,0.08);
-  color:#FFE58F;
-  border:1.5px solid rgba(245,168,0,0.5);
-  backdrop-filter:blur(10px);
+.btn-outline{
+  background: transparent;
+  color: #0F172A;
+  border: 1.5px solid #CBD5E1;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.btn-outline-gold:hover{
-  background:rgba(245,168,0,0.18);
-  border-color:#F5A800;
-  color:#fff;
-  transform:translateY(-2px);
+.btn-outline:hover{
+  background: #F1F5F9;
+  border-color: #94A3B8;
+  color: #0F172A;
 }
+body.mood-dark .btn-outline{
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+body.mood-dark .btn-outline:hover{
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
 .btn-ghost-w{
   background:rgba(255,255,255,0.06);
   color:#fff;
@@ -15702,6 +15713,62 @@ body.mood-dark #settingsModal .settings-val {
 }
 body.mood-dark #settingsModal .settings-lbl {
   color: #86A79C !important;
+}
+body.mood-dark #settingsModal .settings-desc-note {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+body.mood-dark #settingsModal #settings-staff-passcode {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Day Mode High Contrast Explicit Polish */
+body.mood-day #settingsModal .settings-card,
+body:not(.mood-dark) #settingsModal .settings-card {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #E2E8F0 !important;
+}
+body.mood-day #settingsModal .settings-sec,
+body:not(.mood-dark) #settingsModal .settings-sec {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+body.mood-day #settingsModal .settings-lbl,
+body:not(.mood-dark) #settingsModal .settings-lbl {
+  color: #64748B !important;
+}
+body.mood-day #settingsModal .settings-val,
+body:not(.mood-dark) #settingsModal .settings-val {
+  color: #0F172A !important;
+}
+body.mood-day #settingsModal .settings-desc-note,
+body:not(.mood-dark) #settingsModal .settings-desc-note {
+  color: #475569 !important;
+}
+body.mood-day #settingsModal #settings-staff-passcode,
+body:not(.mood-dark) #settingsModal #settings-staff-passcode {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+body.mood-day #settingsModal .btn-outline,
+body:not(.mood-dark) #settingsModal .btn-outline {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+body.mood-day #settingsModal .btn-outline:hover,
+body:not(.mood-dark) #settingsModal .btn-outline:hover {
+  background: #F1F5F9 !important;
+  border-color: #94A3B8 !important;
+}
+body.mood-day #settingsModal .btn-outline.active,
+body:not(.mood-dark) #settingsModal .btn-outline.active {
+  background: #003087 !important;
+  color: #FFFFFF !important;
+  border-color: #003087 !important;
 }
 
 
