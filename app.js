@@ -4812,6 +4812,7 @@ window.filterInpageData = filterInpageData;
 window.updateSettingsModalUI = updateSettingsModalUI;
 window.isAdminOrOwner = isAdminOrOwner;
 window.logoutUser = logoutUser;
+window.handleMobileLogout = logoutUser;
 window.checkAuthStatus = checkAuthStatus;
 
 window.setVideoSourceType = setVideoSourceType;
