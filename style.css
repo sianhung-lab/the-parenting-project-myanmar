@@ -15461,37 +15461,31 @@ body.is-mobile-app .mobile-app-brand:active {
   line-height: 1.05 !important;
 }
 
-.mobile-app-brand-line1,
-.mobile-app-brand-line2 {
+.mobile-app-brand-title {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  font-size: 0.72rem !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.04em !important;
-  text-transform: uppercase !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.15 !important;
   white-space: nowrap !important;
   display: block !important;
 }
 
-body.mood-day .mobile-app-brand-line1,
-body.mood-day .mobile-app-brand-line2,
-body:not(.mood-dark) .mobile-app-brand-line1,
-body:not(.mood-dark) .mobile-app-brand-line2 {
+body.mood-day .mobile-app-brand-title,
+body:not(.mood-dark) .mobile-app-brand-title {
   color: #0F172A !important;
 }
 
-body.mood-dark .mobile-app-brand-line1,
-body.mood-dark .mobile-app-brand-line2 {
-  background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5)) !important;
+body.mood-dark .mobile-app-brand-title {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
 }
 
 .mobile-app-brand-sub {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  font-size: 0.48rem !important;
+  font-size: 0.56rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.22em !important;
+  letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
   line-height: 1 !important;
   margin-top: 2px !important;
