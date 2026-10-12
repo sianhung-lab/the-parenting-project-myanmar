@@ -192,10 +192,11 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 <!-- DEDICATED NATIVE MOBILE APP HEADER (Appears ONLY in Android App Mode) -->
 <header id="mobile-app-bar" class="mobile-app-only">
   <div class="mobile-app-bar-inner">
-    <div class="mobile-app-brand" onclick="switchAppTab('home')" style="cursor:pointer;display:flex;align-items:center;gap:9px">
+    <div class="mobile-app-brand" onclick="switchAppTab('home')" style="cursor:pointer" title="The Parenting Project Myanmar">
       <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="tpp-header-logo-img" />
       <div class="mobile-app-brand-text">
         <div class="mobile-app-title">The Parenting Project</div>
+        <div class="mobile-app-subtitle" id="mobile-app-brand-sub">Myanmar</div>
       </div>
     </div>
     <div class="mobile-app-actions" style="display:flex;align-items:center;gap:6px">
@@ -239,6 +240,13 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
       <section class="tpp-hero-card" onclick="openCinemaDirectly(1)">
         <div class="tpp-hero-media">
           <img src="hero_celebrating_couple.jpg" alt="The Parenting Project" class="tpp-hero-img" />
+          <div class="tpp-hero-brand-lockup">
+            <img src="official_logo.png" alt="The Parenting Project" class="tpp-hero-lockup-logo" />
+            <div class="tpp-hero-lockup-info">
+              <span class="tpp-hero-lockup-title">The Parenting Project</span>
+              <span class="tpp-hero-lockup-sub" id="tpp-hero-lockup-sub">Official Series · Myanmar</span>
+            </div>
+          </div>
         </div>
         <div class="tpp-hero-body">
           <span class="tpp-hero-kicker" id="tpp-hero-kicker">PARENT BETTER.</span>

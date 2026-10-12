@@ -15353,34 +15353,133 @@ body.mood-dark .tpp-hero-title {
   transition: transform 0.2s ease !important;
 }
 
-/* 3D Floating Badge on Hero Media */
-.tpp-3d-floating-badge {
+/* =========================================================
+   UNIFIED SIGNATURE BRAND LOCKUP (Hero Card & Header)
+   ========================================================= */
+
+/* 1. Hero Card Unified Brand Lockup */
+.tpp-hero-brand-lockup {
   position: absolute !important;
-  top: 14px !important;
-  left: 14px !important;
+  top: 13px !important;
+  left: 13px !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  background: rgba(14, 20, 36, 0.76) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.28) !important;
-  border-radius: 999px !important;
-  padding: 5px 12px !important;
-  font-size: 0.65rem !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.08em !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 255, 255, 0.12) !important;
-  animation: floatGentle3D 4s ease-in-out infinite !important;
-  z-index: 4 !important;
+  gap: 9px !important;
+  background: linear-gradient(135deg, rgba(8, 15, 28, 0.84) 0%, rgba(15, 29, 52, 0.74) 100%) !important;
+  backdrop-filter: blur(14px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-left: 2.5px solid #F59E0B !important;
+  border-radius: 12px !important;
+  padding: 5px 12px 5px 8px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 14px rgba(245, 158, 11, 0.12) !important;
+  z-index: 5 !important;
+  transform: perspective(600px) translateZ(8px) !important;
+  animation: floatGentle3D 4.5s ease-in-out infinite !important;
   transform-style: preserve-3d !important;
+  pointer-events: none !important;
 }
 
-.tpp-3d-floating-badge .badge-sparkle {
-  font-size: 0.75rem !important;
-  display: inline-block !important;
-  animation: sparkleSpin 2.5s ease-in-out infinite !important;
+.tpp-hero-lockup-logo {
+  width: 26px !important;
+  height: 26px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35)) drop-shadow(0 0 8px rgba(37, 99, 235, 0.4)) !important;
+}
+
+.tpp-hero-lockup-info {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.15 !important;
+}
+
+.tpp-hero-lockup-title {
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.76rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+  white-space: nowrap !important;
+}
+
+.tpp-hero-lockup-sub {
+  font-size: 0.54rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  color: #FBBF24 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  white-space: nowrap !important;
+}
+
+/* 2. Top Header Unified Brand Lockup Enhancements */
+body.is-mobile-app .mobile-app-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  padding: 3px 6px !important;
+  border-radius: 12px !important;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  text-decoration: none !important;
+}
+
+body.is-mobile-app .mobile-app-brand:active {
+  transform: scale(0.97) !important;
+}
+
+.tpp-header-logo-img {
+  width: 33px !important;
+  height: 33px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2)) drop-shadow(0 0 8px rgba(37, 99, 235, 0.3)) !important;
+  transition: transform 0.25s ease !important;
+}
+
+.mobile-app-brand-text {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  line-height: 1.15 !important;
+}
+
+.mobile-app-title {
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.2px !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+}
+
+body.mood-day .mobile-app-title,
+body:not(.mood-dark) .mobile-app-title {
+  color: #0F172A !important;
+}
+
+body.mood-dark .mobile-app-title {
+  color: #F8FAFC !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+.mobile-app-subtitle {
+  font-size: 0.54rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  margin-top: 1px !important;
+}
+
+body.mood-day .mobile-app-subtitle,
+body:not(.mood-dark) .mobile-app-subtitle {
+  color: #B45309 !important;
+}
+
+body.mood-dark .mobile-app-subtitle {
+  color: #F59E0B !important;
 }
 
 /* 3D Tactile CTA Button with Dimensional Spring */

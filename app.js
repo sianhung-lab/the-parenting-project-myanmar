@@ -9459,6 +9459,16 @@ function updateTwoOptionUIStrings() {
 
   updateTwoOptionHeroText(isDay, isMy);
 
+  // Brand lockup subtitles
+  const heroLockupSub = document.getElementById('tpp-hero-lockup-sub');
+  if (heroLockupSub) {
+    heroLockupSub.textContent = isMy ? 'မြန်မာ · တရားဝင် သင်တန်း' : 'Official Series · Myanmar';
+  }
+  const appBrandSub = document.getElementById('mobile-app-brand-sub');
+  if (appBrandSub) {
+    appBrandSub.textContent = isMy ? 'မြန်မာ' : 'Myanmar';
+  }
+
   // Section titles
   const txtCont = document.getElementById('tpp-txt-continue-watching');
   if (txtCont) txtCont.textContent = isMy ? 'ဆက်လက်ကြည့်ရှုရန်' : 'Continue Watching';
