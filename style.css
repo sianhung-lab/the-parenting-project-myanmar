@@ -15364,15 +15364,15 @@ body.mood-dark .tpp-hero-title {
   left: 13px !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 9px !important;
-  background: linear-gradient(135deg, rgba(8, 15, 28, 0.84) 0%, rgba(15, 29, 52, 0.74) 100%) !important;
+  gap: 10px !important;
+  background: linear-gradient(135deg, rgba(8, 15, 28, 0.88) 0%, rgba(15, 29, 52, 0.78) 100%) !important;
   backdrop-filter: blur(14px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  border-left: 2.5px solid #F59E0B !important;
+  border-left: 3px solid #3B82F6 !important;
   border-radius: 12px !important;
-  padding: 5px 12px 5px 8px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 14px rgba(245, 158, 11, 0.12) !important;
+  padding: 6px 13px 6px 9px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 14px rgba(37, 99, 235, 0.2) !important;
   z-index: 5 !important;
   transform: perspective(600px) translateZ(8px) !important;
   animation: floatGentle3D 4.5s ease-in-out infinite !important;
@@ -15381,8 +15381,8 @@ body.mood-dark .tpp-hero-title {
 }
 
 .tpp-hero-lockup-logo {
-  width: 26px !important;
-  height: 26px !important;
+  width: 28px !important;
+  height: 28px !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35)) drop-shadow(0 0 8px rgba(37, 99, 235, 0.4)) !important;
@@ -15391,36 +15391,41 @@ body.mood-dark .tpp-hero-title {
 .tpp-hero-lockup-info {
   display: flex !important;
   flex-direction: column !important;
-  line-height: 1.15 !important;
+  line-height: 1.12 !important;
 }
 
-.tpp-hero-lockup-title {
-  font-family: 'Cinzel', serif !important;
-  font-size: 0.76rem !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.04em !important;
-  color: #FFFFFF !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+.tpp-hero-lockup-brand {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.74rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 50%, #CBD5E1 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)) !important;
   white-space: nowrap !important;
 }
 
 .tpp-hero-lockup-sub {
-  font-size: 0.54rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.14em !important;
-  color: #FBBF24 !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.52rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.16em !important;
+  color: #F59E0B !important;
   text-transform: uppercase !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
   white-space: nowrap !important;
+  margin-top: 1px !important;
 }
 
-/* 2. Top Header Unified Brand Lockup Enhancements */
+/* 2. Top Header Unified Brand Lockup (Option A: Stacked 2-Line Modern Block) */
 body.is-mobile-app .mobile-app-brand {
   display: flex !important;
   align-items: center !important;
-  gap: 9px !important;
-  padding: 3px 6px !important;
-  border-radius: 12px !important;
+  gap: 10px !important;
+  padding: 2px 4px !important;
+  border-radius: 10px !important;
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
   text-decoration: none !important;
 }
@@ -15430,11 +15435,11 @@ body.is-mobile-app .mobile-app-brand:active {
 }
 
 .tpp-header-logo-img {
-  width: 33px !important;
-  height: 33px !important;
+  width: 36px !important;
+  height: 36px !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2)) drop-shadow(0 0 8px rgba(37, 99, 235, 0.3)) !important;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25)) drop-shadow(0 0 10px rgba(37, 99, 235, 0.35)) !important;
   transition: transform 0.25s ease !important;
 }
 
@@ -15442,44 +15447,54 @@ body.is-mobile-app .mobile-app-brand:active {
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
-  line-height: 1.15 !important;
+  line-height: 1.05 !important;
 }
 
-.mobile-app-title {
-  font-family: 'Cinzel', serif !important;
-  font-size: 0.92rem !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.2px !important;
-  line-height: 1.1 !important;
+.mobile-app-brand-line1,
+.mobile-app-brand-line2 {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
   white-space: nowrap !important;
+  display: block !important;
 }
 
-body.mood-day .mobile-app-title,
-body:not(.mood-dark) .mobile-app-title {
+body.mood-day .mobile-app-brand-line1,
+body.mood-day .mobile-app-brand-line2,
+body:not(.mood-dark) .mobile-app-brand-line1,
+body:not(.mood-dark) .mobile-app-brand-line2 {
   color: #0F172A !important;
 }
 
-body.mood-dark .mobile-app-title {
-  color: #F8FAFC !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+body.mood-dark .mobile-app-brand-line1,
+body.mood-dark .mobile-app-brand-line2 {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5)) !important;
 }
 
-.mobile-app-subtitle {
-  font-size: 0.54rem !important;
+.mobile-app-brand-sub {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.48rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.16em !important;
+  letter-spacing: 0.22em !important;
   text-transform: uppercase !important;
   line-height: 1 !important;
-  margin-top: 1px !important;
+  margin-top: 2px !important;
+  display: block !important;
 }
 
-body.mood-day .mobile-app-subtitle,
-body:not(.mood-dark) .mobile-app-subtitle {
+body.mood-day .mobile-app-brand-sub,
+body:not(.mood-dark) .mobile-app-brand-sub {
   color: #B45309 !important;
 }
 
-body.mood-dark .mobile-app-subtitle {
+body.mood-dark .mobile-app-brand-sub {
   color: #F59E0B !important;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.3) !important;
 }
 
 /* 3D Tactile CTA Button with Dimensional Spring */

@@ -9462,11 +9462,11 @@ function updateTwoOptionUIStrings() {
   // Brand lockup subtitles
   const heroLockupSub = document.getElementById('tpp-hero-lockup-sub');
   if (heroLockupSub) {
-    heroLockupSub.textContent = isMy ? 'မြန်မာ · တရားဝင် သင်တန်း' : 'Official Series · Myanmar';
+    heroLockupSub.textContent = isMy ? 'မြန်မာ · တရားဝင် သင်တန်း' : 'MYANMAR · OFFICIAL SERIES';
   }
   const appBrandSub = document.getElementById('mobile-app-brand-sub');
   if (appBrandSub) {
-    appBrandSub.textContent = isMy ? 'မြန်မာ' : 'Myanmar';
+    appBrandSub.textContent = isMy ? 'မြန်မာ' : 'MYANMAR';
   }
 
   // Section titles
