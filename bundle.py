@@ -33,6 +33,7 @@ imgs = {
     'avatar_couple.jpg':                os.path.join(DIR, 'avatar_couple.jpg'),
     'couple_hd.jpg':                    os.path.join(DIR, 'couple_hd.jpg'),
     'parent_toddler_cozy.jpg':          os.path.join(DIR, 'parent_toddler_cozy.jpg'),
+    'hero_celebrating_couple.jpg':      os.path.join(DIR, 'hero_celebrating_couple.jpg'),
     'mother_avatar.jpg':                os.path.join(DIR, 'mother_avatar.jpg'),
     'bedtime_toddler.jpg':              os.path.join(DIR, 'bedtime_toddler.jpg'),
     'yt_thumb_1.jpg':                   os.path.join(DIR, 'yt_thumb_1.jpg'),
@@ -52,6 +53,17 @@ imgs = {
     'tpp_canva_invite_back.jpg':        os.path.join(DIR, 'tpp_canva_invite_back.jpg'),
     'tpp_canva_guide_cover.jpg':        os.path.join(DIR, 'tpp_canva_guide_cover.jpg'),
     'shield_extracted.png':             os.path.join(DIR, 'shield_extracted.png'),
+    'clean_portrait_1.png':             os.path.join(DIR, 'clean_portrait_1.png'),
+    'clean_portrait_2.png':             os.path.join(DIR, 'clean_portrait_2.png'),
+    'card_photo_top.jpg':               os.path.join(DIR, 'card_photo_top.jpg'),
+    'card_photo_bottom.jpg':            os.path.join(DIR, 'card_photo_bottom.jpg'),
+    'mentor_couple_young_source.jpg':   os.path.join(DIR, 'mentor_couple_young_source.jpg'),
+    'mentor_couple_senior_source.jpg':  os.path.join(DIR, 'mentor_couple_senior_source.jpg'),
+    'mentor_couple_pink_source.jpg':    os.path.join(DIR, 'mentor_couple_pink_source.jpg'),
+    'mentor_hero_perfect_frame.jpg':    os.path.join(DIR, 'mentor_hero_perfect_frame.jpg'),
+    'mentor_avatar_young.jpg':          os.path.join(DIR, 'mentor_avatar_young.jpg'),
+    'mentor_avatar_senior.jpg':         os.path.join(DIR, 'mentor_avatar_senior.jpg'),
+    'mentor_avatar_pink.jpg':           os.path.join(DIR, 'mentor_avatar_pink.jpg'),
 }
 img_data = {}
 for name, path in imgs.items():

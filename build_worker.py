@@ -57,6 +57,9 @@ if banner_b64:
     index_compiled = index_compiled.replace('src="banner.jpg"', f'src="{banner_b64}"')
 if avatar_couple_b64:
     index_compiled = index_compiled.replace('src="avatar_couple.jpg"', f'src="{avatar_couple_b64}"')
+    index_compiled = index_compiled.replace("src='avatar_couple.jpg'", f"src='{avatar_couple_b64}'")
+    index_compiled = index_compiled.replace('"avatar_couple.jpg"', f'"{avatar_couple_b64}"')
+    index_compiled = index_compiled.replace("'avatar_couple.jpg'", f"'{avatar_couple_b64}'")
 if avatar_refugee_b64:
     index_compiled = index_compiled.replace('src="avatar_refugee.jpg"', f'src="{avatar_refugee_b64}"')
 if avatar_edu_b64:
@@ -235,6 +238,13 @@ if hero_couple_b64:
     index_compiled = index_compiled.replace("src='hero_celebrating_couple.jpg'", f"src='{hero_couple_b64}'")
     index_compiled = index_compiled.replace('"hero_celebrating_couple.jpg"', f'"{hero_couple_b64}"')
     index_compiled = index_compiled.replace("'hero_celebrating_couple.jpg'", f"'{hero_couple_b64}'")
+
+couple_hd_b64 = get_b64('couple_hd.jpg', 'image/jpeg')
+if couple_hd_b64:
+    index_compiled = index_compiled.replace('src="couple_hd.jpg"', f'src="{couple_hd_b64}"')
+    index_compiled = index_compiled.replace("src='couple_hd.jpg'", f"src='{couple_hd_b64}'")
+    index_compiled = index_compiled.replace('"couple_hd.jpg"', f'"{couple_hd_b64}"')
+    index_compiled = index_compiled.replace("'couple_hd.jpg'", f"'{couple_hd_b64}'")
 
 
 

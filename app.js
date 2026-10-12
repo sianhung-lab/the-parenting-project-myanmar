@@ -10,11 +10,11 @@ const MODULES = [
     videoType: "file",
     fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4",
     youtube: "hKSMxbFee1U",
-    thumb: "https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg",
+    thumb: "yt_thumb_1.jpg",
     icon: "🏅",
     grad: "linear-gradient(135deg,#003087,#004ac2)",
-    title: "Being a Positive Role Model",
-    myTitle: "ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း",
+    title: "Becoming a Good Example",
+    myTitle: "ကောင်းသော စံနမူနာပြ ဖြစ်လာခြင်း",
     sub: "Your daily character is the first textbook your child reads.",
     mySub: "မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှု စရိုက်လက္ခဏာသည် သားသမီးများ ပထမဆုံး ဖတ်ရှုရသော ပြဋ္ဌာန်းစာအုပ်ဖြစ်ပါသည်။",
     dur: "45",
@@ -41,78 +41,11 @@ const MODULES = [
   {
     id: 2,
     cat: "connection",
-    videoType: "file",
-    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-2.mp4",
-    youtube: "GVK5Wc0NZE4",
-    thumb: "https://i.ytimg.com/vi/GVK5Wc0NZE4/hqdefault.jpg",
-    icon: "🤝",
-    grad: "linear-gradient(135deg,#c0392b,#e74c3c)",
-    title: "Building Deep Connection",
-    myTitle: "နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး တည်ဆောက်ခြင်း",
-    sub: "Correction without connection creates silent rebellion.",
-    mySub: "နွေးထွေးသော ဆက်ဆံရေး မရှိဘဲ ဆုံးမပဲ့ပြင်ခြင်းသည် သားသမီးများ၏ စိတ်ထဲတွင် တိတ်တဆိတ် ပုန်ကန်မှုကို ဖြစ်စေပါသည်။",
-    dur: "50",
-    sess: 4,
-    badge: "Connection",
-    myBadge: "ဆက်ဆံရေး ရင်းနှီးမှု",
-    scripture: "James 1:19",
-    myScripture: "ယာကုပ် ၁:၁၉ — «လူတိုင်း ကြားခြင်းငှာ လျင်မြန်စေ၊ စကားပြောခြင်းငှာ နှေးစေ၊ အမျက်ထွက်ခြင်းငှာ နှေးစေလော့။»",
-    topics: [
-      "Active listening without premature advice",
-      "The 5 Love Languages of children",
-      "Intentional one-on-one time with each child"
-    ],
-    myTopics: [
-      "အကြံပေးချက် ချက်ချင်းမပေးမီ သားသမီး၏ရင်ဖွင့်သံကို အာရုံစိုက် နားထောင်ခြင်း",
-      "သားသမီးများ၏ မေတ္တာဘာသာစကား (၅) မျိုးကို နားလည်အသုံးချခြင်း",
-      "သားသမီး တစ်ဦးချင်းစီနှင့် နှစ်ကိုယ်ကြား သီးသန့် အချိန်ပေးခြင်း"
-    ],
-    action: "Schedule 30 device-free minutes alone with each child this week.",
-    myAction: "ယခုအပတ်အတွင်း သားသမီးတစ်ဦးစီနှင့် ဖုန်း/ဖန်သားပြင် လုံးဝမသုံးဘဲ မိနစ် (၃၀) သီးသန့် အချိန်ပေး၍ စကားပြောပါ။",
-    reflect: "Does your child feel safe sharing fears or mistakes with you?",
-    myReflect: "သင့်သားသမီးသည် စိုးရိမ်ကြောက်ရွံ့မှုများနှင့် အမှားများကို သင့်အား ပွင့်လင်းစွာ ပြောပြရန် စိတ်ချလုံခြုံမှု ခံစားရပါသလား။"
-  },
-  {
-    id: 3,
-    cat: "character",
-    videoType: "file",
-    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
-    youtube: "lmtVOhpszCQ",
-    thumb: "https://i.ytimg.com/vi/lmtVOhpszCQ/hqdefault.jpg",
-    icon: "🛡️",
-    grad: "linear-gradient(135deg,#1a5276,#2980b9)",
-    title: "Healthy Parental Authority",
-    myTitle: "မေတ္တာနှင့် တည်ဆောက်ထားသော မိဘဩဇာ",
-    sub: "Lead your home with loving authority, not intimidation.",
-    mySub: "မိမိအိမ်ထောင်ကို ခြိမ်းခြောက်ကြောက်ရွံ့စေခြင်းဖြင့် မဟုတ်ဘဲ၊ ချစ်ခြင်းမေတ္တာပြည့်ဝသော အုပ်ထိန်းမှုဖြင့် ဦးဆောင်ပါ။",
-    dur: "40",
-    sess: 3,
-    badge: "Leadership",
-    myBadge: "ဦးဆောင်မှု",
-    scripture: "Ephesians 6:4",
-    myScripture: "ဧဖက် ၆:၄ — «အဘတို့၊ ကိုယ်သားသမီးကို စိတ်ဆိုးစေခြင်းငှာ မပြုကြနှင့်။ သခင်ဘုရား၏ ပဲ့ပြင်ဆုံးမနည်းအားဖြင့် ကျွေးမွေးပြုစုကြလော့။»",
-    topics: [
-      "Understanding the mandate of parental stewardship",
-      "Guiding vs controlling your children",
-      "Balancing warmth with healthy boundaries"
-    ],
-    myTopics: [
-      "ဘုရားသခင် ပေးအပ်ထားသော မိဘဘဏ္ဍာစိုး အခွင့်အာဏာကို နားလည်ခြင်း",
-      "သားသမီးအား ထိန်းချုပ်ဖိနှိပ်ခြင်း မဟုတ်ဘဲ လမ်းပြထိန်းကျောင်းပေးခြင်း",
-      "နွေးထွေးသော မေတ္တာနှင့် ခိုင်မာသော စည်းကမ်းဘောင်များကို မျှတစွာ ကျင့်သုံးခြင်း"
-    ],
-    action: "Replace yelling with calm, eye-level firmness when giving direction.",
-    myAction: "ညွှန်ကြားချက်ပေးသည့်အခါ အော်ဟစ်ခြင်းမပြုဘဲ၊ မျက်လုံးချင်းဆိုင် အနီးကပ်ကြည့်၍ တည်ငြိမ်ခိုင်မာသော အသံဖြင့် ပြောဆိုပါ။",
-    reflect: "Do your children obey out of love and respect, or out of fear?",
-    myReflect: "သင့်သားသမီးများသည် သင့်စကားကို ချစ်ခင်လေးစားမှုကြောင့် နားထောင်ပါသလား၊ သို့မဟုတ် ကြောက်ရွံ့မှုကြောင့် နားထောင်ပါသလား။"
-  },
-  {
-    id: 4,
-    cat: "connection",
     youtube: "q1NTvlZhv-Y",
+    thumb: "yt_thumb_2.jpg",
     icon: "💚",
     grad: "linear-gradient(135deg,#1e8449,#27ae60)",
-    title: "Filling the Emotional Tank",
+    title: "Your Child's Emotional Tank",
     myTitle: "သားသမီး၏ စိတ်ခံစားချက် အင်အား ဖြည့်ဆည်းပေးခြင်း",
     sub: "A child on an empty emotional tank will act out or withdraw.",
     mySub: "စိတ်ခံစားချက် မေတ္တာတိုင်ကီ ခမ်းခြောက်နေသော ကလေးသည် စိတ်ရှုပ်ထွေးစွာ သောင်းကျန်းတတ်သည် သို့မဟုတ် သီးသန့် ဆုတ်ခွာသွားတတ်ပါသည်။",
@@ -138,12 +71,205 @@ const MODULES = [
     myReflect: "သင့်သားသမီးသည် သင့်ထံမှ မေတ္တာနှင့် ဂရုစိုက်မှုကို တောင့်တနေကြောင်း မည်သို့ အရိပ်အယောင် ပြသလေ့ရှိသနည်း။"
   },
   {
+    id: 3,
+    cat: "connection",
+    youtube: "GVK5Wc0NZE4",
+    thumb: "yt_thumb_3.jpg",
+    icon: "🤝",
+    grad: "linear-gradient(135deg,#c0392b,#e74c3c)",
+    title: "Building Togetherness",
+    myTitle: "ခိုင်မြဲသော သံယောဇဉ်နှင့် ရင်းနှီးမှု တည်ဆောက်ခြင်း",
+    sub: "Correction without connection creates silent rebellion.",
+    mySub: "နွေးထွေးသော ဆက်ဆံရေး မရှိဘဲ ဆုံးမပဲ့ပြင်ခြင်းသည် သားသမီးများ၏ စိတ်ထဲတွင် တိတ်တဆိတ် ပုန်ကန်မှုကို ဖြစ်စေပါသည်။",
+    dur: "50",
+    sess: 4,
+    badge: "Connection",
+    myBadge: "ဆက်ဆံရေး ရင်းနှီးမှု",
+    scripture: "James 1:19",
+    myScripture: "ယာကုပ် ၁:၁၉ — «လူတိုင်း ကြားခြင်းငှာ လျင်မြန်စေ၊ စကားပြောခြင်းငှာ နှေးစေ၊ အမျက်ထွက်ခြင်းငှာ နှေးစေလော့။»",
+    topics: [
+      "Active listening without premature advice",
+      "The 5 Love Languages of children",
+      "Intentional one-on-one time with each child"
+    ],
+    myTopics: [
+      "အကြံပေးချက် ချက်ချင်းမပေးမီ သားသမီး၏ရင်ဖွင့်သံကို အာရုံစိုက် နားထောင်ခြင်း",
+      "သားသမီးများ၏ မေတ္တာဘာသာစကား (၅) မျိုးကို နားလည်အသုံးချခြင်း",
+      "သားသမီး တစ်ဦးချင်းစီနှင့် နှစ်ကိုယ်ကြား သီးသန့် အချိန်ပေးခြင်း"
+    ],
+    action: "Schedule 30 device-free minutes alone with each child this week.",
+    myAction: "ယခုအပတ်အတွင်း သားသမီးတစ်ဦးစီနှင့် ဖုန်း/ဖန်သားပြင် လုံးဝမသုံးဘဲ မိနစ် (၃၀) သီးသန့် အချိန်ပေး၍ စကားပြောပါ။",
+    reflect: "Does your child feel safe sharing fears or mistakes with you?",
+    myReflect: "သင့်သားသမီးသည် စိုးရိမ်ကြောက်ရွံ့မှုများနှင့် အမှားများကို သင့်အား ပွင့်လင်းစွာ ပြောပြရန် စိတ်ချလုံခြုံမှု ခံစားရပါသလား။"
+  },
+  {
+    id: 4,
+    cat: "discipline",
+    youtube: "KEUAW5PsV8A",
+    thumb: "yt_thumb_4.jpg",
+    icon: "🧭",
+    grad: "linear-gradient(135deg,#117a65,#1abc9c)",
+    title: "Boundaries and Discipline",
+    myTitle: "မေတ္တာနှင့် စည်းဘောင်များ ဆုံးမပဲ့ပြင်ခြင်း",
+    sub: "True discipline cultivates self-governing character.",
+    mySub: "စစ်မှန်သော ဆုံးမပဲ့ပြင်ခြင်းသည် မိမိကိုယ်ကို ထိန်းကျောင်းနိုင်သော စရိုက်လက္ခဏာကို ပျိုးထောင်ပေးပါသည်။",
+    dur: "45",
+    sess: 3,
+    badge: "Discipline",
+    myBadge: "စည်းကမ်းထိန်းသိမ်းမှု",
+    scripture: "Hebrews 12:11",
+    myScripture: "ဟေဗြဲ ၁၂:၁၁ — «ဆုံးမခြင်းကို ခံရစဉ်အခါ ဝမ်းမြောက်စရာမထင်၊ ဝမ်းနည်းစရာထင်တတ်၏။ သို့သော်လည်း၊ ဆုံးမခြင်းကိုခံရသော သူတို့သည် နောက်မှ ငြိမ်သက်ခြင်းနှင့်ယှဉ်သော ဖြောင့်မတ်ခြင်းအကျိုးကို ခံရကြ၏။»",
+    topics: [
+      "Natural vs logical consequences",
+      "Diffusing tantrums through calm predictability",
+      "Parental unity: presenting a consistent front"
+    ],
+    myTopics: [
+      "သဘာဝအလျောက် ဖြစ်ပေါ်လာသော အကျိုးဆက်နှင့် ကျိုးကြောင်းဆီလျော်သော ပြစ်ဒဏ်",
+      "ဂျီကျသောင်းကျန်းခြင်းကို ဒေါသဖြင့်မတုံ့ပြန်ဘဲ တည်ငြိမ်သော စည်းမျဉ်းဖြင့် ဖြေရှင်းခြင်း",
+      "မိဘနှစ်ဦး သဘောထားညီညွတ်စွာ တူညီသော စည်းကမ်းကို ကျင့်သုံးခြင်း"
+    ],
+    action: "Agree with your spouse on one clear consequence for one recurring issue.",
+    myAction: "ထပ်တလဲလဲ ဖြစ်တတ်သော အပြုအမူတစ်ခုအတွက် ဇနီးမောင်နှံနှစ်ဦး ကြိုတင်တိုင်ပင်ပြီး ရှင်းလင်းသော အကျိုးဆက်တစ်ခုကို သဘောတူသတ်မှတ်ပါ။",
+    reflect: "When your child disobeys, does your reaction mentor or vent?",
+    myReflect: "သင့်သားသမီး စကားနားမထောင်သည့်အခါ သင့်တုံ့ပြန်မှုသည် သွန်သင်လမ်းပြခြင်း ဖြစ်ပါသလား၊ သို့မဟုတ် ဒေါသပေါက်ကွဲခြင်း ဖြစ်ပါသလား။"
+  },
+  {
     id: 5,
+    cat: "character",
+    youtube: "FfwH7uOiq7M",
+    thumb: "yt_thumb_5.jpg",
+    icon: "👨‍👧",
+    grad: "linear-gradient(135deg,#d35400,#e67e22)",
+    title: "Becoming A Father",
+    myTitle: "ဖခင်တစ်ဦး ဖြစ်လာခြင်း",
+    sub: "A father's intentional presence anchors a child's identity.",
+    mySub: "ဖခင်၏ အချိန်ပေးအတူရှိနေမှုသည် သားသမီး၏ ဘဝရပ်တည်ချက်နှင့် စရိုက်လက္ခဏာကို ခိုင်ခံ့စေပါသည်။",
+    dur: "50",
+    sess: 4,
+    badge: "Fatherhood",
+    myBadge: "ဖခင်၏ အခန်းကဏ္ဍ",
+    scripture: "Psalm 103:13",
+    myScripture: "ဆာလံ ၁၀၃:၁၃ — «အဘသည် မိမိသားတို့ကို သနားစုံမက်သကဲ့သို့၊ ထာဝရဘုရားသည် ကြောက်ရွံ့သောသူတို့ကို သနားစုံမက်တော်မူ၏။»",
+    topics: [
+      "Addressing the father-absence epidemic in Myanmar",
+      "The power of a father's spoken blessing",
+      "Practical ways for busy fathers to stay bonded"
+    ],
+    myTopics: [
+      "မြန်မာလူ့ဘောင်တွင် ဖခင်များ အဝေးရောက်/အချိန်မပေးနိုင်ခြင်း အခက်အခဲကို ကျော်လွှားခြင်း",
+      "ဖခင်ထံမှ ထွက်ပေါ်လာသော ကောင်းချီးစကားများ၏ တန်ခိုးအာနိသင်",
+      "အလုပ်များသော ဖခင်များ သားသမီးနှင့် ရင်းနှီးနွေးထွေးစွာ နေထိုင်နိုင်မည့် လက်တွေ့နည်းလမ်းများ"
+    ],
+    action: "Place your hand on your child's shoulder tonight and speak words of blessing.",
+    myAction: "ယနေ့ညတွင် ကလေး၏ ပခုံးပေါ် လက်တင်၍ ချစ်ခြင်းမေတ္တာနှင့် ကောင်းချီးပေးသော စကားများကို ရိုးသားစွာ ပြောဆိုဆုတောင်းပေးပါ။",
+    reflect: "How do your childhood memories of your father shape your parenting today?",
+    myReflect: "သင့်ငယ်ဘဝက သင့်ကိုယ်ပိုင်ဖခင်နှင့် ပတ်သက်သည့် အမှတ်တရများသည် ယနေ့ သင့်မိဘအုပ်ထိန်းမှုပုံစံအပေါ် မည်သို့ လွှမ်းမိုးမှု ရှိနေပါသလဲ။"
+  },
+  {
+    id: 6,
+    cat: "character",
+    youtube: "dJLSp6Nh80g",
+    thumb: "yt_thumb_6.jpg",
+    icon: "🛡️",
+    grad: "linear-gradient(135deg,#922b21,#c0392b)",
+    title: "Healthy Sexuality in the Family",
+    myTitle: "မိသားစုအတွင်း ကျန်းမာသော လိင်ပညာပေးခြင်း",
+    sub: "Do not let the internet be your child's first teacher on sexuality.",
+    mySub: "အင်တာနက်သည် သင့်သားသမီးအတွက် လိင်ပိုင်းဆိုင်ရာ ပထမဆုံး ဆရာမဖြစ်ပါစေနှင့်။",
+    dur: "50",
+    sess: 4,
+    badge: "Values Education",
+    myBadge: "တန်ဖိုးထားမှုဆိုင်ရာ သင်ကြားခြင်း",
+    scripture: "1 Corinthians 6:19-20",
+    myScripture: "၁ ကောရိန္သု ၆:၁၉-၂၀ — «သင်တို့၏ ကိုယ်ခန္ဓာသည် ဘုရားသခင်ပေးသနားတော်မူသော သန့်ရှင်းသောဝိညာဉ်တော် ကျိန်းဝပ်ရာ ဗိမာန်ဖြစ်သည်ကို မသိကြသလော။ ထိုကြောင့် သင်တို့၏ ကိုယ်ခန္ဓာအားဖြင့် ဘုရားသခင်၏ ဂုဏ်တော်ကို ထင်ရှားစေကြလော့။»",
+    topics: [
+      "Safe touch and bodily consent for young children",
+      "Discussing puberty without shame or taboo",
+      "Mentoring teens through romantic curiosity and digital temptations"
+    ],
+    myTopics: [
+      "ကလေးငယ်များအတွက် မိမိခန္ဓာကိုယ် လုံခြုံမှုနှင့် ခွင့်ပြုချက်မရှိဘဲ မထိမကိုင်ရမည့် နယ်နိမိတ်များ",
+      "အရွယ်ရောက်ချိန် အပြောင်းအလဲများကို ရှက်ရွံ့စရာမလိုဘဲ ပွင့်လင်းစွာ ဆွေးနွေးပေးခြင်း",
+      "ဆယ်ကျော်သက်များ၏ ချစ်ကြိုက်မှု စိတ်ဝင်စားမှုနှင့် အွန်လိုင်း သွေးဆောင်မှုများကို လမ်းပြပေးခြင်း"
+    ],
+    action: "Ensure your child understands private body boundaries and their trusted adults.",
+    myAction: "သင့်ကလေးအား မိမိခန္ဓာကိုယ်၏ သီးသန့်နယ်နိမိတ်များနှင့် အန္တရာယ်ကြုံပါက အားကိုးယုံကြည်ရမည့် လူကြီးများကို ရှင်းပြထားပါ။",
+    reflect: "Would your child come to you first with questions about their body?",
+    myReflect: "သင့်ကလေးသည် မိမိခန္ဓာကိုယ်ဆိုင်ရာ မေးခွန်းများကို သင့်ထံ ပထမဆုံး လာရောက်မေးမြန်းရဲပါသလား။"
+  },
+  {
+    id: 7,
+    cat: "faith",
+    youtube: "v_bMaW2yHT8",
+    thumb: "yt_thumb_7.jpg",
+    icon: "✨",
+    grad: "linear-gradient(135deg,#0e6655,#148f77)",
+    title: "Parenting For a Lifetime",
+    myTitle: "ဘဝတစ်သက်တာ မိဘအုပ်ထိန်းခြင်း",
+    sub: "Transition from caregiver to coach, mentor, and lifelong friend.",
+    mySub: "ပြုစုစောင့်ရှောက်သူမှသည် လေ့ကျင့်ပေးသူ၊ အကြံပေးမိတ်ဆွေ၊ ထာဝရ မိတ်ဆွေစစ်အဖြစ်သို့ ပြောင်းလဲခြင်း။",
+    dur: "45",
+    sess: 3,
+    badge: "All Ages",
+    myBadge: "အသက်အရွယ်မရွေး",
+    scripture: "Proverbs 22:6",
+    myScripture: "သုတ္တံ ၂၂:၆ — «သူငယ်သွားရာလမ်းဝ၌ ဆုံးမသွန်သင်လော့။ သို့ပြုလျှင် အိုသောအသက်သို့ ရောက်သော်လည်း၊ ထိုလမ်းမှ မလွှဲမရှောင်ဘဲ နေလိမ့်မည်။»",
+    topics: [
+      "The 4 seasons of parenting posture",
+      "The art of launching adult children with blessing",
+      "Leaving a multi-generational spiritual legacy"
+    ],
+    myTopics: [
+      "မိဘအုပ်ထိန်းမှု ပုံစံ ရာသီဥတု (၄) မျိုး",
+      "အရွယ်ရောက်ပြီးသော သားသမီးများကို ကောင်းချီးပေး၍ လွတ်လပ်စွာ ရပ်တည်စေခြင်း",
+      "မျိုးဆက်ပေါင်းများစွာ တည်တံ့မည့် ဝိညာဉ်ရေးရာ အမွေအနှစ် ချန်ထားရစ်ခြင်း"
+    ],
+    action: "Write a future blessing prayer letter for each child.",
+    myAction: "သားသမီးတစ်ဦးစီ၏ အနာဂတ်အတွက် ကောင်းချီးမင်္ဂလာ ဆုတောင်းပေးစာ တစ်စောင် ရေးသားပေးပါ။",
+    reflect: "Has your parenting style matured to match your child's current stage?",
+    myReflect: "သင့်မိဘအုပ်ထိန်းမှု ပုံစံသည် သင့်သားသမီး၏ လက်ရှိ အရွယ်နှင့် စိတ်ပိုင်းဆိုင်ရာ ရင့်ကျက်မှုအဆင့်နှင့် ကိုက်ညီပါသလား။"
+  },
+  {
+    id: 8,
+    cat: "character",
+    youtube: "lmtVOhpszCQ",
+    thumb: "yt_thumb_8.jpg",
+    icon: "🛡️",
+    grad: "linear-gradient(135deg,#1a5276,#2980b9)",
+    title: "Parental Authority",
+    myTitle: "မေတ္တာနှင့် တည်ဆောက်ထားသော မိဘဩဇာ",
+    sub: "Lead your home with loving authority, not intimidation.",
+    mySub: "မိမိအိမ်ထောင်ကို ခြိမ်းခြောက်ကြောက်ရွံ့စေခြင်းဖြင့် မဟုတ်ဘဲ၊ ချစ်ခြင်းမေတ္တာပြည့်ဝသော အုပ်ထိန်းမှုဖြင့် ဦးဆောင်ပါ။",
+    dur: "40",
+    sess: 3,
+    badge: "Leadership",
+    myBadge: "ဦးဆောင်မှု",
+    scripture: "Ephesians 6:4",
+    myScripture: "ဧဖက် ၆:၄ — «အဘတို့၊ ကိုယ်သားသမီးကို စိတ်ဆိုးစေခြင်းငှာ မပြုကြနှင့်။ သခင်ဘုရား၏ ပဲ့ပြင်ဆုံးမနည်းအားဖြင့် ကျွေးမွေးပြုစုကြလော့။»",
+    topics: [
+      "Understanding the mandate of parental stewardship",
+      "Guiding vs controlling your children",
+      "Balancing warmth with healthy boundaries"
+    ],
+    myTopics: [
+      "ဘုရားသခင် ပေးအပ်ထားသော မိဘဘဏ္ဍာစိုး အခွင့်အာဏာကို နားလည်ခြင်း",
+      "သားသမီးအား ထိန်းချုပ်ဖိနှိပ်ခြင်း မဟုတ်ဘဲ လမ်းပြထိန်းကျောင်းပေးခြင်း",
+      "နွေးထွေးသော မေတ္တာနှင့် ခိုင်မာသော စည်းကမ်းဘောင်များကို မျှတစွာ ကျင့်သုံးခြင်း"
+    ],
+    action: "Replace yelling with calm, eye-level firmness when giving direction.",
+    myAction: "ညွှန်ကြားချက်ပေးသည့်အခါ အော်ဟစ်ခြင်းမပြုဘဲ၊ မျက်လုံးချင်းဆိုင် အနီးကပ်ကြည့်၍ တည်ငြိမ်ခိုင်မာသော အသံဖြင့် ပြောဆိုပါ။",
+    reflect: "Do your children obey out of love and respect, or out of fear?",
+    myReflect: "သင့်သားသမီးများသည် သင့်စကားကို ချစ်ခင်လေးစားမှုကြောင့် နားထောင်ပါသလား၊ သို့မဟုတ် ကြောက်ရွံ့မှုကြောင့် နားထောင်ပါသလား။"
+  },
+  {
+    id: 9,
     cat: "digital",
     youtube: "Pt-ZYVIAGBg",
+    thumb: "yt_thumb_9.jpg",
     icon: "📱",
     grad: "linear-gradient(135deg,#6c3483,#8e44ad)",
-    title: "Navigating the Digital Household",
+    title: "The Digital Home",
     myTitle: "ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု",
     sub: "Smart frameworks for screen time without constant warfare.",
     mySub: "နေ့စဉ် စကားများရန်ဖြစ်စရာမလိုဘဲ ဖုန်းနှင့် ဖန်သားပြင်သုံးစွဲမှုကို ပညာရှိစွာ ထိန်းကျောင်းခြင်း။",
@@ -169,75 +295,14 @@ const MODULES = [
     myReflect: "ကျွန်ုပ်တို့ မိဘများ၏ ဖုန်းသုံးစွဲမှုပုံစံသည် သားသမီးများကို ကန့်သတ်ထားသည့် စည်းကမ်းများနှင့် စံနမူနာ ကိုက်ညီမှု ရှိပါသလား။"
   },
   {
-    id: 6,
-    cat: "digital",
-    youtube: "KEUAW5PsV8A",
-    icon: "🧭",
-    grad: "linear-gradient(135deg,#117a65,#1abc9c)",
-    title: "Boundaries & Positive Discipline",
-    myTitle: "စည်းဘောင်များနှင့် အပြုသဘောဆောင်သော ဆုံးမပဲ့ပြင်ခြင်း",
-    sub: "True discipline cultivates self-governing character.",
-    mySub: "စစ်မှန်သော ဆုံးမပဲ့ပြင်ခြင်းသည် မိမိကိုယ်ကို ထိန်းကျောင်းနိုင်သော စရိုက်လက္ခဏာကို ပျိုးထောင်ပေးပါသည်။",
-    dur: "45",
-    sess: 3,
-    badge: "Discipline",
-    myBadge: "စည်းကမ်းထိန်းသိမ်းမှု",
-    scripture: "Hebrews 12:11",
-    myScripture: "ဟေဗြဲ ၁၂:၁၁ — «ဆုံးမခြင်းကို ခံရစဉ်အခါ ဝမ်းမြောက်စရာမထင်၊ ဝမ်းနည်းစရာထင်တတ်၏။ သို့သော်လည်း၊ ဆုံးမခြင်းကိုခံရသော သူတို့သည် နောက်မှ ငြိမ်သက်ခြင်းနှင့်ယှဉ်သော ဖြောင့်မတ်ခြင်းအကျိုးကို ခံရကြ၏။»",
-    topics: [
-      "Natural vs logical consequences",
-      "Diffusing tantrums through calm predictability",
-      "Parental unity: presenting a consistent front"
-    ],
-    myTopics: [
-      "သဘာဝအလျောက် ဖြစ်ပေါ်လာသော အကျိုးဆက်နှင့် ကျိုးကြောင်းဆီလျော်သော ပြစ်ဒဏ်",
-      "ဂျီကျသောင်းကျန်းခြင်းကို ဒေါသဖြင့်မတုံ့ပြန်ဘဲ တည်ငြိမ်သော စည်းမျဉ်းဖြင့် ဖြေရှင်းခြင်း",
-      "မိဘနှစ်ဦး သဘောထားညီညွတ်စွာ တူညီသော စည်းကမ်းကို ကျင့်သုံးခြင်း"
-    ],
-    action: "Agree with your spouse on one clear consequence for one recurring issue.",
-    myAction: "ထပ်တလဲလဲ ဖြစ်တတ်သော အပြုအမူတစ်ခုအတွက် ဇနီးမောင်နှံနှစ်ဦး ကြိုတင်တိုင်ပင်ပြီး ရှင်းလင်းသော အကျိုးဆက်တစ်ခုကို သဘောတူသတ်မှတ်ပါ။",
-    reflect: "When your child disobeys, does your reaction mentor or vent?",
-    myReflect: "သင့်သားသမီး စကားနားမထောင်သည့်အခါ သင့်တုံ့ပြန်မှုသည် သွန်သင်လမ်းပြခြင်း ဖြစ်ပါသလား၊ သို့မဟုတ် ဒေါသပေါက်ကွဲခြင်း ဖြစ်ပါသလား။"
-  },
-  {
-    id: 7,
-    cat: "character",
-    youtube: "FfwH7uOiq7M",
-    icon: "👨‍👧",
-    grad: "linear-gradient(135deg,#d35400,#e67e22)",
-    title: "The Father's Heart & Presence",
-    myTitle: "ဖခင်၏ နှလုံးသားနှင့် အတူရှိနေပေးခြင်း",
-    sub: "A father's intentional presence anchors a child's identity.",
-    mySub: "ဖခင်၏ အချိန်ပေးအတူရှိနေမှုသည် သားသမီး၏ ဘဝရပ်တည်ချက်နှင့် စရိုက်လက္ခဏာကို ခိုင်ခံ့စေပါသည်။",
-    dur: "50",
-    sess: 4,
-    badge: "Fatherhood",
-    myBadge: "ဖခင်၏ အခန်းကဏ္ဍ",
-    scripture: "Psalm 103:13",
-    myScripture: "ဆာလံ ၁၀၃:၁၃ — «အဘသည် မိမိသားတို့ကို သနားစုံမက်သကဲ့သို့၊ ထာဝရဘုရားသည် ကြောက်ရွံ့သောသူတို့ကို သနားစုံမက်တော်မူ၏။»",
-    topics: [
-      "Addressing the father-absence epidemic in Myanmar",
-      "The power of a father's spoken blessing",
-      "Practical ways for busy fathers to stay bonded"
-    ],
-    myTopics: [
-      "မြန်မာလူ့ဘောင်တွင် ဖခင်များ အဝေးရောက်/အချိန်မပေးနိုင်ခြင်း အခက်အခဲကို ကျော်လွှားခြင်း",
-      "ဖခင်ထံမှ ထွက်ပေါ်လာသော ကောင်းချီးစကားများ၏ တန်ခိုးအာနိသင်",
-      "အလုပ်များသော ဖခင်များ သားသမီးနှင့် ရင်းနှီးနွေးထွေးစွာ နေထိုင်နိုင်မည့် လက်တွေ့နည်းလမ်းများ"
-    ],
-    action: "Place your hand on your child's shoulder tonight and speak words of blessing.",
-    myAction: "ယနေ့ညတွင် ကလေး၏ ပခုံးပေါ် လက်တင်၍ ချစ်ခြင်းမေတ္တာနှင့် ကောင်းချီးပေးသော စကားများကို ရိုးသားစွာ ပြောဆိုဆုတောင်းပေးပါ။",
-    reflect: "How do your childhood memories of your father shape your parenting today?",
-    myReflect: "သင့်ငယ်ဘဝက သင့်ကိုယ်ပိုင်ဖခင်နှင့် ပတ်သက်သည့် အမှတ်တရများသည် ယနေ့ သင့်မိဘအုပ်ထိန်းမှုပုံစံအပေါ် မည်သို့ လွှမ်းမိုးမှု ရှိနေပါသလဲ။"
-  },
-  {
-    id: 8,
+    id: 10,
     cat: "digital",
     youtube: "FBtNGyBDZIM",
+    thumb: "yt_thumb_10.jpg",
     icon: "💼",
     grad: "linear-gradient(135deg,#2c3e50,#4a6278)",
-    title: "Working Parents: Career & Home",
-    myTitle: "အလုပ်လုပ်သော မိဘများ- အလုပ်နှင့် အိမ်ထောင် ဟန်ချက်ညီစေခြင်း",
+    title: "Working Dads and Moms",
+    myTitle: "အလုပ်လုပ်သော မိဘများ- အလုပ်နှင့် အိမ်ထောင် ဟန်ချက်",
     sub: "Balancing work pressures without forfeiting childhood moments.",
     mySub: "အလုပ်ခွင် ဖိအားများကြားမှ သားသမီးများ၏ တန်ဖိုးရှိသော ငယ်ဘဝ အခိုက်အတန့်များကို လက်မလွတ်စေခြင်း။",
     dur: "40",
@@ -262,13 +327,14 @@ const MODULES = [
     myReflect: "သင့်သားသမီးများသည် မိဘနှစ်ပါး အချင်းချင်း ရိုးသားစွာ ချစ်ခင်မြတ်နိုးကြသည်ကို မြင်တွေ့ခံစားရပါသလား။"
   },
   {
-    id: 9,
+    id: 11,
     cat: "faith",
     youtube: "uQByH6xNFfM",
+    thumb: "yt_thumb_11.jpg",
     icon: "📖",
     grad: "linear-gradient(135deg,#1a6b3c,#239b56)",
-    title: "Nurturing Foundational Faith",
-    myTitle: "ခိုင်မာသော ယုံကြည်ခြင်း အခြေခံကို ပျိုးထောင်ခြင်း",
+    title: "Guiding Your Children into Faith",
+    myTitle: "သားသမီးများအား ယုံကြည်ခြင်းသို့ လမ်းပြပို့ဆောင်ခြင်း",
     sub: "The family altar is a joyful sanctuary for God's presence.",
     mySub: "မိသားစု ဝတ်ပြုကိုးကွယ်ခြင်းသည် ဘုရားသခင်၏ မျက်မှောက်တော်ကို ရွှင်လန်းစွာ ခံစားရသော နေရာဖြစ်ပါသည်။",
     dur: "45",
@@ -291,70 +357,41 @@ const MODULES = [
     myAction: "(၁၀) မိနစ် မိသားစု ဝတ်ပြုချိန် စတင်ပါ: သမ္မာကျမ်းစာပုံပြင် တစ်ခုကို အတူတကွဖတ်ရှုပြီး ရိုးရှင်းစွာ ဆုတောင်းပါ။",
     reflect: "Do your children experience God as a loving Father through you?",
     myReflect: "သင့်သားသမီးများသည် သင့်ကိုကြည့်ခြင်းအားဖြင့် ဘုရားသခင်ကို မေတ္တာရှင် ဖခင်အဖြစ် တွေ့ကြုံခံစားရပါသလား။"
-  },
-  {
-    id: 10,
-    cat: "character",
-    youtube: "dJLSp6Nh80g",
-    icon: "🛡️",
-    grad: "linear-gradient(135deg,#922b21,#c0392b)",
-    title: "Healthy Sexuality in the Family",
-    myTitle: "မိသားစုအတွင်း ကျန်းမာသော လိင်ပိုင်းဆိုင်ရာ အသိပညာပေးခြင်း",
-    sub: "Do not let the internet be your child's first teacher on sexuality.",
-    mySub: "အင်တာနက်သည် သင့်သားသမီးအတွက် လိင်ပိုင်းဆိုင်ရာ ပထမဆုံး ဆရာမဖြစ်ပါစေနှင့်။",
-    dur: "50",
-    sess: 4,
-    badge: "Values Education",
-    myBadge: "တန်ဖိုးထားမှုဆိုင်ရာ သင်ကြားခြင်း",
-    scripture: "1 Corinthians 6:19-20",
-    myScripture: "၁ ကောရိန္သု ၆:၁၉-၂၀ — «သင်တို့၏ ကိုယ်ခန္ဓာသည် ဘုရားသခင်ပေးသနားတော်မူသော သန့်ရှင်းသောဝိညာဉ်တော် ကျိန်းဝပ်ရာ ဗိမာန်ဖြစ်သည်ကို မသိကြသလော။ ထိုကြောင့် သင်တို့၏ ကိုယ်ခန္ဓာအားဖြင့် ဘုရားသခင်၏ ဂုဏ်တော်ကို ထင်ရှားစေကြလော့။»",
-    topics: [
-      "Safe touch and bodily consent for young children",
-      "Discussing puberty without shame or taboo",
-      "Mentoring teens through romantic curiosity and digital temptations"
-    ],
-    myTopics: [
-      "ကလေးငယ်များအတွက် မိမိခန္ဓာကိုယ် လုံခြုံမှုနှင့် ခွင့်ပြုချက်မရှိဘဲ မထိမကိုင်ရမည့် နယ်နိမိတ်များ",
-      "အရွယ်ရောက်ချိန် အပြောင်းအလဲများကို ရှက်ရွံ့စရာမလိုဘဲ ပွင့်လင်းစွာ ဆွေးနွေးပေးခြင်း",
-      "ဆယ်ကျော်သက်များ၏ ချစ်ကြိုက်မှု စိတ်ဝင်စားမှုနှင့် အွန်လိုင်း သွေးဆောင်မှုများကို လမ်းပြပေးခြင်း"
-    ],
-    action: "Ensure your child understands private body boundaries and their trusted adults.",
-    myAction: "သင့်ကလေးအား မိမိခန္ဓာကိုယ်၏ သီးသန့်နယ်နိမိတ်များနှင့် အန္တရာယ်ကြုံပါက အားကိုးယုံကြည်ရမည့် လူကြီးများကို ရှင်းပြထားပါ။",
-    reflect: "Would your child come to you first with questions about their body?",
-    myReflect: "သင့်ကလေးသည် မိမိခန္ဓာကိုယ်ဆိုင်ရာ မေးခွန်းများကို သင့်ထံ ပထမဆုံး လာရောက်မေးမြန်းရဲပါသလား။"
-  },
-  {
-    id: 11,
-    cat: "faith",
-    youtube: "v_bMaW2yHT8",
-    icon: "✨",
-    grad: "linear-gradient(135deg,#0e6655,#148f77)",
-    title: "Parenting Through Every Life Stage",
-    myTitle: "ဘဝအဆင့်တိုင်းတွင် သားသမီးများကို ပြုစုပျိုးထောင်ခြင်း",
-    sub: "Transition from caregiver to coach, mentor, and lifelong friend.",
-    mySub: "ပြုစုစောင့်ရှောက်သူမှသည် လေ့ကျင့်ပေးသူ၊ အကြံပေးမိတ်ဆွေ၊ ထာဝရ မိတ်ဆွေစစ်အဖြစ်သို့ ပြောင်းလဲခြင်း။",
-    dur: "45",
-    sess: 3,
-    badge: "All Ages",
-    myBadge: "အသက်အရွယ်မရွေး",
-    scripture: "Proverbs 22:6",
-    myScripture: "သုတ္တံ ၂၂:၆ — «သူငယ်သွားရာလမ်းဝ၌ ဆုံးမသွန်သင်လော့။ သို့ပြုလျှင် အိုသောအသက်သို့ ရောက်သော်လည်း၊ ထိုလမ်းမှ မလွှဲမရှောင်ဘဲ နေလိမ့်မည်။»",
-    topics: [
-      "The 4 seasons of parenting posture",
-      "The art of launching adult children with blessing",
-      "Leaving a multi-generational spiritual legacy"
-    ],
-    myTopics: [
-      "မိဘအုပ်ထိန်းမှု ပုံစံ ရာသီဥတု (၄) မျိုး",
-      "အရွယ်ရောက်ပြီးသော သားသမီးများကို ကောင်းချီးပေး၍ လွတ်လပ်စွာ ရပ်တည်စေခြင်း",
-      "မျိုးဆက်ပေါင်းများစွာ တည်တံ့မည့် ဝိညာဉ်ရေးရာ အမွေအနှစ် ချန်ထားရစ်ခြင်း"
-    ],
-    action: "Write a future blessing prayer letter for each child.",
-    myAction: "သားသမီးတစ်ဦးစီ၏ အနာဂတ်အတွက် ကောင်းချီးမင်္ဂလာ ဆုတောင်းပေးစာ တစ်စောင် ရေးသားပေးပါ။",
-    reflect: "Has your parenting style matured to match your child's current stage?",
-    myReflect: "သင့်မိဘအုပ်ထိန်းမှု ပုံစံသည် သင့်သားသမီး၏ လက်ရှိ အရွယ်နှင့် စိတ်ပိုင်းဆိုင်ရာ ရင့်ကျက်မှုအဆင့်နှင့် ကိုက်ညီပါသလား။"
   }
 ];
+
+// Dedicated High-Resolution Inlined Assets for the 11 Modules
+var OFFICIAL_PROJECT_THUMBS = {
+  1: "yt_thumb_1.jpg",
+  2: "yt_thumb_2.jpg",
+  3: "yt_thumb_3.jpg",
+  4: "yt_thumb_4.jpg",
+  5: "yt_thumb_5.jpg",
+  6: "yt_thumb_6.jpg",
+  7: "yt_thumb_7.jpg",
+  8: "yt_thumb_8.jpg",
+  9: "yt_thumb_9.jpg",
+  10: "yt_thumb_10.jpg",
+  11: "yt_thumb_11.jpg"
+};
+
+function getModuleThumbB64(modId) {
+  const id = Number(modId) || 1;
+  if (typeof OFFICIAL_PROJECT_THUMBS !== 'undefined' && OFFICIAL_PROJECT_THUMBS[id]) {
+    const src = OFFICIAL_PROJECT_THUMBS[id];
+    if (src && !src.endsWith('.jpg')) return src;
+  }
+  const el = document.querySelector(`.tpp-grid-card[data-mid="${id}"] img`) ||
+             document.querySelector(`.tpp-lib-row[data-mid="${id}"] img`);
+  if (el && el.src && !el.src.endsWith('.jpg')) {
+    return el.src;
+  }
+  const mod = (typeof MODULES !== 'undefined' ? MODULES : []).find(m => m.id === id);
+  if (mod && mod.thumb && !mod.thumb.endsWith('.jpg')) return mod.thumb;
+  if (typeof getVideoThumbSrc === 'function') return getVideoThumbSrc(id);
+  return 'yt_thumb_1.jpg';
+}
+window.getModuleThumbB64 = getModuleThumbB64;
 
 const QUIZ = [
   {
@@ -500,101 +537,101 @@ let VIDEOS = [
     videoType: "file",
     fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4",
     youtube: "hKSMxbFee1U",
-    title: "Module 1: Being a Positive Role Model",
-    myTitle: "မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ မိဘဖြစ်ခြင်း",
+    title: "Module 1: Becoming a Good Example",
+    myTitle: "မော်ဂျူး ၁: ကောင်းသော စံနမူနာပြ ဖြစ်လာခြင်း",
     badge: "Module 01",
     myBadge: "မော်ဂျူး ၀၁",
     thumb: "https://i.ytimg.com/vi/hKSMxbFee1U/hqdefault.jpg"
   },
   {
     id: 2,
-    youtube: "GVK5Wc0NZE4",
-    title: "Module 2: Building Deep Connection",
-    myTitle: "မော်ဂျူး ၂: နက်ရှိုင်းသော မိသားစု ဆက်ဆံရေး တည်ဆောက်ခြင်း",
+    youtube: "q1NTvlZhv-Y",
+    title: "Module 2: Your Child's Emotional Tank",
+    myTitle: "မော်ဂျူး ၂: သားသမီး၏ စိတ်ခံစားချက် အင်အား ဖြည့်ဆည်းပေးခြင်း",
     badge: "Module 02",
     myBadge: "မော်ဂျူး ၀၂",
-    thumb: "https://i.ytimg.com/vi/GVK5Wc0NZE4/hqdefault.jpg"
-  },
-  {
-    id: 3,
-    youtube: "lmtVOhpszCQ",
-    title: "Module 3: Healthy Parental Authority",
-    myTitle: "မော်ဂျူး ၃: မေတ္တာနှင့် တည်ဆောက်ထားသော မိဘဩဇာ",
-    badge: "Module 03",
-    myBadge: "မော်ဂျူး ၀၃",
-    thumb: "https://i.ytimg.com/vi/lmtVOhpszCQ/hqdefault.jpg"
-  },
-  {
-    id: 4,
-    youtube: "q1NTvlZhv-Y",
-    title: "Module 4: Filling the Emotional Tank",
-    myTitle: "မော်ဂျူး ၄: သားသမီး၏ စိတ်ခံစားချက် အင်အား ဖြည့်ဆည်းပေးခြင်း",
-    badge: "Module 04",
-    myBadge: "မော်ဂျူး ၀၄",
     thumb: "https://i.ytimg.com/vi/q1NTvlZhv-Y/hqdefault.jpg"
   },
   {
-    id: 5,
-    youtube: "Pt-ZYVIAGBg",
-    title: "Module 5: Navigating the Digital Household",
-    myTitle: "မော်ဂျူး ၅: ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု",
-    badge: "Module 05",
-    myBadge: "မော်ဂျူး ၀၅",
-    thumb: "https://i.ytimg.com/vi/Pt-ZYVIAGBg/hqdefault.jpg"
+    id: 3,
+    youtube: "GVK5Wc0NZE4",
+    title: "Module 3: Building Togetherness",
+    myTitle: "မော်ဂျူး ၃: ခိုင်မြဲသော သံယောဇဉ်နှင့် ရင်းနှီးမှု တည်ဆောက်ခြင်း",
+    badge: "Module 03",
+    myBadge: "မော်ဂျူး ၀၃",
+    thumb: "https://i.ytimg.com/vi/GVK5Wc0NZE4/hqdefault.jpg"
   },
   {
-    id: 6,
+    id: 4,
     youtube: "KEUAW5PsV8A",
-    title: "Module 6: Boundaries & Positive Discipline",
-    myTitle: "မော်ဂျူး ၆: စည်းဘောင်များနှင့် အပြုသဘောဆောင်သော ဆုံးမပဲ့ပြင်ခြင်း",
-    badge: "Module 06",
-    myBadge: "မော်ဂျူး ၀၆",
+    title: "Module 4: Boundaries and Discipline",
+    myTitle: "မော်ဂျူး ၄: မေတ္တာနှင့် စည်းဘောင်များ ဆုံးမပဲ့ပြင်ခြင်း",
+    badge: "Module 04",
+    myBadge: "မော်ဂျူး ၀၄",
     thumb: "https://i.ytimg.com/vi/KEUAW5PsV8A/hqdefault.jpg"
   },
   {
-    id: 7,
+    id: 5,
     youtube: "FfwH7uOiq7M",
-    title: "Module 7: The Father's Heart & Presence",
-    myTitle: "မော်ဂျူး ၇: ဖခင်၏ နှလုံးသားနှင့် အတူရှိနေပေးခြင်း",
-    badge: "Module 07",
-    myBadge: "မော်ဂျူး ၀၇",
+    title: "Module 5: Becoming A Father",
+    myTitle: "မော်ဂျူး ၅: ဖခင်တစ်ဦး ဖြစ်လာခြင်း",
+    badge: "Module 05",
+    myBadge: "မော်ဂျူး ၀၅",
     thumb: "https://i.ytimg.com/vi/FfwH7uOiq7M/hqdefault.jpg"
   },
   {
-    id: 8,
-    youtube: "FBtNGyBDZIM",
-    title: "Module 8: Working Parents: Career & Home",
-    myTitle: "မော်ဂျူး ၈: အလုပ်လုပ်သော မိဘများ- အလုပ်နှင့် အိမ်ထောင် ဟန်ချက်ညီစေခြင်း",
-    badge: "Module 08",
-    myBadge: "မော်ဂျူး ၀၈",
-    thumb: "https://i.ytimg.com/vi/FBtNGyBDZIM/hqdefault.jpg"
-  },
-  {
-    id: 9,
-    youtube: "uQByH6xNFfM",
-    title: "Module 9: Nurturing Foundational Faith",
-    myTitle: "မော်ဂျူး ၉: ခိုင်မာသော ယုံကြည်ခြင်း အခြေခံကို ပျိုးထောင်ခြင်း",
-    badge: "Module 09",
-    myBadge: "မော်ဂျူး ၀၉",
-    thumb: "https://i.ytimg.com/vi/uQByH6xNFfM/hqdefault.jpg"
-  },
-  {
-    id: 10,
+    id: 6,
     youtube: "dJLSp6Nh80g",
-    title: "Module 10: Healthy Sexuality in the Family",
-    myTitle: "မော်ဂျူး ၁၀: မိသားစုအတွင်း ကျန်းမာသော လိင်ပိုင်းဆိုင်ရာ အသိပညာပေးခြင်း",
-    badge: "Module 10",
-    myBadge: "မော်ဂျူး ၁၀",
+    title: "Module 6: Healthy Sexuality in the Family",
+    myTitle: "မော်ဂျူး ၆: မိသားစုအတွင်း ကျန်းမာသော လိင်ပညာပေးခြင်း",
+    badge: "Module 06",
+    myBadge: "မော်ဂျူး ၀၆",
     thumb: "https://i.ytimg.com/vi/dJLSp6Nh80g/hqdefault.jpg"
   },
   {
-    id: 11,
+    id: 7,
     youtube: "v_bMaW2yHT8",
-    title: "Module 11: Parenting Through Every Life Stage",
-    myTitle: "မော်ဂျူး ၁၁: ဘဝအဆင့်တိုင်းတွင် သားသမီးများကို ပြုစုပျိုးထောင်ခြင်း",
+    title: "Module 7: Parenting For a Lifetime",
+    myTitle: "မော်ဂျူး ၇: ဘဝတစ်သက်တာ မိဘအုပ်ထိန်းခြင်း",
+    badge: "Module 07",
+    myBadge: "မော်ဂျူး ၀၇",
+    thumb: "https://i.ytimg.com/vi/v_bMaW2yHT8/hqdefault.jpg"
+  },
+  {
+    id: 8,
+    youtube: "lmtVOhpszCQ",
+    title: "Module 8: Parental Authority",
+    myTitle: "မော်ဂျူး ၈: မေတ္တာနှင့် တည်ဆောက်ထားသော မိဘဩဇာ",
+    badge: "Module 08",
+    myBadge: "မော်ဂျူး ၀၈",
+    thumb: "https://i.ytimg.com/vi/lmtVOhpszCQ/hqdefault.jpg"
+  },
+  {
+    id: 9,
+    youtube: "Pt-ZYVIAGBg",
+    title: "Module 9: The Digital Home",
+    myTitle: "မော်ဂျူး ၉: ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု",
+    badge: "Module 09",
+    myBadge: "မော်ဂျူး ၀၉",
+    thumb: "https://i.ytimg.com/vi/Pt-ZYVIAGBg/hqdefault.jpg"
+  },
+  {
+    id: 10,
+    youtube: "FBtNGyBDZIM",
+    title: "Module 10: Working Dads and Moms",
+    myTitle: "မော်ဂျူး ၁၀: အလုပ်လုပ်သော မိဘများ- အလုပ်နှင့် အိမ်ထောင် ဟန်ချက်",
+    badge: "Module 10",
+    myBadge: "မော်ဂျူး ၁၀",
+    thumb: "https://i.ytimg.com/vi/FBtNGyBDZIM/hqdefault.jpg"
+  },
+  {
+    id: 11,
+    youtube: "uQByH6xNFfM",
+    title: "Module 11: Guiding Your Children into Faith",
+    myTitle: "မော်ဂျူး ၁၁: သားသမီးများအား ယုံကြည်ခြင်းသို့ လမ်းပြပို့ဆောင်ခြင်း",
     badge: "Module 11",
     myBadge: "မော်ဂျူး ၁၁",
-    thumb: "https://i.ytimg.com/vi/v_bMaW2yHT8/hqdefault.jpg"
+    thumb: "https://i.ytimg.com/vi/uQByH6xNFfM/hqdefault.jpg"
   }
 ];
 
@@ -1052,6 +1089,8 @@ function applyLang() {
   if (typeof updateVideoCarouselLanguage === 'function') updateVideoCarouselLanguage();
   if (typeof updateTppHomeLanguage === 'function') updateTppHomeLanguage(lang === 'my');
   if (typeof updateHomeProgressUI === 'function') updateHomeProgressUI();
+  if (typeof updateAvatarModalLanguage === 'function') updateAvatarModalLanguage();
+  if (typeof loadUserName === 'function') loadUserName();
   
   // Re-render quiz if currently active
   const qScreen = document.getElementById('quiz-q-screen');
@@ -1099,6 +1138,10 @@ function applyLang() {
 
   // Update mobile cinema stage
   if (typeof renderMobileModuleChips === 'function') renderMobileModuleChips();
+  if (typeof updateTwoOptionUIStrings === 'function') updateTwoOptionUIStrings();
+  if (typeof updateBottomNavLanguage === 'function') updateBottomNavLanguage(lang === 'my');
+  if (typeof updateCinemaControlsLanguage === 'function') updateCinemaControlsLanguage(lang === 'my');
+  if (typeof updateContinueWatchingCard === 'function') updateContinueWatchingCard(lang === 'my');
   if (typeof selectMobileModuleVideo === 'function' && typeof currentMobileModId !== 'undefined') {
     selectMobileModuleVideo(currentMobileModId, false);
   }
@@ -2473,14 +2516,31 @@ async function checkAuthStatus() {
   document.body.classList.toggle('is-authenticated', isAuthenticated);
   document.documentElement.classList.toggle('is-authenticated', isAuthenticated);
 
-  const gateEl = document.getElementById('phone-welcome-gate');
-  if (gateEl) {
-    gateEl.classList.add('hidden');
-    gateEl.style.display = 'none';
-  }
+  const isPhone = document.body.classList.contains('is-mobile-app');
 
-  if (typeof updateWelcomeGateUI === 'function') {
-    updateWelcomeGateUI();
+  const gateEl = document.getElementById('phone-welcome-gate');
+  const homeEl = document.getElementById('mobile-app-home');
+  const barEl = document.getElementById('mobile-app-bottom-bar');
+  const appBarEl = document.getElementById('mobile-app-bar');
+
+  if (isPhone) {
+    if (isAuthenticated) {
+      // Logged in — hide gate, show home
+      if (gateEl) { gateEl.style.display = 'none'; gateEl.style.visibility = 'hidden'; gateEl.style.pointerEvents = 'none'; }
+      if (homeEl) homeEl.style.display = 'block';
+      if (barEl) barEl.style.display = 'flex';
+      if (appBarEl) appBarEl.style.display = 'flex';
+    } else {
+      // Not logged in — show gate, hide home
+      if (gateEl) {
+        gateEl.style.display = 'flex';
+        gateEl.style.visibility = 'visible';
+        gateEl.style.pointerEvents = 'auto';
+      }
+      if (homeEl) homeEl.style.display = 'none';
+      if (barEl) barEl.style.display = 'none';
+      if (appBarEl) appBarEl.style.display = 'none';
+    }
   }
 
   const navLogin = document.getElementById('nav-login');
@@ -4795,20 +4855,29 @@ function checkAppMode() {
     const isAuthenticated = !!(session && session.loggedIn);
     document.body.classList.toggle('is-authenticated', isAuthenticated);
     document.documentElement.classList.toggle('is-authenticated', isAuthenticated);
-    const gateEl = document.getElementById('phone-welcome-gate');
-    if (gateEl) {
-      gateEl.classList.add('hidden');
-      gateEl.style.display = 'none';
-    }
 
-    // Upgrade banner disabled to ensure 100% clean view on phones
-    /*
-    if (!isAppUrl && !isAppUA && !isAndroidWebView) {
-      setTimeout(() => {
-        showUpgradeNotification();
-      }, 3000);
+    const gateEl = document.getElementById('phone-welcome-gate');
+    const homeEl = document.getElementById('mobile-app-home');
+    const barEl = document.getElementById('mobile-app-bottom-bar');
+    const appBarEl = document.getElementById('mobile-app-bar');
+
+    if (isAuthenticated) {
+      // User is logged in — hide the gate, show the home screen
+      if (gateEl) { gateEl.style.display = 'none'; gateEl.style.visibility = 'hidden'; gateEl.style.pointerEvents = 'none'; }
+      if (homeEl) homeEl.style.display = 'block';
+      if (barEl) barEl.style.display = 'flex';
+      if (appBarEl) appBarEl.style.display = 'flex';
+    } else {
+      // User is NOT logged in — show the login gate, hide the home
+      if (gateEl) {
+        gateEl.style.display = 'flex';
+        gateEl.style.visibility = 'visible';
+        gateEl.style.pointerEvents = 'auto';
+      }
+      if (homeEl) homeEl.style.display = 'none';
+      if (barEl) barEl.style.display = 'none';
+      if (appBarEl) appBarEl.style.display = 'none';
     }
-    */
   } else {
     document.body.classList.remove('is-mobile-app');
     document.documentElement.classList.remove('is-mobile-app');
@@ -5562,10 +5631,9 @@ function selectMobileModuleVideo(modId, autoPlay = true) {
   // Update Top Bar & Headings (Matching Photo 2)
   let displayTitle = modTitle;
   let displayDur = mod.dur || 15;
-  if (mod.id === 3) {
-    displayTitle = isMy ? 'ဒေါသကို တည်ငြိမ်စွာ ကိုင်တွယ်ခြင်း' : 'Handling Tantrums Calmly';
-    displayDur = 12;
-  }
+  // Respect exact title and duration from curriculum
+  displayTitle = isMy ? (mod.myTitle || mod.title) : mod.title;
+  displayDur = mod.dur || 15;
 
   const epNum = String(mod.id).padStart(2, '0');
   const currentTitleEl = document.getElementById('mobile-cinema-current-title');
@@ -6278,59 +6346,59 @@ let currentActiveAppTab = 'home';
 
 const TAKEAWAYS_MAP = {
   1: [
-    { icon: '🏅', en: 'Live your values authentically', my: 'မိမိသွန်သင်သော တန်ဖိုးများနှင့်အညီ လက်တွေ့နေထိုင်ပါ' },
+    { icon: '🏅', en: 'Live consistently with your stated values', my: 'မိမိသွန်သင်သော တန်ဖိုးများနှင့်အညီ လက်တွေ့နေထိုင်ပါ' },
     { icon: '🤝', en: 'Own mistakes & apologize to your child', my: 'မှားယွင်းမှုကို ရိုးသားစွာ ဝန်ခံတောင်းပန်ပါ' },
-    { icon: '🧘', en: 'Stay calm under pressure', my: 'ဖိစီးမှုကြားတွင် စိတ်ခံစားမှု တည်ငြိမ်စွာ ထိန်းကျောင်းပါ' }
+    { icon: '🧘', en: 'Manage emotional reactions under family stress', my: 'ဖိစီးမှုကြားတွင် စိတ်ခံစားမှုကို တည်ငြိမ်စွာ ထိန်းကျောင်းပါ' }
   ],
   2: [
-    { icon: '👂', en: 'Active listening without premature advice', my: 'မဆုံးမမီ အရင်အာရုံစိုက် နားထောင်ပေးပါ' },
-    { icon: '❤️', en: 'Speak your child\'s love language', my: 'သားသမီး၏ မေတ္တာဘာသာစကားကို အသုံးပြုပါ' },
-    { icon: '⏳', en: '30 min device-free 1-on-1 time', my: 'ဖုန်းမသုံးဘဲ နှစ်ကိုယ်ကြား သီးသန့် အချိန်ပေးပါ' }
+    { icon: '💚', en: 'Diagnose emotional depletion early', my: 'သားသမီး၏ စိတ်ခံစားမှု ကုန်ခမ်းနေခြင်းကို သတိပြုပါ' },
+    { icon: '🤗', en: 'Validate feelings before offering solutions', my: 'ဖြေရှင်းချက်မရှာမီ ခံစားချက်ကို နားလည်ပေးပါ' },
+    { icon: '🫂', en: 'Daily unconditional hugs and encouragement', my: 'နေ့စဉ် ချစ်ခြင်းမေတ္တာဖြင့် ပွေ့ဖက်ပြီး အားပေးစကား ပြောပါ' }
   ],
   3: [
-    { icon: '🧘', en: 'Stay grounded', my: 'ကိုယ်တိုင် တည်ငြိမ်မှု အရင်ယူပါ' },
-    { icon: '🤗', en: 'Name their feeling', my: 'ကလေး၏ ခံစားချက်ကို နာမည်တပ် နားလည်ပေးပါ' },
-    { icon: '🤝', en: 'Connect before correcting', my: 'မဆုံးမမီ မေတ္တာဖြင့် အရင်ဆက်သွယ်ပါ' }
+    { icon: '👂', en: 'Active listening without premature advice', my: 'အကြံမပေးမီ သားသမီး၏ရင်ဖွင့်သံကို အာရုံစိုက် နားထောင်ပါ' },
+    { icon: '❤️', en: 'Speak your child\'s primary love language', my: 'သားသမီး၏ မေတ္တာဘာသာစကားကို နားလည်အသုံးပြုပါ' },
+    { icon: '⏳', en: 'Intentional 30-min device-free 1-on-1 time', my: 'ဖုန်းမသုံးဘဲ နှစ်ကိုယ်ကြား သီးသန့် အချိန်ပေးပါ' }
   ],
   4: [
-    { icon: '💚', en: 'Diagnose emotional depletion early', my: 'စိတ်ခံစားမှု အင်အားကုန်ခမ်းခြင်းကို သတိပြုပါ' },
-    { icon: '🤗', en: 'Validate feelings before offering solutions', my: 'ဖြေရှင်းချက်မရှာမီ ခံစားချက်ကို နားလည်ပေးပါ' },
-    { icon: '🫂', en: '3 unconditional hugs daily', my: 'တစ်နေ့ (၃) ကြိမ် မေတ္တာဖြင့် နွေးထွေးစွာ ပွေ့ဖက်ပါ' }
+    { icon: '🧭', en: 'True discipline cultivates self-governance', my: 'စစ်မှန်သော ဆုံးမခြင်းသည် မိမိကိုယ်ကို ထိန်းကျောင်းနိုင်စေပါသည်' },
+    { icon: '⚖️', en: 'Use natural and logical consequences', my: 'ဒေါသဖြင့် မဟုတ်ဘဲ သဘာဝကျသော အကျိုးဆက်ဖြင့် သင်ကြားပါ' },
+    { icon: '🤝', en: 'Present a consistent and united parental front', my: 'ဆုံးမပဲ့ပြင်ရာတွင် မိဘနှစ်ဦး တစ်သဘောတည်း စည်းလုံးပါ' }
   ],
   5: [
-    { icon: '📱', en: 'Establish device-free family zones', my: 'ဖုန်းနှင့် ဖန်သားပြင်လွတ် ဇုန်များကို သတ်မှတ်ပါ' },
-    { icon: '👨‍👩‍👧', en: 'Prioritize family bonds over screens', my: 'ဖန်သားပြင်ထက် မိသားစု ဆက်ဆံရေးကို ဦးစားပေးပါ' },
-    { icon: '🛡️', en: 'Model healthy digital habits as parents', my: 'မိဘကိုယ်တိုင် ဖုန်းအသုံးတွင် စံပြဖြစ်ပါ' }
+    { icon: '👨‍👧', en: 'A father\'s intentional presence builds identity', my: 'ဖခင်၏ အတူရှိနေပေးမှုသည် သားသမီး၏ ကိုယ်ရည်ကိုယ်သွေးကို ခိုင်ခံ့စေပါသည်' },
+    { icon: '🗣️', en: 'Speak words of blessing and life daily', my: 'နေ့စဉ် သားသမီးများအပေါ် ကောင်းချီးစကား မြွက်ဆိုပါ' },
+    { icon: '⚓', en: 'Stay meaningfully bonded despite busy work', my: 'အလုပ်များသော်လည်း နေ့စဉ် သားသမီးနှင့် ရင်းနှီးစွာ ဆက်သွယ်ပါ' }
   ],
   6: [
-    { icon: '🧘', en: 'Co-regulation over harsh control', my: 'ဖိနှိပ်ခြင်းထက် စိတ်တည်ငြိမ်အောင် ကူညီပါ' },
-    { icon: '🗣️', en: 'Gentle voice with firm limits', my: 'နူးညံ့သော အသံ၊ ခိုင်မာသော စည်းကမ်းဘောင်' },
-    { icon: '🕊️', en: 'Be their safe emotional harbor', my: 'သားသမီးအတွက် လုံခြုံသော စိတ်ခိုလှုံရာ ဖြစ်ပါ' }
+    { icon: '🛡️', en: 'Teach safe bodily boundaries and consent early', my: 'ခန္ဓာကိုယ် လုံခြုံမှုနှင့် သီးသန့် နယ်နိမိတ်များကို စောစီးစွာ သွန်သင်ပါ' },
+    { icon: '💬', en: 'Discuss puberty and body changes without shame', my: 'အရွယ်ရောက်ချိန် အပြောင်းအလဲများကို ရှက်ရွံ့စရာမလိုဘဲ ပွင့်လင်းစွာ ဆွေးနွေးပါ' },
+    { icon: '🕊️', en: 'Guide teens through curiosities and digital pressures', my: 'ဆယ်ကျော်သက်များ၏ မေးခွန်းများနှင့် အွန်လိုင်း သွေးဆောင်မှုများကို မေတ္တာဖြင့် လမ်းပြပါ' }
   ],
   7: [
-    { icon: '🌟', en: 'Praise sincere effort over perfection', my: 'ပြီးပြည့်စုံမှုထက် ကြိုးစားအားထုတ်မှုကို ချီးမွမ်းပါ' },
-    { icon: '🌱', en: 'Treat failures as learning moments', my: 'အမှားများကို သင်ယူရန် အခွင့်အလမ်းအဖြစ် မြင်ပါ' },
-    { icon: '🗣️', en: 'Speak words of life and affirmation', my: 'မျှော်လင့်ခြင်းနှင့် အားပေးစကားများသာ ပြောပါ' }
+    { icon: '🌱', en: 'Adapt parenting posture across every life stage', my: 'သားသမီး၏ အရွယ်နှင့်အညီ မိဘအုပ်ထိန်းမှု ပုံစံကို လိုက်လျောညီထွေ ပြောင်းလဲပါ' },
+    { icon: '🤝', en: 'Transition from caregiver to lifelong mentor & friend', my: 'ပြုစုစောင့်ရှောက်သူမှသည် အကြံပေးမိတ်ဆွေ၊ ထာဝရ မိတ်ဆွေစစ်အဖြစ် ရင့်ကျက်လာပါ' },
+    { icon: '👑', en: 'Launch adult children with generational blessing', my: 'အရွယ်ရောက်လာသော သားသမီးများကို ကောင်းချီးပေး၍ လွတ်လပ်စွာ ရပ်တည်စေပါ' }
   ],
   8: [
-    { icon: '⚖️', en: 'Discipline teaches, punishment hurts', my: 'ဆုံးမခြင်းသည် သင်ကြားပေးခြင်း ဖြစ်သည်' },
-    { icon: '🔄', en: 'Enforce clear natural consequences', my: 'သဘာဝကျသော အကျိုးဆက်များကို ရှင်းပြပါ' },
-    { icon: '🤝', en: 'Restore connection right after correction', my: 'ဆုံးမပြီးနောက် မေတ္တာဖြင့် ပြန်လည်ရင်ခွင်ပိုက်ပါ' }
+    { icon: '🛡️', en: 'Lead with loving authority, not intimidation', my: 'ခြိမ်းခြောက်မှု မဟုတ်ဘဲ မေတ္တာဖြင့် အုပ်ထိန်းပါ' },
+    { icon: '🌱', en: 'Guide and mentor rather than control', my: 'ဖိနှိပ်ချုပ်ချယ်ခြင်းထက် လမ်းပြထိန်းကျောင်းပါ' },
+    { icon: '⚖️', en: 'Balance warmth with healthy boundaries', my: 'နွေးထွေးသော မေတ္တာနှင့် ခိုင်မာသော စည်းကမ်းကို ဟန်ချက်ညီစေပါ' }
   ],
   9: [
-    { icon: '📖', en: 'Weave scripture into daily conversations', my: 'နေ့စဉ်ဘဝတွင် နှုတ်ကပတ်တော် သွန်သင်ပါ' },
-    { icon: '🙏', en: 'Pray intentionally for each child', my: 'သားသမီးတစ်ဦးချင်းစီအတွက် နာမည်ခေါ် ဆုတောင်းပါ' },
-    { icon: '🕯️', en: 'Authentic faith lived out daily', my: 'စကားထက် အသက်တာဖြင့် သက်သေပြပါ' }
+    { icon: '📱', en: 'Create a clear Family Digital Agreement', my: 'မိသားစု အတူတကွ သဘောတူသော ဒစ်ဂျစ်တယ် ပဋိညာဉ် ရေးဆွဲပါ' },
+    { icon: '🍽️', en: 'Establish tech-free zones at table & bedtime', my: 'ထမင်းစားချိန်နှင့် အိပ်ရာဝင်ချိန်တွင် ဖုန်းလွတ်ဇုန် သတ်မှတ်ပါ' },
+    { icon: '🛡️', en: 'Model healthy screen habits as parents', my: 'မိဘကိုယ်တိုင် ဖုန်းအသုံးတွင် စံပြဖြစ်ပါ' }
   ],
   10: [
-    { icon: '💍', en: 'Protect parental unity and marriage', my: 'ဇနီးမောင်နှံ စည်းလုံးမှုကို စောင့်ရှောက်ပါ' },
-    { icon: '🗣️', en: 'One united voice in discipline', my: 'စည်းကမ်းသတ်မှတ်ရာတွင် တစ်သံတည်းထွက်ပါ' },
-    { icon: '💖', en: 'Show mutual grace and forgiveness', my: 'အချင်းချင်း နားလည်ခွင့်လွှတ်ခြင်းကို သားသမီးရှေ့ ပြသပါ' }
+    { icon: '💼', en: 'A healthy marriage is the anchor for your kids', my: 'ခိုင်မာသာယာသော အိမ်ထောင်ရေးသည် သားသမီးအတွက် အကြီးမားဆုံး အကာအကွယ်ဖြစ်ပါသည်' },
+    { icon: '🚪', en: 'Leave workplace stress at the front door', my: 'အလုပ်ခွင် ဖိစီးမှုများကို အိမ်တံခါးဝတွင် ထားရစ်ခဲ့ပါ' },
+    { icon: '✨', en: 'Treasure the Golden 15 Minutes morning & night', my: 'နံနက်ခင်းနှင့် ညအိပ်ရာဝင်ချိန် ရွှေရောင် မိနစ် (၁၅) မိနစ်ကို တန်ဖိုးထားပါ' }
   ],
   11: [
-    { icon: '👑', en: 'Impart generational blessing', my: 'သားစဉ်မြေးဆက် ကောင်းချီးစကား မြွက်ဆိုပါ' },
-    { icon: '🌍', en: 'A kingdom family that blesses others', my: 'အခြားသူများကို မေတ္တာမျှဝေသော မိသားစုဖြစ်ပါ' },
-    { icon: '🎓', en: 'Celebrate the 11-milestone victory', my: '၁၁-ခုမြောက် ခရီးစဉ်ကို အောင်မြင်စွာ ပြီးဆုံးပါ' }
+    { icon: '📖', en: 'Home discipleship cannot be replaced by church', my: 'အိမ်တွင်း ယုံကြည်ခြင်း သွန်သင်မှုကို အသင်းတော်တစ်ခုတည်းသို့ လွှဲမထားပါနှင့်' },
+    { icon: '🙏', en: 'Joyful, age-appropriate family devotions', my: 'ကလေးများ ပျော်ရွှင်နှစ်သက်သော မိသားစု ဝတ်ပြုချိန် ပြုလုပ်ပါ' },
+    { icon: '🕯️', en: 'Walk compassionately through doubts & questions', my: 'သားသမီးများ၏ သံသယနှင့် မေးခွန်းများကို မေတ္တာဖြင့် စိတ်ရှည်စွာ နားထောင်ဖြေကြားပါ' }
   ]
 };
 
@@ -6744,29 +6812,40 @@ function setAppLanguage(newLang) {
   lang = (newLang === 'my' || newLang === 'burmese') ? 'my' : 'en';
   try { localStorage.setItem('tpp_lang', lang); } catch (e) {}
   document.body.classList.toggle('lang-my', lang === 'my');
+  const isMy = lang === 'my';
   
   // Update desktop lang button
   const dLangBtn = document.getElementById('lang-btn');
-  if (dLangBtn) dLangBtn.textContent = lang === 'my' ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+  if (dLangBtn) dLangBtn.textContent = isMy ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
 
   // Update mobile app header lang button
   const mLangBtn = document.getElementById('mobile-app-btn-lang');
-  if (mLangBtn) mLangBtn.textContent = lang === 'my' ? 'EN' : 'မြန်မာ';
+  if (mLangBtn) mLangBtn.textContent = isMy ? 'EN' : 'မြန်မာ';
+
+  const mobLangBtn = document.getElementById('mobile-app-lang-btn');
+  if (mobLangBtn) mobLangBtn.textContent = isMy ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
 
   // Update gate language pills
   const pillMy = document.getElementById('gate-lang-my');
   const pillEn = document.getElementById('gate-lang-en');
-  if (pillMy) pillMy.classList.toggle('active', lang === 'my');
-  if (pillEn) pillEn.classList.toggle('active', lang === 'en');
+  if (pillMy) pillMy.classList.toggle('active', isMy);
+  if (pillEn) pillEn.classList.toggle('active', !isMy);
 
   const langTxt = document.getElementById('welcome-lang-text');
-  if (langTxt) langTxt.textContent = lang === 'my' ? 'မြန်မာ' : 'English';
+  if (langTxt) langTxt.textContent = isMy ? 'မြန်မာ' : 'English';
 
   applyLang();
   updateWelcomeGateUI();
+  if (typeof updateTwoOptionUIStrings === 'function') updateTwoOptionUIStrings();
+  if (typeof updateBottomNavLanguage === 'function') updateBottomNavLanguage(isMy);
+  if (typeof updateCinemaControlsLanguage === 'function') updateCinemaControlsLanguage(isMy);
+  if (typeof updateContinueWatchingCard === 'function') updateContinueWatchingCard(isMy);
   if (typeof renderModules === 'function') renderModules();
   if (typeof initMobileCinema === 'function') initMobileCinema();
-  if (typeof updateTppHomeLanguage === 'function') updateTppHomeLanguage(lang === 'my');
+  if (typeof updateTppHomeLanguage === 'function') updateTppHomeLanguage(isMy);
+  if (typeof selectMobileModuleVideo === 'function' && typeof currentMobileModId !== 'undefined') {
+    selectMobileModuleVideo(currentMobileModId, false);
+  }
 }
 window.setAppLanguage = setAppLanguage;
 
@@ -7676,7 +7755,13 @@ function updateContinueWatchingCard(forceIsMy) {
 
   if (titleEl) titleEl.textContent = title;
   if (subEl) subEl.textContent = isMy ? `အပိုင်း ${mod.id} · ${durMin} မိနစ်` : `Episode ${mod.id} · ${durMin} min`;
-  if (thumbEl) thumbEl.src = `yt_thumb_${mod.id}.jpg`;
+  if (thumbEl) {
+    const imgSrc = getModuleThumbB64(mod.id);
+    if (imgSrc) {
+      thumbEl.src = imgSrc;
+    }
+    thumbEl.alt = title;
+  }
 
   const pct = epProg ? epProg.percent : 45;
   if (barEl) barEl.style.width = `${pct}%`;
@@ -8680,7 +8765,7 @@ window.toggleTakeawayCard = toggleTakeawayCard;
 // =========================================================
 
 // Dedicated High-Resolution Visual Assets for the 11 Real Project Modules
-const OFFICIAL_PROJECT_THUMBS = {
+var OFFICIAL_PROJECT_THUMBS = OFFICIAL_PROJECT_THUMBS || {
   1: "yt_thumb_1.jpg",
   2: "yt_thumb_2.jpg",
   3: "yt_thumb_3.jpg",
@@ -9187,6 +9272,11 @@ function updateMcAccountUI() {
     langLabel.textContent = isMy ? '🇲🇲 မြန်မာ (Myanmar Active)' : '🇺🇸 English Active';
   }
 
+  // Sync user custom avatar and name
+  if (typeof refreshAllUserAvatars === 'function') refreshAllUserAvatars();
+  if (typeof loadUserName === 'function') loadUserName();
+  if (typeof updateAvatarModalLanguage === 'function') updateAvatarModalLanguage();
+
   // Load user data if present
   try {
     const rawUser = localStorage.getItem('tpp_user');
@@ -9308,17 +9398,17 @@ window.renderHomePodcastReel = renderHomePodcastReel;
 // Strict reproduction of user reference photo
 // =========================================================
 const TPP_11_TITLES = [
-  { id: 1, en: "Your Child's Emotional Tank", my: "စံပြမိဘ ဖြစ်လာခြင်း", dur: "8 min" },
-  { id: 2, en: "Healthy Sexuality", my: "ခိုင်မြဲသော သံယောဇဉ်", dur: "9 min" },
-  { id: 3, en: "The Digital Home", my: "မေတ္တာနှင့် စည်းကမ်း", dur: "8 min" },
-  { id: 4, en: "Building Good Habits", my: "နားထောင်ခြင်း အနုပညာ", dur: "8 min" },
-  { id: 5, en: "Discipline with Love", my: "ဒေါသကို ထိန်းချုပ်ခြင်း", dur: "9 min" },
-  { id: 6, en: "Communication That Connects", my: "အပြုသဘော ဆုံးမပဲ့ပြင်ခြင်း", dur: "8 min" },
-  { id: 7, en: "Confidence & Identity", my: "ဖခင်၏ နှလုံးသား", dur: "8 min" },
-  { id: 8, en: "Handling Tantrums", my: "အလုပ်နှင့် မိသားစု ဟန်ချက်", dur: "8 min" },
-  { id: 9, en: "Screen Time & Balance", my: "ခိုင်မာသော ယုံကြည်ခြင်း", dur: "8 min" },
-  { id: 10, en: "Family Routines", my: "ကျန်းမာသော လိင်ပညာပေး", dur: "8 min" },
-  { id: 11, en: "Raising Emotionally Healthy Kids", my: "ဘဝအဆင့်တိုင်း ပြုစုပျိုးထောင်ခြင်း", dur: "9 min" }
+  { id: 1, en: "Becoming a Good Example", my: "ကောင်းသော စံနမူနာပြ ဖြစ်လာခြင်း", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 2, en: "Your Child's Emotional Tank", my: "သားသမီး၏ စိတ်ခံစားချက် အင်အား ဖြည့်ဆည်းပေးခြင်း", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 3, en: "Building Togetherness", my: "ခိုင်မြဲသော သံယောဇဉ်နှင့် ရင်းနှီးမှု တည်ဆောက်ခြင်း", durEn: "9 min", durMy: "၉ မိနစ်" },
+  { id: 4, en: "Boundaries and Discipline", my: "မေတ္တာနှင့် စည်းဘောင်များ ဆုံးမပဲ့ပြင်ခြင်း", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 5, en: "Becoming A Father", my: "ဖခင်တစ်ဦး ဖြစ်လာခြင်း", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 6, en: "Healthy Sexuality in the Family", my: "မိသားစုအတွင်း ကျန်းမာသော လိင်ပညာပေးခြင်း", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 7, en: "Parenting For a Lifetime", my: "ဘဝတစ်သက်တာ မိဘအုပ်ထိန်းခြင်း", durEn: "9 min", durMy: "၉ မိနစ်" },
+  { id: 8, en: "Parental Authority", my: "မေတ္တာနှင့် တည်ဆောက်ထားသော မိဘဩဇာ", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 9, en: "The Digital Home", my: "ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု", durEn: "9 min", durMy: "၉ မိနစ်" },
+  { id: 10, en: "Working Dads and Moms", my: "အလုပ်လုပ်သော မိဘများ- အလုပ်နှင့် အိမ်ထောင် ဟန်ချက်", durEn: "8 min", durMy: "၈ မိနစ်" },
+  { id: 11, en: "Guiding Your Children into Faith", my: "သားသမီးများအား ယုံကြည်ခြင်းသို့ လမ်းပြပို့ဆောင်ခြင်း", durEn: "8 min", durMy: "၈ မိနစ်" }
 ];
 
 function updateTwoOptionHeroText(isDay, isMy) {
@@ -9385,10 +9475,10 @@ function updateTwoOptionUIStrings() {
     updateContinueWatchingCard(isMy);
   } else {
     const contTitle = document.getElementById('tpp-cont-title');
-    if (contTitle) contTitle.textContent = isMy ? 'စံပြမိဘ ဖြစ်လာခြင်း' : "Your Child's Emotional Tank";
+    if (contTitle) contTitle.textContent = isMy ? 'ကောင်းသော စံနမူနာပြ ဖြစ်လာခြင်း' : "Becoming a Good Example";
 
     const contSub = document.getElementById('tpp-cont-sub');
-    if (contSub) contSub.textContent = isMy ? 'အပိုင်း ၁ · ၈ မိနစ်' : 'Episode 1 · 8 min';
+    if (contSub) contSub.textContent = isMy ? 'အပိုင်း ၁ · ၄၅ မိနစ်' : 'Episode 1 · 45 min';
   }
 
   // 11 Grid Titles on Home
@@ -9538,5 +9628,273 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init3DCardPhysics);
 } else {
   init3DCardPhysics();
+}
+
+
+
+// BILINGUAL BOTTOM NAVIGATION & CINEMA SYNC HELPERS
+function updateBottomNavLanguage(isMy) {
+  const lblHome = document.getElementById('tab-lbl-home');
+  const lblLib = document.getElementById('tab-lbl-library');
+  const lblProg = document.getElementById('tab-lbl-episodes');
+  const lblAcc = document.getElementById('tab-lbl-profile');
+  if (lblHome) lblHome.textContent = isMy ? 'ပင်မ' : 'Home';
+  if (lblLib) lblLib.textContent = isMy ? 'စာကြည့်တိုက်' : 'Library';
+  if (lblProg) lblProg.textContent = isMy ? 'တိုးတက်မှု' : 'Progress';
+  if (lblAcc) lblAcc.textContent = isMy ? 'အကောင့်' : 'Account';
+}
+window.updateBottomNavLanguage = updateBottomNavLanguage;
+
+function updateCinemaControlsLanguage(isMy) {
+  const modId = typeof currentMobileModId !== 'undefined' ? currentMobileModId : 1;
+  const mod = MODULES.find(m => m.id === modId) || MODULES[0];
+  try {
+    const bms = JSON.parse(localStorage.getItem('tpp_bookmarks') || '[]');
+    const isSaved = bms.includes(mod.id);
+    const saveLbl = document.getElementById('ctrl-lbl-save');
+    if (saveLbl) saveLbl.textContent = isSaved ? (isMy ? 'သိမ်းပြီး' : 'Saved') : (isMy ? 'သိမ်းဆည်း' : 'Save');
+  } catch(e) {}
+
+  const playLbl = document.getElementById('ctrl-lbl-play');
+  const video = document.getElementById('mobile-cinema-video');
+  const isPlaying = video && !video.paused;
+  if (playLbl) playLbl.textContent = isPlaying ? (isMy ? 'ခေတ္တရပ်ရန်' : 'Pause') : (isMy ? 'ဖွင့်ရန်' : 'Play');
+
+  const tabTakeaways = document.getElementById('tab-btn-takeaways');
+  if (tabTakeaways) tabTakeaways.innerHTML = `<span>${isMy ? 'အဓိက အချက်များ' : 'Takeaways'}</span> <span style="font-size:0.75rem;margin-left:2px">▾</span>`;
+
+  const tabNotes = document.getElementById('tab-btn-notes');
+  if (tabNotes) tabNotes.innerHTML = `<span>${isMy ? 'မှတ်စု / လက်တွေ့လေ့ကျင့်ခန်း' : 'Notes/Exercises'}</span>`;
+
+  const restartBtn = document.querySelector('.resume-pill-restart-btn');
+  if (restartBtn) restartBtn.textContent = isMy ? 'အစမှ ပြန်ဖွင့် ↺' : 'Restart ↺';
+
+  // Library Category Chips
+  const chipAll = document.getElementById('tpp-chip-all');
+  const chipBasics = document.getElementById('tpp-chip-basics');
+  const chipDev = document.getElementById('tpp-chip-dev');
+  const chipRel = document.getElementById('tpp-chip-rel');
+  if (chipAll) chipAll.textContent = isMy ? 'အားလုံး' : 'All';
+  if (chipBasics) chipBasics.textContent = isMy ? 'မိဘအခြေခံ' : 'Parenting Basics';
+  if (chipDev) chipDev.textContent = isMy ? 'ကလေးဖွံ့ဖြိုးမှု' : 'Child Development';
+  if (chipRel) chipRel.textContent = isMy ? 'မိသားစုဆက်ဆံရေး' : 'Relationships';
+
+  const mcSearch = document.getElementById('mc-search-input');
+  if (mcSearch) mcSearch.placeholder = isMy ? 'သင်ခန်းစာများ၊ ဆရာများနှင့် ခေါင်းစဉ်များကို ရှာဖွေပါ...' : 'Search lessons, instructors, or topics...';
+}
+window.updateCinemaControlsLanguage = updateCinemaControlsLanguage;
+
+// ==========================================
+// USER CUSTOM AVATAR & PROFILE MANAGEMENT
+// ==========================================
+const TPP_PRESET_AVATARS = {
+  'mother': 'mother_avatar.jpg',
+  'couple': 'avatar_couple.jpg',
+  'young': 'mentor_avatar_young.jpg',
+  'pink': 'mentor_avatar_pink.jpg',
+  'family': 'couple_hd.jpg'
+};
+
+function getUserAvatar() {
+  try {
+    const saved = localStorage.getItem('tpp_user_avatar');
+    if (saved) {
+      return TPP_PRESET_AVATARS[saved] || saved;
+    }
+    return TPP_PRESET_AVATARS['mother'];
+  } catch(e) {
+    return TPP_PRESET_AVATARS['mother'];
+  }
+}
+
+function setUserAvatar(url) {
+  try {
+    if (url) {
+      localStorage.setItem('tpp_user_avatar', url);
+      const rawUser = localStorage.getItem('tpp_user');
+      if (rawUser) {
+        const u = JSON.parse(rawUser);
+        u.avatar = url;
+        localStorage.setItem('tpp_user', JSON.stringify(u));
+      }
+      const rawSess = localStorage.getItem('tpp_user_session');
+      if (rawSess) {
+        const s = JSON.parse(rawSess);
+        s.avatar = url;
+        localStorage.setItem('tpp_user_session', JSON.stringify(s));
+      }
+    } else {
+      localStorage.removeItem('tpp_user_avatar');
+    }
+  } catch(e) {}
+  refreshAllUserAvatars();
+}
+
+function refreshAllUserAvatars() {
+  const currentAvatar = getUserAvatar();
+  const profileImg = document.getElementById('tpp-profile-avatar-img');
+  if (profileImg) profileImg.src = currentAvatar;
+  const headerImg = document.getElementById('tpp-header-avatar-img');
+  if (headerImg) headerImg.src = currentAvatar;
+  const previewImg = document.getElementById('tpp-avatar-preview-img');
+  if (previewImg) previewImg.src = currentAvatar;
+  document.querySelectorAll('.tpp-user-avatar-sync').forEach(el => {
+    el.src = currentAvatar;
+  });
+}
+
+function openAvatarPickerModal() {
+  const modal = document.getElementById('avatarPickerModal');
+  if (!modal) return;
+  const previewImg = document.getElementById('tpp-avatar-preview-img');
+  if (previewImg) previewImg.src = getUserAvatar();
+  updateAvatarModalLanguage();
+  modal.style.display = 'flex';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAvatarPickerModal() {
+  const modal = document.getElementById('avatarPickerModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function handleUserAvatarUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      // Compress to max 280x280 via canvas
+      const maxDim = 280;
+      let width = img.width;
+      let height = img.height;
+      if (width > height) {
+        if (width > maxDim) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        }
+      } else {
+        if (height > maxDim) {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+      setUserAvatar(compressedDataUrl);
+      closeAvatarPickerModal();
+      showToast(lang === 'my' ? 'ပရိုဖိုင်ဓာတ်ပုံ အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ' : 'Profile photo updated successfully!');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function selectPresetAvatar(keyOrSrc) {
+  const avatarValue = TPP_PRESET_AVATARS[keyOrSrc] || keyOrSrc;
+  setUserAvatar(avatarValue);
+  closeAvatarPickerModal();
+  showToast(lang === 'my' ? 'ပရိုဖိုင်ဓာတ်ပုံ ပြောင်းလဲပြီးပါပြီ' : 'Profile photo updated!');
+}
+
+function resetUserAvatarToDefault() {
+  setUserAvatar(null);
+  closeAvatarPickerModal();
+  showToast(lang === 'my' ? 'မူလဓာတ်ပုံသို့ ပြန်လည်ထားရှိပြီးပါပြီ' : 'Reset to default profile photo');
+}
+
+function loadUserName() {
+  try {
+    const saved = localStorage.getItem('tpp_user_name');
+    const nameEl = document.getElementById('tpp-acc-name');
+    if (nameEl) {
+      if (saved) {
+        nameEl.textContent = saved;
+      } else {
+        nameEl.textContent = (lang === 'my' ? 'ရစ်ချက်ဒ် (Richard)' : 'Richard');
+      }
+    }
+  } catch(e) {}
+}
+
+function promptEditUserName() {
+  const current = localStorage.getItem('tpp_user_name') || 'Richard';
+  const newName = prompt(lang === 'my' ? 'မိမိ အမည်ကို ထည့်သွင်းပါ:' : 'Enter your name:', current);
+  if (newName !== null && newName.trim() !== '') {
+    try {
+      localStorage.setItem('tpp_user_name', newName.trim());
+    } catch(e) {}
+    loadUserName();
+    showToast(lang === 'my' ? 'အမည် ပြောင်းလဲပြီးပါပြီ' : 'Name updated successfully');
+  }
+}
+
+function backToHomeFromSettings() {
+  closeSettingsModal();
+  if (typeof switchAppTab === 'function') {
+    switchAppTab('home');
+  }
+}
+
+function updateAvatarModalLanguage() {
+  const isMy = (typeof lang !== 'undefined' ? lang === 'my' : true);
+  const titleEl = document.getElementById('avatar-modal-title');
+  const hintEl = document.getElementById('avatar-modal-hint');
+  const uploadBtnTxt = document.getElementById('avatar-btn-upload-txt');
+  const presetsLbl = document.getElementById('avatar-lbl-presets');
+  const resetBtnTxt = document.getElementById('avatar-btn-reset-txt');
+  const changePhotoTxt = document.getElementById('tpp-acc-change-photo-txt');
+  const backHomeAccTxt = document.getElementById('tpp-acc-back-home-txt');
+  const topBackTxt = document.getElementById('settings-top-back-txt');
+  const mainBackTxt = document.getElementById('settings-main-back-txt');
+
+  if (titleEl) titleEl.textContent = isMy ? 'မိမိ ပရိုဖိုင်ဓာတ်ပုံ ပြောင်းလဲရန်' : 'Customize Profile Photo';
+  if (hintEl) hintEl.textContent = isMy ? 'မိမိကိုယ်ပိုင် ဓာတ်ပုံ သို့မဟုတ် အသင့်ပါပုံများ ရွေးချယ်နိုင်ပါသည်' : 'Upload your personal photo or select a ready family portrait';
+  if (uploadBtnTxt) uploadBtnTxt.textContent = isMy ? 'မိမိဖုန်းမှ ဓာတ်ပုံရွေးမည် (ကင်မရာ/ဖိုင်)' : 'Upload Photo from Phone / Camera';
+  if (presetsLbl) presetsLbl.textContent = isMy ? 'သို့မဟုတ် အသင့်သုံး နမူနာပုံ ရွေးမည်:' : 'Or Choose a Portrait:';
+  if (resetBtnTxt) resetBtnTxt.textContent = isMy ? '🔄 မူလဓာတ်ပုံသို့ ပြန်လည်ထားရှိမည်' : '🔄 Reset to Default Photo';
+  if (changePhotoTxt) changePhotoTxt.textContent = isMy ? 'ဓာတ်ပုံပြောင်းမည်' : 'Change Photo';
+  if (backHomeAccTxt) backHomeAccTxt.textContent = isMy ? '← မူလစာမျက်နှာသို့' : '← Back to Home';
+  if (topBackTxt) topBackTxt.textContent = isMy ? '← မူလစာမျက်နှာသို့' : '← Back to Home';
+  if (mainBackTxt) mainBackTxt.textContent = isMy ? '🏠 မူလစာမျက်နှာသို့ ပြန်သွားမည်' : '🏠 Back to Home Screen';
+}
+
+// Window exports
+window.getUserAvatar = getUserAvatar;
+window.setUserAvatar = setUserAvatar;
+window.refreshAllUserAvatars = refreshAllUserAvatars;
+window.openAvatarPickerModal = openAvatarPickerModal;
+window.closeAvatarPickerModal = closeAvatarPickerModal;
+window.handleUserAvatarUpload = handleUserAvatarUpload;
+window.selectPresetAvatar = selectPresetAvatar;
+window.resetUserAvatarToDefault = resetUserAvatarToDefault;
+window.promptEditUserName = promptEditUserName;
+window.loadUserName = loadUserName;
+window.backToHomeFromSettings = backToHomeFromSettings;
+window.updateAvatarModalLanguage = updateAvatarModalLanguage;
+
+// Initial sync
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    refreshAllUserAvatars();
+    loadUserName();
+    updateAvatarModalLanguage();
+  });
+} else {
+  refreshAllUserAvatars();
+  loadUserName();
+  updateAvatarModalLanguage();
 }
 

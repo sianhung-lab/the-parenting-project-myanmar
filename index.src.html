@@ -25,17 +25,28 @@
   var isAppUrl = window.location.href.indexOf('app=true') > -1 || window.location.href.indexOf('mode=app') > -1;
   if (isAppUrl || isAppUA || isWebView || isStandalone || (isPhone && w <= 820) || (w <= 820 && window.location.href.indexOf('desktop=true') === -1)) {
     document.documentElement.classList.add('is-mobile-app');
-    document.write('<style>html.is-mobile-app body > section:not(#mobile-app-home), html.is-mobile-app body > header:not(#mobile-app-bar), html.is-mobile-app body > footer, html.is-mobile-app body #navbar, html.is-mobile-app body #home, html.is-mobile-app body .hero, html.is-mobile-app body #videos, html.is-mobile-app body #modules, html.is-mobile-app body #church, html.is-mobile-app body #quiz, html.is-mobile-app body #about, html.is-mobile-app body .host-sec, html.is-mobile-app body #testimonials, html.is-mobile-app body #faq, html.is-mobile-app body #steps, html.is-mobile-app body #benefits { display: none !important; } html.is-mobile-app body #mobile-app-home, html.is-mobile-app body #mobile-app-bar { display: block !important; }</style>');
+    var session = null;
+    try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e){}
+    var isAuth = !!(session && session.loggedIn);
+    if (isAuth) {
+      document.documentElement.classList.add('is-authenticated');
+    }
+    var hideDesktop = 'html.is-mobile-app body > section:not(#mobile-app-home), html.is-mobile-app body > header:not(#mobile-app-bar), html.is-mobile-app body > footer, html.is-mobile-app body #navbar, html.is-mobile-app body #home, html.is-mobile-app body .hero, html.is-mobile-app body #videos, html.is-mobile-app body #modules, html.is-mobile-app body #church, html.is-mobile-app body #quiz, html.is-mobile-app body #about, html.is-mobile-app body .host-sec, html.is-mobile-app body #testimonials, html.is-mobile-app body #faq, html.is-mobile-app body #steps, html.is-mobile-app body #benefits { display: none !important; }';
+    var authRules = 'html.is-mobile-app:not(.is-authenticated) body #mobile-app-home, html.is-mobile-app:not(.is-authenticated) body #mobile-app-bar, html.is-mobile-app:not(.is-authenticated) body #mobile-app-bottom-bar { display: none !important; } html.is-mobile-app:not(.is-authenticated) body #phone-welcome-gate { display: flex !important; visibility: visible !important; pointer-events: auto !important; } html.is-mobile-app.is-authenticated body #mobile-app-home { display: block !important; } html.is-mobile-app.is-authenticated body #mobile-app-bar { display: flex !important; } html.is-mobile-app.is-authenticated body #mobile-app-bottom-bar { display: flex !important; } html.is-mobile-app.is-authenticated body #phone-welcome-gate { display: none !important; visibility: hidden !important; pointer-events: none !important; }';
+    document.write('<style>' + hideDesktop + ' ' + authRules + '</style>');
   }
 })();
 </script>
 <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="mood-day">
-<script>if (document.documentElement.classList.contains('is-mobile-app')) { document.body.classList.add('is-mobile-app'); }</script>
+<script>
+if (document.documentElement.classList.contains('is-mobile-app')) { document.body.classList.add('is-mobile-app'); }
+if (document.documentElement.classList.contains('is-authenticated')) { document.body.classList.add('is-authenticated'); }
+</script>
 
-<!-- DEDICATED PHONE APP WELCOME GATEWAY (Disabled so all mobile users can directly access the app) -->
-<div id="phone-welcome-gate" class="phone-welcome-gate" style="display:none !important;">
+<!-- DEDICATED PHONE APP WELCOME GATEWAY -->
+<div id="phone-welcome-gate" class="phone-welcome-gate">
   <!-- Two-Language Switcher (Myanmar & English) -->
   <div class="gate-lang-selector" id="gate-lang-selector" aria-label="Language Selector">
     <button type="button" class="gate-lang-pill active" id="gate-lang-my" onclick="setAppLanguage('my')">🇲🇲 မြန်မာ</button>

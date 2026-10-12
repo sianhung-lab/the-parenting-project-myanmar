@@ -20,7 +20,7 @@ EXCEL_FILE = os.path.join(DIR, "The_Parenting_Project_Myanmar_Database.xlsx")
 STAFF_PASSCODE = "cbn2026"
 
 # Google Sheets Webhook URL (Single Primary)
-GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxIwsbpij2D4dpSUo3P5kCgStH2p2cucr1hQBMGOMU6ETx99ilTfaWyCMx0mtZFsiS3/exec"
+GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyzWRfIK9WG3pjVeziLiGnOAGzJXz9POJVrbKtY2V80Cz5qMd8jsRPZmpWHiB8H-oZR/exec"
 
 _recent_sheet_syncs = set()
 _sheet_lock = threading.Lock()

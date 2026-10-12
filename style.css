@@ -3878,9 +3878,12 @@ body.is-mobile-app .admin-hub-trigger {
 
 /* ===================================================
 /* ===================================================
-   PHONE APP: SEAMLESS VISITOR ACCESS (No blocking gate)
-   All users can see and explore Home, Library, and Cinema directly!
+   PHONE APP: LOGIN GATE + HOME SCREEN
+   Gate shows when not authenticated.
+   Home shows when authenticated.
 =================================================== */
+
+/* The gate is HIDDEN by default on desktop/large screens */
 .phone-welcome-gate,
 #phone-welcome-gate {
   display: none !important;
@@ -3888,9 +3891,58 @@ body.is-mobile-app .admin-hub-trigger {
   pointer-events: none !important;
 }
 
-body.is-mobile-app #mobile-app-bar,
-body.is-mobile-app #mobile-app-home,
-body.is-mobile-app #mobile-app-bottom-bar {
+/* When in phone app mode AND NOT authenticated: Show gate full viewport */
+html.is-mobile-app:not(.is-authenticated) #phone-welcome-gate,
+html.is-mobile-app:not(.is-authenticated) .phone-welcome-gate,
+body.is-mobile-app:not(.is-authenticated) #phone-welcome-gate,
+body.is-mobile-app:not(.is-authenticated) .phone-welcome-gate {
+  display: flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 99999 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(160deg, #0c2242 0%, #071629 60%, #040c1a 100%) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* When authenticated, hide the gate */
+html.is-authenticated #phone-welcome-gate,
+html.is-authenticated .phone-welcome-gate,
+body.is-authenticated #phone-welcome-gate,
+body.is-authenticated .phone-welcome-gate {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Also hide app-bar, home + bottom bar when NOT authenticated on mobile */
+html.is-mobile-app:not(.is-authenticated) body #mobile-app-bar,
+html.is-mobile-app:not(.is-authenticated) body #mobile-app-home,
+html.is-mobile-app:not(.is-authenticated) body #mobile-app-bottom-bar,
+body.is-mobile-app:not(.is-authenticated) #mobile-app-bar,
+body.is-mobile-app:not(.is-authenticated) #mobile-app-home,
+body.is-mobile-app:not(.is-authenticated) #mobile-app-bottom-bar {
+  display: none !important;
+}
+
+/* When authenticated on mobile: show app-bar, home, and bottom bar */
+html.is-mobile-app.is-authenticated body #mobile-app-bar,
+body.is-mobile-app.is-authenticated #mobile-app-bar {
+  display: flex !important;
+}
+html.is-mobile-app.is-authenticated body #mobile-app-home,
+body.is-mobile-app.is-authenticated #mobile-app-home {
+  display: block !important;
+}
+html.is-mobile-app.is-authenticated body #mobile-app-bottom-bar,
+body.is-mobile-app.is-authenticated #mobile-app-bottom-bar {
   display: flex !important;
 }
 
@@ -3899,6 +3951,7 @@ body.is-mobile-app #mobile-app-bottom-bar {
 .phone-welcome-gate * {
   box-sizing: border-box;
 }
+
 
 /* Two-Language Switcher Pills — top right corner */
 .gate-lang-selector {
@@ -3942,15 +3995,11 @@ body.is-mobile-app #mobile-app-bottom-bar {
 
 /* Auth Card — Pure White Light Card */
 .gate-card {
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  right: 16px;
-  transform: translateY(-50%);
-  width: auto;
-  max-width: 400px;
-  max-height: calc(100vh - 40px);
-  margin: 0 auto;
+  position: relative;
+  width: calc(100% - 32px);
+  max-width: 390px;
+  max-height: calc(100vh - 50px);
+  margin: auto;
   background: #FFFFFF;
   border: 1.5px solid #E2E8F0;
   border-radius: 18px;
