@@ -1066,14 +1066,14 @@ function applyLang() {
     if (passcodeEl) passcodeEl.placeholder = "Enter Staff Passcode";
   }
 
-  // Update toggle button texts across all views
-  const toggleTxt = lang === 'my' ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+  // Update language button texts across all views (show current active language)
+  const activeLangTxt = lang === 'my' ? '🇲🇲 မြန်မာ' : '🇬🇧 English';
   const mainBtn = document.getElementById('lang-btn');
-  if (mainBtn) mainBtn.textContent = toggleTxt;
+  if (mainBtn) mainBtn.textContent = activeLangTxt;
   const cbnToggle = document.getElementById('cbn-lang-toggle-text');
-  if (cbnToggle) cbnToggle.textContent = toggleTxt;
+  if (cbnToggle) cbnToggle.textContent = activeLangTxt;
   const mobBtn = document.getElementById('mobile-app-lang-btn');
-  if (mobBtn) mobBtn.textContent = toggleTxt;
+  if (mobBtn) mobBtn.textContent = activeLangTxt;
 
   // Update show-all buttons
   document.querySelectorAll('.cbn-show-all-txt').forEach(el => {
@@ -2774,7 +2774,7 @@ function updateSettingsModalUI() {
   const langTxt = document.getElementById('settings-lang-txt');
 
   if (langTxt) {
-    langTxt.textContent = isMy ? '🇺🇸 Switch to English' : '🇲🇲 မြန်မာဘာသာ သို့ ပြောင်းရန်';
+    langTxt.textContent = isMy ? '🇲🇲 မြန်မာ' : '🇬🇧 English';
   }
 
   if (session && session.loggedIn) {
@@ -6815,16 +6815,16 @@ function setAppLanguage(newLang) {
   document.body.classList.toggle('lang-my', lang === 'my');
   const isMy = lang === 'my';
   
-  // Update desktop lang button
+  // Update desktop lang button (show current active language)
   const dLangBtn = document.getElementById('lang-btn');
-  if (dLangBtn) dLangBtn.textContent = isMy ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+  if (dLangBtn) dLangBtn.textContent = isMy ? '🇲🇲 မြန်မာ' : '🇬🇧 English';
 
-  // Update mobile app header lang button
+  // Update mobile app header lang button (show current active language)
   const mLangBtn = document.getElementById('mobile-app-btn-lang');
-  if (mLangBtn) mLangBtn.textContent = isMy ? 'EN' : 'မြန်မာ';
+  if (mLangBtn) mLangBtn.textContent = isMy ? '🇲🇲 မြန်မာ' : '🇬🇧 English';
 
   const mobLangBtn = document.getElementById('mobile-app-lang-btn');
-  if (mobLangBtn) mobLangBtn.textContent = isMy ? '🇬🇧 English' : '🇲🇲 မြန်မာ';
+  if (mobLangBtn) mobLangBtn.textContent = isMy ? '🇲🇲 မြန်မာ' : '🇬🇧 English';
 
   // Update gate language pills
   const pillMy = document.getElementById('gate-lang-my');
@@ -9450,6 +9450,11 @@ function updateTwoOptionUIStrings() {
   const appBrandSub = document.getElementById('mobile-app-brand-sub');
   if (appBrandSub) {
     appBrandSub.textContent = 'By CBN Myanmar';
+  }
+
+  const mobLangBtn = document.getElementById('mobile-app-lang-btn');
+  if (mobLangBtn) {
+    mobLangBtn.textContent = isMy ? '🇲🇲 မြန်မာ' : '🇬🇧 English';
   }
 
   // Section titles
