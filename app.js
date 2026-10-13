@@ -9418,34 +9418,17 @@ function updateTwoOptionHeroText(isDay, isMy) {
   const subEl = document.getElementById('tpp-hero-sub');
   const btnEl = document.getElementById('tpp-btn-start');
 
-  if (isDay) {
-    if (kickerEl) {
-      kickerEl.style.display = 'block';
-      kickerEl.textContent = isMy ? 'မိဘကောင်း ဖြစ်လာစေရန်' : 'PARENT BETTER.';
-    }
-    if (titleEl) {
-      titleEl.textContent = isMy ? 'ခိုင်ခံ့သော မိသားစု တည်ဆောက်ခြင်း' : 'BUILD STRONGER HOMES.';
-    }
-    if (subEl) {
-      subEl.textContent = isMy
-        ? 'ယုံကြည်စိတ်ချပြီး ကြင်နာတတ်သော သားသမီးများကို ပျိုးထောင်မည့် လက်တွေ့ကျသော ဓမ္မသစ် မိဘလမ်းညွှန်။'
-        : 'Practical, biblical parenting tips to help you raise confident, kind and resilient children.';
-    }
-  } else {
-    // Night mood: Option 2 Modern & Visual with Golden Cursive Script
-    if (kickerEl) {
-      kickerEl.style.display = 'none';
-    }
-    if (titleEl) {
-      titleEl.innerHTML = isMy
-        ? 'ပိုမိုကောင်းမွန်သော မိဘ<br>ပိုမိုတောက်ပသော အနာဂတ်'
-        : 'Better Parents<br>Brighter Futures';
-    }
-    if (subEl) {
-      subEl.textContent = isMy
-        ? 'ယနေ့ခေတ် စိန်ခေါ်မှုများအတွက် မိနစ်ပိုင်းအတွင်း လက်တွေ့ကျသော မိဘလမ်းညွှန်။'
-        : 'Practical, biblical parenting tips for today\'s challenges — in just a few minutes.';
-    }
+  if (kickerEl) {
+    kickerEl.style.display = 'block';
+    kickerEl.textContent = isMy ? 'မိဘကောင်း ဖြစ်လာစေရန်' : 'PARENT BETTER.';
+  }
+  if (titleEl) {
+    titleEl.textContent = isMy ? 'ခိုင်ခံ့သော မိသားစု တည်ဆောက်ခြင်း' : 'BUILD STRONGER HOMES.';
+  }
+  if (subEl) {
+    subEl.textContent = isMy
+      ? 'ယုံကြည်စိတ်ချပြီး ကြင်နာတတ်သော သားသမီးများကို ပျိုးထောင်မည့် လက်တွေ့ကျသော ဓမ္မသစ် မိဘလမ်းညွှန်။'
+      : 'Practical, biblical parenting tips to help you raise confident, kind and resilient children.';
   }
 
   if (btnEl) {
@@ -9503,7 +9486,7 @@ function updateTwoOptionUIStrings() {
 
   // Library Screen
   const libTitle = document.getElementById('tpp-lib-title');
-  if (libTitle) libTitle.textContent = isDay ? (isMy ? 'စာကြည့်တိုက်' : 'Library') : (isMy ? '← စာကြည့်တိုက်' : '← Library');
+  if (libTitle) libTitle.textContent = isMy ? 'စာကြည့်တိုက်' : 'Library';
 
   const libSub = document.getElementById('tpp-lib-sub');
   if (libSub) libSub.textContent = isMy ? '၁၁ ခန်းတွဲ သင်ခန်းစာများ' : '11 Video Lectures';

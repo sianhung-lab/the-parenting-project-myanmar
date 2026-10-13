@@ -14932,11 +14932,7 @@ body.mood-dark .tpp-hero-card {
 }
 
 body.mood-dark .tpp-hero-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(13, 34, 29, 0.2) 0%, rgba(13, 34, 29, 0.85) 100%);
-  pointer-events: none;
+  display: none !important;
 }
 
 body.mood-dark .tpp-hero-body {
@@ -14944,22 +14940,27 @@ body.mood-dark .tpp-hero-body {
 }
 
 body.mood-dark .tpp-hero-kicker {
-  display: none !important;
+  display: block !important;
+  color: #34D399 !important;
 }
 
-/* Golden Script Title */
 body.mood-dark .tpp-hero-title {
-  font-family: var(--font-script-hero) !important;
-  font-size: 1.95rem !important;
-  font-weight: 700 !important;
-  color: #FDE68A !important;
-  line-height: 1.15 !important;
-  letter-spacing: 0.4px !important;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  font-family: var(--font-serif-hero) !important;
+  font-size: 1.45rem !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.3px !important;
+  text-transform: uppercase !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background: none !important;
+  filter: none !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 body.mood-dark .tpp-hero-subtitle {
-  color: #86A79C !important;
+  color: #94A3B8 !important;
 }
 
 /* Crisp White Pill with Dark Text */
@@ -15384,19 +15385,21 @@ body:not(.mood-dark) .tpp-hero-title {
   transform: perspective(800px) translateZ(8px) !important;
 }
 
-/* 3D Title Treatment in Night Mode */
+/* Title Treatment in Night Mode - Identical Serif Typography to Day Mode */
 body.mood-dark .tpp-hero-title {
-  font-family: var(--font-script-hero) !important;
-  font-size: 2.05rem !important;
-  font-weight: 700 !important;
-  line-height: 1.15 !important;
-  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 25%, #F59E0B 50%, #FDE68A 75%, #FEF3C7 100%) !important;
-  background-size: 260% 100% !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  animation: typoShine3D 7s ease infinite !important;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.75)) drop-shadow(0 6px 18px rgba(245, 158, 11, 0.45)) !important;
-  transform: perspective(800px) translateZ(12px) !important;
+  font-family: var(--font-serif-hero) !important;
+  font-size: 1.45rem !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.3px !important;
+  text-transform: uppercase !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background: none !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  filter: none !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 /* App Bar Brand Title 3D Depth */
@@ -28973,34 +28976,17 @@ function updateTwoOptionHeroText(isDay, isMy) {
   const subEl = document.getElementById('tpp-hero-sub');
   const btnEl = document.getElementById('tpp-btn-start');
 
-  if (isDay) {
-    if (kickerEl) {
-      kickerEl.style.display = 'block';
-      kickerEl.textContent = isMy ? 'မိဘကောင်း ဖြစ်လာစေရန်' : 'PARENT BETTER.';
-    }
-    if (titleEl) {
-      titleEl.textContent = isMy ? 'ခိုင်ခံ့သော မိသားစု တည်ဆောက်ခြင်း' : 'BUILD STRONGER HOMES.';
-    }
-    if (subEl) {
-      subEl.textContent = isMy
-        ? 'ယုံကြည်စိတ်ချပြီး ကြင်နာတတ်သော သားသမီးများကို ပျိုးထောင်မည့် လက်တွေ့ကျသော ဓမ္မသစ် မိဘလမ်းညွှန်။'
-        : 'Practical, biblical parenting tips to help you raise confident, kind and resilient children.';
-    }
-  } else {
-    // Night mood: Option 2 Modern & Visual with Golden Cursive Script
-    if (kickerEl) {
-      kickerEl.style.display = 'none';
-    }
-    if (titleEl) {
-      titleEl.innerHTML = isMy
-        ? 'ပိုမိုကောင်းမွန်သော မိဘ<br>ပိုမိုတောက်ပသော အနာဂတ်'
-        : 'Better Parents<br>Brighter Futures';
-    }
-    if (subEl) {
-      subEl.textContent = isMy
-        ? 'ယနေ့ခေတ် စိန်ခေါ်မှုများအတွက် မိနစ်ပိုင်းအတွင်း လက်တွေ့ကျသော မိဘလမ်းညွှန်။'
-        : 'Practical, biblical parenting tips for today\'s challenges — in just a few minutes.';
-    }
+  if (kickerEl) {
+    kickerEl.style.display = 'block';
+    kickerEl.textContent = isMy ? 'မိဘကောင်း ဖြစ်လာစေရန်' : 'PARENT BETTER.';
+  }
+  if (titleEl) {
+    titleEl.textContent = isMy ? 'ခိုင်ခံ့သော မိသားစု တည်ဆောက်ခြင်း' : 'BUILD STRONGER HOMES.';
+  }
+  if (subEl) {
+    subEl.textContent = isMy
+      ? 'ယုံကြည်စိတ်ချပြီး ကြင်နာတတ်သော သားသမီးများကို ပျိုးထောင်မည့် လက်တွေ့ကျသော ဓမ္မသစ် မိဘလမ်းညွှန်။'
+      : 'Practical, biblical parenting tips to help you raise confident, kind and resilient children.';
   }
 
   if (btnEl) {
@@ -29058,7 +29044,7 @@ function updateTwoOptionUIStrings() {
 
   // Library Screen
   const libTitle = document.getElementById('tpp-lib-title');
-  if (libTitle) libTitle.textContent = isDay ? (isMy ? 'စာကြည့်တိုက်' : 'Library') : (isMy ? '← စာကြည့်တိုက်' : '← Library');
+  if (libTitle) libTitle.textContent = isMy ? 'စာကြည့်တိုက်' : 'Library';
 
   const libSub = document.getElementById('tpp-lib-sub');
   if (libSub) libSub.textContent = isMy ? '၁၁ ခန်းတွဲ သင်ခန်းစာများ' : '11 Video Lectures';
