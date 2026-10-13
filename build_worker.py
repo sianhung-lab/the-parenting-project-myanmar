@@ -23,232 +23,51 @@ manifest_json = read('manifest.json') if os.path.exists(os.path.join(DIR, 'manif
 index_compiled = index_html.replace('<link rel="stylesheet" href="style.css"/>', f'<style>{style_css}</style>')
 index_compiled = index_compiled.replace('<script src="app.js"></script>', f'<script>{app_js}</script>')
 
-# Helper to read base64 image data
+# Helper to index images as fast cached assets instead of massive inlined base64 strings
 import base64
-def get_b64(filename, mime):
+import hashlib
+
+IMAGE_FILES = [
+    'official_logo.png', 'brand_hero_zoomed.jpg', 'opt_brand_hero.jpg',
+    'church_couple_welcoming.jpg', 'opt_church.jpg', 'banner.jpg', 'opt_banner.jpg',
+    'avatar_couple.jpg', 'avatar_refugee.jpg', 'avatar_education.jpg',
+    'opt_login_bg.jpg', 'login_bg.jpg', 'welcome_gate_bg.jpg',
+    'parent_toddler_cozy.jpg', 'mother_avatar.jpg', 'bedtime_toddler.jpg',
+    'yt_thumb_trailer.jpg', 'tpp_mentors_official.jpg',
+    'tpp_canva_invite_card.jpg', 'tpp_canva_guide_cover.jpg', 'tpp_canva_invite_back.jpg',
+    'shield_extracted.png', 'clean_portrait_1.png', 'clean_portrait_2.png', 'clean_portrait_3.png',
+    'card_photo_top.jpg', 'card_photo_bottom.jpg',
+    'mentor_couple_young_source.jpg', 'mentor_couple_senior_source.jpg', 'mentor_couple_pink_source.jpg',
+    'mentor_hero_perfect_frame.jpg', 'mentor_avatar_young.jpg', 'mentor_avatar_senior.jpg',
+    'mentor_avatar_pink.jpg', 'hero_celebrating_couple.jpg', 'couple_hd.jpg',
+    'cbn_lms_dashboard_opt.jpg', 'cbn_lms_dashboard.png'
+] + [f'yt_thumb_{i}.jpg' for i in range(1, 12)]
+
+assets_map = {}
+for filename in set(IMAGE_FILES):
     filepath = os.path.join(DIR, filename)
     if os.path.exists(filepath):
         with open(filepath, 'rb') as f:
-            return f'data:{mime};base64,' + base64.b64encode(f.read()).decode('utf-8')
-    return ""
+            b_data = f.read()
+        mime = 'image/png' if filename.endswith('.png') else 'image/jpeg'
+        b64_str = base64.b64encode(b_data).decode('utf-8')
+        etag_val = f'"w-{hashlib.md5(b_data).hexdigest()[:12]}"'
+        assets_map[filename] = {
+            'mime': mime,
+            'b64': b64_str,
+            'etag': etag_val
+        }
 
-logo_b64 = get_b64('official_logo.png', 'image/png')
-hero_b64 = get_b64('opt_brand_hero.jpg', 'image/jpeg') or get_b64('brand_hero_zoomed.jpg', 'image/jpeg')
-church_b64 = get_b64('opt_church.jpg', 'image/jpeg') or get_b64('church_couple_welcoming.jpg', 'image/jpeg')
-banner_b64 = get_b64('opt_banner.jpg', 'image/jpeg') or get_b64('banner.jpg', 'image/jpeg')
-avatar_couple_b64 = get_b64('avatar_couple.jpg', 'image/jpeg')
-avatar_refugee_b64 = get_b64('avatar_refugee.jpg', 'image/jpeg')
-avatar_edu_b64 = get_b64('avatar_education.jpg', 'image/jpeg')
-login_bg_b64 = get_b64('opt_login_bg.jpg', 'image/jpeg') or get_b64('login_bg.jpg', 'image/jpeg')
-welcome_bg_b64 = get_b64('welcome_gate_bg.jpg', 'image/jpeg')
+# Optimize large source paths in index_compiled to use lightweight alternatives without inlining base64
+index_compiled = index_compiled.replace('brand_hero_zoomed.jpg', 'opt_brand_hero.jpg')
+index_compiled = index_compiled.replace('hero_couple_opt.jpg', 'opt_brand_hero.jpg')
+index_compiled = index_compiled.replace('church_couple_welcoming.jpg', 'opt_church.jpg')
+index_compiled = index_compiled.replace('banner.jpg', 'opt_banner.jpg')
+login_html = login_html.replace('login_bg.jpg', 'opt_login_bg.jpg')
+reg_html = reg_html.replace('login_bg.jpg', 'opt_login_bg.jpg')
 
-if logo_b64:
-    index_compiled = index_compiled.replace('src="official_logo.png"', f'src="{logo_b64}"')
-    login_html = login_html.replace('src="official_logo.png"', f'src="{logo_b64}"')
-    reg_html = reg_html.replace('src="official_logo.png"', f'src="{logo_b64}"')
-if hero_b64:
-    index_compiled = index_compiled.replace('src="brand_hero_zoomed.jpg"', f'src="{hero_b64}"')
-    index_compiled = index_compiled.replace('src="hero_couple_opt.jpg"', f'src="{hero_b64}"')
-if church_b64:
-    index_compiled = index_compiled.replace('src="church_couple_welcoming.jpg"', f'src="{church_b64}"')
-    index_compiled = index_compiled.replace("src='church_couple_welcoming.jpg'", f"src='{church_b64}'")
-    index_compiled = index_compiled.replace('"church_couple_welcoming.jpg"', f'"{church_b64}"')
-    index_compiled = index_compiled.replace("'church_couple_welcoming.jpg'", f"'{church_b64}'")
-if banner_b64:
-    index_compiled = index_compiled.replace('src="banner.jpg"', f'src="{banner_b64}"')
-if avatar_couple_b64:
-    index_compiled = index_compiled.replace('src="avatar_couple.jpg"', f'src="{avatar_couple_b64}"')
-    index_compiled = index_compiled.replace("src='avatar_couple.jpg'", f"src='{avatar_couple_b64}'")
-    index_compiled = index_compiled.replace('"avatar_couple.jpg"', f'"{avatar_couple_b64}"')
-    index_compiled = index_compiled.replace("'avatar_couple.jpg'", f"'{avatar_couple_b64}'")
-if avatar_refugee_b64:
-    index_compiled = index_compiled.replace('src="avatar_refugee.jpg"', f'src="{avatar_refugee_b64}"')
-if avatar_edu_b64:
-    index_compiled = index_compiled.replace('src="avatar_education.jpg"', f'src="{avatar_edu_b64}"')
-if login_bg_b64:
-    login_html = login_html.replace("url('login_bg.jpg')", f"url('{login_bg_b64}')")
-    reg_html = reg_html.replace("url('login_bg.jpg')", f"url('{login_bg_b64}')")
-if welcome_bg_b64:
-    index_compiled = index_compiled.replace("url('welcome_gate_bg.jpg')", f"url('{welcome_bg_b64}')")
-    index_compiled = index_compiled.replace('url("welcome_gate_bg.jpg")', f'url("{welcome_bg_b64}")')
-
-cbn_dash_b64 = get_b64('cbn_lms_dashboard_opt.jpg', 'image/jpeg') or get_b64('cbn_lms_dashboard.png', 'image/png')
-if cbn_dash_b64:
-    index_compiled = index_compiled.replace('src="cbn_lms_dashboard_opt.jpg"', f'src="{cbn_dash_b64}"')
-
-parent_toddler_b64 = get_b64('parent_toddler_cozy.jpg', 'image/jpeg')
-mother_avatar_b64 = get_b64('mother_avatar.jpg', 'image/jpeg')
-bedtime_toddler_b64 = get_b64('bedtime_toddler.jpg', 'image/jpeg')
-
-if parent_toddler_b64:
-    index_compiled = index_compiled.replace('src="parent_toddler_cozy.jpg"', f'src="{parent_toddler_b64}"')
-    index_compiled = index_compiled.replace("src='parent_toddler_cozy.jpg'", f"src='{parent_toddler_b64}'")
-    index_compiled = index_compiled.replace('poster="parent_toddler_cozy.jpg"', f'poster="{parent_toddler_b64}"')
-    index_compiled = index_compiled.replace("'parent_toddler_cozy.jpg'", f"'{parent_toddler_b64}'")
-    index_compiled = index_compiled.replace('"parent_toddler_cozy.jpg"', f'"{parent_toddler_b64}"')
-if mother_avatar_b64:
-    index_compiled = index_compiled.replace('src="mother_avatar.jpg"', f'src="{mother_avatar_b64}"')
-    index_compiled = index_compiled.replace("src='mother_avatar.jpg'", f"src='{mother_avatar_b64}'")
-    index_compiled = index_compiled.replace("'mother_avatar.jpg'", f"'{mother_avatar_b64}'")
-    index_compiled = index_compiled.replace('"mother_avatar.jpg"', f'"{mother_avatar_b64}"')
-if bedtime_toddler_b64:
-    index_compiled = index_compiled.replace('src="bedtime_toddler.jpg"', f'src="{bedtime_toddler_b64}"')
-    index_compiled = index_compiled.replace("src='bedtime_toddler.jpg'", f"src='{bedtime_toddler_b64}'")
-    index_compiled = index_compiled.replace("'bedtime_toddler.jpg'", f"'{bedtime_toddler_b64}'")
-    index_compiled = index_compiled.replace('"bedtime_toddler.jpg"', f'"{bedtime_toddler_b64}"')
-
-# Official Project YouTube Thumbnails (1 to 11 and trailer)
-for i in range(1, 12):
-    t_name = f'yt_thumb_{i}.jpg'
-    t_b64 = get_b64(t_name, 'image/jpeg')
-    if t_b64:
-        index_compiled = index_compiled.replace(f'src="{t_name}"', f'src="{t_b64}"')
-        index_compiled = index_compiled.replace(f"src='{t_name}'", f"src='{t_b64}'")
-        index_compiled = index_compiled.replace(f'"{t_name}"', f'"{t_b64}"')
-        index_compiled = index_compiled.replace(f"'{t_name}'", f"'{t_b64}'")
-
-trailer_b64 = get_b64('yt_thumb_trailer.jpg', 'image/jpeg')
-if trailer_b64:
-    index_compiled = index_compiled.replace('src="yt_thumb_trailer.jpg"', f'src="{trailer_b64}"')
-    index_compiled = index_compiled.replace("src='yt_thumb_trailer.jpg'", f"src='{trailer_b64}'")
-    index_compiled = index_compiled.replace('"yt_thumb_trailer.jpg"', f'"{trailer_b64}"')
-    index_compiled = index_compiled.replace("'yt_thumb_trailer.jpg'", f"'{trailer_b64}'")
-
-mentors_b64 = get_b64('tpp_mentors_official.jpg', 'image/jpeg')
-if mentors_b64:
-    index_compiled = index_compiled.replace('src="tpp_mentors_official.jpg"', f'src="{mentors_b64}"')
-    index_compiled = index_compiled.replace("src='tpp_mentors_official.jpg'", f"src='{mentors_b64}'")
-    index_compiled = index_compiled.replace('"tpp_mentors_official.jpg"', f'"{mentors_b64}"')
-    index_compiled = index_compiled.replace("'tpp_mentors_official.jpg'", f"'{mentors_b64}'")
-
-canva_invite_b64 = get_b64('tpp_canva_invite_card.jpg', 'image/jpeg')
-if canva_invite_b64:
-    index_compiled = index_compiled.replace('src="tpp_canva_invite_card.jpg"', f'src="{canva_invite_b64}"')
-    index_compiled = index_compiled.replace("src='tpp_canva_invite_card.jpg'", f"src='{canva_invite_b64}'")
-    index_compiled = index_compiled.replace('"tpp_canva_invite_card.jpg"', f'"{canva_invite_b64}"')
-    index_compiled = index_compiled.replace("'tpp_canva_invite_card.jpg'", f"'{canva_invite_b64}'")
-
-canva_cover_b64 = get_b64('tpp_canva_guide_cover.jpg', 'image/jpeg')
-if canva_cover_b64:
-    index_compiled = index_compiled.replace('src="tpp_canva_guide_cover.jpg"', f'src="{canva_cover_b64}"')
-    index_compiled = index_compiled.replace("src='tpp_canva_guide_cover.jpg'", f"src='{canva_cover_b64}'")
-    index_compiled = index_compiled.replace('"tpp_canva_guide_cover.jpg"', f'"{canva_cover_b64}"')
-    index_compiled = index_compiled.replace("'tpp_canva_guide_cover.jpg'", f"'{canva_cover_b64}'")
-
-canva_back_b64 = get_b64('tpp_canva_invite_back.jpg', 'image/jpeg')
-if canva_back_b64:
-    index_compiled = index_compiled.replace('src="tpp_canva_invite_back.jpg"', f'src="{canva_back_b64}"')
-    index_compiled = index_compiled.replace("src='tpp_canva_invite_back.jpg'", f"src='{canva_back_b64}'")
-    index_compiled = index_compiled.replace('"tpp_canva_invite_back.jpg"', f'"{canva_back_b64}"')
-    index_compiled = index_compiled.replace("'tpp_canva_invite_back.jpg'", f"'{canva_back_b64}'")
-
-shield_b64 = get_b64('shield_extracted.png', 'image/png')
-if shield_b64:
-    index_compiled = index_compiled.replace('src="shield_extracted.png"', f'src="{shield_b64}"')
-    index_compiled = index_compiled.replace("src='shield_extracted.png'", f"src='{shield_b64}'")
-    index_compiled = index_compiled.replace('"shield_extracted.png"', f'"{shield_b64}"')
-    index_compiled = index_compiled.replace("'shield_extracted.png'", f"'{shield_b64}'")
-
-portrait_1_b64 = get_b64('clean_portrait_1.png', 'image/png')
-if portrait_1_b64:
-    index_compiled = index_compiled.replace('src="clean_portrait_1.png"', f'src="{portrait_1_b64}"')
-    index_compiled = index_compiled.replace("src='clean_portrait_1.png'", f"src='{portrait_1_b64}'")
-    index_compiled = index_compiled.replace('"clean_portrait_1.png"', f'"{portrait_1_b64}"')
-    index_compiled = index_compiled.replace("'clean_portrait_1.png'", f"'{portrait_1_b64}'")
-
-portrait_2_b64 = get_b64('clean_portrait_2.png', 'image/png')
-if portrait_2_b64:
-    index_compiled = index_compiled.replace('src="clean_portrait_2.png"', f'src="{portrait_2_b64}"')
-    index_compiled = index_compiled.replace("src='clean_portrait_2.png'", f"src='{portrait_2_b64}'")
-    index_compiled = index_compiled.replace('"clean_portrait_2.png"', f'"{portrait_2_b64}"')
-    index_compiled = index_compiled.replace("'clean_portrait_2.png'", f"'{portrait_2_b64}'")
-
-portrait_3_b64 = get_b64('clean_portrait_3.png', 'image/png')
-if portrait_3_b64:
-    index_compiled = index_compiled.replace('src="clean_portrait_3.png"', f'src="{portrait_3_b64}"')
-    index_compiled = index_compiled.replace("src='clean_portrait_3.png'", f"src='{portrait_3_b64}'")
-    index_compiled = index_compiled.replace('"clean_portrait_3.png"', f'"{portrait_3_b64}"')
-    index_compiled = index_compiled.replace("'clean_portrait_3.png'", f"'{portrait_3_b64}'")
-
-card_top_b64 = get_b64('card_photo_top.jpg', 'image/jpeg')
-if card_top_b64:
-    index_compiled = index_compiled.replace('src="card_photo_top.jpg"', f'src="{card_top_b64}"')
-    index_compiled = index_compiled.replace("src='card_photo_top.jpg'", f"src='{card_top_b64}'")
-    index_compiled = index_compiled.replace('"card_photo_top.jpg"', f'"{card_top_b64}"')
-    index_compiled = index_compiled.replace("'card_photo_top.jpg'", f"'{card_top_b64}'")
-
-card_bottom_b64 = get_b64('card_photo_bottom.jpg', 'image/jpeg')
-if card_bottom_b64:
-    index_compiled = index_compiled.replace('src="card_photo_bottom.jpg"', f'src="{card_bottom_b64}"')
-    index_compiled = index_compiled.replace("src='card_photo_bottom.jpg'", f"src='{card_bottom_b64}'")
-    index_compiled = index_compiled.replace('"card_photo_bottom.jpg"', f'"{card_bottom_b64}"')
-    index_compiled = index_compiled.replace("'card_photo_bottom.jpg'", f"'{card_bottom_b64}'")
-
-mentor_young_b64 = get_b64('mentor_couple_young_source.jpg', 'image/jpeg')
-if mentor_young_b64:
-    index_compiled = index_compiled.replace('src="mentor_couple_young_source.jpg"', f'src="{mentor_young_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_couple_young_source.jpg'", f"src='{mentor_young_b64}'")
-    index_compiled = index_compiled.replace('"mentor_couple_young_source.jpg"', f'"{mentor_young_b64}"')
-    index_compiled = index_compiled.replace("'mentor_couple_young_source.jpg'", f"'{mentor_young_b64}'")
-
-mentor_senior_b64 = get_b64('mentor_couple_senior_source.jpg', 'image/jpeg')
-if mentor_senior_b64:
-    index_compiled = index_compiled.replace('src="mentor_couple_senior_source.jpg"', f'src="{mentor_senior_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_couple_senior_source.jpg'", f"src='{mentor_senior_b64}'")
-    index_compiled = index_compiled.replace('"mentor_couple_senior_source.jpg"', f'"{mentor_senior_b64}"')
-    index_compiled = index_compiled.replace("'mentor_couple_senior_source.jpg'", f"'{mentor_senior_b64}'")
-
-mentor_pink_b64 = get_b64('mentor_couple_pink_source.jpg', 'image/jpeg')
-if mentor_pink_b64:
-    index_compiled = index_compiled.replace('src="mentor_couple_pink_source.jpg"', f'src="{mentor_pink_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_couple_pink_source.jpg'", f"src='{mentor_pink_b64}'")
-    index_compiled = index_compiled.replace('"mentor_couple_pink_source.jpg"', f'"{mentor_pink_b64}"')
-    index_compiled = index_compiled.replace("'mentor_couple_pink_source.jpg'", f"'{mentor_pink_b64}'")
-
-mentor_hero_b64 = get_b64('mentor_hero_perfect_frame.jpg', 'image/jpeg')
-if mentor_hero_b64:
-    index_compiled = index_compiled.replace('src="mentor_hero_perfect_frame.jpg"', f'src="{mentor_hero_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_hero_perfect_frame.jpg'", f"src='{mentor_hero_b64}'")
-    index_compiled = index_compiled.replace('"mentor_hero_perfect_frame.jpg"', f'"{mentor_hero_b64}"')
-    index_compiled = index_compiled.replace("'mentor_hero_perfect_frame.jpg'", f"'{mentor_hero_b64}'")
-
-mentor_ay_b64 = get_b64('mentor_avatar_young.jpg', 'image/jpeg')
-if mentor_ay_b64:
-    index_compiled = index_compiled.replace('src="mentor_avatar_young.jpg"', f'src="{mentor_ay_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_avatar_young.jpg'", f"src='{mentor_ay_b64}'")
-    index_compiled = index_compiled.replace('"mentor_avatar_young.jpg"', f'"{mentor_ay_b64}"')
-    index_compiled = index_compiled.replace("'mentor_avatar_young.jpg'", f"'{mentor_ay_b64}'")
-
-mentor_as_b64 = get_b64('mentor_avatar_senior.jpg', 'image/jpeg')
-if mentor_as_b64:
-    index_compiled = index_compiled.replace('src="mentor_avatar_senior.jpg"', f'src="{mentor_as_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_avatar_senior.jpg'", f"src='{mentor_as_b64}'")
-    index_compiled = index_compiled.replace('"mentor_avatar_senior.jpg"', f'"{mentor_as_b64}"')
-    index_compiled = index_compiled.replace("'mentor_avatar_senior.jpg'", f"'{mentor_as_b64}'")
-
-mentor_ap_b64 = get_b64('mentor_avatar_pink.jpg', 'image/jpeg')
-if mentor_ap_b64:
-    index_compiled = index_compiled.replace('src="mentor_avatar_pink.jpg"', f'src="{mentor_ap_b64}"')
-    index_compiled = index_compiled.replace("src='mentor_avatar_pink.jpg'", f"src='{mentor_ap_b64}'")
-    index_compiled = index_compiled.replace('"mentor_avatar_pink.jpg"', f'"{mentor_ap_b64}"')
-    index_compiled = index_compiled.replace("'mentor_avatar_pink.jpg'", f"'{mentor_ap_b64}'")
-
-hero_couple_b64 = get_b64('hero_celebrating_couple.jpg', 'image/jpeg')
-if hero_couple_b64:
-    index_compiled = index_compiled.replace('src="hero_celebrating_couple.jpg"', f'src="{hero_couple_b64}"')
-    index_compiled = index_compiled.replace("src='hero_celebrating_couple.jpg'", f"src='{hero_couple_b64}'")
-    index_compiled = index_compiled.replace('"hero_celebrating_couple.jpg"', f'"{hero_couple_b64}"')
-    index_compiled = index_compiled.replace("'hero_celebrating_couple.jpg'", f"'{hero_couple_b64}'")
-
-couple_hd_b64 = get_b64('couple_hd.jpg', 'image/jpeg')
-if couple_hd_b64:
-    index_compiled = index_compiled.replace('src="couple_hd.jpg"', f'src="{couple_hd_b64}"')
-    index_compiled = index_compiled.replace("src='couple_hd.jpg'", f"src='{couple_hd_b64}'")
-    index_compiled = index_compiled.replace('"couple_hd.jpg"', f'"{couple_hd_b64}"')
-    index_compiled = index_compiled.replace("'couple_hd.jpg'", f"'{couple_hd_b64}'")
-
-
-
+# Compute ETag for compiled HTML
+index_etag = f'"h-{hashlib.md5(index_compiled.encode("utf-8")).hexdigest()[:16]}"'
 
 # Default custom videos
 default_videos = []
@@ -593,6 +412,10 @@ let contentRulesDB = __DEFAULT_RULES__;
 let prayersDB = __DEFAULT_PRAYERS__;
 let feedbackDB = __DEFAULT_FEEDBACK__;
 
+const ASSETS = __ASSETS_JSON__;
+const INDEX_ETAG = __INDEX_ETAG__;
+const _assetCache = new Map();
+
 const INDEX_HTML = __INDEX_HTML__;
 const LOGIN_HTML = __LOGIN_HTML__;
 const REGISTER_HTML = __REGISTER_HTML__;
@@ -605,15 +428,21 @@ export default {{
     const method = request.method;
     const ip = getClientIP(request);
 
-    // Global Edge Rate Limiting (120 req/min)
-    if (!checkRateLimit(ip, 120)) {{
-      return new Response(JSON.stringify({{
-        error: "Cloudflare WAF: Rate limit exceeded. Too many requests from this IP.",
-        status: "rate_limited"
-      }}), {{
-        status: 429,
-        headers: {{ "Content-Type": "application/json; charset=utf-8", ...SECURITY_HEADERS }}
-      }});
+    // Fast Static Asset Match & Live-Sync Bypass
+    const isAssetRequest = path.match(/^\/(?:assets\/)?([a-zA-Z0-9_\-\.]+\.(?:png|jpg|jpeg|svg|webp|ico))$/i);
+    const isLiveSync = (path === "/api/sync/live");
+
+    // Global Edge Rate Limiting (3000 req/min for fast 3-second live sync, exempts assets & live sync)
+    if (!isAssetRequest && !isLiveSync) {{
+      if (!checkRateLimit(ip, 3000)) {{
+        return new Response(JSON.stringify({{
+          error: "Cloudflare WAF: Rate limit exceeded. Too many requests from this IP.",
+          status: "rate_limited"
+        }}), {{
+          status: 429,
+          headers: {{ "Content-Type": "application/json; charset=utf-8", ...SECURITY_HEADERS }}
+        }});
+      }}
     }}
 
     // Helper: CORS & Secure JSON Response
@@ -857,14 +686,118 @@ export default {{
       return Response.redirect("https://github.com/sianhung-lab/the-parenting-project-myanmar/releases/download/v1.1.0/ParentingProjectMyanmar.apk", 302);
     }}
 
-    // 3. Static Pages with Enterprise Security Headers
+    // ========================================================================
+    // FAST STATIC ASSET SERVING WITH 1-YEAR IMMUTABLE CACHE & ETAG
+    // ========================================================================
+    if (isAssetRequest) {{
+      const assetKey = isAssetRequest[1];
+      const asset = ASSETS[assetKey];
+      if (asset) {{
+        const ifNoneMatch = request.headers.get("If-None-Match");
+        if (ifNoneMatch && ifNoneMatch === asset.etag) {{
+          return new Response(null, {{
+            status: 304,
+            headers: {{
+              "ETag": asset.etag,
+              "Cache-Control": "public, max-age=31536000, immutable"
+            }}
+          }});
+        }}
+        let binary = _assetCache.get(assetKey);
+        if (!binary) {{
+          const raw = atob(asset.b64);
+          const len = raw.length;
+          binary = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {{
+            binary[i] = raw.charCodeAt(i);
+          }}
+          _assetCache.set(assetKey, binary);
+        }}
+        return new Response(binary, {{
+          status: 200,
+          headers: {{
+            "Content-Type": asset.mime,
+            "Content-Length": String(binary.length),
+            "Cache-Control": "public, max-age=31536000, immutable",
+            "ETag": asset.etag,
+            ...SECURITY_HEADERS
+          }}
+        }});
+      }}
+    }}
+
+    // ========================================================================
+    // LIGHTNING LIVE-SYNC EDGE ENDPOINT (3-SECOND REAL-TIME REFRESH)
+    // Endpoint: /api/sync/live
+    // ========================================================================
+    if (path === "/api/sync/live" && method === "GET") {{
+      const email = (url.searchParams.get("email") || "").toLowerCase().trim();
+      const staff = url.searchParams.get("staff") || request.headers.get("X-Staff-Auth") || "";
+      const isAdmin = (staff === STAFF_PASSCODE || staff === MCP_SECRET_KEY);
+      const includeAdmin = (url.searchParams.get("admin") === "1" || isAdmin) && isAdmin;
+
+      if (env.KV) {{
+        const kvRegs = await env.KV.get("registrations", "json");
+        if (kvRegs) registrationsDB = kvRegs;
+        const kvRules = await env.KV.get("content_rules", "json");
+        if (kvRules) contentRulesDB = kvRules;
+        const kvVideos = await env.KV.get("custom_videos", "json");
+        if (kvVideos) customVideosDB = kvVideos;
+      }}
+
+      let userStatus = null;
+      if (email) {{
+        const reg = registrationsDB.find(r => r.email && r.email.toLowerCase() === email);
+        if (reg) {{
+          userStatus = {{
+            isGranted: !!reg.isGranted,
+            status: reg.status || "Verified Partner 🟢",
+            churchName: reg.churchName || "",
+            email: reg.email
+          }};
+        }} else {{
+          userStatus = {{
+            isGranted: false,
+            status: "Pending Review ⏳",
+            churchName: "",
+            email: email
+          }};
+        }}
+      }}
+
+      return jsonResponse({{
+        status: "ok",
+        timestamp: Date.now(),
+        serverTime: new Date().toISOString(),
+        userStatus: userStatus,
+        contentRules: contentRulesDB,
+        customVideos: customVideosDB,
+        prayersCount: prayersDB.length,
+        feedbackCount: feedbackDB.length,
+        adminData: includeAdmin ? registrationsDB : null
+      }}, 200, {{
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "cf-sync-speed": "edge-instant-3s"
+      }});
+    }}
+
+    // 3. Static Pages with Enterprise Security Headers & ETag
     if (path === "/" || path === "/index.html") {{
+      const ifNoneMatch = request.headers.get("If-None-Match");
+      if (ifNoneMatch && ifNoneMatch === INDEX_ETAG) {{
+        return new Response(null, {{
+          status: 304,
+          headers: {{
+            "ETag": INDEX_ETAG,
+            "Cache-Control": "public, max-age=60, stale-while-revalidate=86400"
+          }}
+        }});
+      }}
       return new Response(INDEX_HTML, {{
         headers: {{
           "Content-Type": "text/html; charset=utf-8",
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          "Pragma": "no-cache",
-          "Expires": "0",
+          "Cache-Control": "public, max-age=60, stale-while-revalidate=86400",
+          "ETag": INDEX_ETAG,
           ...SECURITY_HEADERS
         }}
       }});
@@ -1306,6 +1239,8 @@ worker_code = worker_code.replace('__INDEX_HTML__', json.dumps(index_compiled))
 worker_code = worker_code.replace('__LOGIN_HTML__', json.dumps(login_html))
 worker_code = worker_code.replace('__REGISTER_HTML__', json.dumps(reg_html))
 worker_code = worker_code.replace('__MANIFEST_JSON__', json.dumps(manifest_json))
+worker_code = worker_code.replace('__ASSETS_JSON__', json.dumps(assets_map))
+worker_code = worker_code.replace('__INDEX_ETAG__', json.dumps(index_etag))
 
 with open(os.path.join(DIR, 'worker.js'), 'w', encoding='utf-8') as f:
     f.write(worker_code.strip())

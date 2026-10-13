@@ -9884,16 +9884,131 @@ window.loadUserName = loadUserName;
 window.backToHomeFromSettings = backToHomeFromSettings;
 window.updateAvatarModalLanguage = updateAvatarModalLanguage;
 
+// ============================================================================
+// LIGHTNING LIVE-SYNC ENGINE (3-SECOND REAL-TIME REFRESH)
+// Provides instant sub-second edge synchronization:
+// 1. User Access & Permission Grants (auto-unlocks Module 1-11 live)
+// 2. Content Rules (auto-updates locked/free status)
+// 3. Custom Bonus Videos (auto-updates video library)
+// 4. In-Page Admin Hub (auto-updates registrations table, KPIs, and CBN Dashboard)
+// 5. Community Prayers & Feedback (auto-updates counts in real-time)
+// ============================================================================
+let _lastSyncTimestamp = 0;
+let _liveSyncIntervalId = null;
+let _isLiveSyncInProgress = false;
+let _lastContentRulesCache = null;
+let _lastAdminDataCache = null;
+let _lastVideosDataCache = null;
+
+async function performLiveSync() {
+  if (_isLiveSyncInProgress) return;
+  _isLiveSyncInProgress = true;
+
+  try {
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem('tpp_user_session')); } catch(e) {}
+    const email = (session && session.email) ? encodeURIComponent(session.email) : '';
+    const staffPass = sessionStorage.getItem('cbn_staff_pass') || '';
+    const adminHubEl = document.getElementById('adminHubModal');
+    const isAdminHubOpen = !!(adminHubEl && adminHubEl.classList.contains('open'));
+
+    const syncUrl = `/api/sync/live?email=${email}&staff=${encodeURIComponent(staffPass)}&admin=${isAdminHubOpen ? '1' : '0'}&_=${Date.now()}`;
+    const res = await fetch(syncUrl);
+    if (!res.ok) return;
+
+    const syncData = await res.json();
+    if (!syncData || syncData.status !== 'ok') return;
+
+    // A. Real-Time User Privilege Sync
+    if (session && session.loggedIn && syncData.userStatus) {
+      const prevGranted = !!session.isGranted;
+      const newGranted = !!syncData.userStatus.isGranted;
+      const statusText = syncData.userStatus.status || session.status;
+      const churchName = syncData.userStatus.churchName || session.churchName;
+
+      session.isGranted = newGranted;
+      session.status = statusText;
+      session.churchName = churchName;
+      localStorage.setItem('tpp_user_session', JSON.stringify(session));
+
+      userPrivilege.isGranted = newGranted;
+      userPrivilege.status = statusText;
+      userPrivilege.churchName = churchName;
+
+      if (prevGranted !== newGranted) {
+        if (typeof checkAuthStatus === 'function') checkAuthStatus();
+        if (newGranted) {
+          showToast(lang === 'my'
+            ? '🎉 အသင်းတော် မိတ်ဖက်အဖြစ် အတည်ပြုပြီးပါပြီ။ သင်ခန်းစာ (၁၁) ခုလုံး လွတ်လပ်စွာ ကြည့်ရှုနိုင်ပါပြီ။'
+            : '🎉 Access Approved! All 11 facilitator modules are now unlocked.', 4000);
+        }
+      }
+    }
+
+    // B. Real-Time Content Rules Sync
+    if (syncData.contentRules) {
+      const rulesJson = JSON.stringify(syncData.contentRules);
+      if (rulesJson !== _lastContentRulesCache) {
+        _lastContentRulesCache = rulesJson;
+        liveContentRules = syncData.contentRules;
+        if (typeof initVideoCarousel === 'function') initVideoCarousel();
+        if (typeof renderInpageContentRules === 'function' && isAdminHubOpen) renderInpageContentRules();
+      }
+    }
+
+    // C. Real-Time Custom Videos Sync
+    if (syncData.customVideos && Array.isArray(syncData.customVideos)) {
+      const videosJson = JSON.stringify(syncData.customVideos);
+      if (videosJson !== _lastVideosDataCache) {
+        _lastVideosDataCache = videosJson;
+        if (typeof renderInpageVideosList === 'function' && isAdminHubOpen) renderInpageVideosList();
+      }
+    }
+
+    // D. Real-Time Admin Hub Data Sync (when Admin Hub is open)
+    if (isAdminHubOpen && syncData.adminData && Array.isArray(syncData.adminData)) {
+      const adminJson = JSON.stringify(syncData.adminData);
+      if (adminJson !== _lastAdminDataCache) {
+        _lastAdminDataCache = adminJson;
+        inpageAdminData = syncData.adminData;
+        if (typeof renderInpageKPIs === 'function') renderInpageKPIs(inpageAdminData);
+        if (typeof renderInpageAdminTable === 'function') renderInpageAdminTable(inpageAdminData);
+        if (typeof renderCbnDashboard === 'function') renderCbnDashboard(inpageAdminData);
+      }
+    }
+
+    // E. Prayers & Feedback Counts
+    if (typeof syncData.prayersCount === 'number') {
+      window.livePrayersCount = syncData.prayersCount;
+    }
+  } catch(e) {
+    // Non-blocking silent background recovery
+  } finally {
+    _isLiveSyncInProgress = false;
+  }
+}
+
+function startLiveSyncLoop() {
+  if (_liveSyncIntervalId) clearInterval(_liveSyncIntervalId);
+  performLiveSync(); // Immediate first run
+  _liveSyncIntervalId = setInterval(performLiveSync, 3000); // Strict 3-second rapid refresh
+}
+
+window.performLiveSync = performLiveSync;
+window.startLiveSyncLoop = startLiveSyncLoop;
+
 // Initial sync
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     refreshAllUserAvatars();
     loadUserName();
     updateAvatarModalLanguage();
+    setTimeout(startLiveSyncLoop, 400);
   });
 } else {
   refreshAllUserAvatars();
   loadUserName();
   updateAvatarModalLanguage();
+  setTimeout(startLiveSyncLoop, 400);
 }
 
