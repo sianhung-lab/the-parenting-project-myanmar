@@ -9466,7 +9466,7 @@ function updateTwoOptionUIStrings() {
   }
   const appBrandSub = document.getElementById('mobile-app-brand-sub');
   if (appBrandSub) {
-    appBrandSub.textContent = isMy ? 'မြန်မာ' : 'MYANMAR';
+    appBrandSub.textContent = 'By CBN Myanmar';
   }
 
   // Section titles
