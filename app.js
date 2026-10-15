@@ -41,6 +41,8 @@ const MODULES = [
   {
     id: 2,
     cat: "connection",
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-2.mp4",
     youtube: "q1NTvlZhv-Y",
     thumb: "yt_thumb_2.jpg",
     icon: "💚",
@@ -73,6 +75,8 @@ const MODULES = [
   {
     id: 3,
     cat: "connection",
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
     youtube: "GVK5Wc0NZE4",
     thumb: "yt_thumb_3.jpg",
     icon: "🤝",
@@ -545,6 +549,8 @@ let VIDEOS = [
   },
   {
     id: 2,
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-2.mp4",
     youtube: "q1NTvlZhv-Y",
     title: "Module 2: Your Child's Emotional Tank",
     myTitle: "မော်ဂျူး ၂: သားသမီး၏ စိတ်ခံစားချက် အင်အား ဖြည့်ဆည်းပေးခြင်း",
@@ -554,6 +560,8 @@ let VIDEOS = [
   },
   {
     id: 3,
+    videoType: "file",
+    fileUrl: "https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4",
     youtube: "GVK5Wc0NZE4",
     title: "Module 3: Building Togetherness",
     myTitle: "မော်ဂျူး ၃: ခိုင်မြဲသော သံယောဇဉ်နှင့် ရင်းနှီးမှု တည်ဆောက်ခြင်း",
@@ -6436,6 +6444,13 @@ function switchAppTab(tab) {
     }
   }
 
+  if (tab !== 'video') {
+    const vp = document.getElementById('ref-video-player');
+    if (vp) { vp.pause(); vp.src = ''; }
+    const vi = document.getElementById('ref-video-iframe');
+    if (vi) { vi.src = ''; }
+  }
+
   if (tab === 'profile' || tab === 'account') {
     if (typeof updateSettingsPreferencesUI === 'function') {
       updateSettingsPreferencesUI();
@@ -10099,23 +10114,60 @@ function openModuleDetailScreen(mid) {
     4: 'Loving Boundaries · စည်းကမ်း',
     5: 'Role of Fathers · ဖခင်အခန်းကဏ္ဍ',
     6: 'Healthy Family Guidance · လမ်းညွှန်',
-    7: 'Lifelong Grace-Based Parenting · ကျေးဇူးတော်'
+    7: 'Lifelong Grace-Based Parenting · ကျေးဇူးတော်',
+    8: 'Parental Authority · မိဘဩဇာ',
+    9: 'The Digital Home · ဒစ်ဂျစ်တယ်ခေတ်',
+    10: 'Working Parents · အလုပ်နှင့် မိသားစု',
+    11: 'Guiding Into Faith · ယုံကြည်ခြင်းသို့'
   };
-  if (kicker) kicker.textContent = `MODULE ${mid} · THE PARENTING PROJECT`;
+  if (kicker) kicker.textContent = `MODULE ${mid} OF 11 · THE PARENTING PROJECT`;
   if (title) title.textContent = titles[mid] || `Module ${mid}`;
   switchAppTab('detail');
 }
 
 function openVideoPlayerScreen(mid) {
-  mid = mid || 1;
+  mid = parseInt(mid, 10) || 1;
+  const vidEl = document.getElementById('ref-video-player');
   const iframe = document.getElementById('ref-video-iframe');
-  if (iframe) {
-    const vids = {
-      1: 'https://www.youtube.com/embed/hKSMxbFee1U?autoplay=1&rel=0',
-      2: 'https://www.youtube.com/embed/m6X0S7v8B4g?autoplay=1&rel=0',
-      3: 'https://www.youtube.com/embed/Pj3B_h2k4mI?autoplay=1&rel=0',
+
+  // Modules 1, 2, 3: Streamed directly from Cloudflare R2 high-speed storage
+  const r2Videos = {
+    1: 'https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-1.mp4',
+    2: 'https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-2.mp4',
+    3: 'https://pub-9b38e79343f8404495945a9cf030a304.r2.dev/module-3.mp4'
+  };
+
+  const nextBtn = document.querySelector('.ref-btn-video-next');
+  if (nextBtn) {
+    nextBtn.onclick = function() {
+      completeCurrentModule(mid);
+      switchAppTab('detail');
     };
-    iframe.src = vids[mid] || vids[1];
+  }
+
+  if (r2Videos[mid]) {
+    if (iframe) {
+      iframe.src = '';
+      iframe.style.display = 'none';
+    }
+    if (vidEl) {
+      vidEl.style.display = 'block';
+      vidEl.src = r2Videos[mid];
+      vidEl.load();
+      vidEl.play().catch(() => {});
+    }
+  } else {
+    if (vidEl) {
+      vidEl.pause();
+      vidEl.src = '';
+      vidEl.style.display = 'none';
+    }
+    if (iframe) {
+      iframe.style.display = 'block';
+      const mod = (typeof MODULES !== 'undefined') ? MODULES.find(m => m.id === mid) : null;
+      const ytId = mod ? mod.youtube : 'hKSMxbFee1U';
+      iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
+    }
   }
   switchAppTab('video');
 }

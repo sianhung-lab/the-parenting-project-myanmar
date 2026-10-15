@@ -244,13 +244,13 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
       <!-- 1. HERO CARD: Enter The Parenting Project (Unstretched Boat Photo) -->
       <div class="ref-enter-card" onclick="switchAppTab('module')">
         <div class="ref-enter-media">
-          <div class="ref-enter-badge">⭐ 7 CORE MODULES · CBN</div>
+          <div class="ref-enter-badge">⭐ 11 CORE MODULES · CBN</div>
           <img src="boat_clean.jpg" alt="Enter The Parenting Project" class="ref-enter-img" />
         </div>
         <div class="ref-enter-body">
           <div style="flex:1;padding-right:12px">
             <div class="ref-enter-title" id="ref-txt-enter-title">Enter The Parenting Project</div>
-            <div class="ref-enter-sub" id="ref-txt-enter-sub">7 Core Modules · Start Your Journey</div>
+            <div class="ref-enter-sub" id="ref-txt-enter-sub">11 Core Modules · Start Your Journey</div>
           </div>
           <div class="ref-enter-btn-circle">→</div>
         </div>
@@ -307,10 +307,14 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
       <button type="button" class="ref-mod-dots-btn" onclick="openSettingsModal()" title="Options">•••</button>
     </header>
 
-    <!-- Horizontal Stepper Progress Bars -->
+    <!-- Horizontal Stepper Progress Bars (11 Modules) -->
     <div class="ref-mod-stepper-wrap">
       <div class="ref-mod-step-bar completed"></div>
       <div class="ref-mod-step-bar current"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
       <div class="ref-mod-step-bar"></div>
       <div class="ref-mod-step-bar"></div>
       <div class="ref-mod-step-bar"></div>
@@ -447,6 +451,82 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
           <div class="ref-mod-footer-chevron">›</div>
         </div>
       </div>
+
+      <!-- Module 8: Parental Authority -->
+      <div class="ref-module-card" onclick="handleModuleClick(8)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_8.jpg" alt="Module 8" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 8</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-8">Parental Authority · မိဘဩဇာ</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 9: The Digital Home -->
+      <div class="ref-module-card" onclick="handleModuleClick(9)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_9.jpg" alt="Module 9" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 9</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-9">The Digital Home · ဒစ်ဂျစ်တယ်ခေတ်</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 10: Working Dads and Moms -->
+      <div class="ref-module-card" onclick="handleModuleClick(10)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_10.jpg" alt="Module 10" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 10</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-10">Working Parents · အလုပ်နှင့် မိသားစု</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 11: Guiding Into Faith -->
+      <div class="ref-module-card" onclick="handleModuleClick(11)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_11.jpg" alt="Module 11" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 11</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-11">Guiding Into Faith · ယုံကြည်ခြင်းသို့</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -565,7 +645,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
     <div class="ref-video-frame-container">
       <div class="ref-video-player-box">
-        <iframe id="ref-video-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <video id="ref-video-player" controls playsinline preload="metadata" style="display:none;width:100%;height:100%;border-radius:18px;background:#000;object-fit:contain;"></video>
+        <iframe id="ref-video-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none;width:100%;height:100%;border-radius:18px;border:none;"></iframe>
       </div>
       <button type="button" class="ref-btn-video-next" onclick="completeCurrentModule(1); switchAppTab('detail');">
         Next
