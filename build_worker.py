@@ -45,7 +45,8 @@ IMAGE_FILES = [
     'cbn_lms_dashboard_opt.jpg', 'cbn_lms_dashboard.png',
     'crop_ship_hero.jpg', 'crop_bts_photo.jpg', 'crop_teaser_photo.jpg',
     'crop_greenhouse_photo.jpg', 'crop_mod1_photo.jpg', 'crop_mod2_photo.jpg',
-    'crop_fab_heart.png', 'crop_devotion_day2.jpg'
+    'crop_fab_heart.png', 'crop_devotion_day2.jpg',
+    'boat_clean.jpg', 'workshop_socialization.jpg', 'greenhouse_clean.jpg'
 ] + [f'yt_thumb_{i}.jpg' for i in range(1, 12)]
 
 assets_map = {}
