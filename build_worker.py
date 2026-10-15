@@ -17,6 +17,7 @@ style_css = read('style.css')
 app_js = read('app.js')
 login_html = read('login.src.html')
 reg_html = read('register.src.html')
+admin_html = read('admin.html')
 manifest_json = read('manifest.json') if os.path.exists(os.path.join(DIR, 'manifest.json')) else "{}"
 
 # In `index_html`, replace style.css and app.js links with inline tags
@@ -35,12 +36,16 @@ IMAGE_FILES = [
     'parent_toddler_cozy.jpg', 'mother_avatar.jpg', 'bedtime_toddler.jpg',
     'yt_thumb_trailer.jpg', 'tpp_mentors_official.jpg',
     'tpp_canva_invite_card.jpg', 'tpp_canva_guide_cover.jpg', 'tpp_canva_invite_back.jpg',
-    'shield_extracted.png', 'clean_portrait_1.png', 'clean_portrait_2.png', 'clean_portrait_3.png',
+    'shield_extracted.png', 'clean_shield_emblem.png', 'clean_portrait_1.png', 'clean_portrait_2.png', 'clean_portrait_3.png',
     'card_photo_top.jpg', 'card_photo_bottom.jpg',
     'mentor_couple_young_source.jpg', 'mentor_couple_senior_source.jpg', 'mentor_couple_pink_source.jpg',
     'mentor_hero_perfect_frame.jpg', 'mentor_avatar_young.jpg', 'mentor_avatar_senior.jpg',
     'mentor_avatar_pink.jpg', 'hero_celebrating_couple.jpg', 'couple_hd.jpg',
-    'cbn_lms_dashboard_opt.jpg', 'cbn_lms_dashboard.png'
+    'admin_llm_hero.jpg',
+    'cbn_lms_dashboard_opt.jpg', 'cbn_lms_dashboard.png',
+    'crop_ship_hero.jpg', 'crop_bts_photo.jpg', 'crop_teaser_photo.jpg',
+    'crop_greenhouse_photo.jpg', 'crop_mod1_photo.jpg', 'crop_mod2_photo.jpg',
+    'crop_fab_heart.png', 'crop_devotion_day2.jpg'
 ] + [f'yt_thumb_{i}.jpg' for i in range(1, 12)]
 
 assets_map = {}
@@ -419,6 +424,7 @@ const _assetCache = new Map();
 const INDEX_HTML = __INDEX_HTML__;
 const LOGIN_HTML = __LOGIN_HTML__;
 const REGISTER_HTML = __REGISTER_HTML__;
+const ADMIN_HTML = __ADMIN_HTML__;
 const MANIFEST_JSON = __MANIFEST_JSON__;
 
 export default {{
@@ -805,6 +811,12 @@ export default {{
 
     if (path === "/login" || path === "/login.html") {{
       return new Response(LOGIN_HTML, {{
+        headers: {{ "Content-Type": "text/html; charset=utf-8", ...SECURITY_HEADERS }}
+      }});
+    }}
+
+    if (path === "/admin" || path === "/admin.html") {{
+      return new Response(ADMIN_HTML, {{
         headers: {{ "Content-Type": "text/html; charset=utf-8", ...SECURITY_HEADERS }}
       }});
     }}
@@ -1238,6 +1250,7 @@ worker_code = worker_code.replace('__DEFAULT_FEEDBACK__', json.dumps(default_fee
 worker_code = worker_code.replace('__INDEX_HTML__', json.dumps(index_compiled))
 worker_code = worker_code.replace('__LOGIN_HTML__', json.dumps(login_html))
 worker_code = worker_code.replace('__REGISTER_HTML__', json.dumps(reg_html))
+worker_code = worker_code.replace('__ADMIN_HTML__', json.dumps(admin_html))
 worker_code = worker_code.replace('__MANIFEST_JSON__', json.dumps(manifest_json))
 worker_code = worker_code.replace('__ASSETS_JSON__', json.dumps(assets_map))
 worker_code = worker_code.replace('__INDEX_ETAG__', json.dumps(index_etag))

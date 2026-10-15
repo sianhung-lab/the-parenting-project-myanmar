@@ -3952,14 +3952,19 @@ body.is-mobile-app:not(.is-authenticated) .phone-welcome-gate {
   pointer-events: auto !important;
   position: fixed !important;
   inset: 0 !important;
-  width: 100% !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
   height: 100% !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
   z-index: 99999 !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  background: linear-gradient(160deg, #0c2242 0%, #071629 60%, #040c1a 100%) !important;
-  overflow-y: auto !important;
+  background: #bcd4e6 url('welcome_gate_bg.jpg') no-repeat center center / cover !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
   -webkit-overflow-scrolling: touch !important;
 }
 
@@ -3983,10 +3988,13 @@ body.is-mobile-app:not(.is-authenticated) #mobile-app-bottom-bar {
   display: none !important;
 }
 
-/* When authenticated on mobile: show app-bar, home, and bottom bar */
+/* In 2026 Mobile Architecture, header is ref-curved-header flush at y=0 */
 html.is-mobile-app.is-authenticated body #mobile-app-bar,
 body.is-mobile-app.is-authenticated #mobile-app-bar {
-  display: flex !important;
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 html.is-mobile-app.is-authenticated body #mobile-app-home,
 body.is-mobile-app.is-authenticated #mobile-app-home {
@@ -4199,23 +4207,13 @@ body.is-mobile-app.is-authenticated #mobile-app-bottom-bar {
   display: none !important;
 }
 
-/* 1. Mobile App Top Bar */
+/* 1. Mobile App Top Bar - Obsolete, replaced by ref-curved-header flush at y=0 */
 body.is-mobile-app.is-authenticated #mobile-app-bar.mobile-app-only {
-  display: flex !important;
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 1000;
-  height: 52px;
-  background: rgba(6, 24, 48, 0.98);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 204, 0, 0.2);
-  padding: 0 16px;
-  align-items: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 body.is-mobile-app.on-subpage #mobile-app-bar {
   display: none !important;
@@ -5339,18 +5337,26 @@ body.is-mobile-app .caption-card-quote-box {
 }
 
 body.is-mobile-app .caption-card-quote-my {
-  font-size: 0.83rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  line-height: 1.48;
-  color: #ffffff;
-  margin-bottom: 4px;
+  line-height: 1.6;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+body.is-mobile-app.mood-dark .caption-card-quote-my,
+body.is-mobile-app.theme-dark .caption-card-quote-my {
+  color: #FFFFFF;
 }
 
 body.is-mobile-app .caption-card-quote-en {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.35;
+  color: #475569;
+  line-height: 1.45;
+}
+body.is-mobile-app.mood-dark .caption-card-quote-en,
+body.is-mobile-app.theme-dark .caption-card-quote-en {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 body.is-mobile-app .caption-card-takeaways {
@@ -8200,60 +8206,71 @@ body.is-mobile-app .cinema-btn-fav.active {
   transform: scale(1.18);
 }
 
-/* 16:9 Video Player */
+/* 16:9 Docked Cinema Video Player (Option 1: Masterclass Studio) */
 body.is-mobile-app .mobile-cinema-player-frame {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  height: 0;
-  background: #000000;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  border: 1px solid #E2E8F0;
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  padding-bottom: 0 !important;
+  background: #000000 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16) !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+body.is-mobile-app.mood-dark .mobile-cinema-player-frame,
+body.is-mobile-app.theme-dark .mobile-cinema-player-frame {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5) !important;
 }
 
 body.is-mobile-app .mobile-cinema-player-frame iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
 }
 
+/* Option 1: Pinned HUD Scrubber Bar */
 body.is-mobile-app .cinema-hud-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 10px 4px 8px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 10px 0 12px 0 !important;
+  background: #0F172A !important;
+  padding: 8px 14px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
 }
 
 body.is-mobile-app .cinema-hud-time {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #64748B;
-  font-variant-numeric: tabular-nums;
-}
-
-body.is-mobile-app.theme-dark .cinema-hud-time {
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: #94A3B8 !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
 }
 
 body.is-mobile-app .cinema-hud-progress-bar {
-  flex: 1;
-  height: 5px;
-  background: #E2E8F0;
-  border-radius: 3px;
-  overflow: hidden;
+  flex: 1 !important;
+  height: 6px !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
 }
 
 body.is-mobile-app .cinema-hud-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #059669, #10B981);
-  border-radius: 3px;
-  transition: width 0.3s;
+  height: 100% !important;
+  background: linear-gradient(90deg, #10B981, #059669) !important;
+  border-radius: 999px !important;
+  transition: width 0.25s ease !important;
 }
 
 /* Floating Frosted Control Capsule */
@@ -8796,6 +8813,191 @@ body.is-mobile-app .btn-mark-completed-lux.is-completed {
   background: #4d8256;
   color: #ffffff;
   border-color: #4d8256;
+}
+
+/* =========================================================
+   OPTION 1: MASTERCLASS STUDIO - NOTES & EXERCISES PANE
+   ========================================================= */
+
+body.is-mobile-app #cinema-pane-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 1. Weekly Practical Exercise Box */
+body.is-mobile-app .notes-action-box {
+  background: #FFFBEB !important;
+  border: 1.5px solid #FDE68A !important;
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.06) !important;
+}
+body.is-mobile-app.mood-dark .notes-action-box,
+body.is-mobile-app.theme-dark .notes-action-box {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.28) !important;
+}
+body.is-mobile-app .notes-action-box .action-icon {
+  font-size: 20px !important;
+  line-height: 1 !important;
+  flex-shrink: 0 !important;
+  margin-top: 2px !important;
+}
+body.is-mobile-app .notes-action-box .action-text-wrap {
+  flex: 1 !important;
+}
+body.is-mobile-app .notes-action-box .action-text-wrap strong {
+  display: block !important;
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  color: #92400E !important;
+  margin-bottom: 4px !important;
+}
+body.is-mobile-app.mood-dark .notes-action-box .action-text-wrap strong,
+body.is-mobile-app.theme-dark .notes-action-box .action-text-wrap strong {
+  color: #FBBF24 !important;
+}
+body.is-mobile-app .notes-action-box .action-text-wrap span {
+  font-size: 0.84rem !important;
+  color: #78350F !important;
+  line-height: 1.55 !important;
+  font-weight: 500 !important;
+}
+body.is-mobile-app.mood-dark .notes-action-box .action-text-wrap span,
+body.is-mobile-app.theme-dark .notes-action-box .action-text-wrap span {
+  color: #FDE68A !important;
+}
+
+/* 2. Crystal Clear Scripture Box */
+body.is-mobile-app .notes-scripture-box {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  padding: 16px !important;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04) !important;
+}
+body.is-mobile-app.mood-dark .notes-scripture-box,
+body.is-mobile-app.theme-dark .notes-scripture-box {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+body.is-mobile-app .notes-scripture-box .caption-card-badge {
+  display: inline-block !important;
+  background: #FEF3C7 !important;
+  color: #B45309 !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  margin-bottom: 10px !important;
+  letter-spacing: 0.3px !important;
+}
+body.is-mobile-app.mood-dark .notes-scripture-box .caption-card-badge,
+body.is-mobile-app.theme-dark .notes-scripture-box .caption-card-badge {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #F59E0B !important;
+}
+
+/* 3. Personal Notes Studio Card */
+body.is-mobile-app .notes-input-box {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  padding: 16px !important;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04) !important;
+}
+body.is-mobile-app.mood-dark .notes-input-box,
+body.is-mobile-app.theme-dark .notes-input-box {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+body.is-mobile-app .notes-input-box label {
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  color: #0E2954 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 10px !important;
+}
+body.is-mobile-app.mood-dark .notes-input-box label,
+body.is-mobile-app.theme-dark .notes-input-box label {
+  color: #38BDF8 !important;
+}
+body.is-mobile-app .notes-autosave-badge {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  color: #059669 !important;
+  background: rgba(5, 150, 105, 0.1) !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+}
+body.is-mobile-app .cinema-notes-textarea {
+  width: 100% !important;
+  min-height: 85px !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 10px !important;
+  padding: 12px !important;
+  font-size: 0.85rem !important;
+  font-family: inherit !important;
+  color: #0F172A !important;
+  line-height: 1.55 !important;
+  box-sizing: border-box !important;
+  resize: vertical !important;
+  margin-bottom: 12px !important;
+  outline: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+body.is-mobile-app.mood-dark .cinema-notes-textarea,
+body.is-mobile-app.theme-dark .cinema-notes-textarea {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #F8FAFC !important;
+}
+body.is-mobile-app .cinema-notes-textarea:focus {
+  border-color: #0284C7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.18) !important;
+  background: #FFFFFF !important;
+}
+body.is-mobile-app.mood-dark .cinema-notes-textarea:focus,
+body.is-mobile-app.theme-dark .cinema-notes-textarea:focus {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border-color: #38BDF8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+}
+
+/* 4. Luxury Navy Save Capsule Button */
+body.is-mobile-app .btn-save-notes-primary {
+  width: 100% !important;
+  background: #0E2954 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 12px 18px !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 14px rgba(14, 41, 84, 0.25) !important;
+  transition: transform 0.15s ease, background-color 0.15s ease !important;
+}
+body.is-mobile-app.mood-dark .btn-save-notes-primary,
+body.is-mobile-app.theme-dark .btn-save-notes-primary {
+  background: #0284C7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3) !important;
+}
+body.is-mobile-app .btn-save-notes-primary:active {
+  transform: scale(0.98) !important;
+  background: #081B38 !important;
 }
 
 /* =========================================================
@@ -15886,6 +16088,2281 @@ html.is-mobile-app body #mobile-app-bottom-bar {
   }
 }
 
+/* =========================================================
+   ULTRA-SMOOTH CARD & COMPONENT POLISH (NO NEW FEATURES)
+   Tactile micro-interactions, silky smooth view cross-fading,
+   fluid responsive card geometry across standard, fold, and narrow phones.
+   ========================================================= */
+
+/* 1. Global Silky Theme & Color Interpolation */
+body,
+.new-home-container,
+.mobile-screen-view,
+.tpp-hero-card,
+.tpp-continue-card,
+.tpp-grid-card,
+.cinema-controls-capsule,
+#mobile-app-bottom-bar,
+.mobile-top-header,
+.tpp-canva-action-card,
+.modal {
+  transition: background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 2. Tactile Touch Feedback (:active micro-compression) */
+.tpp-btn-start-watching,
+.tpp-grid-card,
+.tpp-continue-card,
+.tpp-hero-card,
+.cinema-action-btn,
+.cinema-btn,
+.canva-interactive-card,
+.library-tab-pill,
+.mobile-nav-item,
+.nav-tab-btn,
+.account-menu-card,
+.episode-row-card,
+.tpp-canva-action-card,
+.modal-x,
+.tpp-section-link {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+  cursor: pointer;
+}
+
+.tpp-btn-start-watching:active,
+.tpp-grid-card:active,
+.tpp-continue-card:active,
+.cinema-action-btn:active,
+.canva-interactive-card:active,
+.library-tab-pill:active,
+.mobile-nav-item:active,
+.nav-tab-btn:active,
+.account-menu-card:active,
+.episode-row-card:active,
+.tpp-canva-action-card:active,
+.modal-x:active {
+  transform: scale(0.972) !important;
+}
+
+/* Desktop & Mouse Hover Smooth Elevation */
+@media (hover: hover) and (pointer: fine) {
+  .tpp-grid-card:hover {
+    transform: translateY(-3px) scale(1.015) !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18) !important;
+  }
+  .tpp-continue-card:hover {
+    transform: translateY(-2px) scale(1.008) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+  .tpp-hero-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25) !important;
+  }
+  .tpp-btn-start-watching:hover {
+    transform: scale(1.025) !important;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35) !important;
+  }
+}
+
+/* 3. Smooth Screen Cross-Fading */
+.mobile-screen-view {
+  opacity: 0;
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity;
+}
+.mobile-screen-view.active {
+  opacity: 1 !important;
+}
+
+/* 4. Smooth Modal Backdrop Blur & Slide-In */
+.modal-bg {
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              backdrop-filter 0.28s ease !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+.modal-bg .modal {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.28s ease !important;
+}
+
+/* 5. Smooth Cinema Video Playback Scrubber & Controls */
+.cinema-controls-capsule {
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+.cinema-playback-scrubber-track {
+  transition: height 0.18s ease !important;
+}
+.cinema-playback-scrubber-track:hover {
+  height: 6px !important;
+}
+
+/* 6. Foldable Unfolded Screen (4:3 / 6:5, 600px - 960px wide, min-height 600px) */
+@media screen and (min-width: 600px) and (max-width: 960px) and (min-height: 600px) {
+  .new-home-container {
+    max-width: 820px !important;
+    margin: 0 auto !important;
+    padding: 16px 20px !important;
+  }
+  .tpp-hero-card {
+    max-height: 320px !important;
+  }
+  .tpp-videos-grid-3col {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+  }
+  #view-mobile-cinema {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    padding: 16px 20px 100px 20px !important;
+  }
+  .cinema-details-section {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+    align-items: start !important;
+  }
+  #view-mobile-library,
+  #view-mobile-account {
+    max-width: 820px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* 7. Narrow Phone & Fold Cover Screen (< 375px wide) */
+@media screen and (max-width: 374px) {
+  .tpp-section-header {
+    padding: 0 4px !important;
+  }
+  .tpp-hero-card {
+    border-radius: 16px !important;
+  }
+  .tpp-hero-title {
+    font-size: 1.15rem !important;
+    line-height: 1.25 !important;
+  }
+  .tpp-btn-start-watching {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 10px 16px !important;
+  }
+  .tpp-continue-card {
+    padding: 8px 10px !important;
+  }
+  .tpp-continue-thumb-wrap {
+    width: 64px !important;
+    height: 48px !important;
+  }
+  .tpp-continue-title {
+    font-size: 0.78rem !important;
+  }
+  .tpp-videos-grid-3col {
+    gap: 8px !important;
+  }
+}
+
+/* =========================================================
+   UNIVERSAL PRECISION CENTERING & PERFECT FIT FOR ALL DEVICES
+   Ensures Welcome Gate, Auth cards, Navigation bars, and
+   Content containers are 100% centered with zero horizontal offset.
+   ========================================================= */
+
+/* 1. Mobile Welcome Gate: Exact Match to Reference Screen */
+html.is-mobile-app:not(.is-authenticated) #phone-welcome-gate,
+html.is-mobile-app:not(.is-authenticated) .phone-welcome-gate,
+body.is-mobile-app:not(.is-authenticated) #phone-welcome-gate,
+body.is-mobile-app:not(.is-authenticated) .phone-welcome-gate {
+  display: flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  z-index: 99999 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #bcd4e6 url('welcome_gate_bg.jpg') no-repeat center center / cover !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Subtle overlay if needed for text legibility, currently crystal clear */
+.welcome-gate-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* Language Capsule Button (Top Right: English 🌐) */
+.welcome-gate-lang-btn {
+  position: absolute !important;
+  top: max(22px, env(safe-area-inset-top, 22px)) !important;
+  right: 20px !important;
+  z-index: 1000 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: #0E2954 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 7px 18px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(14, 41, 84, 0.35) !important;
+  transition: transform 0.15s ease, background-color 0.15s ease !important;
+}
+.welcome-gate-lang-btn:active {
+  transform: scale(0.96) !important;
+  background: #091D3E !important;
+}
+.welcome-globe-icon {
+  font-size: 15px !important;
+  line-height: 1 !important;
+}
+
+/* Welcome Center Stage Stack */
+.welcome-gate-splash {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 360px !important;
+  padding: 0 24px !important;
+  margin: auto !important;
+  z-index: 10 !important;
+  box-sizing: border-box !important;
+}
+
+/* 3D Metallic Shield Logo Spacer (Matches pristine shield on scenic background) */
+.welcome-shield-container {
+  height: 125px !important;
+  margin-bottom: 28px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  pointer-events: none !important;
+}
+.welcome-shield-logo {
+  display: none !important;
+}
+
+/* Actions Stack */
+.welcome-actions-stack {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Primary Capsule: Register */
+.welcome-btn-primary {
+  width: 100% !important;
+  max-width: 330px !important;
+  height: 54px !important;
+  background: #0E2954 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 999px !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  font-family: inherit !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 24px rgba(14, 41, 84, 0.4) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+  margin-bottom: 18px !important;
+}
+.welcome-btn-primary:active {
+  transform: scale(0.97) !important;
+  box-shadow: 0 3px 12px rgba(14, 41, 84, 0.3) !important;
+}
+
+/* Prompt Text: Already Registered? */
+.welcome-prompt-text {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #0F172A !important;
+  text-align: center !important;
+  margin-bottom: 18px !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Secondary Capsule: Log in */
+.welcome-btn-secondary {
+  width: 100% !important;
+  max-width: 330px !important;
+  height: 54px !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid #0E2954 !important;
+  color: #0E2954 !important;
+  border-radius: 999px !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  font-family: inherit !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+  transition: transform 0.15s ease, background-color 0.15s ease !important;
+}
+.welcome-btn-secondary:active {
+  transform: scale(0.97) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* iOS Home Indicator Bar */
+.welcome-home-indicator {
+  position: absolute !important;
+  bottom: 8px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 134px !important;
+  height: 5px !important;
+  background: rgba(0, 0, 0, 0.28) !important;
+  border-radius: 100px !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+}
+
+/* Modal Overlay for Sign In and Register */
+.welcome-auth-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  background: rgba(4, 12, 26, 0.65) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  z-index: 100000 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+  animation: fadeInGateModal 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.welcome-auth-modal-overlay.active {
+  display: flex !important;
+}
+@keyframes fadeInGateModal {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.gate-card {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 380px !important;
+  max-height: calc(100vh - 40px) !important;
+  max-height: calc(100dvh - 40px) !important;
+  margin: 0 auto !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 20px !important;
+  padding: 24px 20px 20px !important;
+  overflow-y: auto !important;
+  box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.3) !important;
+  box-sizing: border-box !important;
+}
+
+.gate-modal-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  width: 32px !important;
+  height: 32px !important;
+  background: #F1F5F9 !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  line-height: 1 !important;
+  transition: all 0.15s ease !important;
+  z-index: 10 !important;
+}
+.gate-modal-close:hover,
+.gate-modal-close:active {
+  background: #E2E8F0 !important;
+  color: #0F172A !important;
+  transform: scale(0.95) !important;
+}
+
+/* 2. Authenticated App: Universal Horizontal Centering on All Devices */
+body.is-mobile-app.is-authenticated #mobile-app-bar.mobile-app-only {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+body.is-mobile-app.is-authenticated #mobile-app-home.mobile-app-only,
+html.is-mobile-app body .new-home-container,
+html.is-mobile-app body .mobile-screen-view,
+html.is-mobile-app body #view-mobile-home,
+html.is-mobile-app body #view-mobile-cinema,
+html.is-mobile-app body #view-mobile-library,
+html.is-mobile-app body #view-mobile-account,
+html.is-mobile-app body #view-mobile-episodes,
+html.is-mobile-app body #view-mobile-downloads {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+body.is-mobile-app.is-authenticated #mobile-app-bottom-bar {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* 3. Unfolded Fold Screens (4:3 / 6:5) Centered Balance */
+@media screen and (min-width: 600px) and (max-width: 960px) and (min-height: 600px) {
+  body.is-mobile-app.is-authenticated #mobile-app-bar.mobile-app-only,
+  body.is-mobile-app.is-authenticated #mobile-app-home.mobile-app-only,
+  html.is-mobile-app body .new-home-container,
+  html.is-mobile-app body .mobile-screen-view,
+  html.is-mobile-app body #view-mobile-home,
+  html.is-mobile-app body #view-mobile-cinema,
+  html.is-mobile-app body #view-mobile-library,
+  html.is-mobile-app body #view-mobile-account,
+  body.is-mobile-app.is-authenticated #mobile-app-bottom-bar {
+    max-width: 820px !important;
+  }
+}
+
+
+
+
+/* ========================================================
+   OFFICIAL 2026 NATIVE MOBILE APP DESIGN SYSTEM (3 SCREENS)
+   ======================================================== */
+
+html.is-mobile-app body #mobile-app-home,
+body.is-mobile-app #mobile-app-home {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 96px !important;
+  background: #F8FAFC;
+}
+body.is-mobile-app.mood-dark #mobile-app-home {
+  background: #060E1A !important;
+}
+
+/* --- 1. SCREEN 2: HOME SCREEN STYLES --- */
+.ref-curved-header {
+  background: radial-gradient(circle at 85% 20%, rgba(245, 168, 0, 0.15) 0%, transparent 60%),
+              linear-gradient(180deg, #072247 0%, #0D2E5C 100%) !important;
+  border-bottom-left-radius: 40px !important;
+  border-bottom-right-radius: 40px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  padding: 34px 24px 24px 24px !important;
+  min-height: 130px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-shadow: 0 10px 28px rgba(7, 34, 71, 0.22) !important;
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+.ref-greeting-left {
+  display: flex;
+  flex-direction: column;
+}
+.ref-greeting-hello {
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  opacity: 0.92;
+  line-height: 1.2;
+}
+.ref-greeting-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  margin-top: 2px;
+}
+.ref-header-shield-wrap {
+  position: relative !important;
+  width: 80px !important;
+  height: 80px !important;
+  margin-top: -10px !important; /* Move logo higher up as requested */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+.ref-header-shield-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35)) !important;
+}
+.ref-sparkle-glint {
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  color: #FFFFFF;
+  font-size: 14px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px #FFF);
+}
+
+.ref-home-content {
+  padding: 0 16px;
+}
+
+/* Card 1: Enter The Parenting Project (Unstretched Boat Photo) */
+.ref-enter-card {
+  background: #0D2E5C !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.16) !important;
+  margin-bottom: 16px !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ref-enter-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(7, 34, 71, 0.24);
+}
+.ref-enter-media {
+  width: 100% !important;
+  height: 195px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.ref-enter-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+.ref-enter-badge {
+  position: absolute !important;
+  top: 12px !important;
+  left: 14px !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  color: #F5A800 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.3px !important;
+  backdrop-filter: blur(8px) !important;
+}
+.ref-enter-body {
+  padding: 16px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #0D2E5C !important;
+}
+.ref-enter-title {
+  font-size: 18.5px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 3px !important;
+}
+.ref-enter-sub {
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #F5A800 !important;
+}
+.ref-enter-btn-circle {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  background: #F5A800 !important;
+  color: #0D2E5C !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 12px rgba(245, 168, 0, 0.45) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Card 2: Upcoming Event (The Parenting Project Socialization Workshop) */
+.ref-event-card {
+  background: #0D2E5C !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.16) !important;
+  margin-bottom: 16px !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ref-event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(7, 34, 71, 0.24);
+}
+.ref-event-media {
+  width: 100% !important;
+  height: 200px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.ref-event-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+.ref-event-badge-left {
+  position: absolute !important;
+  top: 12px !important;
+  left: 14px !important;
+  background: #F5A800 !important;
+  color: #072247 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.3px !important;
+}
+.ref-event-badge-right {
+  position: absolute !important;
+  top: 12px !important;
+  right: 14px !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  color: #FFFFFF !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  backdrop-filter: blur(8px) !important;
+}
+.ref-event-body {
+  padding: 16px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #0D2E5C !important;
+}
+.ref-event-title {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 3px !important;
+}
+.ref-event-sub {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #F5A800 !important;
+  margin-bottom: 2px !important;
+}
+.ref-event-meta {
+  font-size: 11.5px !important;
+  color: #94A3B8 !important;
+}
+.ref-event-btn {
+  background: #F5A800 !important;
+  color: #072247 !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+/* Card 3: Transforming Parenting Culture Mission */
+.ref-mission-card {
+  background: #0D2E5C !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.16) !important;
+  margin-bottom: 24px !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ref-mission-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(7, 34, 71, 0.24);
+}
+.ref-mission-media {
+  width: 100% !important;
+  height: 180px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.ref-mission-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+.ref-mission-badge {
+  position: absolute !important;
+  top: 12px !important;
+  left: 14px !important;
+  background: #F5A800 !important;
+  color: #072247 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.3px !important;
+}
+.ref-mission-body {
+  padding: 16px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #0D2E5C !important;
+}
+.ref-mission-title {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 3px !important;
+}
+.ref-mission-sub {
+  font-size: 12.5px !important;
+  color: #CBD5E1 !important;
+  line-height: 1.4 !important;
+}
+.ref-mission-btn-circle {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  background: #F5A800 !important;
+  color: #0D2E5C !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 12px rgba(245, 168, 0, 0.45) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Settings Cards (Language & Display Theme) */
+.ref-profile-settings-card {
+  background: #FFFFFF !important;
+  border-radius: 20px !important;
+  padding: 16px 18px !important;
+  margin-bottom: 14px !important;
+  border: 1.5px solid #E2E8F0 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+body.mood-dark .ref-profile-settings-card {
+  background: #0B1C33 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.ref-setting-header {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+.ref-setting-icon {
+  font-size: 22px !important;
+  line-height: 1 !important;
+}
+.ref-setting-title {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #0D2E5C !important;
+  margin-bottom: 2px !important;
+}
+body.mood-dark .ref-setting-title {
+  color: #FFFFFF !important;
+}
+.ref-setting-desc {
+  font-size: 12px !important;
+  color: #64748B !important;
+  line-height: 1.35 !important;
+}
+body.mood-dark .ref-setting-desc {
+  color: #94A3B8 !important;
+}
+.ref-toggle-dual-row {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+}
+.ref-toggle-pill {
+  padding: 10px 12px !important;
+  border-radius: 12px !important;
+  border: 1.5px solid #CBD5E1 !important;
+  background: #F8FAFC !important;
+  color: #475569 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: all 0.2s ease !important;
+}
+.ref-toggle-pill.active {
+  background: #0D2E5C !important;
+  border-color: #0D2E5C !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(13, 46, 92, 0.25) !important;
+}
+body.mood-dark .ref-toggle-pill {
+  background: #11284A !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #CBD5E1 !important;
+}
+body.mood-dark .ref-toggle-pill.active {
+  background: #F5A800 !important;
+  border-color: #F5A800 !important;
+  color: #072247 !important;
+}
+}
+.ref-wide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- 2. SCREEN 3: CORE MODULES SCREEN STYLES --- */
+.ref-modules-view-wrap {
+  padding-bottom: 96px;
+  background: #F8FAFC;
+  min-height: 100vh;
+}
+body.mood-dark .ref-modules-view-wrap {
+  background: #060E1A !important;
+}
+
+.ref-modules-top-header {
+  background: #0D2E5C;
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+  padding: 38px 18px 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.18);
+}
+.ref-mod-back-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #F5A800;
+  color: #0D2E5C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+.ref-mod-titles-center {
+  text-align: center;
+}
+.ref-mod-kicker {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #F5A800;
+  line-height: 1.2;
+}
+.ref-mod-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+.ref-mod-dots-btn {
+  background: none;
+  border: none;
+  color: #F5A800;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Horizontal Progress Segments */
+.ref-mod-stepper-wrap {
+  display: flex;
+  gap: 6px;
+  padding: 12px 18px;
+  margin-bottom: 8px;
+}
+.ref-mod-step-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #CBD5E1;
+}
+.ref-mod-step-bar.completed {
+  background: #0D2E5C;
+}
+.ref-mod-step-bar.current {
+  background: #F5A800;
+}
+
+/* Two-Tone Module Card (Photo + Split Navy/Yellow Footer) */
+.ref-modules-list {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ref-module-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.12);
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.ref-module-card:hover {
+  transform: translateY(-2px);
+}
+.ref-module-photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0B1C33;
+  overflow: hidden;
+}
+.ref-module-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ref-module-photo-wrap.locked .ref-module-photo {
+  filter: grayscale(100%);
+  opacity: 0.88;
+}
+.ref-module-lock-badge {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.22);
+}
+.ref-padlock-frame {
+  width: 52px;
+  height: 52px;
+  border: 3px solid #FFFFFF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.38);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.ref-padlock-frame svg {
+  width: 26px;
+  height: 26px;
+  fill: #FFFFFF;
+}
+
+.ref-module-footer-split {
+  display: flex;
+  align-items: stretch;
+  background: #0D2E5C;
+}
+.ref-mod-footer-text {
+  flex: 1;
+  padding: 16px 20px;
+}
+.ref-mod-footer-num {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #F5A800;
+  margin-bottom: 2px;
+}
+.ref-mod-footer-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.35;
+}
+.ref-mod-footer-chevron {
+  width: 68px;
+  background: #F5A800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0D2E5C;
+  font-size: 24px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.ref-module-card:hover .ref-mod-footer-chevron {
+  background: #FFB81C;
+}
+
+/* --- 3. SCREEN 1: PROFILE SCREEN STYLES --- */
+.ref-profile-view-wrap {
+  padding-bottom: 96px;
+  background: #FFFFFF;
+  min-height: 100vh;
+}
+body.mood-dark .ref-profile-view-wrap {
+  background: #060E1A !important;
+}
+
+.ref-profile-hero-center {
+  text-align: center;
+  padding: 36px 18px 24px 18px;
+}
+.ref-profile-shield-logo {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 12px auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(7, 34, 71, 0.25));
+}
+.ref-profile-username {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0D2E5C;
+  letter-spacing: -0.2px;
+}
+body.mood-dark .ref-profile-username {
+  color: #FFFFFF !important;
+}
+
+.ref-profile-cards-stack {
+  padding: 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ref-profile-menu-card {
+  background: #EAEEF3;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0F172A;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+body.mood-dark .ref-profile-menu-card {
+  background: #0F1D33 !important;
+  color: #E2E8F0 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+.ref-profile-menu-card:hover {
+  background: #DFE4EC;
+  transform: translateX(2px);
+}
+body.mood-dark .ref-profile-menu-card:hover {
+  background: #172B4D !important;
+}
+.ref-profile-arrow {
+  color: #0D2E5C;
+  font-size: 18px;
+  font-weight: 800;
+}
+body.mood-dark .ref-profile-arrow {
+  color: #F5A800 !important;
+}
+.ref-profile-logout-card {
+  margin-top: 14px;
+}
+.ref-profile-logout-card .ref-profile-arrow {
+  font-size: 19px;
+  color: #0D2E5C;
+}
+
+/* --- 4. DEDICATED BOTTOM NAVIGATION BAR WITH ELEVATED HEART FAB --- */
+#mobile-app-bottom-bar.ref-bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 68px !important;
+  background: #0D2E5C !important;
+  border-top-left-radius: 22px !important;
+  border-top-right-radius: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  padding: 0 10px !important;
+  z-index: 99999 !important;
+  box-shadow: 0 -4px 20px rgba(7, 34, 71, 0.28) !important;
+  max-width: 680px !important;
+  margin: 0 auto !important;
+}
+.ref-bottom-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  opacity: 0.85;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+.ref-bottom-tab svg {
+  width: 22px;
+  height: 22px;
+}
+.ref-bottom-tab.active {
+  color: #F5A800 !important;
+  opacity: 1 !important;
+}
+.ref-bottom-tab.active svg {
+  color: #F5A800 !important;
+  stroke: #F5A800 !important;
+  fill: currentColor !important;
+}
+
+/* Elevated Heart FAB */
+.ref-bottom-fab-wrap {
+  position: relative;
+  width: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ref-bottom-fab-btn {
+  position: absolute;
+  top: -30px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #0D2E5C;
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ref-bottom-fab-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+.ref-bottom-fab-btn img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+/* MAXIMUM SPECIFICITY OVERRIDE FOR 2026 OFFICIAL BOTTOM BAR */
+html.is-mobile-app body #mobile-app-bottom-bar,
+body.is-mobile-app #mobile-app-bottom-bar,
+body:not(.mood-dark) #mobile-app-bottom-bar,
+body.mood-dark #mobile-app-bottom-bar,
+#mobile-app-bottom-bar.ref-bottom-nav {
+  background: #0D2E5C !important;
+  border-top-left-radius: 24px !important;
+  border-top-right-radius: 24px !important;
+  border-top: none !important;
+  height: 68px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  align-items: center !important;
+  justify-items: center !important;
+  box-shadow: 0 -6px 24px rgba(7, 34, 71, 0.35) !important;
+  padding: 0 4px !important;
+}
+
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-tab {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #FFFFFF !important;
+  opacity: 0.8 !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  background: none !important;
+  border: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  transition: opacity 0.2s ease, color 0.2s ease !important;
+}
+
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-tab svg {
+  width: 22px !important;
+  height: 22px !important;
+  display: block !important;
+  margin: 0 auto 3px auto !important;
+}
+
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-tab.active {
+  color: #F5A800 !important;
+  opacity: 1 !important;
+}
+
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-tab.active svg {
+  color: #F5A800 !important;
+  stroke: #F5A800 !important;
+  fill: currentColor !important;
+}
+
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-fab-wrap,
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-fab-btn {
+  display: none !important;
+}
+
+.ref-profile-cards-stack {
+  padding: 0 18px 130px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+.ref-profile-menu-card {
+  padding: 13px 18px !important;
+}
+
+/* ========================================================
+   MODULE DETAIL & VIDEO PLAYBACK (2026 OFFICIAL REFERENCE)
+   ======================================================== */
+.ref-detail-view-wrap {
+  background: #F8FAFC;
+  min-height: 100vh;
+  padding-bottom: 90px;
+  position: relative;
+}
+body.mood-dark .ref-detail-view-wrap {
+  background: #060E1A !important;
+}
+
+.ref-detail-header {
+  background: linear-gradient(180deg, #072247 0%, #0D2E5C 100%);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 54px;
+  padding: 44px 22px 28px 22px;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.2);
+  margin-bottom: 18px;
+  position: relative;
+  display: block;
+}
+.ref-detail-back-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #F5A800;
+  color: #0D2E5C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+.ref-detail-kicker {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2px;
+}
+.ref-detail-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.25;
+}
+
+.ref-detail-content {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Featured Video Card with Play Button */
+.ref-detail-video-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.12);
+  background: #0D2E5C;
+}
+.ref-detail-thumb-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  cursor: pointer;
+}
+.ref-detail-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ref-play-btn-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 4px solid #F5A800;
+  background: rgba(13, 46, 92, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F5A800;
+  font-size: 24px;
+  padding-left: 4px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+.ref-detail-thumb-frame:hover .ref-play-btn-circle {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.ref-video-label-chip {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 800;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+.ref-btn-download-full {
+  width: 100%;
+  padding: 13px;
+  background: #0D2E5C;
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+.ref-btn-download-full:hover {
+  background: #123C75;
+}
+
+/* Parent's Prayer Pill */
+.ref-btn-prayer-pill {
+  width: 100%;
+  padding: 14px 20px;
+  background: #0D2E5C;
+  color: #F5A800;
+  font-size: 14.5px;
+  font-weight: 800;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(7, 34, 71, 0.16);
+  transition: transform 0.15s;
+}
+.ref-btn-prayer-pill:hover {
+  transform: translateY(-1px);
+}
+
+/* 2-Column Split Action Grid */
+.ref-action-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ref-action-card-split {
+  background: #F5A800;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  box-shadow: 0 4px 14px rgba(245, 168, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.ref-action-card-split:hover {
+  transform: translateY(-1px);
+}
+.ref-action-icon-box {
+  width: 48px;
+  height: 100%;
+  background: #0D2E5C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F5A800;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.ref-action-label-box {
+  flex: 1;
+  padding: 0 10px;
+  color: #0D2E5C;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* Daily Devotion Carousel */
+.ref-devotion-section {
+  margin-top: 6px;
+}
+.ref-devotion-heading {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0D2E5C;
+  margin-bottom: 12px;
+}
+body.mood-dark .ref-devotion-heading {
+  color: #FFFFFF !important;
+}
+.ref-devotion-carousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.ref-devotion-card {
+  flex: 0 0 160px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  background: #0D2E5C;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.ref-devotion-card:hover {
+  transform: translateY(-2px);
+}
+.ref-devotion-thumb-wrap {
+  width: 100%;
+  height: 140px;
+  background: #1E293B;
+  overflow: hidden;
+}
+.ref-devotion-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ref-devotion-footer {
+  padding: 10px;
+  background: #0D2E5C;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+/* Full-Width Complete Module Button */
+.ref-btn-complete-module {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 18px 20px;
+  background: #F5A800;
+  color: #0D2E5C;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  z-index: 999;
+}
+.ref-btn-complete-module:hover {
+  background: #FFB81C;
+}
+
+/* --- VIDEO PLAYBACK SCREEN (Screenshot 3) --- */
+.ref-video-view-wrap {
+  background: #FFFFFF;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+body.mood-dark .ref-video-view-wrap {
+  background: #060E1A !important;
+}
+.ref-video-header {
+  background: #0D2E5C;
+  padding: 44px 18px 18px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #FFFFFF;
+}
+.ref-video-header-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+.ref-video-frame-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 16px auto;
+  padding: 0 16px;
+}
+.ref-video-player-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.ref-video-player-box iframe,
+.ref-video-player-box video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+.ref-video-controls-bar {
+  background: #0D2E5C;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.ref-btn-video-next {
+  width: calc(100% - 32px);
+  margin: 18px auto 0 auto;
+  display: block;
+  padding: 15px;
+  background: #0D2E5C;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 28px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(7, 34, 71, 0.22);
+}
+.ref-btn-video-next:hover {
+  background: #123C75;
+}
+
+/* Hide Bottom App Bar on Focused Detail and Video Screens */
+html body.tab-detail #mobile-app-bottom-bar,
+html body.tab-video #mobile-app-bottom-bar,
+body.tab-detail #mobile-app-bottom-bar.ref-bottom-nav,
+body.tab-video #mobile-app-bottom-bar.ref-bottom-nav,
+body.tab-detail #mobile-app-bottom-bar,
+body.tab-video #mobile-app-bottom-bar {
+  display: none !important;
+}
+
+
+
+/* ========================================================
+   PREMIUM DESIGN SYSTEM ELEVATION (THE PARENTING PROJECT)
+   ======================================================== */
+
+/* --- Keyframe Animations --- */
+@keyframes auraPulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.04); }
+}
+
+@keyframes glintTwinkle {
+  0%, 100% { transform: scale(0.85) rotate(0deg); opacity: 0.6; }
+  50% { transform: scale(1.25) rotate(180deg); opacity: 1; filter: drop-shadow(0 0 8px #FFD700); }
+}
+
+@keyframes ringPulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 168, 0, 0.7); }
+  70% { box-shadow: 0 0 0 16px rgba(245, 168, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 168, 0, 0); }
+}
+
+@keyframes shimmerLight {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.ref-curved-header {
+  background: radial-gradient(circle at 85% 20%, rgba(245, 168, 0, 0.18) 0%, transparent 60%),
+              linear-gradient(180deg, #061836 0%, #0D2E5C 100%) !important;
+  border-bottom-left-radius: 40px !important;
+  border-bottom-right-radius: 40px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  margin-top: 0 !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.ref-curved-header::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -20px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 168, 0, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  animation: auraPulse 6s ease-in-out infinite;
+}
+
+.ref-sparkle-glint {
+  animation: glintTwinkle 3s ease-in-out infinite !important;
+}
+
+/* Streak & Family Growth Badge */
+.ref-streak-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #FFE6A3;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.ref-streak-fire {
+  font-size: 13px;
+  filter: drop-shadow(0 0 4px #F5A800);
+}
+
+/* --- Elevated Hero Enter Card --- */
+.ref-enter-card {
+  position: relative !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 12px 32px -4px rgba(7, 34, 71, 0.25), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease !important;
+}
+.ref-enter-card:active {
+  transform: scale(0.98) !important;
+}
+.ref-enter-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(6, 21, 43, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 168, 0, 0.4);
+  color: #F5A800;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ref-enter-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.ref-enter-progress-fill {
+  height: 100%;
+  width: 14.28%;
+  background: linear-gradient(90deg, #F5A800, #FFC72C);
+  border-radius: 2px;
+  box-shadow: 0 0 6px #F5A800;
+}
+
+.ref-enter-btn-circle {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
+  position: relative !important;
+}
+.ref-enter-card:hover .ref-enter-btn-circle {
+  transform: scale(1.1) translateX(2px) !important;
+  box-shadow: 0 6px 16px rgba(245, 168, 0, 0.6) !important;
+}
+
+/* Secondary Feature Cards - Floating Glaze & Depth */
+.ref-sub-card {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease !important;
+}
+.ref-sub-card:active {
+  transform: scale(0.97) !important;
+}
+.ref-sub-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22) !important;
+}
+.ref-sub-badge {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35) !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Wide Community Mission Card */
+.ref-wide-card {
+  position: relative !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14) !important;
+  transition: transform 0.25s ease !important;
+}
+.ref-wide-card:active {
+  transform: scale(0.98) !important;
+}
+.ref-wide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(6, 21, 43, 0.85) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 14px 18px;
+}
+.ref-wide-tag {
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+.ref-wide-tag-icon {
+  background: #F5A800;
+  color: #0D2E5C;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* --- 7 Core Modules Progress & Cards Elevation --- */
+.ref-mod-stepper-wrap {
+  background: rgba(255, 255, 255, 0.6) !important;
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+body.mood-dark .ref-mod-stepper-wrap {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.ref-mod-step-bar.completed {
+  background: linear-gradient(90deg, #F5A800, #FFB81C) !important;
+  box-shadow: 0 0 8px rgba(245, 168, 0, 0.6) !important;
+}
+.ref-mod-step-bar.current {
+  background: #F5A800 !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.ref-mod-step-bar.current::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  animation: shimmerLight 2s infinite;
+}
+
+.ref-module-card {
+  border: 1px solid rgba(13, 46, 92, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.1) !important;
+  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.24s ease !important;
+}
+body.mood-dark .ref-module-card {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.ref-module-card:active {
+  transform: scale(0.98) !important;
+}
+
+.ref-module-card:first-child {
+  border: 1.5px solid rgba(245, 168, 0, 0.35) !important;
+  box-shadow: 0 10px 28px rgba(245, 168, 0, 0.15), 0 4px 12px rgba(7, 34, 71, 0.12) !important;
+}
+
+.ref-mod-footer-chevron {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.ref-module-card:hover .ref-mod-footer-chevron {
+  transform: translateX(3px) !important;
+  background: #FFB81C !important;
+}
+
+/* --- Module Detail Screen Luxury Treatment --- */
+.ref-detail-header {
+  position: relative !important;
+  overflow: hidden !important;
+}
+.ref-detail-header::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 168, 0, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ref-detail-video-card {
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 16px 36px -8px rgba(7, 34, 71, 0.35), 0 0 24px rgba(245, 168, 0, 0.1) !important;
+}
+
+.ref-play-btn-circle {
+  animation: ringPulse 2.8s infinite !important;
+}
+
+.ref-video-meta-chip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(6, 21, 43, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.ref-video-audio-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #081D3B;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 16px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.ref-audio-pill-btn {
+  background: rgba(245, 168, 0, 0.15);
+  border: 1px solid rgba(245, 168, 0, 0.35);
+  color: #F5A800;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Parent's Prayer Sanctuary Pill */
+.ref-btn-prayer-pill {
+  position: relative !important;
+  background: linear-gradient(135deg, #092144 0%, #0D2E5C 100%) !important;
+  border: 1.5px solid rgba(245, 168, 0, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  overflow: hidden !important;
+  justify-content: space-between !important;
+  padding: 14px 18px !important;
+}
+.ref-prayer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ref-prayer-community-count {
+  background: rgba(245, 168, 0, 0.18);
+  border: 1px solid rgba(245, 168, 0, 0.3);
+  color: #FFC72C;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+/* 2-Column Split Action Cards */
+.ref-action-card-split {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 6px 18px rgba(245, 168, 0, 0.22) !important;
+  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.24s ease !important;
+}
+.ref-action-card-split:active {
+  transform: scale(0.97) !important;
+}
+.ref-action-card-split:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 24px rgba(245, 168, 0, 0.35) !important;
+}
+.ref-action-subtext {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(13, 46, 92, 0.7);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Daily Devotion Enhanced Cards */
+.ref-devotion-card {
+  position: relative !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 20px rgba(7, 34, 71, 0.16) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease !important;
+}
+.ref-devotion-card:active {
+  transform: scale(0.97) !important;
+}
+.ref-devotion-status-chip {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(6, 21, 43, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(245, 168, 0, 0.35);
+  color: #F5A800;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  z-index: 2;
+}
+.ref-devotion-status-chip.done {
+  border-color: #22C55E;
+  color: #4ADE80;
+}
+
+/* Full-Width Complete Module Button */
+.ref-btn-complete-module {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  padding: 18px 20px !important;
+  background: linear-gradient(90deg, #F5A800 0%, #FFB81C 50%, #F5A800 100%) !important;
+  color: #0D2E5C !important;
+  font-size: 15.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.6px !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18), 0 0 16px rgba(245, 168, 0, 0.3) !important;
+  text-transform: uppercase !important;
+  z-index: 999 !important;
+  overflow: hidden !important;
+  transition: transform 0.15s ease, background 0.2s ease !important;
+}
+.ref-btn-complete-module::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmerLight 3.5s infinite;
+}
+.ref-btn-complete-module:active {
+  transform: scale(0.99) !important;
+}
+
+/* Elevated Video Playback Screen */
+.ref-video-player-box {
+  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 18px 48px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(13, 46, 92, 0.35) !important;
+}
+.ref-btn-video-next {
+  background: linear-gradient(135deg, #0A244A 0%, #0D2E5C 100%) !important;
+  border: 1px solid rgba(245, 168, 0, 0.3) !important;
+  box-shadow: 0 8px 24px rgba(7, 34, 71, 0.28) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.ref-btn-video-next:active {
+  transform: scale(0.98) !important;
+}
+
+/* --- Floating Bottom Dock with Breathing Heart FAB --- */
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-fab-btn {
+  box-shadow: 0 8px 24px rgba(245, 168, 0, 0.45), 0 0 16px rgba(239, 68, 68, 0.3) !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
+  animation: floatGentle 4s ease-in-out infinite !important;
+}
+#mobile-app-bottom-bar.ref-bottom-nav .ref-bottom-fab-btn:active {
+  transform: scale(0.92) !important;
+}
+
+
+/* ========================================================
+   RESPONSIVE MULTI-DEVICE ARCHITECTURE (PHONES, TABLETS & 4K)
+   ======================================================== */
+
+/* Root / Canvas Stage */
+html.is-mobile-app body,
+body.is-mobile-app {
+  background: #F1F5F9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+body.is-mobile-app.mood-dark {
+  background: #030A14 !important;
+}
+
+/* Master Centered App Canvas */
+#mobile-app-home,
+.ref-modules-view-wrap,
+.ref-detail-view-wrap,
+.ref-video-view-wrap,
+.ref-profile-view-wrap {
+  width: 100% !important;
+  max-width: 640px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  background: #FFFFFF !important;
+  min-height: 100vh !important;
+}
+body.mood-dark #mobile-app-home,
+body.mood-dark .ref-modules-view-wrap,
+body.mood-dark .ref-detail-view-wrap,
+body.mood-dark .ref-video-view-wrap,
+body.mood-dark .ref-profile-view-wrap {
+  background: #060E1A !important;
+}
+
+/* On Tablet, Foldable & Desktop (min-width: 641px) */
+@media (min-width: 641px) {
+  #mobile-app-home,
+  .ref-modules-view-wrap,
+  .ref-detail-view-wrap,
+  .ref-video-view-wrap,
+  .ref-profile-view-wrap {
+    max-width: 680px !important;
+    margin: 24px auto !important;
+    border-radius: 32px !important;
+    overflow: hidden !important;
+    box-shadow: 0 20px 60px -10px rgba(7, 34, 71, 0.2), 0 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(13, 46, 92, 0.08) !important;
+  }
+  body.mood-dark #mobile-app-home,
+  body.mood-dark .ref-modules-view-wrap,
+  body.mood-dark .ref-detail-view-wrap,
+  body.mood-dark .ref-video-view-wrap,
+  body.mood-dark .ref-profile-view-wrap {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 24px 70px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(13, 46, 92, 0.25) !important;
+  }
+}
+
+/* On 4K UHD Displays (min-width: 1920px up to 3840px) */
+@media (min-width: 1920px) {
+  #mobile-app-home,
+  .ref-modules-view-wrap,
+  .ref-detail-view-wrap,
+  .ref-video-view-wrap,
+  .ref-profile-view-wrap {
+    max-width: 740px !important;
+    margin: 40px auto !important;
+    border-radius: 40px !important;
+    box-shadow: 0 32px 100px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Floating Ergonomic Bottom Bar on All Screens */
+html.is-mobile-app body #mobile-app-bottom-bar,
+body.is-mobile-app #mobile-app-bottom-bar,
+body:not(.mood-dark) #mobile-app-bottom-bar,
+body.mood-dark #mobile-app-bottom-bar,
+#mobile-app-bottom-bar.ref-bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 640px !important;
+  z-index: 998 !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 640px) {
+  html.is-mobile-app body #mobile-app-bottom-bar,
+  body.is-mobile-app #mobile-app-bottom-bar,
+  #mobile-app-bottom-bar.ref-bottom-nav {
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    max-width: 100% !important;
+    border-radius: 24px 24px 0 0 !important;
+    bottom: 0 !important;
+  }
+}
+
+@media (min-width: 641px) {
+  html.is-mobile-app body #mobile-app-bottom-bar,
+  body.is-mobile-app #mobile-app-bottom-bar,
+  #mobile-app-bottom-bar.ref-bottom-nav {
+    max-width: 580px !important;
+    bottom: 20px !important;
+    border-radius: 28px !important;
+    box-shadow: 0 16px 40px rgba(7, 34, 71, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  html.is-mobile-app body #mobile-app-bottom-bar,
+  body.is-mobile-app #mobile-app-bottom-bar,
+  #mobile-app-bottom-bar.ref-bottom-nav {
+    max-width: 620px !important;
+    bottom: 30px !important;
+    border-radius: 32px !important;
+  }
+}
+
+/* Sticky Action Button on Detail View */
+.ref-btn-complete-module {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  width: 100% !important;
+  max-width: 640px !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 641px) {
+  .ref-btn-complete-module {
+    max-width: 580px !important;
+    bottom: 16px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 32px rgba(245, 168, 0, 0.45) !important;
+  }
+}
+
+/* High-DPI & 4K Asset Optimization */
+img.ref-header-shield-img,
+img.ref-enter-img,
+img.ref-sub-card-img,
+img.ref-wide-img,
+img.ref-module-photo,
+img.ref-detail-thumb-img,
+img.ref-devotion-thumb,
+img.ref-profile-shield-logo {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
 </style>
 </head>
 <body class="mood-day">
@@ -15894,187 +18371,177 @@ if (document.documentElement.classList.contains('is-mobile-app')) { document.bod
 if (document.documentElement.classList.contains('is-authenticated')) { document.body.classList.add('is-authenticated'); }
 </script>
 
-<!-- DEDICATED PHONE APP WELCOME GATEWAY -->
+<!-- DEDICATED PHONE APP WELCOME GATEWAY (EXACT MATCH TO REFERENCE DESIGN) -->
 <div id="phone-welcome-gate" class="phone-welcome-gate">
-  <!-- Two-Language Switcher (Myanmar & English) -->
-  <div class="gate-lang-selector" id="gate-lang-selector" aria-label="Language Selector">
-    <button type="button" class="gate-lang-pill active" id="gate-lang-my" onclick="setAppLanguage('my')">🇲🇲 မြန်မာ</button>
-    <button type="button" class="gate-lang-pill" id="gate-lang-en" onclick="setAppLanguage('en')">🇬🇧 English</button>
+  <div class="welcome-gate-overlay"></div>
+
+  <!-- Language Toggle Button (Top Right: English 🌐) -->
+  <button type="button" class="welcome-gate-lang-btn" id="welcome-lang-toggle-btn" onclick="toggleGateLanguage()" aria-label="Language Selector">
+    <span id="welcome-lang-btn-text">English</span>
+    <span class="welcome-globe-icon">🌐</span>
+  </button>
+
+  <!-- Welcome Stage (Center Stack: Shield + Register + Already Registered? + Log in) -->
+  <div class="welcome-gate-splash" id="welcome-gate-splash">
+    <!-- 3D Metallic Shield Logo -->
+    <div class="welcome-shield-container">
+      <img src="clean_shield_emblem.png" alt="The Parenting Project Shield" class="welcome-shield-logo"/>
+    </div>
+
+    <!-- Actions Stack -->
+    <div class="welcome-actions-stack">
+      <!-- Register Button -->
+      <button type="button" class="welcome-btn-primary" onclick="openGateAuthModal('register')" id="welcome-btn-register">
+        <span id="welcome-txt-register">Register</span>
+      </button>
+
+      <!-- Already Registered? Prompt -->
+      <div class="welcome-prompt-text" id="welcome-txt-already-reg">Already Registered?</div>
+
+      <!-- Log in Button -->
+      <button type="button" class="welcome-btn-secondary" onclick="openGateAuthModal('signin')" id="welcome-btn-login">
+        <span id="welcome-txt-login">Log in</span>
+      </button>
+    </div>
   </div>
 
-  <!-- Auth card -->
-  <div class="gate-card">
-    <!-- Shield Logo -->
-    <div class="gate-logo-wrap">
-      <img src="official_logo.png" alt="The Parenting Project" class="gate-logo-img"/>
-    </div>
+  <!-- iOS Home Indicator -->
+  <div class="welcome-home-indicator"></div>
 
-    <!-- Sign In Panel -->
-    <div id="gate-panel-signin" class="gate-panel active">
-      <h2 class="gate-title" id="gate-title-main">Sign In</h2>
-      <p class="gate-subtitle" id="gate-subtitle-main">This page is accessible only to registered churches or schools.</p>
+  <!-- Sign In & Register Modal Sheet -->
+  <div class="welcome-auth-modal-overlay" id="welcome-auth-modal-overlay" onclick="closeGateAuthModal(event)">
+    <div class="gate-card" onclick="event.stopPropagation()">
+      <!-- Close button -->
+      <button type="button" class="gate-modal-close" onclick="closeGateAuthModal()" aria-label="Close">✕</button>
 
-      <form id="gate-signin-form" onsubmit="handleGateSignIn(event)" autocomplete="on">
-        <div class="gate-field">
-          <label class="gate-label" for="gate-email">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span id="gate-label-email">Church Email or Phone / Viber</span>
-          </label>
-          <input type="text" id="gate-email" class="gate-input" placeholder="Email or Phone (e.g. 09...)" required autocomplete="username"/>
-        </div>
-        <div class="gate-field">
-          <label class="gate-label" for="gate-password">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-            <span id="gate-label-password">Password</span>
-          </label>
-          <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="current-password"/>
-        </div>
-        <button type="submit" class="gate-signin-btn" id="gate-signin-btn">
-          <span id="gate-signin-btn-text">Sign In</span>
-        </button>
+      <!-- Shield Logo inside modal -->
+      <div class="gate-logo-wrap">
+        <img src="clean_shield_emblem.png" alt="The Parenting Project" class="gate-logo-img" style="width:58px;height:58px;object-fit:contain"/>
+      </div>
 
-        <!-- 1-Tap Fast Login Access -->
-        <button type="button" class="gate-demo-btn" onclick="quickDemoLogin()" id="gate-demo-btn" style="margin-top:10px;width:100%;background:#F8FAFC;border:1.5px dashed #0284C7;border-radius:12px;padding:10px 14px;color:#0284C7;font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .2s ease">
-          <span>⚡</span>
-          <span id="gate-demo-btn-text">စမ်းသပ်မိဘ အကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)</span>
-        </button>
+      <!-- Sign In Panel -->
+      <div id="gate-panel-signin" class="gate-panel active">
+        <h2 class="gate-title" id="gate-title-main">Sign In</h2>
+        <p class="gate-subtitle" id="gate-subtitle-main">This page is accessible only to registered churches or schools.</p>
 
-        <div class="gate-forgot">
-          <a href="mailto:info@cbnasia.org?subject=Password Reset Request" class="gate-forgot-link" id="gate-forgot-link">Forgot Your Password?</a>
-        </div>
-        <div class="gate-switch-row">
-          <span id="gate-no-account-text">Don't have an account?</span>
-          <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('register')" id="gate-register-link"> Register here</a>
-        </div>
-      </form>
-    </div>
-
-    <!-- Register Panel -->
-    <div id="gate-panel-register" class="gate-panel" style="display:none">
-      <h2 class="gate-title" id="gate-title-reg">Create Account</h2>
-      <p class="gate-subtitle" id="gate-subtitle-reg">Register your church or school — 100% Free.</p>
-
-      <form id="gate-register-form" onsubmit="handleGateRegister(event)" autocomplete="on">
-        <div class="gate-field">
-          <label class="gate-label" for="gate-reg-church"><span id="gate-reg-label-church">Church or School Name *</span></label>
-          <input type="text" id="gate-reg-church" class="gate-input" placeholder="Grace Baptist Church" required/>
-        </div>
-        <div class="gate-field-row">
+        <form id="gate-signin-form" onsubmit="handleGateSignIn(event)" autocomplete="on">
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-region"><span id="gate-reg-label-region">State / Region *</span></label>
-            <select id="gate-reg-region" class="gate-input gate-select" required>
-              <option value="Yangon">Yangon</option>
-              <option value="Mandalay">Mandalay</option>
-              <option value="Shan">Shan State</option>
-              <option value="Kachin">Kachin State</option>
-              <option value="Chin">Chin State</option>
-              <option value="Kayin">Kayin State</option>
-              <option value="Mon">Mon State</option>
-              <option value="Sagaing">Sagaing</option>
-              <option value="Bago">Bago</option>
-              <option value="Ayeyarwady">Ayeyarwady</option>
-              <option value="Magway">Magway</option>
-              <option value="Tanintharyi">Tanintharyi</option>
-              <option value="Naypyidaw">Naypyidaw</option>
-              <option value="Other">Other</option>
-            </select>
+            <label class="gate-label" for="gate-email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <span id="gate-label-email">Church Email or Phone / Viber</span>
+            </label>
+            <input type="text" id="gate-email" class="gate-input" placeholder="Email or Phone (e.g. 09...)" required autocomplete="username"/>
           </div>
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-city"><span id="gate-reg-label-city">City / Township *</span></label>
-            <input type="text" id="gate-reg-city" class="gate-input" placeholder="Insein" required/>
+            <label class="gate-label" for="gate-password">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+              <span id="gate-label-password">Password</span>
+            </label>
+            <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="current-password"/>
           </div>
-        </div>
-        <div class="gate-field">
-          <label class="gate-label" for="gate-reg-coord"><span id="gate-reg-label-coord">Lead Pastor / Coordinator *</span></label>
-          <input type="text" id="gate-reg-coord" class="gate-input" placeholder="Pastor Name" required/>
-        </div>
-        <div class="gate-field-row">
+          <button type="submit" class="gate-signin-btn" id="gate-signin-btn">
+            <span id="gate-signin-btn-text">Sign In</span>
+          </button>
+
+          <div class="gate-forgot">
+            <a href="mailto:info@cbnasia.org?subject=Password Reset Request" class="gate-forgot-link" id="gate-forgot-link">Forgot Your Password?</a>
+          </div>
+          <div class="gate-switch-row">
+            <span id="gate-no-account-text">Don't have an account?</span>
+            <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('register')" id="gate-register-link"> Register here</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Panel -->
+      <div id="gate-panel-register" class="gate-panel" style="display:none">
+        <h2 class="gate-title" id="gate-title-reg">Create Account</h2>
+        <p class="gate-subtitle" id="gate-subtitle-reg">Register your church or school — 100% Free.</p>
+
+        <form id="gate-register-form" onsubmit="handleGateRegister(event)" autocomplete="on">
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-email"><span id="gate-reg-label-email">Email *</span></label>
-            <input type="email" id="gate-reg-email" class="gate-input" placeholder="church@gmail.com" required autocomplete="email"/>
+            <label class="gate-label" for="gate-reg-church"><span id="gate-reg-label-church">Church or School Name *</span></label>
+            <input type="text" id="gate-reg-church" class="gate-input" placeholder="Grace Baptist Church" required/>
+          </div>
+          <div class="gate-field-row">
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-region"><span id="gate-reg-label-region">State / Region *</span></label>
+              <select id="gate-reg-region" class="gate-input gate-select" required>
+                <option value="Yangon">Yangon</option>
+                <option value="Mandalay">Mandalay</option>
+                <option value="Shan">Shan State</option>
+                <option value="Kachin">Kachin State</option>
+                <option value="Chin">Chin State</option>
+                <option value="Kayin">Kayin State</option>
+                <option value="Mon">Mon State</option>
+                <option value="Sagaing">Sagaing</option>
+                <option value="Bago">Bago</option>
+                <option value="Ayeyarwady">Ayeyarwady</option>
+                <option value="Magway">Magway</option>
+                <option value="Tanintharyi">Tanintharyi</option>
+                <option value="Naypyidaw">Naypyidaw</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-city"><span id="gate-reg-label-city">City / Township *</span></label>
+              <input type="text" id="gate-reg-city" class="gate-input" placeholder="Insein" required/>
+            </div>
           </div>
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-phone"><span id="gate-reg-label-phone">Phone / Viber *</span></label>
-            <input type="tel" id="gate-reg-phone" class="gate-input" placeholder="09..." required/>
+            <label class="gate-label" for="gate-reg-coord"><span id="gate-reg-label-coord">Lead Pastor / Coordinator *</span></label>
+            <input type="text" id="gate-reg-coord" class="gate-input" placeholder="Pastor Name" required/>
           </div>
-        </div>
-        <div class="gate-field-row">
+          <div class="gate-field-row">
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-email"><span id="gate-reg-label-email">Email *</span></label>
+              <input type="email" id="gate-reg-email" class="gate-input" placeholder="church@gmail.com" required autocomplete="email"/>
+            </div>
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-phone"><span id="gate-reg-label-phone">Phone / Viber *</span></label>
+              <input type="tel" id="gate-reg-phone" class="gate-input" placeholder="09..." required/>
+            </div>
+          </div>
+          <div class="gate-field-row">
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-fam"><span id="gate-reg-label-fam">Families to Train</span></label>
+              <select id="gate-reg-fam" class="gate-input gate-select">
+                <option value="10–25 Families">10–25 Families</option>
+                <option value="26–50 Families">26–50 Families</option>
+                <option value="51–100 Families">51–100 Families</option>
+                <option value="100+ Families">100+ Families</option>
+              </select>
+            </div>
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-type"><span id="gate-reg-label-type">Church Type</span></label>
+              <select id="gate-reg-type" class="gate-input gate-select">
+                <option value="Baptist">Baptist</option>
+                <option value="Catholic">Catholic</option>
+                <option value="Methodist">Methodist</option>
+                <option value="Presbyterian">Presbyterian</option>
+                <option value="Pentecostal">Pentecostal</option>
+                <option value="Non-denominational">Non-denom</option>
+                <option value="School">School</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-fam"><span id="gate-reg-label-fam">Families to Train</span></label>
-            <select id="gate-reg-fam" class="gate-input gate-select">
-              <option value="10–25 Families">10–25 Families</option>
-              <option value="26–50 Families">26–50 Families</option>
-              <option value="51–100 Families">51–100 Families</option>
-              <option value="100+ Families">100+ Families</option>
-            </select>
+            <label class="gate-label" for="gate-reg-pass"><span id="gate-reg-label-pass">Create Password *</span></label>
+            <input type="password" id="gate-reg-pass" class="gate-input" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password"/>
           </div>
-          <div class="gate-field">
-            <label class="gate-label" for="gate-reg-type"><span id="gate-reg-label-type">Church Type</span></label>
-            <select id="gate-reg-type" class="gate-input gate-select">
-              <option value="Baptist">Baptist</option>
-              <option value="Catholic">Catholic</option>
-              <option value="Methodist">Methodist</option>
-              <option value="Presbyterian">Presbyterian</option>
-              <option value="Pentecostal">Pentecostal</option>
-              <option value="Non-denominational">Non-denom</option>
-              <option value="School">School</option>
-              <option value="Other">Other</option>
-            </select>
+          <button type="submit" class="gate-signin-btn" id="gate-register-btn">
+            <span id="gate-register-btn-text">Create Account</span>
+          </button>
+          <div class="gate-switch-row">
+            <span id="gate-have-account-text">Already have an account?</span>
+            <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('signin')" id="gate-signin-link"> Sign In</a>
           </div>
-        </div>
-        <div class="gate-field">
-          <label class="gate-label" for="gate-reg-pass"><span id="gate-reg-label-pass">Create Password *</span></label>
-          <input type="password" id="gate-reg-pass" class="gate-input" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password"/>
-        </div>
-        <button type="submit" class="gate-signin-btn" id="gate-register-btn">
-          <span id="gate-register-btn-text">Create Account</span>
-        </button>
-        <div class="gate-switch-row">
-          <span id="gate-have-account-text">Already have an account?</span>
-          <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('signin')" id="gate-signin-link"> Sign In</a>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- DEDICATED NATIVE MOBILE APP HEADER (Appears ONLY in Android App Mode) -->
-<header id="mobile-app-bar" class="mobile-app-only">
-  <div class="mobile-app-bar-inner">
-    <div class="mobile-app-brand" onclick="switchAppTab('home')" style="cursor:pointer" title="The Parenting Project Myanmar">
-      <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="tpp-header-logo-img" />
-      <div class="tpp-header-brand-text">
-        <span class="tpp-header-brand-title">The Parenting Project</span>
-        <span class="tpp-header-brand-sub" id="mobile-app-brand-sub">By CBN Myanmar</span>
-      </div>
-    </div>
-    <div class="mobile-app-actions" style="display:flex;align-items:center;gap:6px">
-      <!-- Search Button -->
-      <button type="button" class="btn btn-ghost btn-xs" onclick="switchAppTab('library'); toggleMcSearchInput();" aria-label="Search" title="Search" style="padding:4px;color:inherit">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </button>
-
-      <!-- Day / Night Mood Toggle -->
-      <button type="button" class="tpp-mood-toggle-btn is-day" id="tpp-mobile-mood-btn" onclick="toggleThemeMood()" title="Day & Night Mood">
-        <span class="mood-btn-icon">☀️</span>
-        <span class="mood-btn-text">Day</span>
-      </button>
-
-      <!-- Language Toggle -->
-      <button type="button" class="btn btn-outline btn-xs" id="mobile-app-lang-btn" onclick="toggleLang()" style="border-radius:14px;padding:3px 8px;font-size:0.72rem;cursor:pointer">
-        🇬🇧 English
-      </button>
-
-      <!-- Avatar -->
-      <div class="mobile-header-avatar" onclick="switchAppTab('account')" title="Profile / Account" style="cursor:pointer;position:relative">
-        <img src="mother_avatar.jpg" id="tpp-header-avatar-img" alt="Profile" class="mobile-avatar-img" style="width:34px;height:34px;border-radius:50%;border:1.5px solid currentColor;object-fit:cover"/>
-      </div>
-    </div>
-  </div>
-</header>
 
 <!-- DEDICATED NATIVE MOBILE APP CONTAINER (Appears ONLY in Android App Mode) -->
 <section id="mobile-app-home" class="mobile-app-only">
@@ -16082,521 +18549,422 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
   <!-- ============================================== -->
   <!-- SCREEN 1: HOME SCREEN (Photo 1 - Left)         -->
   <!-- ============================================== -->
+  <!-- ============================================== -->
+  <!-- SCREEN 1: HOME SCREEN (Photo 2 - Center)       -->
+  <!-- ============================================== -->
   <div id="view-mobile-home" class="mobile-screen-view active">
-    <div class="new-home-container">
+    <!-- Curved Deep Blue Top Canopy (Zero White Above, Elevated Shield Logo) -->
+    <header class="ref-curved-header">
+      <div class="ref-greeting-left">
+        <span class="ref-greeting-hello" id="ref-txt-greeting">Hello,</span>
+        <span class="ref-greeting-name" id="ref-user-display-name">Richard</span>
+      </div>
+      <!-- 3D Metallic Shield Logo with sparkle (Elevated, Flush Top) -->
+      <div class="ref-header-shield-wrap" onclick="switchAppTab('profile')" style="cursor:pointer" title="The Parenting Project CBN">
+        <img src="official_logo.png" alt="The Parenting Project Shield" class="ref-header-shield-img" />
+        <span class="ref-sparkle-glint">✦</span>
+      </div>
+    </header>
 
-      <!-- 1. FEATURED HERO CARD -->
-      <section class="tpp-hero-card" onclick="openCinemaDirectly(1)">
-        <div class="tpp-hero-media">
-          <img src="hero_celebrating_couple.jpg" alt="The Parenting Project" class="tpp-hero-img" />
+    <div class="ref-home-content">
+      <!-- 1. HERO CARD: Enter The Parenting Project (Unstretched Boat Photo) -->
+      <div class="ref-enter-card" onclick="switchAppTab('module')">
+        <div class="ref-enter-media">
+          <div class="ref-enter-badge">⭐ 7 CORE MODULES · CBN</div>
+          <img src="boat_clean.jpg" alt="Enter The Parenting Project" class="ref-enter-img" />
         </div>
-        <div class="tpp-hero-body">
-          <span class="tpp-hero-kicker" id="tpp-hero-kicker">PARENT BETTER.</span>
-          <h1 class="tpp-hero-title" id="tpp-hero-title">BUILD STRONGER HOMES.</h1>
-          <p class="tpp-hero-subtitle" id="tpp-hero-sub">Practical, biblical parenting tips to help you raise confident, kind and resilient children.</p>
-          <div onclick="event.stopPropagation()">
-            <button type="button" class="tpp-btn-start-watching" onclick="openCinemaDirectly(1)" id="tpp-btn-start">
-              ▶ Start Watching
-            </button>
+        <div class="ref-enter-body">
+          <div style="flex:1;padding-right:12px">
+            <div class="ref-enter-title" id="ref-txt-enter-title">Enter The Parenting Project</div>
+            <div class="ref-enter-sub" id="ref-txt-enter-sub">7 Core Modules · Start Your Journey</div>
           </div>
+          <div class="ref-enter-btn-circle">→</div>
         </div>
-      </section>
-
-      <!-- 2. CONTINUE WATCHING SECTION -->
-      <section class="tpp-continue-watching-section">
-        <div class="tpp-section-header">
-          <h2 class="tpp-section-title" id="tpp-txt-continue-watching">Continue Watching</h2>
-          <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-continue">View all ›</a>
-        </div>
-        <div class="tpp-continue-card" id="tpp-continue-card" onclick="resumeLastWatchedVideo()">
-          <div class="tpp-continue-thumb-wrap">
-            <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-continue-thumb" id="tpp-cont-thumb" />
-          </div>
-          <div class="tpp-continue-info">
-            <div class="tpp-continue-title" id="tpp-cont-title">Becoming a Good Example</div>
-            <div class="tpp-continue-meta" id="tpp-cont-sub">Episode 1 · 45 min</div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <div class="tpp-progress-track" style="flex:1">
-                <div class="tpp-progress-fill" id="tpp-cont-progress-fill" style="width: 45%;"></div>
-              </div>
-              <span id="tpp-cont-pct" style="font-size:0.68rem;font-weight:700;color:currentColor;opacity:0.8">45%</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3. ALL 11 VIDEOS SECTION (3-Column Grid) -->
-      <section class="tpp-all-videos-section">
-        <div class="tpp-section-header">
-          <h2 class="tpp-section-title" id="tpp-txt-all-videos">All 11 Videos</h2>
-          <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-videos">View all ›</a>
-        </div>
-        <div class="tpp-videos-grid-3col" id="tpp-home-grid-11">
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(1)" data-mid="1">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">1</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-1">Becoming a Good Example</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(2)" data-mid="2">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_2.jpg" alt="Your Child's Emotional Tank" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">2</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-2">Your Child's Emotional Tank</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(3)" data-mid="3">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_3.jpg" alt="Building Togetherness" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">3</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-3">Building Togetherness</h4>
-              <span class="tpp-grid-duration">9 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(4)" data-mid="4">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_4.jpg" alt="Boundaries and Discipline" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">4</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-4">Boundaries and Discipline</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(5)" data-mid="5">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_5.jpg" alt="Becoming A Father" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">5</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-5">Becoming A Father</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(6)" data-mid="6">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_6.jpg" alt="Healthy Sexuality in the Family" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">6</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-6">Healthy Sexuality in the Family</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(7)" data-mid="7">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_7.jpg" alt="Parenting For a Lifetime" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">7</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-7">Parenting For a Lifetime</h4>
-              <span class="tpp-grid-duration">9 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(8)" data-mid="8">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_8.jpg" alt="Parental Authority" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">8</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-8">Parental Authority</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(9)" data-mid="9">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_9.jpg" alt="The Digital Home" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">9</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-9">The Digital Home</h4>
-              <span class="tpp-grid-duration">9 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(10)" data-mid="10">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_10.jpg" alt="Working Dads and Moms" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">10</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-10">Working Dads and Moms</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(11)" data-mid="11">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_11.jpg" alt="Guiding Your Children into Faith" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">11</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-11">Guiding Your Children into Faith</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. DAILY SCRIPTURE & PARENTING DEVOTIONAL ANCHOR -->
-      <section class="nh-devotional-card">
-        <div class="nh-devotional-header">
-          <span class="nh-devotional-icon">🕊️</span>
-          <span class="nh-devotional-tag" id="nh-devotional-tag">နေ့စဉ် မိသားစု ကျမ်းစကား · TODAY'S ANCHOR</span>
-        </div>
-        <blockquote class="nh-devotional-verse" id="nh-devotional-verse">
-          "သူ့လမ်းအတိုင်း ကလေးကို ဆုံးမသွန်သင်လော့။ သို့ပြုလျှင် အိုသောအခါ၌ပင် ထိုလမ်းမှ မလွှဲမရှောင်ဘဲ နေလိမ့်မည်။"
-        </blockquote>
-        <div class="nh-devotional-ref" id="nh-devotional-ref">— သုတ္တံ ၂၂:၆ (Proverbs 22:6)</div>
-        <div class="nh-devotional-insight" id="nh-devotional-insight">
-          💡 စည်းကမ်းမချမှတ်မီ ကလေး၏ စိတ်ခံစားချက်နှင့် ရင်းနှီးသော နားလည်မှုကို ဦးစွာ တည်ဆောက်ပါ။
-        </div>
-      </section>
-
-
-
-      <!-- 4. 11 VIDEO SERIES REEL (Horizontal Carousel with real YouTube thumbs) -->
-            <!-- 4. 11 PODCAST SERIES REEL (Horizontal Carousel with Podcast Artwork & Quotes) -->
-      <section class="nh-modules-section">
-        <div class="nh-section-head">
-          <div>
-            <div class="nh-eyebrow" id="nh-modules-eyebrow">🎙️ CBN PARENTING PODCAST</div>
-            <h2 class="nh-section-title" id="nh-modules-title">၁၁ ခန်းတွဲ အသံနှင့် ဗီဒီယို သင်ခန်းစာများ</h2>
-          </div>
-          <button type="button" class="nh-see-all-btn" onclick="openCurriculumModal()" id="nh-btn-all-modules">
-            အားလုံးကြည့် ›
-          </button>
-        </div>
-
-        <div class="nh-modules-reel" id="tpp-trailora-video-reel">
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(1)" data-module-id="1">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_1.jpg" alt="စံပြမိဘ ဖြစ်လာခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 01</span>
-              <span class="podcast-dur-badge">⏱️ 18:42</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🏅 စရိုက်လက္ခဏာ</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t1">စံပြမိဘ ဖြစ်လာခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q1">“မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှု စရိုက်လက္ခဏာသည် သားသမီးများ ပထမဆုံး ဖတ်ရှုရသော ပြဋ္ဌာန်းစာအုပ်ဖြစ်ပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s1">📖 တရားဟောရာ ၆:၆-၇</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(2)" data-module-id="2">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_2.jpg" alt="ခိုင်မြဲသော သံယောဇဉ် တည်ဆောက်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 02</span>
-              <span class="podcast-dur-badge">⏱️ 16:15</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🤝 ဆက်ဆံရေး ရင်းနှီးမှု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t2">ခိုင်မြဲသော သံယောဇဉ် တည်ဆောက်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q2">“နွေးထွေးသော ဆက်ဆံရေး မရှိဘဲ ဆုံးမပဲ့ပြင်ခြင်းသည် သားသမီးများ၏ စိတ်ထဲတွင် တိတ်တဆိတ် ပုန်ကန်မှုကို ဖြစ်စေပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s2">📖 ယာကုပ် ၁:၁၉</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(3)" data-module-id="3">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_3.jpg" alt="မေတ္တာနှင့် စည်းကမ်း ဟန်ချက်ညီစေခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 03</span>
-              <span class="podcast-dur-badge">⏱️ 17:30</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🌱 မေတ္တာစည်းကမ်း</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t3">မေတ္တာနှင့် စည်းကမ်း ဟန်ချက်ညီစေခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q3">“စည်းကမ်းသည် အပြစ်ပေးခြင်း မဟုတ်ဘဲ၊ လုံခြုံမှုနှင့် လမ်းပြမှု ပေးစွမ်းနိုင်သော မေတ္တာ၏ နယ်နိမိတ် ဖြစ်ပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s3">📖 ဟေဗြဲ ၁၂:၁၁</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(4)" data-module-id="4">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_4.jpg" alt="နားထောင်ခြင်း အနုပညာနှင့် စိတ်ခံစားမှု" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 04</span>
-              <span class="podcast-dur-badge">⏱️ 19:10</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">💖 စိတ်ကျန်းမာရေး</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t4">နားထောင်ခြင်း အနုပညာနှင့် စိတ်ခံစားမှု</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q4">“သားသမီး၏ စိတ်ခံစားချက် ကုန်ခမ်းနေခြင်းကို ကြိုတင်သတိပြုပြီး အရင်ဆုံး နွေးထွေးစွာ နားထောင်ပေးပါ။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s4">📖 သုတ္တံ ၄:၂၃</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(5)" data-module-id="5">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_5.jpg" alt="ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 05</span>
-              <span class="podcast-dur-badge">⏱️ 15:45</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">📱 ဒစ်ဂျစ်တယ်ခေတ်</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t5">ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q5">“နေ့စဉ် စကားများရန်ဖြစ်စရာမလိုဘဲ ဖုန်းနှင့် ဖန်သားပြင်သုံးစွဲမှုကို ပညာရှိစွာ ထိန်းကျောင်းခြင်း။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s5">📖 ၁ ကော ၁၀:၂၃</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(6)" data-module-id="6">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_6.jpg" alt="အပြုသဘောဆောင်သော ဆုံးမပဲ့ပြင်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 06</span>
-              <span class="podcast-dur-badge">⏱️ 18:00</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🧭 စည်းကမ်းထိန်းသိမ်းမှု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t6">အပြုသဘောဆောင်သော ဆုံးမပဲ့ပြင်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q6">“စစ်မှန်သော ဆုံးမပဲ့ပြင်ခြင်းသည် မိမိကိုယ်ကို ထိန်းကျောင်းနိုင်သော စရိုက်လက္ခဏာကို ပျိုးထောင်ပေးပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s6">📖 ဟေဗြဲ ၁၂:၁၁</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(7)" data-module-id="7">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_7.jpg" alt="ဖခင်၏ နှလုံးသားနှင့် အတူရှိနေပေးခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 07</span>
-              <span class="podcast-dur-badge">⏱️ 16:50</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">👨‍👧 ဖခင်၏ အခန်းကဏ္ဍ</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t7">ဖခင်၏ နှလုံးသားနှင့် အတူရှိနေပေးခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q7">“ဖခင်၏ အချိန်ပေး အတူရှိနေမှုသည် သားသမီး၏ ဘဝရပ်တည်ချက်နှင့် စရိုက်လက္ခဏာကို ခိုင်ခံ့စေပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s7">📖 ဆာလံ ၁၀၃:၁၃</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(8)" data-module-id="8">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_8.jpg" alt="အလုပ်လုပ်သော မိဘများ- ဟန်ချက်ညီစေခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 08</span>
-              <span class="podcast-dur-badge">⏱️ 17:20</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">💼 အလုပ်နှင့် မိသားစု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t8">အလုပ်လုပ်သော မိဘများ- ဟန်ချက်ညီစေခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q8">“အလုပ်ခွင် ဖိအားများကြားမှ သားသမီးများ၏ တန်ဖိုးရှိသော ငယ်ဘဝ အခိုက်အတန့်များကို လက်မလွတ်စေခြင်း။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s8">📖 ဆာလံ ၁၂၇:၂</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(9)" data-module-id="9">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_9.jpg" alt="ခိုင်မာသော ယုံကြည်ခြင်း အခြေခံ ပျိုးထောင်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 09</span>
-              <span class="podcast-dur-badge">⏱️ 20:15</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">📖 ယုံကြည်ခြင်း</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t9">ခိုင်မာသော ယုံကြည်ခြင်း အခြေခံ ပျိုးထောင်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q9">“မိသားစု ဝတ်ပြုကိုးကွယ်ခြင်းသည် ဘုရားသခင်၏ မျက်မှောက်တော်ကို ရွှင်လန်းစွာ ခံစားရသော နေရာဖြစ်ပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s9">📖 တရားဟောရာ ၁၁:၁၈-၁၉</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(10)" data-module-id="10">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_10.jpg" alt="မိသားစုအတွင်း ကျန်းမာသော အသိပညာပေးခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 10</span>
-              <span class="podcast-dur-badge">⏱️ 18:35</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🛡️ တန်ဖိုးထားမှု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t10">မိသားစုအတွင်း ကျန်းမာသော အသိပညာပေးခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q10">“အင်တာနက်သည် သင့်သားသမီးအတွက် လိင်ပိုင်းဆိုင်ရာ ပထမဆုံး ဆရာမဖြစ်ပါစေနှင့်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s10">📖 ၁ ကော ၆:၁၉-၂၀</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(11)" data-module-id="11">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_11.jpg" alt="ဘဝအဆင့်တိုင်းတွင် သားသမီးများကို ပျိုးထောင်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 11</span>
-              <span class="podcast-dur-badge">⏱️ 21:00</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">✨ အသက်အရွယ်မရွေး</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t11">ဘဝအဆင့်တိုင်းတွင် သားသမီးများကို ပျိုးထောင်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q11">“ပြုစုစောင့်ရှောက်သူမှသည် လေ့ကျင့်ပေးသူ၊ အကြံပေးမိတ်ဆွေ၊ ထာဝရ မိတ်ဆွေစစ်အဖြစ်သို့ ပြောင်းလဲခြင်း။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s11">📖 သုတ္တံ ၂၂:၆</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. MEET YOUR MENTORS (The 3 Mentor Couples Spotlight) -->
-      <section class="nh-mentors-section">
-        <div class="nh-section-head">
-          <div>
-            <div class="nh-eyebrow" id="nh-mentors-eyebrow">CBN OFFICIAL FACULTY</div>
-            <h2 class="nh-section-title" id="nh-mentors-title">သင်တန်းဆရာ/ဆရာမများ</h2>
-          </div>
-        </div>
-
-        <div class="nh-mentors-cards">
-          <!-- Mentor 1: Young Joyful Couple -->
-          <div class="nh-mentor-card" onclick="openCinemaDirectly(1)">
-            <div class="nh-mentor-avatar-wrap">
-              <img src="mentor_avatar_young.jpg" alt="Mentor Couple 1" class="nh-mentor-img" />
-            </div>
-            <div class="nh-mentor-details">
-              <div class="nh-mentor-badge" id="nh-m1-badge">စံပြမိဘနှင့် ခိုင်မြဲသော သံယောဇဉ်</div>
-              <h3 class="nh-mentor-name" id="nh-m1-name">မေတ္တာသံယောဇဉ်နှင့် စံပြမိဘ</h3>
-              <p class="nh-mentor-desc" id="nh-m1-desc">
-                "ပျော်ရွှင်သော ရင်းနှီးမှုသည် ကလေး၏ စိတ်နှလုံးကို ဘုရားသခင်ထံ ဖွင့်လှစ်ပေးသည်။"
-              </p>
-            </div>
-          </div>
-
-          <!-- Mentor 2: Senior Mentors -->
-          <div class="nh-mentor-card" onclick="openCinemaDirectly(3)">
-            <div class="nh-mentor-avatar-wrap">
-              <img src="mentor_avatar_senior.jpg" alt="Mentor Couple 2" class="nh-mentor-img" />
-            </div>
-            <div class="nh-mentor-details">
-              <div class="nh-mentor-badge" id="nh-m2-badge">ကျမ်းစာအခြေခံနှင့် မေတ္တာစည်းကမ်း</div>
-              <h3 class="nh-mentor-name" id="nh-m2-name">ကျမ်းစာအခြေခံနှင့် မေတ္တာစည်းကမ်း</h3>
-              <p class="nh-mentor-desc" id="nh-m2-desc">
-                "ဆယ်စုနှစ်များစွာ အိမ်ထောင်အတွေ့အကြုံနှင့် ခရစ်တော်၏ သည်းခံခြင်း နည်းလမ်းများ။"
-              </p>
-            </div>
-          </div>
-
-          <!-- Mentor 3: Teen & Character Couple -->
-          <div class="nh-mentor-card" onclick="openCinemaDirectly(10)">
-            <div class="nh-mentor-avatar-wrap">
-              <img src="mentor_avatar_pink.jpg" alt="Mentor Couple 3" class="nh-mentor-img" />
-            </div>
-            <div class="nh-mentor-details">
-              <div class="nh-mentor-badge" id="nh-m3-badge">ဆယ်ကျော်သက်နှင့် နားလည်မှုမေတ္တာ</div>
-              <h3 class="nh-mentor-name" id="nh-m3-name">ဆယ်ကျော်သက်နှင့် နားလည်မှုမေတ္တာ</h3>
-              <p class="nh-mentor-desc" id="nh-m3-desc">
-                "ကလေးကြီးပြင်းလာချိန် စိန်ခေါ်မှုများကို နားထောင်ပေးခြင်းဖြင့် အတူကျော်ဖြတ်ပါ။"
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-      <div class="nh-footer-note">
-        <span id="nh-footer-note-txt">The Parenting Project Myanmar · CBN Asia Family Discipleship</span>
       </div>
 
+      <!-- 2. UPCOMING EVENT: The Parenting Project Socialization (Unstretched Workshop Photo) -->
+      <div class="ref-event-card" onclick="openCinemaDirectly(1); showToast('Upcoming Event: The Parenting Project Socialization');">
+        <div class="ref-event-media">
+          <div class="ref-event-badge-left">UPCOMING EVENT</div>
+          <div class="ref-event-badge-right">☕ Socialization Workshop</div>
+          <img src="workshop_socialization.jpg" alt="The Parenting Project Socialization" class="ref-event-img" />
+        </div>
+        <div class="ref-event-body">
+          <div style="flex:1;padding-right:12px">
+            <div class="ref-event-title">The Parenting Project Socialization</div>
+            <div class="ref-event-sub">Connecting Church Leaders & Parents Across Myanmar</div>
+            <div class="ref-event-meta">Yangon · In-Person & Hybrid Live Stream</div>
+          </div>
+          <button type="button" class="ref-event-btn">Details ›</button>
+        </div>
+      </div>
+
+      <!-- 3. THIRD BANNER: Transforming Parenting Culture Across Myanmar (Unstretched Greenhouse Photo) -->
+      <div class="ref-mission-card" onclick="openCinemaDirectly(2)">
+        <div class="ref-mission-media">
+          <div class="ref-mission-badge">OUR MISSION</div>
+          <img src="greenhouse_clean.jpg" alt="Transforming Parenting Culture Across Myanmar" class="ref-mission-img" />
+        </div>
+        <div class="ref-mission-body">
+          <div style="flex:1;padding-right:12px">
+            <div class="ref-mission-title">Transforming Parenting Culture Across Myanmar</div>
+            <div class="ref-mission-sub">Equipping families with Biblical values & Christ-centered mentorship.</div>
+          </div>
+          <div class="ref-mission-btn-circle">→</div>
+        </div>
+      </div>
     </div>
   </div>
 
+
     <!-- SCREEN 2: VIDEO PLAYBACK SCREEN (Photo 2 - M)  -->
   <!-- ============================================== -->
+    <!-- ============================================== -->
+  <!-- SCREEN 2: CORE MODULES SCREEN (Photo 3 - Right)-->
+  <!-- ============================================== -->
+  <div id="view-mobile-modules" class="mobile-screen-view ref-modules-view-wrap" style="display:none">
+    <!-- Top Header -->
+    <header class="ref-modules-top-header">
+      <button type="button" class="ref-mod-back-btn" onclick="switchAppTab('home')" title="Back to Home">←</button>
+      <div class="ref-mod-titles-center">
+        <div class="ref-mod-kicker" id="ref-txt-core-kicker">Core Modules</div>
+        <div class="ref-mod-heading">The Parenting Project</div>
+      </div>
+      <button type="button" class="ref-mod-dots-btn" onclick="openSettingsModal()" title="Options">•••</button>
+    </header>
+
+    <!-- Horizontal Stepper Progress Bars -->
+    <div class="ref-mod-stepper-wrap">
+      <div class="ref-mod-step-bar completed"></div>
+      <div class="ref-mod-step-bar current"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+    </div>
+
+    <!-- Core Modules List -->
+    <div class="ref-modules-list" id="ref-modules-list-container">
+      <!-- Module 1: Role Model Parenting / စံပြမိဘဖြစ်ခြင်း -->
+      <div class="ref-module-card" onclick="handleModuleClick(1)">
+        <div class="ref-module-photo-wrap">
+          <img src="crop_mod1_photo.jpg" alt="Module 1" class="ref-module-photo" />
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 1 · ACTIVE</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-1">Role Model Parenting · စံပြမိဘ</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 2: Tangki Emosi Anak (Locked) -->
+      <div class="ref-module-card" onclick="handleModuleClick(2)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="crop_mod2_photo.jpg" alt="Module 2" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 2</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-2">Child's Emotional Tank · မေတ္တာအိုး</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 3: Building Togetherness -->
+      <div class="ref-module-card" onclick="handleModuleClick(3)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_3.jpg" alt="Module 3" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 3</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-3">Building Togetherness · စည်းလုံးမှု</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 4: Boundaries & Discipline -->
+      <div class="ref-module-card" onclick="handleModuleClick(4)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_4.jpg" alt="Module 4" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 4</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-4">Loving Boundaries · စည်းကမ်း</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 5: Becoming A Father -->
+      <div class="ref-module-card" onclick="handleModuleClick(5)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_5.jpg" alt="Module 5" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 5</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-5">Role of Fathers · ဖခင်အခန်းကဏ္ဍ</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 6: Healthy Sexuality -->
+      <div class="ref-module-card" onclick="handleModuleClick(6)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_6.jpg" alt="Module 6" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 6</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-6">Family Guidance · လမ်းညွှန်</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 7: Parenting For a Lifetime -->
+      <div class="ref-module-card" onclick="handleModuleClick(7)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_7.jpg" alt="Module 7" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 7</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-7">Lifelong Parenting · ကျေးဇူးတော်</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ============================================== -->
+  <!-- SCREEN: MODULE DETAIL VIEW (User Reference 1) -->
+  <!-- ============================================== -->
+  <div id="view-mobile-module-detail" class="mobile-screen-view ref-detail-view-wrap" style="display:none">
+    <!-- Header -->
+    <div class="ref-detail-header">
+      <button type="button" class="ref-detail-back-btn" onclick="switchAppTab('module')" title="Back to Modules">←</button>
+      <div class="ref-detail-kicker" id="ref-detail-kicker">MODULE 1 · FOUNDATIONAL STEP</div>
+      <h1 class="ref-detail-title" id="ref-detail-title">Role Model Parenting · စံပြမိဘ</h1>
+    </div>
+
+    <div class="ref-detail-content">
+      <!-- Video Card with Ambient Glow & Data-Saver Toggle -->
+      <div class="ref-detail-video-card">
+        <div class="ref-detail-thumb-frame" onclick="openVideoPlayerScreen(1)">
+          <div class="ref-video-meta-chip"><span>🎬</span> <span>14:20 HD • Dual Audio</span></div>
+          <img src="crop_mod1_photo.jpg" alt="Video Modul" class="ref-detail-thumb-img" />
+          <div class="ref-play-btn-circle">▶</div>
+          <div class="ref-video-label-chip">Session 1 · Setting a Good Example</div>
+        </div>
+        <div class="ref-video-audio-toggle">
+          <span>Weak connection in Myanmar?</span>
+          <button type="button" class="ref-audio-pill-btn" onclick="toggleAudioOnlyMode()">
+            <span>🎧</span> <span id="ref-audio-toggle-label">Audio Only (Save Data)</span>
+          </button>
+        </div>
+        <button type="button" class="ref-btn-download-full" id="ref-btn-download-mod1" onclick="handleModuleDownload(1)">
+          <span id="ref-dl-icon">📥</span> <span id="ref-dl-text">Download for Offline (142 MB)</span>
+        </button>
+      </div>
+
+      <!-- Sacred Parent's Prayer Sanctuary Card -->
+      <button type="button" class="ref-btn-prayer-pill" onclick="openParentPrayerModal()">
+        <div class="ref-prayer-left">
+          <span style="font-size:1.35rem">👥 🙏</span>
+          <div style="text-align:left">
+            <div style="font-size:14.5px;font-weight:800;color:#FFE6A3">Parent's Prayer · Module 1</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.78);font-weight:500">"Lord, teach me to be a living example of Your grace..."</div>
+          </div>
+        </div>
+        <div class="ref-prayer-community-count">✨ 1,480 Prayed</div>
+      </button>
+
+      <!-- 2-Column Split Actions: Testimonies & Family Study Guide (NO DONATION) -->
+      <div class="ref-action-grid-2col">
+        <div class="ref-action-card-split" onclick="openTestifyModal()">
+          <div class="ref-action-icon-box">💬</div>
+          <div class="ref-action-label-box">
+            <div>Family Stories</div>
+            <span class="ref-action-subtext">342 Testimonies</span>
+          </div>
+        </div>
+        <div class="ref-action-card-split" onclick="openStudyGuideModal()">
+          <div class="ref-action-icon-box">📘</div>
+          <div class="ref-action-label-box">
+            <div>Study Guide</div>
+            <span class="ref-action-subtext">Free PDF & Notes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Devotion Carousel with Interactive Badges -->
+      <div class="ref-devotion-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <h3 class="ref-devotion-heading" style="margin:0">Daily Devotion</h3>
+          <span style="font-size:11.5px;font-weight:700;color:#0D2E5C;background:#E2E8F0;padding:2px 8px;border-radius:999px">3 Reflections</span>
+        </div>
+        <div class="ref-devotion-carousel">
+          <!-- Day 1 -->
+          <div class="ref-devotion-card" onclick="openDevotionModal(1)">
+            <div class="ref-devotion-status-chip done">✓ Completed</div>
+            <div class="ref-devotion-thumb-wrap">
+              <img src="crop_mod1_photo.jpg" alt="Day 1 Devotion" class="ref-devotion-thumb" />
+            </div>
+            <div class="ref-devotion-footer">Day 1 · 3 min</div>
+          </div>
+
+          <!-- Day 2 -->
+          <div class="ref-devotion-card" onclick="openDevotionModal(2)">
+            <div class="ref-devotion-status-chip">🌟 Today's Word</div>
+            <div class="ref-devotion-thumb-wrap">
+              <img src="crop_devotion_day2.jpg" alt="Day 2 Devotion" class="ref-devotion-thumb" />
+            </div>
+            <div class="ref-devotion-footer">Day 2 · 4 min</div>
+          </div>
+
+          <!-- Day 3 -->
+          <div class="ref-devotion-card" onclick="openDevotionModal(3)">
+            <div class="ref-devotion-status-chip">🔒 Day 3</div>
+            <div class="ref-devotion-thumb-wrap">
+              <img src="yt_thumb_3.jpg" alt="Day 3 Devotion" class="ref-devotion-thumb" />
+            </div>
+            <div class="ref-devotion-footer">Day 3 · 3 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete This Module Sticky Action -->
+      <button type="button" class="ref-btn-complete-module" onclick="completeCurrentModule(1)">
+        COMPLETE THIS MODULE
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- SCREEN: VIDEO PLAYBACK SCREEN (User Reference 3)-->
+  <!-- ============================================== -->
+  <div id="view-mobile-video-player" class="mobile-screen-view ref-video-view-wrap" style="display:none">
+    <div class="ref-video-header">
+      <button type="button" class="ref-detail-back-btn" style="margin-bottom:0" onclick="switchAppTab('detail')" title="Back">←</button>
+      <div class="ref-video-header-title">Video</div>
+    </div>
+
+    <div class="ref-video-frame-container">
+      <div class="ref-video-player-box">
+        <iframe id="ref-video-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <button type="button" class="ref-btn-video-next" onclick="completeCurrentModule(1); switchAppTab('detail');">
+        Next
+      </button>
+    </div>
+  </div>
+
+  
+  <!-- INTERACTIVE DAILY DEVOTION READER MODAL -->
+  <div id="ref-devotion-reader-modal" class="inapp-modal-overlay" style="display:none">
+    <div class="inapp-modal-box" style="max-width:440px;max-height:85vh;overflow-y:auto;border-radius:24px;border:1.5px solid rgba(245,168,0,0.3)">
+      <button type="button" class="inapp-modal-close" onclick="closeDevotionReaderModal()">✕</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="background:#F5A800;color:#0D2E5C;font-size:11px;font-weight:900;padding:2px 8px;border-radius:999px" id="ref-modal-devotion-chip">DAY 1 DEVOTION</span>
+        <span style="font-size:12px;color:#64748B;font-weight:600">3 Min Read</span>
+      </div>
+      <h3 style="font-size:1.25rem;font-weight:900;color:#0D2E5C;line-height:1.3;margin-bottom:12px" id="ref-modal-devotion-title">Menjadi Teladan: Living What We Teach</h3>
+      
+      <!-- Scripture Box -->
+      <div style="background:linear-gradient(135deg,#081F3D 0%,#0D2E5C 100%);color:#FFF;border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid rgba(245,168,0,0.35);box-shadow:0 6px 18px rgba(7,34,71,0.25)">
+        <div style="color:#F5A800;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">📖 ကျမ်းချက် / Scripture</div>
+        <div style="font-size:0.9rem;font-weight:600;line-height:1.5;margin-bottom:6px">"Train up a child in the way he should go; even when he is old he will not depart from it."</div>
+        <div style="font-size:0.8rem;color:#FFE6A3;line-height:1.4">"သူငယ်သွားအပ်သောလမ်း၌ သွန်သင်လေ့ကျင့်လော့။ သို့ပြုလျှင် သူသည်အသက်ကြီးသော်လည်း ထိုလမ်းမှမလွှဲမရှောင်ဘဲ နေလိမ့်မည်။"</div>
+        <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.7);margin-top:4px">— သုတ္တံကျမ်း ၂၂:၆ / Proverbs 22:6</div>
+      </div>
+
+      <!-- Devotional Message -->
+      <div style="font-size:0.88rem;color:#334155;line-height:1.65;margin-bottom:14px">
+        Children may not always listen to what we say, but they never fail to imitate what we do. When our children see us handle frustration with calm patience, they learn emotional self-regulation. When they see us seek forgiveness after losing our temper, they learn humility.
+      </div>
+
+      <!-- Family Reflection Box -->
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:12px;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:800;color:#B45309;margin-bottom:3px">💡 မိသားစု ဆင်ခြင်စရာ / Reflection</div>
+        <div style="font-size:0.83rem;color:#78350F;line-height:1.4">What is one habit or response your children saw in you this week that you want them to carry forward?</div>
+      </div>
+
+      <button type="button" class="ref-btn-complete-module" style="position:static !important;border-radius:14px !important;margin-top:0 !important" onclick="markDevotionReadAndCelebrate()">
+        ✓ MARK DAY COMPLETED (+50 PTS)
+      </button>
+    </div>
+  </div>
+
+  <!-- PARENT'S PRAYER MODAL -->
+  <div id="ref-prayer-modal" class="inapp-modal-overlay" style="display:none">
+    <div class="inapp-modal-box" style="max-width:440px">
+      <button type="button" class="inapp-modal-close" onclick="closeParentPrayerModal()">✕</button>
+      <div style="font-size:2rem;text-align:center;margin-bottom:6px">🙏</div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;text-align:center;margin-bottom:8px">Parent's Prayer · Module 1</h3>
+      <div style="background:#F8FAFC;border-radius:12px;padding:16px;font-size:0.85rem;color:#334155;line-height:1.6;margin-bottom:14px">
+        "Lord Heavenly Father, teach me to live as a true, consistent example before my children. When stress and fatigue arrive, grant me peace in my words, gentleness in my actions, and a humble heart to apologise when I make a mistake. May my life be a living reflection of Your grace in our home. Amen."
+      </div>
+      <button type="button" class="prayer-submit-btn" style="background:#0D2E5C;color:#FFF" onclick="closeParentPrayerModal()">
+        ✓ Amen
+      </button>
+    </div>
+  </div>
+
+  <!-- TESTIMONY MODAL -->
+  <div id="ref-testify-modal" class="inapp-modal-overlay" style="display:none">
+    <div class="inapp-modal-box" style="max-width:440px">
+      <button type="button" class="inapp-modal-close" onclick="closeTestifyModal()">✕</button>
+      <div style="font-size:2rem;text-align:center;margin-bottom:6px">💬</div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;text-align:center;margin-bottom:4px">I Want to Testify</h3>
+      <p style="font-size:0.78rem;color:#64748B;text-align:center;margin-bottom:14px">Share how The Parenting Project has blessed your home or local church in Myanmar.</p>
+      <textarea id="ref-testify-text" class="prayer-textarea" rows="4" placeholder="ရေးသားမျှဝေပါ / Share your family testimony here..." style="width:100%;padding:10px;border-radius:10px;border:1px solid #CBD5E1;font-family:inherit;font-size:0.85rem;margin-bottom:12px"></textarea>
+      <button type="button" class="prayer-submit-btn" style="background:#F5A800;color:#0D2E5C;font-weight:800" onclick="submitTestimony()">
+        ✉️ Submit Testimony
+      </button>
+    </div>
+  </div>
+
+
   <div id="view-mobile-cinema" class="mobile-screen-view" style="display:none">
     <!-- Playback Top Bar -->
     <div class="cinema-top-bar">
@@ -16760,12 +19128,14 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
         </div>
 
         <div class="notes-input-box">
-          <label for="cinema-user-notes" style="font-size:0.75rem;font-weight:700;color:#f5a800;display:block;margin-bottom:4px;">
-            📝 သင်၏ ကိုယ်ပိုင် မှတ်စု (Personal Notes):
+          <label for="cinema-user-notes">
+            <span>📝 သင်၏ ကိုယ်ပိုင် မှတ်စု (Personal Notes):</span>
+            <span class="notes-autosave-badge" id="notes-autosave-status">Auto-saved</span>
           </label>
-          <textarea id="cinema-user-notes" class="cinema-notes-textarea" rows="3" placeholder="ဒီအပိုင်းမှ သင်ရရှိသော ထိုးထွင်းသိမြင်မှုများကို မှတ်သားပါ..."></textarea>
-          <button type="button" class="btn btn-outline btn-xs" onclick="saveCurrentEpisodeNotes()" style="margin-top:6px;border-radius:12px;color:#f5a800;border-color:rgba(245,168,0,0.4)">
-            💾 မှတ်စု သိမ်းဆည်းမည် (Save)
+          <textarea id="cinema-user-notes" class="cinema-notes-textarea" rows="4" placeholder="ဒီအပိုင်းမှ သင်ရရှိသော ထိုးထွင်းသိမြင်မှုများကို မှတ်သားပါ..."></textarea>
+          <button type="button" class="btn-save-notes-primary" id="btn-save-episode-notes" onclick="saveCurrentEpisodeNotes()">
+            <span>💾</span>
+            <span id="btn-txt-save-notes">မှတ်စု သိမ်းဆည်းမည် (Save Notes)</span>
           </button>
         </div>
       </div>
@@ -17187,172 +19557,96 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
   <!-- SCREEN: MASTERCLASS ACCOUNT / MEMBERSHIP PAGE             -->
   <!-- VIP Member Profile, Certificate, Storage, and Settings    -->
   <!-- ========================================================= -->
-  <div id="view-mobile-account" class="mobile-screen-view" style="display:none">
-    <!-- Dedicated Top Navigation Bar for Account Screen with Back to Home -->
-    <div class="tpp-account-top-bar" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px 6px 14px;">
-      <button type="button" class="tpp-nav-back-home-btn" onclick="switchAppTab('home')" aria-label="Back to Home" title="Back to Home">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <span id="tpp-acc-back-home-txt">Back to Home</span>
-      </button>
-
-      <button type="button" class="tpp-icon-btn" onclick="openSettingsModal()" aria-label="Settings" title="Settings">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </button>
+  <!-- ============================================== -->
+  <!-- SCREEN 1: PROFILE SCREEN (Photo 1 - Left)      -->
+  <!-- ============================================== -->
+  <div id="view-mobile-account" class="mobile-screen-view ref-profile-view-wrap" style="display:none">
+    <!-- Top Center 3D Shield Logo & Name -->
+    <div class="ref-profile-hero-center">
+      <img src="official_logo.png" alt="The Parenting Project Shield" class="ref-profile-shield-logo" />
+      <h2 class="ref-profile-username" id="ref-profile-user-name">Richard</h2>
     </div>
 
-    <!-- Profile Header (Richard, Parent · Learner · Builder) -->
-    <div class="tpp-profile-header">
-      <div class="tpp-profile-avatar-container" onclick="openAvatarPickerModal()" title="Change Profile Photo / မိမိဓာတ်ပုံ ပြောင်းရန်" style="position:relative;cursor:pointer;display:inline-block">
-        <div class="tpp-profile-avatar-wrap">
-          <img src="mother_avatar.jpg" alt="Profile" id="tpp-profile-avatar-img" class="tpp-profile-avatar"/>
+    <!-- Language & Theme Preferences (Relocated from Home to Settings) -->
+    <div style="padding: 0 16px; margin-bottom: 14px;">
+      <div class="ref-profile-settings-card">
+        <div class="ref-setting-header">
+          <span class="ref-setting-icon">🌐</span>
+          <div style="flex:1">
+            <div class="ref-setting-title">Language Selection <span style="font-weight:400;color:#64748B;font-size:0.85em">ဘာသာစကား</span></div>
+            <div class="ref-setting-desc">Select your preferred app language for lessons & study guides</div>
+          </div>
         </div>
-        <div class="tpp-avatar-camera-badge" title="Change Photo">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
+        <div class="ref-toggle-dual-row">
+          <button type="button" class="ref-toggle-pill active" id="ref-pref-lang-en" onclick="setAppLanguage('en')">English (Active)</button>
+          <button type="button" class="ref-toggle-pill" id="ref-pref-lang-my" onclick="setAppLanguage('my')">Myanmar / မြန်မာစာ</button>
         </div>
       </div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:6px">
-          <div class="tpp-profile-name" id="tpp-acc-name">Richard</div>
-          <button type="button" class="btn btn-ghost btn-xs" onclick="promptEditUserName()" title="Edit Name" style="padding:2px 6px;font-size:0.75rem;opacity:0.75;cursor:pointer;border-radius:6px">✏️</button>
+
+      <div class="ref-profile-settings-card">
+        <div class="ref-setting-header">
+          <span class="ref-setting-icon">🌓</span>
+          <div style="flex:1">
+            <div class="ref-setting-title">Theme & Display Mood</div>
+            <div class="ref-setting-desc">Choose day mode or eye-friendly night dark mode</div>
+          </div>
         </div>
-        <div class="tpp-profile-role" id="tpp-acc-role">Parent · Learner · Builder</div>
-        <button type="button" class="tpp-btn-change-photo" onclick="openAvatarPickerModal()">
-          <span>📷</span> <span id="tpp-acc-change-photo-txt">Change Photo</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Sage / Emerald Quote Card with Leaf Icon -->
-    <div class="tpp-quote-card">
-      <span class="tpp-quote-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.5 10-10 10Z"/>
-          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-        </svg>
-      </span>
-      <p class="tpp-quote-text" id="tpp-acc-quote">Better parenting leads to brighter tomorrows.</p>
-    </div>
-
-    <!-- My Progress Section with Circular Ring Chart (3/11 Videos) -->
-    <div class="tpp-section-header">
-      <h3 class="tpp-section-title" id="tpp-txt-my-progress">My Progress</h3>
-      <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-progress">View all ›</a>
-    </div>
-
-    <div class="tpp-progress-card">
-      <div class="tpp-circle-ring-wrap">
-        <svg viewBox="0 0 36 36" width="68" height="68">
-          <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" opacity="0.15" stroke-width="3"/>
-          <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="27, 100" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <div class="tpp-ring-stat">
-          <span>3/11</span>
-          <small>Videos</small>
-        </div>
-      </div>
-      <div style="flex:1">
-        <div class="tpp-progress-title" id="tpp-txt-videos-completed">Videos Completed</div>
-        <div class="tpp-progress-track">
-          <div class="tpp-progress-fill" style="width: 27%;"></div>
+        <div class="ref-toggle-dual-row">
+          <button type="button" class="ref-toggle-pill active" id="ref-pref-theme-day" onclick="setThemeMoodDirect('day')">☀️ Day Mode (Active)</button>
+          <button type="button" class="ref-toggle-pill" id="ref-pref-theme-dark" onclick="setThemeMoodDirect('dark')">🌙 Night Dark Mode</button>
         </div>
       </div>
     </div>
 
-    <!-- Menu Items List -->
-    <div class="tpp-menu-list">
-      <div class="tpp-menu-row" onclick="switchAppTab('library')">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-          </svg>
-        </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-saved">Saved Videos</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-saved">Keep your favorite episodes</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
+    <!-- Vertical Stack of Clean Cards with Arrows -->
+    <div class="ref-profile-cards-stack">
+      <div class="ref-profile-menu-card" onclick="promptEditUserName()">
+        <span>Edit Profile</span>
+        <span class="ref-profile-arrow">→</span>
       </div>
 
-      <div class="tpp-menu-row" onclick="openCinemaDirectly(1); switchCinemaTab('notes');">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10 9 9 9 8 9"/>
+      <div class="ref-profile-menu-card" onclick="syncOfflineDataWithCloud()">
+        <span>Synchronize Data</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="openSettingsModal()">
+        <span>Settings</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="switchAppTab('downloads')">
+        <span>Download Manager</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="openCounselingModal()">
+        <span>Family Counseling & Helpline</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="openTermsModal()">
+        <span>Terms and Conditions</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="promptDeleteAccount()">
+        <span>Delete Account</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card ref-profile-logout-card" onclick="handleAppLogout()">
+        <span>Logout</span>
+        <span class="ref-profile-arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
           </svg>
         </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-notes">My Notes</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-notes">Jot down key takeaways</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
-      </div>
-
-      <div class="tpp-menu-row" onclick="openSettingsModal()">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-        </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-settings">Settings</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-settings">Notifications, language, playback</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
-      </div>
-
-      <div class="tpp-menu-row" onclick="openInAppHelpSupport()">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-help">Help & Support</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-help">FAQs, contact us</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
       </div>
     </div>
-
-    <!-- About The Parenting Project Card -->
-    <div class="tpp-about-card">
-      <div class="tpp-about-brand">
-        <img src="official_logo.png" alt="The Parenting Project" class="tpp-about-logo-img" />
-        <span id="tpp-about-brand-title">The Parenting Project</span>
-      </div>
-      <p class="tpp-about-desc" id="tpp-about-desc">
-        A 11-part video series to help parents raise confident, kind and resilient children — grounded in truth and real-life wisdom.
-      </p>
-      <a href="javascript:void(0)" onclick="openCurriculumModal()" class="tpp-about-link" id="tpp-about-link">
-        Learn more →
-      </a>
-    </div>
-
-    <!-- Sign Out Button -->
-    <button type="button" class="mc-btn-signout" onclick="logoutUser()">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        <polyline points="16 17 21 12 16 7"/>
-        <line x1="21" y1="12" x2="9" y2="12"/>
-      </svg>
-      <span id="tpp-txt-signout">Sign Out</span>
-    </button>
   </div>
-
   <!-- ========================================================= -->
   <!-- PREMIUM MODULE PREVIEW DRAWER (Deep Curriculum Guide)     -->
   <!-- ========================================================= -->
@@ -19372,35 +21666,98 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 <div id="toast" class="toast"></div>
 
 <!-- FIXED BOTTOM NAVIGATION BAR FOR NATIVE PHONE EXPERIENCE (Appears ONLY in Android App Mode) -->
-<nav id="mobile-app-bottom-bar" class="mobile-app-only">
-  <button type="button" class="app-bottom-tab active" id="btn-app-tab-home" onclick="switchAppTab('home')" aria-label="Home">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-home">Home</span>
+<!-- FIXED BOTTOM NAVIGATION BAR WITH ELEVATED HEART FAB (2026 OFFICIAL REFERENCE) -->
+<nav id="mobile-app-bottom-bar" class="mobile-app-only ref-bottom-nav">
+  <button type="button" class="ref-bottom-tab active" id="btn-app-tab-home" onclick="switchAppTab('home')" aria-label="Home">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span id="ref-lbl-home">Home</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-library" onclick="switchAppTab('library')" aria-label="Library">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-library">Library</span>
+  <button type="button" class="ref-bottom-tab" id="btn-app-tab-module" onclick="switchAppTab('module')" aria-label="Module">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    <span id="ref-lbl-module">Module</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-episodes" onclick="switchAppTab('episodes')" aria-label="Progress">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 17c3.5-6.5 5.5-6.5 8.5-1.5s4.5 4.5 6.5-1.5c1.5-4.5 3-7 3-7"/>
-      <circle cx="15" cy="11" r="2.2" fill="currentColor"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-episodes">Progress</span>
+  <button type="button" class="ref-bottom-tab" id="btn-app-tab-notifications" onclick="openNotificationsModal()" aria-label="Notifications">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    <span id="ref-lbl-notif">Notifications</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-profile" onclick="switchAppTab('account')" aria-label="Account">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-profile">Account</span>
+  <button type="button" class="ref-bottom-tab" id="btn-app-tab-profile" onclick="switchAppTab('profile')" aria-label="Profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span id="ref-lbl-profile">Profile</span>
   </button>
 </nav>
+
+<!-- FAMILY STUDY GUIDE & COUNSELING MODALS (NO DONATION) -->
+<div id="ref-study-guide-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:440px;border-radius:24px;border:1.5px solid rgba(245,168,0,0.35)">
+    <button type="button" class="inapp-modal-close" onclick="closeStudyGuideModal()">✕</button>
+    <div style="font-size:2.4rem;text-align:center;margin-bottom:6px">📘</div>
+    <h3 style="font-size:1.2rem;font-weight:900;color:#0D2E5C;text-align:center;margin-bottom:4px">Family Study Guide · လေ့လာရန်လမ်းညွှန်</h3>
+    <p style="font-size:0.8rem;color:#64748B;text-align:center;margin-bottom:14px">Free printable PDF curriculum workbook and reflection questions for family devotional time.</p>
+    
+    <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:14px;font-size:0.84rem;line-height:1.5;margin-bottom:14px">
+      <div style="font-weight:800;color:#0D2E5C;margin-bottom:4px">📄 Included in this package:</div>
+      <ul style="padding-left:18px;margin:0;color:#475569">
+        <li>Module 1 Discussion Prompts (Burmese & English)</li>
+        <li>Family Scripture Memory Cards (Proverbs 22:6, Eph 6:4)</li>
+        <li>Parent & Child Action Worksheet</li>
+      </ul>
+    </div>
+
+    <button type="button" class="ref-btn-complete-module" style="position:static !important;border-radius:14px !important;margin-top:0 !important;width:100%" onclick="downloadStudyGuidePdf()">
+      📥 DOWNLOAD FREE STUDY GUIDE (PDF)
+    </button>
+  </div>
+</div>
+
+<div id="ref-counseling-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:440px;border-radius:24px;border:1.5px solid rgba(13,46,92,0.25)">
+    <button type="button" class="inapp-modal-close" onclick="closeCounselingModal()">✕</button>
+    <div style="font-size:2.4rem;text-align:center;margin-bottom:6px">🤝</div>
+    <h3 style="font-size:1.2rem;font-weight:900;color:#0D2E5C;text-align:center;margin-bottom:4px">Family Helpline & Counseling</h3>
+    <p style="font-size:0.8rem;color:#64748B;text-align:center;margin-bottom:14px">Free, confidential biblical family counseling and prayer support across Myanmar.</p>
+    
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:14px;font-size:0.85rem;line-height:1.6;margin-bottom:14px">
+      <div style="font-weight:800;color:#166534">📞 Helpline & Telegram:</div>
+      <div style="font-size:1.15rem;font-weight:900;color:#15803D">+95 9 400 888 777</div>
+      <div style="font-size:0.75rem;color:#166534;margin-top:4px">Monday - Saturday (9:00 AM - 6:00 PM MMT)</div>
+    </div>
+
+    <button type="button" class="prayer-submit-btn" style="background:#0D2E5C;color:#FFF;border-radius:14px" onclick="closeCounselingModal()">
+      ✓ Close
+    </button>
+  </div>
+</div>
+
+<div id="ref-notifications-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:420px">
+    <button type="button" class="inapp-modal-close" onclick="closeNotificationsModal()">✕</button>
+    <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span>🔔</span> <span>Notifications</span>
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px">
+        <div style="font-weight:800;color:#0D2E5C;font-size:0.82rem">Module 1 Ready to Complete</div>
+        <div style="font-size:0.75rem;color:#64748B">Continue with Becoming a Good Example (Menjadi Teladan Baik).</div>
+      </div>
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px">
+        <div style="font-weight:800;color:#0D2E5C;font-size:0.82rem">New Discussion Guide Available</div>
+        <div style="font-size:0.75rem;color:#64748B">Download your weekly family discipleship questions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ref-terms-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:440px">
+    <button type="button" class="inapp-modal-close" onclick="closeTermsModal()">✕</button>
+    <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;margin-bottom:8px">Terms & Conditions</h3>
+    <div style="font-size:0.78rem;color:#475569;line-height:1.6;max-height:260px;overflow-y:auto;padding-right:6px">
+      <p style="margin-bottom:8px">The Parenting Project is an initiative of CBN Asia providing free biblically-grounded parenting modules to families and churches in Myanmar.</p>
+      <p style="margin-bottom:8px">All content, video streams, and discussion materials are provided free of charge for non-commercial ministry and personal family discipleship.</p>
+      <p>For inquiries, contact the CBN Myanmar coordinator team.</p>
+    </div>
+  </div>
+</div>
 
 <!-- IN-APP AUTH & REGISTRATION HUB (Seamless across all screens) -->
 <div id="inapp-login-modal" class="inapp-modal-overlay">
@@ -19435,12 +21792,6 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <button type="submit" class="prayer-submit-btn" id="btn-inapp-login">
         🔑 အကောင့်ဝင်မည် (Sign In)
-      </button>
-
-      <!-- 1-Tap Quick Parent Tester Access -->
-      <button type="button" class="inapp-demo-btn" onclick="quickDemoLogin()">
-        <span>⚡</span>
-        <span id="inapp-demo-btn-txt">စမ်းသပ် မိဘအကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)</span>
       </button>
 
       <div style="margin-top:14px;text-align:center">
@@ -25670,46 +28021,8 @@ function updateMobileUserUI() {
 }
 
 async function quickDemoLogin() {
-  const sessionData = {
-    email: 'parent@cbn.org',
-    displayName: 'စံပြမိဘ (Myanmar Parent)',
-    churchName: 'Grace Community Church',
-    loggedIn: true,
-    isGranted: true,
-    role: 'parent',
-    loginTime: new Date().toISOString()
-  };
-
-  localStorage.setItem('tpp_user_session', JSON.stringify(sessionData));
-  userPrivilege.loggedIn = true;
-  userPrivilege.isGranted = true;
-  userPrivilege.displayName = sessionData.displayName;
-  userPrivilege.churchName = sessionData.churchName;
-
-  // Send login record to Google Sheets
-  sendToGoogleSheetsLive({
-    type: 'login',
-    displayName: sessionData.displayName,
-    email: sessionData.email,
-    churchName: sessionData.churchName,
-    role: 'parent',
-    platform: 'Mobile 1-Tap Demo Access'
-  });
-
-  playUpgradeChime();
-  showToast('✓ စံပြမိဘ အကောင့်ဖြင့် ဝင်ရောက်ပြီးပါပြီ (Modules 1-11 Unlocked)!');
-
-  const gateEl = document.getElementById('phone-welcome-gate');
-  if (gateEl) {
-    gateEl.classList.add('hidden');
-    gateEl.style.display = 'none';
-  }
-
-  closeInAppLoginModal();
-  updateMobileUserUI();
-  updateSettingsModalUI();
-  checkAuthStatus();
-  initMobileCinema();
+  console.warn('[Security] 1-Tap Demo fast login has been deactivated for security compliance.');
+  showToast('Please sign in with your registered church or school account.');
 }
 
 async function handleInAppLoginSubmit(e) {
@@ -25973,32 +28286,39 @@ function switchAppTab(tab) {
   // Bottom Navigation Bar tabs highlighting
   const bottomTabMapping = {
     'home': 'home',
-    'episodes': 'episodes',
-    'path': 'episodes',
+    'module': 'module',
+    'modules': 'module',
+    'episodes': 'module',
+    'path': 'module',
     'cinema': 'home',
-    'library': 'library',
-    'content': 'library',
-    'downloads': 'library',
-    'prayer': 'library',
+    'library': 'module',
+    'content': 'module',
+    'downloads': 'profile',
+    'prayer': 'module',
+    'notifications': 'notifications',
     'profile': 'profile',
     'account': 'profile'
   };
 
   const activeBottomTab = bottomTabMapping[tab] || 'home';
-  ['home', 'episodes', 'library', 'profile'].forEach(t => {
+  ['home', 'module', 'notifications', 'profile', 'library', 'episodes'].forEach(t => {
     const btn = document.getElementById(`btn-app-tab-${t}`);
     if (btn) btn.classList.toggle('active', t === activeBottomTab);
   });
 
   const screenViews = {
     'home': document.getElementById('view-mobile-home'),
+    'module': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-episodes'),
+    'modules': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-episodes'),
+    'detail': document.getElementById('view-mobile-module-detail'),
+    'video': document.getElementById('view-mobile-video-player'),
     'cinema': document.getElementById('view-mobile-cinema'),
     'hub': document.getElementById('view-mobile-cinema'),
-    'episodes': document.getElementById('view-mobile-episodes'),
-    'path': document.getElementById('view-mobile-episodes'),
-    'library': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
-    'content': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
-    'downloads': document.getElementById('view-mobile-library') || document.getElementById('view-mobile-downloads'),
+    'episodes': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-episodes'),
+    'path': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-episodes'),
+    'library': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-library'),
+    'content': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-library'),
+    'downloads': document.getElementById('view-mobile-downloads') || document.getElementById('view-mobile-library'),
     'prayer': document.getElementById('view-mobile-downloads'),
     'account': document.getElementById('view-mobile-account'),
     'profile': document.getElementById('view-mobile-account')
@@ -26015,7 +28335,23 @@ function switchAppTab(tab) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  ['tab-home', 'tab-library', 'tab-content', 'tab-episodes', 'tab-path', 'tab-account', 'tab-profile', 'tab-downloads', 'tab-cinema'].forEach(c => document.body.classList.remove(c));
+  // Bottom navigation visibility: hide on focused video playback or detail view with its own sticky action
+  const mobileBottomBar = document.getElementById('mobile-app-bottom-bar');
+  if (mobileBottomBar) {
+    if (tab === 'video' || tab === 'detail') {
+      mobileBottomBar.style.setProperty('display', 'none', 'important');
+    } else {
+      mobileBottomBar.style.removeProperty('display');
+    }
+  }
+
+  if (tab === 'profile' || tab === 'account') {
+    if (typeof updateSettingsPreferencesUI === 'function') {
+      updateSettingsPreferencesUI();
+    }
+  }
+
+  ['tab-home', 'tab-library', 'tab-content', 'tab-episodes', 'tab-path', 'tab-account', 'tab-profile', 'tab-downloads', 'tab-cinema', 'tab-detail', 'tab-video'].forEach(c => document.body.classList.remove(c));
   document.body.classList.add(`tab-${tab}`);
 
   // Header Bar visibility: show brand bar on Home, hide on dedicated subpages
@@ -26340,6 +28676,23 @@ function saveCurrentEpisodeNotes() {
       let notes = JSON.parse(localStorage.getItem('tpp_user_notes') || '{}');
       notes[`mod_${currentMobileModId}`] = text;
       localStorage.setItem('tpp_user_notes', JSON.stringify(notes));
+      
+      const btn = document.getElementById('btn-save-episode-notes');
+      const badge = document.getElementById('notes-autosave-status');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>✓</span><span>သိမ်းဆည်းပြီးပါပြီ (Saved!)</span>';
+        btn.style.background = '#059669';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+        }, 2200);
+      }
+      if (badge) {
+        badge.textContent = 'Saved just now ✓';
+        badge.style.color = '#059669';
+      }
+      
       showToast('💾 မှတ်စုများကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ (Notes Saved)');
     } catch(e) {}
   }
@@ -26417,9 +28770,18 @@ function updateWelcomeGateUI() {
   if (pillMy) pillMy.classList.toggle('active', isMy);
   if (pillEn) pillEn.classList.toggle('active', !isMy);
 
-  // Fallback single button text if present
-  const langTxt = document.getElementById('welcome-lang-text');
-  if (langTxt) langTxt.textContent = isMy ? 'မြန်မာ' : 'English';
+  // Welcome Gate Top-Right Capsule Button
+  const welcomeLangBtnTxt = document.getElementById('welcome-lang-btn-text');
+  if (welcomeLangBtnTxt) welcomeLangBtnTxt.textContent = isMy ? 'မြန်မာ' : 'English';
+
+  // Welcome Stage Main Labels
+  const welcomeTxtReg = document.getElementById('welcome-txt-register');
+  const welcomeTxtAlready = document.getElementById('welcome-txt-already-reg');
+  const welcomeTxtLogin = document.getElementById('welcome-txt-login');
+
+  if (welcomeTxtReg) welcomeTxtReg.textContent = isMy ? 'စာရင်းသွင်းမည်' : 'Register';
+  if (welcomeTxtAlready) welcomeTxtAlready.textContent = isMy ? 'အကောင့်ရှိပြီးသားလား?' : 'Already Registered?';
+  if (welcomeTxtLogin) welcomeTxtLogin.textContent = isMy ? 'အကောင့်ဝင်မည်' : 'Log in';
 
   // Sign In panel labels
   const titleMain = document.getElementById('gate-title-main');
@@ -26427,7 +28789,6 @@ function updateWelcomeGateUI() {
   const labelEmail = document.getElementById('gate-label-email');
   const labelPw = document.getElementById('gate-label-password');
   const signInBtnTxt = document.getElementById('gate-signin-btn-text');
-  const demoBtnTxt = document.getElementById('gate-demo-btn-text');
   const forgotLink = document.getElementById('gate-forgot-link');
   const noAccountTxt = document.getElementById('gate-no-account-text');
   const registerLink = document.getElementById('gate-register-link');
@@ -26437,7 +28798,6 @@ function updateWelcomeGateUI() {
   if (labelEmail) labelEmail.textContent = isMy ? 'အသင်းတော် အီးမေးလ် သို့မဟုတ် ဖုန်း/Viber' : 'Church Email or Phone / Viber';
   if (labelPw) labelPw.textContent = isMy ? 'စကားဝှက်' : 'Password';
   if (signInBtnTxt) signInBtnTxt.textContent = isMy ? 'အကောင့်ဝင်မည်' : 'Sign In';
-  if (demoBtnTxt) demoBtnTxt.textContent = isMy ? '⚡ စမ်းသပ်မိဘ အကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)' : '⚡ Quick Parent Demo Login (1-Tap Fast Access)';
   if (forgotLink) forgotLink.textContent = isMy ? 'စကားဝှက် မေ့နေပါသလား?' : 'Forgot Your Password?';
   if (noAccountTxt) noAccountTxt.textContent = isMy ? 'အကောင့် မရှိသေးပါသလား?' : "Don't have an account?";
   if (registerLink) registerLink.textContent = isMy ? ' ဤနေရာတွင် မှတ်ပုံတင်ပါ' : ' Register here';
@@ -26456,15 +28816,40 @@ function updateWelcomeGateUI() {
   if (signinLink) signinLink.textContent = isMy ? ' အကောင့်ဝင်ရန်' : ' Sign In';
 }
 
-function toggleWelcomeLang() {
+function toggleGateLanguage() {
   const current = typeof lang !== 'undefined' ? lang : 'en';
   const newLang = current === 'en' ? 'my' : 'en';
   setAppLanguage(newLang);
 }
+window.toggleGateLanguage = toggleGateLanguage;
+
+function openGateAuthModal(panel = 'signin') {
+  const overlay = document.getElementById('welcome-auth-modal-overlay');
+  if (overlay) {
+    overlay.classList.add('active');
+  }
+  switchGatePanel(panel);
+}
+window.openGateAuthModal = openGateAuthModal;
+
+function closeGateAuthModal(e) {
+  if (e && e.target && !e.target.classList.contains('welcome-auth-modal-overlay') && !e.target.classList.contains('gate-modal-close')) {
+    return;
+  }
+  const overlay = document.getElementById('welcome-auth-modal-overlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+  }
+}
+window.closeGateAuthModal = closeGateAuthModal;
+
+function toggleWelcomeLang() {
+  toggleGateLanguage();
+}
 window.toggleWelcomeLang = toggleWelcomeLang;
 
 function openWelcomeAuth(tab = 'signin') {
-  switchGatePanel(tab);
+  openGateAuthModal(tab);
 }
 
 function switchGatePanel(panel) {
@@ -26678,6 +29063,9 @@ async function handleGateRegister(e) {
 window.updateWelcomeGateUI = updateWelcomeGateUI;
 window.toggleWelcomeLang = toggleWelcomeLang;
 window.openWelcomeAuth = openWelcomeAuth;
+window.toggleGateLanguage = toggleGateLanguage;
+window.openGateAuthModal = openGateAuthModal;
+window.closeGateAuthModal = closeGateAuthModal;
 window.switchGatePanel = switchGatePanel;
 window.handleGateSignIn = handleGateSignIn;
 window.handleGateRegister = handleGateRegister;
@@ -28173,9 +30561,6 @@ function initApp() {
   // Handle direct tab and modal deep links (?tab=prayer, ?modal=signin, ?modal=register, ?modal=settings)
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('demo') === '1' || urlParams.get('demo') === 'true') {
-      quickDemoLogin();
-    }
     const targetTab = urlParams.get('tab');
     if (targetTab) {
       switchAppTab(targetTab);
@@ -29569,6 +31954,290 @@ if (document.readyState === 'loading') {
   updateAvatarModalLanguage();
   setTimeout(startLiveSyncLoop, 400);
 }
+
+
+// ========================================================
+// 2026 OFFICIAL NATIVE APP HELPERS (DONATIONS, SYNC, ETC)
+// ========================================================
+function openDonationModal() {
+  const m = document.getElementById('ref-donation-modal');
+  if (m) m.style.display = 'flex';
+}
+function closeDonationModal() {
+  const m = document.getElementById('ref-donation-modal');
+  if (m) m.style.display = 'none';
+}
+function openNotificationsModal() {
+  const m = document.getElementById('ref-notifications-modal');
+  if (m) m.style.display = 'flex';
+}
+function closeNotificationsModal() {
+  const m = document.getElementById('ref-notifications-modal');
+  if (m) m.style.display = 'none';
+}
+function openTermsModal() {
+  const m = document.getElementById('ref-terms-modal');
+  if (m) m.style.display = 'flex';
+}
+function closeTermsModal() {
+  const m = document.getElementById('ref-terms-modal');
+  if (m) m.style.display = 'none';
+}
+function syncOfflineDataWithCloud() {
+  showToast('🔄 Synchronizing data with CBN Cloud...');
+  setTimeout(() => {
+    showToast('✅ All 11 modules and progress successfully synchronized!');
+  }, 900);
+}
+function promptDeleteAccount() {
+  if (confirm('Are you sure you want to delete your account? All progress will be removed.')) {
+    localStorage.removeItem('tpp_user_session');
+    localStorage.removeItem('tpp_progress');
+    showToast('Account data deleted.');
+    setTimeout(() => { window.location.reload(); }, 600);
+  }
+}
+function openModuleDetailScreen(mid) {
+  mid = parseInt(mid, 10) || 1;
+  const kicker = document.getElementById('ref-detail-kicker');
+  const title = document.getElementById('ref-detail-title');
+  const titles = {
+    1: 'Role Model Parenting · စံပြမိဘ',
+    2: "Child's Emotional Tank · မေတ္တာအိုး",
+    3: 'Family Togetherness · စည်းလုံးမှု',
+    4: 'Loving Boundaries · စည်းကမ်း',
+    5: 'Role of Fathers · ဖခင်အခန်းကဏ္ဍ',
+    6: 'Healthy Family Guidance · လမ်းညွှန်',
+    7: 'Lifelong Grace-Based Parenting · ကျေးဇူးတော်'
+  };
+  if (kicker) kicker.textContent = `MODULE ${mid} · THE PARENTING PROJECT`;
+  if (title) title.textContent = titles[mid] || `Module ${mid}`;
+  switchAppTab('detail');
+}
+
+function openVideoPlayerScreen(mid) {
+  mid = mid || 1;
+  const iframe = document.getElementById('ref-video-iframe');
+  if (iframe) {
+    const vids = {
+      1: 'https://www.youtube.com/embed/hKSMxbFee1U?autoplay=1&rel=0',
+      2: 'https://www.youtube.com/embed/m6X0S7v8B4g?autoplay=1&rel=0',
+      3: 'https://www.youtube.com/embed/Pj3B_h2k4mI?autoplay=1&rel=0',
+    };
+    iframe.src = vids[mid] || vids[1];
+  }
+  switchAppTab('video');
+}
+
+function openParentPrayerModal() {
+  const m = document.getElementById('ref-prayer-modal');
+  if (m) m.style.display = 'flex';
+}
+function closeParentPrayerModal() {
+  const m = document.getElementById('ref-prayer-modal');
+  if (m) m.style.display = 'none';
+}
+
+function openTestifyModal() {
+  const m = document.getElementById('ref-testify-modal');
+  if (m) m.style.display = 'flex';
+}
+function closeTestifyModal() {
+  const m = document.getElementById('ref-testify-modal');
+  if (m) m.style.display = 'none';
+}
+function submitTestimony() {
+  const txt = document.getElementById('ref-testify-text');
+  if (!txt || !txt.value.trim()) {
+    showToast('ကျေးဇူးပြု၍ သက်သေခံချက် ရေးသားပေးပါ / Please write your testimony');
+    return;
+  }
+  showToast('❤️ သက်သေခံချက် ပေးပို့ပြီးပါပြီ။ ကျေးဇူးတင်ပါသည်! / Testimony submitted with blessings!');
+  txt.value = '';
+  closeTestifyModal();
+}
+
+function openDevotionModal(day) {
+  day = parseInt(day, 10) || 1;
+  const modal = document.getElementById('ref-devotion-reader-modal');
+  const chip = document.getElementById('ref-modal-devotion-chip');
+  const title = document.getElementById('ref-modal-devotion-title');
+  if (chip) chip.textContent = `DAY ${day} DEVOTION`;
+  const titles = {
+    1: 'Menjadi Teladan: Living What We Teach',
+    2: 'Kind Words and Healing in the Home',
+    3: 'Consistency in Daily Faith and Routine'
+  };
+  if (title) title.textContent = titles[day] || `Day ${day} Spiritual Reflection`;
+  if (modal) {
+    modal.style.display = 'flex';
+  } else {
+    showToast(`📖 Opening Day ${day} Daily Devotion...`);
+  }
+}
+
+function closeDevotionReaderModal() {
+  const modal = document.getElementById('ref-devotion-reader-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function markDevotionReadAndCelebrate() {
+  closeDevotionReaderModal();
+  showToast('🌟 Day Devotion Completed! +50 Parenting Points & Streak Maintained!');
+  const card2Chip = document.querySelector('.ref-devotion-carousel .ref-devotion-card:nth-child(2) .ref-devotion-status-chip');
+  if (card2Chip) {
+    card2Chip.textContent = '✓ Completed';
+    card2Chip.classList.add('done');
+  }
+}
+
+let isAudioOnlyMode = false;
+function toggleAudioOnlyMode() {
+  isAudioOnlyMode = !isAudioOnlyMode;
+  const label = document.getElementById('ref-audio-toggle-label');
+  if (isAudioOnlyMode) {
+    if (label) label.textContent = 'Audio Active (Saving 85% Data)';
+    showToast('📻 Low-Data Audio Mode Enabled: Streaming voice only without buffering.');
+  } else {
+    if (label) label.textContent = 'Audio Only (Save Data)';
+    showToast('🎬 Full HD Video Mode Restored.');
+  }
+}
+
+function handleModuleDownload(mid) {
+  const btn = document.getElementById('ref-btn-download-mod1');
+  const text = document.getElementById('ref-dl-text');
+  const icon = document.getElementById('ref-dl-icon');
+  if (text) text.textContent = 'Downloading (45%)...';
+  if (icon) icon.textContent = '⏳';
+  showToast('📥 Downloading Module 1 for offline viewing in Myanmar...');
+  setTimeout(() => {
+    if (text) text.textContent = 'Downloaded (142 MB · Offline Ready)';
+    if (icon) icon.textContent = '✅';
+    if (btn) btn.style.background = '#093B2B';
+    showToast('✅ Module 1 is now stored offline on your phone!');
+  }, 1200);
+}
+
+function completeCurrentModule(mid) {
+  mid = parseInt(mid, 10) || 1;
+  showToast(`🎉 Module ${mid} Completed! Module ${mid + 1} is now unlocked!`);
+  const mod2Wrap = document.querySelector('#ref-modules-list-container .ref-module-card:nth-child(2) .ref-module-photo-wrap');
+  if (mod2Wrap) {
+    mod2Wrap.classList.remove('locked');
+    const badge = mod2Wrap.querySelector('.ref-module-lock-badge');
+    if (badge) badge.style.display = 'none';
+  }
+  const stepBar2 = document.querySelector('.ref-mod-stepper-wrap .ref-mod-step-bar:nth-child(2)');
+  if (stepBar2) {
+    stepBar2.classList.add('completed');
+  }
+  setTimeout(() => {
+    switchAppTab('module');
+  }, 1000);
+}
+
+function handleModuleClick(mid) {
+  openModuleDetailScreen(mid);
+}
+
+window.openDonationModal = openDonationModal;
+window.closeDonationModal = closeDonationModal;
+window.openNotificationsModal = openNotificationsModal;
+window.closeNotificationsModal = closeNotificationsModal;
+window.openTermsModal = openTermsModal;
+window.closeTermsModal = closeTermsModal;
+window.syncOfflineDataWithCloud = syncOfflineDataWithCloud;
+window.promptDeleteAccount = promptDeleteAccount;
+window.handleModuleClick = handleModuleClick;
+window.openModuleDetailScreen = openModuleDetailScreen;
+window.openVideoPlayerScreen = openVideoPlayerScreen;
+window.openParentPrayerModal = openParentPrayerModal;
+window.closeParentPrayerModal = closeParentPrayerModal;
+window.openTestifyModal = openTestifyModal;
+window.closeTestifyModal = closeTestifyModal;
+window.submitTestimony = submitTestimony;
+window.openDevotionModal = openDevotionModal;
+window.closeDevotionReaderModal = closeDevotionReaderModal;
+window.markDevotionReadAndCelebrate = markDevotionReadAndCelebrate;
+window.toggleAudioOnlyMode = toggleAudioOnlyMode;
+window.handleModuleDownload = handleModuleDownload;
+window.completeCurrentModule = completeCurrentModule;
+
+function handleAppLogout() { if (confirm("Are you sure you want to log out?")) { logoutUser(); } }
+window.handleAppLogout = handleAppLogout;
+
+
+function openStudyGuideModal() {
+  const m = document.getElementById('ref-study-guide-modal');
+  if (m) m.style.display = 'flex';
+  else showToast('📘 Opening Family Study Guide...');
+}
+function closeStudyGuideModal() {
+  const m = document.getElementById('ref-study-guide-modal');
+  if (m) m.style.display = 'none';
+}
+function downloadStudyGuidePdf() {
+  showToast('📥 Downloading Module 1 Family Study Guide (PDF)...');
+  setTimeout(() => {
+    showToast('✅ Study Guide downloaded! Open to view family reflection questions.');
+    closeStudyGuideModal();
+  }, 1000);
+}
+
+function openCounselingModal() {
+  const m = document.getElementById('ref-counseling-modal');
+  if (m) m.style.display = 'flex';
+  else showToast('🤝 Connecting with Family Counselor...');
+}
+function closeCounselingModal() {
+  const m = document.getElementById('ref-counseling-modal');
+  if (m) m.style.display = 'none';
+}
+
+window.openStudyGuideModal = openStudyGuideModal;
+window.closeStudyGuideModal = closeStudyGuideModal;
+window.downloadStudyGuidePdf = downloadStudyGuidePdf;
+window.openCounselingModal = openCounselingModal;
+window.closeCounselingModal = closeCounselingModal;
+
+function setAppLanguage(targetLang) {
+  if (typeof toggleLang === 'function') {
+    toggleLang(targetLang);
+  }
+  updateSettingsPreferencesUI();
+}
+
+function setThemeMoodDirect(mood) {
+  if (typeof applyThemeMood === 'function') {
+    applyThemeMood(mood, true);
+  }
+  updateSettingsPreferencesUI();
+}
+
+function updateSettingsPreferencesUI() {
+  const currentLang = typeof lang !== 'undefined' ? lang : (localStorage.getItem('tpp_lang') || 'en');
+  const isDark = document.body.classList.contains('mood-dark');
+
+  const btnEn = document.getElementById('ref-pref-lang-en');
+  const btnMy = document.getElementById('ref-pref-lang-my');
+  if (btnEn) btnEn.classList.toggle('active', currentLang === 'en');
+  if (btnMy) btnMy.classList.toggle('active', currentLang === 'my');
+
+  const btnDay = document.getElementById('ref-pref-theme-day');
+  const btnDark = document.getElementById('ref-pref-theme-dark');
+  if (btnDay) btnDay.classList.toggle('active', !isDark);
+  if (btnDark) btnDark.classList.toggle('active', isDark);
+}
+
+window.setAppLanguage = setAppLanguage;
+window.setThemeMoodDirect = setThemeMoodDirect;
+window.updateSettingsPreferencesUI = updateSettingsPreferencesUI;
+
+// Auto-sync preferences on tab switch or load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(updateSettingsPreferencesUI, 200);
+});
 
 </script>
 

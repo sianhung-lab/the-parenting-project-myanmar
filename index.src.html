@@ -45,187 +45,177 @@ if (document.documentElement.classList.contains('is-mobile-app')) { document.bod
 if (document.documentElement.classList.contains('is-authenticated')) { document.body.classList.add('is-authenticated'); }
 </script>
 
-<!-- DEDICATED PHONE APP WELCOME GATEWAY -->
+<!-- DEDICATED PHONE APP WELCOME GATEWAY (EXACT MATCH TO REFERENCE DESIGN) -->
 <div id="phone-welcome-gate" class="phone-welcome-gate">
-  <!-- Two-Language Switcher (Myanmar & English) -->
-  <div class="gate-lang-selector" id="gate-lang-selector" aria-label="Language Selector">
-    <button type="button" class="gate-lang-pill active" id="gate-lang-my" onclick="setAppLanguage('my')">🇲🇲 မြန်မာ</button>
-    <button type="button" class="gate-lang-pill" id="gate-lang-en" onclick="setAppLanguage('en')">🇬🇧 English</button>
+  <div class="welcome-gate-overlay"></div>
+
+  <!-- Language Toggle Button (Top Right: English 🌐) -->
+  <button type="button" class="welcome-gate-lang-btn" id="welcome-lang-toggle-btn" onclick="toggleGateLanguage()" aria-label="Language Selector">
+    <span id="welcome-lang-btn-text">English</span>
+    <span class="welcome-globe-icon">🌐</span>
+  </button>
+
+  <!-- Welcome Stage (Center Stack: Shield + Register + Already Registered? + Log in) -->
+  <div class="welcome-gate-splash" id="welcome-gate-splash">
+    <!-- 3D Metallic Shield Logo -->
+    <div class="welcome-shield-container">
+      <img src="clean_shield_emblem.png" alt="The Parenting Project Shield" class="welcome-shield-logo"/>
+    </div>
+
+    <!-- Actions Stack -->
+    <div class="welcome-actions-stack">
+      <!-- Register Button -->
+      <button type="button" class="welcome-btn-primary" onclick="openGateAuthModal('register')" id="welcome-btn-register">
+        <span id="welcome-txt-register">Register</span>
+      </button>
+
+      <!-- Already Registered? Prompt -->
+      <div class="welcome-prompt-text" id="welcome-txt-already-reg">Already Registered?</div>
+
+      <!-- Log in Button -->
+      <button type="button" class="welcome-btn-secondary" onclick="openGateAuthModal('signin')" id="welcome-btn-login">
+        <span id="welcome-txt-login">Log in</span>
+      </button>
+    </div>
   </div>
 
-  <!-- Auth card -->
-  <div class="gate-card">
-    <!-- Shield Logo -->
-    <div class="gate-logo-wrap">
-      <img src="official_logo.png" alt="The Parenting Project" class="gate-logo-img"/>
-    </div>
+  <!-- iOS Home Indicator -->
+  <div class="welcome-home-indicator"></div>
 
-    <!-- Sign In Panel -->
-    <div id="gate-panel-signin" class="gate-panel active">
-      <h2 class="gate-title" id="gate-title-main">Sign In</h2>
-      <p class="gate-subtitle" id="gate-subtitle-main">This page is accessible only to registered churches or schools.</p>
+  <!-- Sign In & Register Modal Sheet -->
+  <div class="welcome-auth-modal-overlay" id="welcome-auth-modal-overlay" onclick="closeGateAuthModal(event)">
+    <div class="gate-card" onclick="event.stopPropagation()">
+      <!-- Close button -->
+      <button type="button" class="gate-modal-close" onclick="closeGateAuthModal()" aria-label="Close">✕</button>
 
-      <form id="gate-signin-form" onsubmit="handleGateSignIn(event)" autocomplete="on">
-        <div class="gate-field">
-          <label class="gate-label" for="gate-email">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span id="gate-label-email">Church Email or Phone / Viber</span>
-          </label>
-          <input type="text" id="gate-email" class="gate-input" placeholder="Email or Phone (e.g. 09...)" required autocomplete="username"/>
-        </div>
-        <div class="gate-field">
-          <label class="gate-label" for="gate-password">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-            <span id="gate-label-password">Password</span>
-          </label>
-          <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="current-password"/>
-        </div>
-        <button type="submit" class="gate-signin-btn" id="gate-signin-btn">
-          <span id="gate-signin-btn-text">Sign In</span>
-        </button>
+      <!-- Shield Logo inside modal -->
+      <div class="gate-logo-wrap">
+        <img src="clean_shield_emblem.png" alt="The Parenting Project" class="gate-logo-img" style="width:58px;height:58px;object-fit:contain"/>
+      </div>
 
-        <!-- 1-Tap Fast Login Access -->
-        <button type="button" class="gate-demo-btn" onclick="quickDemoLogin()" id="gate-demo-btn" style="margin-top:10px;width:100%;background:#F8FAFC;border:1.5px dashed #0284C7;border-radius:12px;padding:10px 14px;color:#0284C7;font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .2s ease">
-          <span>⚡</span>
-          <span id="gate-demo-btn-text">စမ်းသပ်မိဘ အကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)</span>
-        </button>
+      <!-- Sign In Panel -->
+      <div id="gate-panel-signin" class="gate-panel active">
+        <h2 class="gate-title" id="gate-title-main">Sign In</h2>
+        <p class="gate-subtitle" id="gate-subtitle-main">This page is accessible only to registered churches or schools.</p>
 
-        <div class="gate-forgot">
-          <a href="mailto:info@cbnasia.org?subject=Password Reset Request" class="gate-forgot-link" id="gate-forgot-link">Forgot Your Password?</a>
-        </div>
-        <div class="gate-switch-row">
-          <span id="gate-no-account-text">Don't have an account?</span>
-          <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('register')" id="gate-register-link"> Register here</a>
-        </div>
-      </form>
-    </div>
-
-    <!-- Register Panel -->
-    <div id="gate-panel-register" class="gate-panel" style="display:none">
-      <h2 class="gate-title" id="gate-title-reg">Create Account</h2>
-      <p class="gate-subtitle" id="gate-subtitle-reg">Register your church or school — 100% Free.</p>
-
-      <form id="gate-register-form" onsubmit="handleGateRegister(event)" autocomplete="on">
-        <div class="gate-field">
-          <label class="gate-label" for="gate-reg-church"><span id="gate-reg-label-church">Church or School Name *</span></label>
-          <input type="text" id="gate-reg-church" class="gate-input" placeholder="Grace Baptist Church" required/>
-        </div>
-        <div class="gate-field-row">
+        <form id="gate-signin-form" onsubmit="handleGateSignIn(event)" autocomplete="on">
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-region"><span id="gate-reg-label-region">State / Region *</span></label>
-            <select id="gate-reg-region" class="gate-input gate-select" required>
-              <option value="Yangon">Yangon</option>
-              <option value="Mandalay">Mandalay</option>
-              <option value="Shan">Shan State</option>
-              <option value="Kachin">Kachin State</option>
-              <option value="Chin">Chin State</option>
-              <option value="Kayin">Kayin State</option>
-              <option value="Mon">Mon State</option>
-              <option value="Sagaing">Sagaing</option>
-              <option value="Bago">Bago</option>
-              <option value="Ayeyarwady">Ayeyarwady</option>
-              <option value="Magway">Magway</option>
-              <option value="Tanintharyi">Tanintharyi</option>
-              <option value="Naypyidaw">Naypyidaw</option>
-              <option value="Other">Other</option>
-            </select>
+            <label class="gate-label" for="gate-email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <span id="gate-label-email">Church Email or Phone / Viber</span>
+            </label>
+            <input type="text" id="gate-email" class="gate-input" placeholder="Email or Phone (e.g. 09...)" required autocomplete="username"/>
           </div>
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-city"><span id="gate-reg-label-city">City / Township *</span></label>
-            <input type="text" id="gate-reg-city" class="gate-input" placeholder="Insein" required/>
+            <label class="gate-label" for="gate-password">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+              <span id="gate-label-password">Password</span>
+            </label>
+            <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="current-password"/>
           </div>
-        </div>
-        <div class="gate-field">
-          <label class="gate-label" for="gate-reg-coord"><span id="gate-reg-label-coord">Lead Pastor / Coordinator *</span></label>
-          <input type="text" id="gate-reg-coord" class="gate-input" placeholder="Pastor Name" required/>
-        </div>
-        <div class="gate-field-row">
+          <button type="submit" class="gate-signin-btn" id="gate-signin-btn">
+            <span id="gate-signin-btn-text">Sign In</span>
+          </button>
+
+          <div class="gate-forgot">
+            <a href="mailto:info@cbnasia.org?subject=Password Reset Request" class="gate-forgot-link" id="gate-forgot-link">Forgot Your Password?</a>
+          </div>
+          <div class="gate-switch-row">
+            <span id="gate-no-account-text">Don't have an account?</span>
+            <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('register')" id="gate-register-link"> Register here</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Panel -->
+      <div id="gate-panel-register" class="gate-panel" style="display:none">
+        <h2 class="gate-title" id="gate-title-reg">Create Account</h2>
+        <p class="gate-subtitle" id="gate-subtitle-reg">Register your church or school — 100% Free.</p>
+
+        <form id="gate-register-form" onsubmit="handleGateRegister(event)" autocomplete="on">
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-email"><span id="gate-reg-label-email">Email *</span></label>
-            <input type="email" id="gate-reg-email" class="gate-input" placeholder="church@gmail.com" required autocomplete="email"/>
+            <label class="gate-label" for="gate-reg-church"><span id="gate-reg-label-church">Church or School Name *</span></label>
+            <input type="text" id="gate-reg-church" class="gate-input" placeholder="Grace Baptist Church" required/>
+          </div>
+          <div class="gate-field-row">
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-region"><span id="gate-reg-label-region">State / Region *</span></label>
+              <select id="gate-reg-region" class="gate-input gate-select" required>
+                <option value="Yangon">Yangon</option>
+                <option value="Mandalay">Mandalay</option>
+                <option value="Shan">Shan State</option>
+                <option value="Kachin">Kachin State</option>
+                <option value="Chin">Chin State</option>
+                <option value="Kayin">Kayin State</option>
+                <option value="Mon">Mon State</option>
+                <option value="Sagaing">Sagaing</option>
+                <option value="Bago">Bago</option>
+                <option value="Ayeyarwady">Ayeyarwady</option>
+                <option value="Magway">Magway</option>
+                <option value="Tanintharyi">Tanintharyi</option>
+                <option value="Naypyidaw">Naypyidaw</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-city"><span id="gate-reg-label-city">City / Township *</span></label>
+              <input type="text" id="gate-reg-city" class="gate-input" placeholder="Insein" required/>
+            </div>
           </div>
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-phone"><span id="gate-reg-label-phone">Phone / Viber *</span></label>
-            <input type="tel" id="gate-reg-phone" class="gate-input" placeholder="09..." required/>
+            <label class="gate-label" for="gate-reg-coord"><span id="gate-reg-label-coord">Lead Pastor / Coordinator *</span></label>
+            <input type="text" id="gate-reg-coord" class="gate-input" placeholder="Pastor Name" required/>
           </div>
-        </div>
-        <div class="gate-field-row">
+          <div class="gate-field-row">
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-email"><span id="gate-reg-label-email">Email *</span></label>
+              <input type="email" id="gate-reg-email" class="gate-input" placeholder="church@gmail.com" required autocomplete="email"/>
+            </div>
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-phone"><span id="gate-reg-label-phone">Phone / Viber *</span></label>
+              <input type="tel" id="gate-reg-phone" class="gate-input" placeholder="09..." required/>
+            </div>
+          </div>
+          <div class="gate-field-row">
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-fam"><span id="gate-reg-label-fam">Families to Train</span></label>
+              <select id="gate-reg-fam" class="gate-input gate-select">
+                <option value="10–25 Families">10–25 Families</option>
+                <option value="26–50 Families">26–50 Families</option>
+                <option value="51–100 Families">51–100 Families</option>
+                <option value="100+ Families">100+ Families</option>
+              </select>
+            </div>
+            <div class="gate-field">
+              <label class="gate-label" for="gate-reg-type"><span id="gate-reg-label-type">Church Type</span></label>
+              <select id="gate-reg-type" class="gate-input gate-select">
+                <option value="Baptist">Baptist</option>
+                <option value="Catholic">Catholic</option>
+                <option value="Methodist">Methodist</option>
+                <option value="Presbyterian">Presbyterian</option>
+                <option value="Pentecostal">Pentecostal</option>
+                <option value="Non-denominational">Non-denom</option>
+                <option value="School">School</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
           <div class="gate-field">
-            <label class="gate-label" for="gate-reg-fam"><span id="gate-reg-label-fam">Families to Train</span></label>
-            <select id="gate-reg-fam" class="gate-input gate-select">
-              <option value="10–25 Families">10–25 Families</option>
-              <option value="26–50 Families">26–50 Families</option>
-              <option value="51–100 Families">51–100 Families</option>
-              <option value="100+ Families">100+ Families</option>
-            </select>
+            <label class="gate-label" for="gate-reg-pass"><span id="gate-reg-label-pass">Create Password *</span></label>
+            <input type="password" id="gate-reg-pass" class="gate-input" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password"/>
           </div>
-          <div class="gate-field">
-            <label class="gate-label" for="gate-reg-type"><span id="gate-reg-label-type">Church Type</span></label>
-            <select id="gate-reg-type" class="gate-input gate-select">
-              <option value="Baptist">Baptist</option>
-              <option value="Catholic">Catholic</option>
-              <option value="Methodist">Methodist</option>
-              <option value="Presbyterian">Presbyterian</option>
-              <option value="Pentecostal">Pentecostal</option>
-              <option value="Non-denominational">Non-denom</option>
-              <option value="School">School</option>
-              <option value="Other">Other</option>
-            </select>
+          <button type="submit" class="gate-signin-btn" id="gate-register-btn">
+            <span id="gate-register-btn-text">Create Account</span>
+          </button>
+          <div class="gate-switch-row">
+            <span id="gate-have-account-text">Already have an account?</span>
+            <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('signin')" id="gate-signin-link"> Sign In</a>
           </div>
-        </div>
-        <div class="gate-field">
-          <label class="gate-label" for="gate-reg-pass"><span id="gate-reg-label-pass">Create Password *</span></label>
-          <input type="password" id="gate-reg-pass" class="gate-input" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password"/>
-        </div>
-        <button type="submit" class="gate-signin-btn" id="gate-register-btn">
-          <span id="gate-register-btn-text">Create Account</span>
-        </button>
-        <div class="gate-switch-row">
-          <span id="gate-have-account-text">Already have an account?</span>
-          <a href="javascript:void(0)" class="gate-switch-link" onclick="switchGatePanel('signin')" id="gate-signin-link"> Sign In</a>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- DEDICATED NATIVE MOBILE APP HEADER (Appears ONLY in Android App Mode) -->
-<header id="mobile-app-bar" class="mobile-app-only">
-  <div class="mobile-app-bar-inner">
-    <div class="mobile-app-brand" onclick="switchAppTab('home')" style="cursor:pointer" title="The Parenting Project Myanmar">
-      <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="tpp-header-logo-img" />
-      <div class="tpp-header-brand-text">
-        <span class="tpp-header-brand-title">The Parenting Project</span>
-        <span class="tpp-header-brand-sub" id="mobile-app-brand-sub">By CBN Myanmar</span>
-      </div>
-    </div>
-    <div class="mobile-app-actions" style="display:flex;align-items:center;gap:6px">
-      <!-- Search Button -->
-      <button type="button" class="btn btn-ghost btn-xs" onclick="switchAppTab('library'); toggleMcSearchInput();" aria-label="Search" title="Search" style="padding:4px;color:inherit">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </button>
-
-      <!-- Day / Night Mood Toggle -->
-      <button type="button" class="tpp-mood-toggle-btn is-day" id="tpp-mobile-mood-btn" onclick="toggleThemeMood()" title="Day & Night Mood">
-        <span class="mood-btn-icon">☀️</span>
-        <span class="mood-btn-text">Day</span>
-      </button>
-
-      <!-- Language Toggle -->
-      <button type="button" class="btn btn-outline btn-xs" id="mobile-app-lang-btn" onclick="toggleLang()" style="border-radius:14px;padding:3px 8px;font-size:0.72rem;cursor:pointer">
-        🇬🇧 English
-      </button>
-
-      <!-- Avatar -->
-      <div class="mobile-header-avatar" onclick="switchAppTab('account')" title="Profile / Account" style="cursor:pointer;position:relative">
-        <img src="mother_avatar.jpg" id="tpp-header-avatar-img" alt="Profile" class="mobile-avatar-img" style="width:34px;height:34px;border-radius:50%;border:1.5px solid currentColor;object-fit:cover"/>
-      </div>
-    </div>
-  </div>
-</header>
 
 <!-- DEDICATED NATIVE MOBILE APP CONTAINER (Appears ONLY in Android App Mode) -->
 <section id="mobile-app-home" class="mobile-app-only">
@@ -233,521 +223,422 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
   <!-- ============================================== -->
   <!-- SCREEN 1: HOME SCREEN (Photo 1 - Left)         -->
   <!-- ============================================== -->
+  <!-- ============================================== -->
+  <!-- SCREEN 1: HOME SCREEN (Photo 2 - Center)       -->
+  <!-- ============================================== -->
   <div id="view-mobile-home" class="mobile-screen-view active">
-    <div class="new-home-container">
+    <!-- Curved Deep Blue Top Canopy (Zero White Above, Elevated Shield Logo) -->
+    <header class="ref-curved-header">
+      <div class="ref-greeting-left">
+        <span class="ref-greeting-hello" id="ref-txt-greeting">Hello,</span>
+        <span class="ref-greeting-name" id="ref-user-display-name">Richard</span>
+      </div>
+      <!-- 3D Metallic Shield Logo with sparkle (Elevated, Flush Top) -->
+      <div class="ref-header-shield-wrap" onclick="switchAppTab('profile')" style="cursor:pointer" title="The Parenting Project CBN">
+        <img src="official_logo.png" alt="The Parenting Project Shield" class="ref-header-shield-img" />
+        <span class="ref-sparkle-glint">✦</span>
+      </div>
+    </header>
 
-      <!-- 1. FEATURED HERO CARD -->
-      <section class="tpp-hero-card" onclick="openCinemaDirectly(1)">
-        <div class="tpp-hero-media">
-          <img src="hero_celebrating_couple.jpg" alt="The Parenting Project" class="tpp-hero-img" />
+    <div class="ref-home-content">
+      <!-- 1. HERO CARD: Enter The Parenting Project (Unstretched Boat Photo) -->
+      <div class="ref-enter-card" onclick="switchAppTab('module')">
+        <div class="ref-enter-media">
+          <div class="ref-enter-badge">⭐ 7 CORE MODULES · CBN</div>
+          <img src="boat_clean.jpg" alt="Enter The Parenting Project" class="ref-enter-img" />
         </div>
-        <div class="tpp-hero-body">
-          <span class="tpp-hero-kicker" id="tpp-hero-kicker">PARENT BETTER.</span>
-          <h1 class="tpp-hero-title" id="tpp-hero-title">BUILD STRONGER HOMES.</h1>
-          <p class="tpp-hero-subtitle" id="tpp-hero-sub">Practical, biblical parenting tips to help you raise confident, kind and resilient children.</p>
-          <div onclick="event.stopPropagation()">
-            <button type="button" class="tpp-btn-start-watching" onclick="openCinemaDirectly(1)" id="tpp-btn-start">
-              ▶ Start Watching
-            </button>
+        <div class="ref-enter-body">
+          <div style="flex:1;padding-right:12px">
+            <div class="ref-enter-title" id="ref-txt-enter-title">Enter The Parenting Project</div>
+            <div class="ref-enter-sub" id="ref-txt-enter-sub">7 Core Modules · Start Your Journey</div>
           </div>
+          <div class="ref-enter-btn-circle">→</div>
         </div>
-      </section>
-
-      <!-- 2. CONTINUE WATCHING SECTION -->
-      <section class="tpp-continue-watching-section">
-        <div class="tpp-section-header">
-          <h2 class="tpp-section-title" id="tpp-txt-continue-watching">Continue Watching</h2>
-          <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-continue">View all ›</a>
-        </div>
-        <div class="tpp-continue-card" id="tpp-continue-card" onclick="resumeLastWatchedVideo()">
-          <div class="tpp-continue-thumb-wrap">
-            <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-continue-thumb" id="tpp-cont-thumb" />
-          </div>
-          <div class="tpp-continue-info">
-            <div class="tpp-continue-title" id="tpp-cont-title">Becoming a Good Example</div>
-            <div class="tpp-continue-meta" id="tpp-cont-sub">Episode 1 · 45 min</div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <div class="tpp-progress-track" style="flex:1">
-                <div class="tpp-progress-fill" id="tpp-cont-progress-fill" style="width: 45%;"></div>
-              </div>
-              <span id="tpp-cont-pct" style="font-size:0.68rem;font-weight:700;color:currentColor;opacity:0.8">45%</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3. ALL 11 VIDEOS SECTION (3-Column Grid) -->
-      <section class="tpp-all-videos-section">
-        <div class="tpp-section-header">
-          <h2 class="tpp-section-title" id="tpp-txt-all-videos">All 11 Videos</h2>
-          <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-videos">View all ›</a>
-        </div>
-        <div class="tpp-videos-grid-3col" id="tpp-home-grid-11">
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(1)" data-mid="1">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_1.jpg" alt="Becoming a Good Example" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">1</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-1">Becoming a Good Example</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(2)" data-mid="2">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_2.jpg" alt="Your Child's Emotional Tank" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">2</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-2">Your Child's Emotional Tank</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(3)" data-mid="3">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_3.jpg" alt="Building Togetherness" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">3</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-3">Building Togetherness</h4>
-              <span class="tpp-grid-duration">9 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(4)" data-mid="4">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_4.jpg" alt="Boundaries and Discipline" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">4</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-4">Boundaries and Discipline</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(5)" data-mid="5">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_5.jpg" alt="Becoming A Father" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">5</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-5">Becoming A Father</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(6)" data-mid="6">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_6.jpg" alt="Healthy Sexuality in the Family" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">6</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-6">Healthy Sexuality in the Family</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(7)" data-mid="7">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_7.jpg" alt="Parenting For a Lifetime" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">7</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-7">Parenting For a Lifetime</h4>
-              <span class="tpp-grid-duration">9 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(8)" data-mid="8">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_8.jpg" alt="Parental Authority" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">8</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-8">Parental Authority</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(9)" data-mid="9">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_9.jpg" alt="The Digital Home" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">9</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-9">The Digital Home</h4>
-              <span class="tpp-grid-duration">9 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(10)" data-mid="10">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_10.jpg" alt="Working Dads and Moms" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">10</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-10">Working Dads and Moms</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-          <div class="tpp-grid-card" onclick="openCinemaDirectly(11)" data-mid="11">
-            <div class="tpp-grid-thumb-wrap">
-              <img src="yt_thumb_11.jpg" alt="Guiding Your Children into Faith" class="tpp-grid-thumb" loading="lazy">
-              <span class="tpp-grid-num-pill">11</span>
-            </div>
-            <div class="tpp-grid-body">
-              <h4 class="tpp-grid-title" id="tpp-grid-title-11">Guiding Your Children into Faith</h4>
-              <span class="tpp-grid-duration">8 min</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. DAILY SCRIPTURE & PARENTING DEVOTIONAL ANCHOR -->
-      <section class="nh-devotional-card">
-        <div class="nh-devotional-header">
-          <span class="nh-devotional-icon">🕊️</span>
-          <span class="nh-devotional-tag" id="nh-devotional-tag">နေ့စဉ် မိသားစု ကျမ်းစကား · TODAY'S ANCHOR</span>
-        </div>
-        <blockquote class="nh-devotional-verse" id="nh-devotional-verse">
-          "သူ့လမ်းအတိုင်း ကလေးကို ဆုံးမသွန်သင်လော့။ သို့ပြုလျှင် အိုသောအခါ၌ပင် ထိုလမ်းမှ မလွှဲမရှောင်ဘဲ နေလိမ့်မည်။"
-        </blockquote>
-        <div class="nh-devotional-ref" id="nh-devotional-ref">— သုတ္တံ ၂၂:၆ (Proverbs 22:6)</div>
-        <div class="nh-devotional-insight" id="nh-devotional-insight">
-          💡 စည်းကမ်းမချမှတ်မီ ကလေး၏ စိတ်ခံစားချက်နှင့် ရင်းနှီးသော နားလည်မှုကို ဦးစွာ တည်ဆောက်ပါ။
-        </div>
-      </section>
-
-
-
-      <!-- 4. 11 VIDEO SERIES REEL (Horizontal Carousel with real YouTube thumbs) -->
-            <!-- 4. 11 PODCAST SERIES REEL (Horizontal Carousel with Podcast Artwork & Quotes) -->
-      <section class="nh-modules-section">
-        <div class="nh-section-head">
-          <div>
-            <div class="nh-eyebrow" id="nh-modules-eyebrow">🎙️ CBN PARENTING PODCAST</div>
-            <h2 class="nh-section-title" id="nh-modules-title">၁၁ ခန်းတွဲ အသံနှင့် ဗီဒီယို သင်ခန်းစာများ</h2>
-          </div>
-          <button type="button" class="nh-see-all-btn" onclick="openCurriculumModal()" id="nh-btn-all-modules">
-            အားလုံးကြည့် ›
-          </button>
-        </div>
-
-        <div class="nh-modules-reel" id="tpp-trailora-video-reel">
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(1)" data-module-id="1">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_1.jpg" alt="စံပြမိဘ ဖြစ်လာခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 01</span>
-              <span class="podcast-dur-badge">⏱️ 18:42</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🏅 စရိုက်လက္ခဏာ</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t1">စံပြမိဘ ဖြစ်လာခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q1">“မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှု စရိုက်လက္ခဏာသည် သားသမီးများ ပထမဆုံး ဖတ်ရှုရသော ပြဋ္ဌာန်းစာအုပ်ဖြစ်ပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s1">📖 တရားဟောရာ ၆:၆-၇</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(2)" data-module-id="2">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_2.jpg" alt="ခိုင်မြဲသော သံယောဇဉ် တည်ဆောက်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 02</span>
-              <span class="podcast-dur-badge">⏱️ 16:15</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🤝 ဆက်ဆံရေး ရင်းနှီးမှု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t2">ခိုင်မြဲသော သံယောဇဉ် တည်ဆောက်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q2">“နွေးထွေးသော ဆက်ဆံရေး မရှိဘဲ ဆုံးမပဲ့ပြင်ခြင်းသည် သားသမီးများ၏ စိတ်ထဲတွင် တိတ်တဆိတ် ပုန်ကန်မှုကို ဖြစ်စေပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s2">📖 ယာကုပ် ၁:၁၉</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(3)" data-module-id="3">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_3.jpg" alt="မေတ္တာနှင့် စည်းကမ်း ဟန်ချက်ညီစေခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 03</span>
-              <span class="podcast-dur-badge">⏱️ 17:30</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🌱 မေတ္တာစည်းကမ်း</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t3">မေတ္တာနှင့် စည်းကမ်း ဟန်ချက်ညီစေခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q3">“စည်းကမ်းသည် အပြစ်ပေးခြင်း မဟုတ်ဘဲ၊ လုံခြုံမှုနှင့် လမ်းပြမှု ပေးစွမ်းနိုင်သော မေတ္တာ၏ နယ်နိမိတ် ဖြစ်ပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s3">📖 ဟေဗြဲ ၁၂:၁၁</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(4)" data-module-id="4">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_4.jpg" alt="နားထောင်ခြင်း အနုပညာနှင့် စိတ်ခံစားမှု" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 04</span>
-              <span class="podcast-dur-badge">⏱️ 19:10</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">💖 စိတ်ကျန်းမာရေး</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t4">နားထောင်ခြင်း အနုပညာနှင့် စိတ်ခံစားမှု</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q4">“သားသမီး၏ စိတ်ခံစားချက် ကုန်ခမ်းနေခြင်းကို ကြိုတင်သတိပြုပြီး အရင်ဆုံး နွေးထွေးစွာ နားထောင်ပေးပါ။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s4">📖 သုတ္တံ ၄:၂၃</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(5)" data-module-id="5">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_5.jpg" alt="ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 05</span>
-              <span class="podcast-dur-badge">⏱️ 15:45</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">📱 ဒစ်ဂျစ်တယ်ခေတ်</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t5">ဒစ်ဂျစ်တယ်ခေတ် မိသားစု စီမံခန့်ခွဲမှု</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q5">“နေ့စဉ် စကားများရန်ဖြစ်စရာမလိုဘဲ ဖုန်းနှင့် ဖန်သားပြင်သုံးစွဲမှုကို ပညာရှိစွာ ထိန်းကျောင်းခြင်း။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s5">📖 ၁ ကော ၁၀:၂၃</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(6)" data-module-id="6">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_6.jpg" alt="အပြုသဘောဆောင်သော ဆုံးမပဲ့ပြင်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 06</span>
-              <span class="podcast-dur-badge">⏱️ 18:00</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🧭 စည်းကမ်းထိန်းသိမ်းမှု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t6">အပြုသဘောဆောင်သော ဆုံးမပဲ့ပြင်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q6">“စစ်မှန်သော ဆုံးမပဲ့ပြင်ခြင်းသည် မိမိကိုယ်ကို ထိန်းကျောင်းနိုင်သော စရိုက်လက္ခဏာကို ပျိုးထောင်ပေးပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s6">📖 ဟေဗြဲ ၁၂:၁၁</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(7)" data-module-id="7">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_7.jpg" alt="ဖခင်၏ နှလုံးသားနှင့် အတူရှိနေပေးခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 07</span>
-              <span class="podcast-dur-badge">⏱️ 16:50</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">👨‍👧 ဖခင်၏ အခန်းကဏ္ဍ</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t7">ဖခင်၏ နှလုံးသားနှင့် အတူရှိနေပေးခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q7">“ဖခင်၏ အချိန်ပေး အတူရှိနေမှုသည် သားသမီး၏ ဘဝရပ်တည်ချက်နှင့် စရိုက်လက္ခဏာကို ခိုင်ခံ့စေပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s7">📖 ဆာလံ ၁၀၃:၁၃</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(8)" data-module-id="8">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_8.jpg" alt="အလုပ်လုပ်သော မိဘများ- ဟန်ချက်ညီစေခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 08</span>
-              <span class="podcast-dur-badge">⏱️ 17:20</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">💼 အလုပ်နှင့် မိသားစု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t8">အလုပ်လုပ်သော မိဘများ- ဟန်ချက်ညီစေခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q8">“အလုပ်ခွင် ဖိအားများကြားမှ သားသမီးများ၏ တန်ဖိုးရှိသော ငယ်ဘဝ အခိုက်အတန့်များကို လက်မလွတ်စေခြင်း။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s8">📖 ဆာလံ ၁၂၇:၂</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(9)" data-module-id="9">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_9.jpg" alt="ခိုင်မာသော ယုံကြည်ခြင်း အခြေခံ ပျိုးထောင်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 09</span>
-              <span class="podcast-dur-badge">⏱️ 20:15</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">📖 ယုံကြည်ခြင်း</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t9">ခိုင်မာသော ယုံကြည်ခြင်း အခြေခံ ပျိုးထောင်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q9">“မိသားစု ဝတ်ပြုကိုးကွယ်ခြင်းသည် ဘုရားသခင်၏ မျက်မှောက်တော်ကို ရွှင်လန်းစွာ ခံစားရသော နေရာဖြစ်ပါသည်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s9">📖 တရားဟောရာ ၁၁:၁၈-၁၉</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(10)" data-module-id="10">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_10.jpg" alt="မိသားစုအတွင်း ကျန်းမာသော အသိပညာပေးခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 10</span>
-              <span class="podcast-dur-badge">⏱️ 18:35</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">🛡️ တန်ဖိုးထားမှု</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t10">မိသားစုအတွင်း ကျန်းမာသော အသိပညာပေးခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q10">“အင်တာနက်သည် သင့်သားသမီးအတွက် လိင်ပိုင်းဆိုင်ရာ ပထမဆုံး ဆရာမဖြစ်ပါစေနှင့်။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s10">📖 ၁ ကော ၆:၁၉-၂၀</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-          <div class="podcast-reel-card" onclick="openCinemaDirectly(11)" data-module-id="11">
-            <div class="podcast-reel-cover">
-              <img src="yt_thumb_11.jpg" alt="ဘဝအဆင့်တိုင်းတွင် သားသမီးများကို ပျိုးထောင်ခြင်း" class="podcast-reel-cover-img" loading="lazy">
-              <div class="podcast-reel-scrim"></div>
-              <span class="podcast-ep-badge">🎙️ EP 11</span>
-              <span class="podcast-dur-badge">⏱️ 21:00</span>
-              <span class="podcast-soundwave-chip">
-                <span class="podcast-soundwave-bars">
-                  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </span>
-                <span>PODCAST</span>
-              </span>
-            </div>
-            <div class="podcast-reel-body">
-              <span class="podcast-topic-pill">✨ အသက်အရွယ်မရွေး</span>
-              <h3 class="podcast-reel-title" id="nh-reel-t11">ဘဝအဆင့်တိုင်းတွင် သားသမီးများကို ပျိုးထောင်ခြင်း</h3>
-              <p class="podcast-reel-quote" id="nh-reel-q11">“ပြုစုစောင့်ရှောက်သူမှသည် လေ့ကျင့်ပေးသူ၊ အကြံပေးမိတ်ဆွေ၊ ထာဝရ မိတ်ဆွေစစ်အဖြစ်သို့ ပြောင်းလဲခြင်း။”</p>
-              <div class="podcast-reel-footer">
-                <span class="podcast-scripture-chip" id="nh-reel-s11">📖 သုတ္တံ ၂၂:၆</span>
-                <span class="podcast-play-arrow-chip" title="Play">▶</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. MEET YOUR MENTORS (The 3 Mentor Couples Spotlight) -->
-      <section class="nh-mentors-section">
-        <div class="nh-section-head">
-          <div>
-            <div class="nh-eyebrow" id="nh-mentors-eyebrow">CBN OFFICIAL FACULTY</div>
-            <h2 class="nh-section-title" id="nh-mentors-title">သင်တန်းဆရာ/ဆရာမများ</h2>
-          </div>
-        </div>
-
-        <div class="nh-mentors-cards">
-          <!-- Mentor 1: Young Joyful Couple -->
-          <div class="nh-mentor-card" onclick="openCinemaDirectly(1)">
-            <div class="nh-mentor-avatar-wrap">
-              <img src="mentor_avatar_young.jpg" alt="Mentor Couple 1" class="nh-mentor-img" />
-            </div>
-            <div class="nh-mentor-details">
-              <div class="nh-mentor-badge" id="nh-m1-badge">စံပြမိဘနှင့် ခိုင်မြဲသော သံယောဇဉ်</div>
-              <h3 class="nh-mentor-name" id="nh-m1-name">မေတ္တာသံယောဇဉ်နှင့် စံပြမိဘ</h3>
-              <p class="nh-mentor-desc" id="nh-m1-desc">
-                "ပျော်ရွှင်သော ရင်းနှီးမှုသည် ကလေး၏ စိတ်နှလုံးကို ဘုရားသခင်ထံ ဖွင့်လှစ်ပေးသည်။"
-              </p>
-            </div>
-          </div>
-
-          <!-- Mentor 2: Senior Mentors -->
-          <div class="nh-mentor-card" onclick="openCinemaDirectly(3)">
-            <div class="nh-mentor-avatar-wrap">
-              <img src="mentor_avatar_senior.jpg" alt="Mentor Couple 2" class="nh-mentor-img" />
-            </div>
-            <div class="nh-mentor-details">
-              <div class="nh-mentor-badge" id="nh-m2-badge">ကျမ်းစာအခြေခံနှင့် မေတ္တာစည်းကမ်း</div>
-              <h3 class="nh-mentor-name" id="nh-m2-name">ကျမ်းစာအခြေခံနှင့် မေတ္တာစည်းကမ်း</h3>
-              <p class="nh-mentor-desc" id="nh-m2-desc">
-                "ဆယ်စုနှစ်များစွာ အိမ်ထောင်အတွေ့အကြုံနှင့် ခရစ်တော်၏ သည်းခံခြင်း နည်းလမ်းများ။"
-              </p>
-            </div>
-          </div>
-
-          <!-- Mentor 3: Teen & Character Couple -->
-          <div class="nh-mentor-card" onclick="openCinemaDirectly(10)">
-            <div class="nh-mentor-avatar-wrap">
-              <img src="mentor_avatar_pink.jpg" alt="Mentor Couple 3" class="nh-mentor-img" />
-            </div>
-            <div class="nh-mentor-details">
-              <div class="nh-mentor-badge" id="nh-m3-badge">ဆယ်ကျော်သက်နှင့် နားလည်မှုမေတ္တာ</div>
-              <h3 class="nh-mentor-name" id="nh-m3-name">ဆယ်ကျော်သက်နှင့် နားလည်မှုမေတ္တာ</h3>
-              <p class="nh-mentor-desc" id="nh-m3-desc">
-                "ကလေးကြီးပြင်းလာချိန် စိန်ခေါ်မှုများကို နားထောင်ပေးခြင်းဖြင့် အတူကျော်ဖြတ်ပါ။"
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-      <div class="nh-footer-note">
-        <span id="nh-footer-note-txt">The Parenting Project Myanmar · CBN Asia Family Discipleship</span>
       </div>
 
+      <!-- 2. UPCOMING EVENT: The Parenting Project Socialization (Unstretched Workshop Photo) -->
+      <div class="ref-event-card" onclick="openCinemaDirectly(1); showToast('Upcoming Event: The Parenting Project Socialization');">
+        <div class="ref-event-media">
+          <div class="ref-event-badge-left">UPCOMING EVENT</div>
+          <div class="ref-event-badge-right">☕ Socialization Workshop</div>
+          <img src="workshop_socialization.jpg" alt="The Parenting Project Socialization" class="ref-event-img" />
+        </div>
+        <div class="ref-event-body">
+          <div style="flex:1;padding-right:12px">
+            <div class="ref-event-title">The Parenting Project Socialization</div>
+            <div class="ref-event-sub">Connecting Church Leaders & Parents Across Myanmar</div>
+            <div class="ref-event-meta">Yangon · In-Person & Hybrid Live Stream</div>
+          </div>
+          <button type="button" class="ref-event-btn">Details ›</button>
+        </div>
+      </div>
+
+      <!-- 3. THIRD BANNER: Transforming Parenting Culture Across Myanmar (Unstretched Greenhouse Photo) -->
+      <div class="ref-mission-card" onclick="openCinemaDirectly(2)">
+        <div class="ref-mission-media">
+          <div class="ref-mission-badge">OUR MISSION</div>
+          <img src="greenhouse_clean.jpg" alt="Transforming Parenting Culture Across Myanmar" class="ref-mission-img" />
+        </div>
+        <div class="ref-mission-body">
+          <div style="flex:1;padding-right:12px">
+            <div class="ref-mission-title">Transforming Parenting Culture Across Myanmar</div>
+            <div class="ref-mission-sub">Equipping families with Biblical values & Christ-centered mentorship.</div>
+          </div>
+          <div class="ref-mission-btn-circle">→</div>
+        </div>
+      </div>
     </div>
   </div>
 
+
     <!-- SCREEN 2: VIDEO PLAYBACK SCREEN (Photo 2 - M)  -->
   <!-- ============================================== -->
+    <!-- ============================================== -->
+  <!-- SCREEN 2: CORE MODULES SCREEN (Photo 3 - Right)-->
+  <!-- ============================================== -->
+  <div id="view-mobile-modules" class="mobile-screen-view ref-modules-view-wrap" style="display:none">
+    <!-- Top Header -->
+    <header class="ref-modules-top-header">
+      <button type="button" class="ref-mod-back-btn" onclick="switchAppTab('home')" title="Back to Home">←</button>
+      <div class="ref-mod-titles-center">
+        <div class="ref-mod-kicker" id="ref-txt-core-kicker">Core Modules</div>
+        <div class="ref-mod-heading">The Parenting Project</div>
+      </div>
+      <button type="button" class="ref-mod-dots-btn" onclick="openSettingsModal()" title="Options">•••</button>
+    </header>
+
+    <!-- Horizontal Stepper Progress Bars -->
+    <div class="ref-mod-stepper-wrap">
+      <div class="ref-mod-step-bar completed"></div>
+      <div class="ref-mod-step-bar current"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+      <div class="ref-mod-step-bar"></div>
+    </div>
+
+    <!-- Core Modules List -->
+    <div class="ref-modules-list" id="ref-modules-list-container">
+      <!-- Module 1: Role Model Parenting / စံပြမိဘဖြစ်ခြင်း -->
+      <div class="ref-module-card" onclick="handleModuleClick(1)">
+        <div class="ref-module-photo-wrap">
+          <img src="crop_mod1_photo.jpg" alt="Module 1" class="ref-module-photo" />
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 1 · ACTIVE</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-1">Role Model Parenting · စံပြမိဘ</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 2: Tangki Emosi Anak (Locked) -->
+      <div class="ref-module-card" onclick="handleModuleClick(2)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="crop_mod2_photo.jpg" alt="Module 2" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 2</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-2">Child's Emotional Tank · မေတ္တာအိုး</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 3: Building Togetherness -->
+      <div class="ref-module-card" onclick="handleModuleClick(3)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_3.jpg" alt="Module 3" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 3</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-3">Building Togetherness · စည်းလုံးမှု</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 4: Boundaries & Discipline -->
+      <div class="ref-module-card" onclick="handleModuleClick(4)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_4.jpg" alt="Module 4" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 4</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-4">Loving Boundaries · စည်းကမ်း</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 5: Becoming A Father -->
+      <div class="ref-module-card" onclick="handleModuleClick(5)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_5.jpg" alt="Module 5" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 5</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-5">Role of Fathers · ဖခင်အခန်းကဏ္ဍ</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 6: Healthy Sexuality -->
+      <div class="ref-module-card" onclick="handleModuleClick(6)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_6.jpg" alt="Module 6" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 6</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-6">Family Guidance · လမ်းညွှန်</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+
+      <!-- Module 7: Parenting For a Lifetime -->
+      <div class="ref-module-card" onclick="handleModuleClick(7)">
+        <div class="ref-module-photo-wrap locked">
+          <img src="yt_thumb_7.jpg" alt="Module 7" class="ref-module-photo" />
+          <div class="ref-module-lock-badge">
+            <div class="ref-padlock-frame">
+              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ref-module-footer-split">
+          <div class="ref-mod-footer-text">
+            <div class="ref-mod-footer-num">MODULE 7</div>
+            <div class="ref-mod-footer-title" id="ref-mod-title-7">Lifelong Parenting · ကျေးဇူးတော်</div>
+          </div>
+          <div class="ref-mod-footer-chevron">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ============================================== -->
+  <!-- SCREEN: MODULE DETAIL VIEW (User Reference 1) -->
+  <!-- ============================================== -->
+  <div id="view-mobile-module-detail" class="mobile-screen-view ref-detail-view-wrap" style="display:none">
+    <!-- Header -->
+    <div class="ref-detail-header">
+      <button type="button" class="ref-detail-back-btn" onclick="switchAppTab('module')" title="Back to Modules">←</button>
+      <div class="ref-detail-kicker" id="ref-detail-kicker">MODULE 1 · FOUNDATIONAL STEP</div>
+      <h1 class="ref-detail-title" id="ref-detail-title">Role Model Parenting · စံပြမိဘ</h1>
+    </div>
+
+    <div class="ref-detail-content">
+      <!-- Video Card with Ambient Glow & Data-Saver Toggle -->
+      <div class="ref-detail-video-card">
+        <div class="ref-detail-thumb-frame" onclick="openVideoPlayerScreen(1)">
+          <div class="ref-video-meta-chip"><span>🎬</span> <span>14:20 HD • Dual Audio</span></div>
+          <img src="crop_mod1_photo.jpg" alt="Video Modul" class="ref-detail-thumb-img" />
+          <div class="ref-play-btn-circle">▶</div>
+          <div class="ref-video-label-chip">Session 1 · Setting a Good Example</div>
+        </div>
+        <div class="ref-video-audio-toggle">
+          <span>Weak connection in Myanmar?</span>
+          <button type="button" class="ref-audio-pill-btn" onclick="toggleAudioOnlyMode()">
+            <span>🎧</span> <span id="ref-audio-toggle-label">Audio Only (Save Data)</span>
+          </button>
+        </div>
+        <button type="button" class="ref-btn-download-full" id="ref-btn-download-mod1" onclick="handleModuleDownload(1)">
+          <span id="ref-dl-icon">📥</span> <span id="ref-dl-text">Download for Offline (142 MB)</span>
+        </button>
+      </div>
+
+      <!-- Sacred Parent's Prayer Sanctuary Card -->
+      <button type="button" class="ref-btn-prayer-pill" onclick="openParentPrayerModal()">
+        <div class="ref-prayer-left">
+          <span style="font-size:1.35rem">👥 🙏</span>
+          <div style="text-align:left">
+            <div style="font-size:14.5px;font-weight:800;color:#FFE6A3">Parent's Prayer · Module 1</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.78);font-weight:500">"Lord, teach me to be a living example of Your grace..."</div>
+          </div>
+        </div>
+        <div class="ref-prayer-community-count">✨ 1,480 Prayed</div>
+      </button>
+
+      <!-- 2-Column Split Actions: Testimonies & Family Study Guide (NO DONATION) -->
+      <div class="ref-action-grid-2col">
+        <div class="ref-action-card-split" onclick="openTestifyModal()">
+          <div class="ref-action-icon-box">💬</div>
+          <div class="ref-action-label-box">
+            <div>Family Stories</div>
+            <span class="ref-action-subtext">342 Testimonies</span>
+          </div>
+        </div>
+        <div class="ref-action-card-split" onclick="openStudyGuideModal()">
+          <div class="ref-action-icon-box">📘</div>
+          <div class="ref-action-label-box">
+            <div>Study Guide</div>
+            <span class="ref-action-subtext">Free PDF & Notes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Devotion Carousel with Interactive Badges -->
+      <div class="ref-devotion-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <h3 class="ref-devotion-heading" style="margin:0">Daily Devotion</h3>
+          <span style="font-size:11.5px;font-weight:700;color:#0D2E5C;background:#E2E8F0;padding:2px 8px;border-radius:999px">3 Reflections</span>
+        </div>
+        <div class="ref-devotion-carousel">
+          <!-- Day 1 -->
+          <div class="ref-devotion-card" onclick="openDevotionModal(1)">
+            <div class="ref-devotion-status-chip done">✓ Completed</div>
+            <div class="ref-devotion-thumb-wrap">
+              <img src="crop_mod1_photo.jpg" alt="Day 1 Devotion" class="ref-devotion-thumb" />
+            </div>
+            <div class="ref-devotion-footer">Day 1 · 3 min</div>
+          </div>
+
+          <!-- Day 2 -->
+          <div class="ref-devotion-card" onclick="openDevotionModal(2)">
+            <div class="ref-devotion-status-chip">🌟 Today's Word</div>
+            <div class="ref-devotion-thumb-wrap">
+              <img src="crop_devotion_day2.jpg" alt="Day 2 Devotion" class="ref-devotion-thumb" />
+            </div>
+            <div class="ref-devotion-footer">Day 2 · 4 min</div>
+          </div>
+
+          <!-- Day 3 -->
+          <div class="ref-devotion-card" onclick="openDevotionModal(3)">
+            <div class="ref-devotion-status-chip">🔒 Day 3</div>
+            <div class="ref-devotion-thumb-wrap">
+              <img src="yt_thumb_3.jpg" alt="Day 3 Devotion" class="ref-devotion-thumb" />
+            </div>
+            <div class="ref-devotion-footer">Day 3 · 3 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete This Module Sticky Action -->
+      <button type="button" class="ref-btn-complete-module" onclick="completeCurrentModule(1)">
+        COMPLETE THIS MODULE
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- SCREEN: VIDEO PLAYBACK SCREEN (User Reference 3)-->
+  <!-- ============================================== -->
+  <div id="view-mobile-video-player" class="mobile-screen-view ref-video-view-wrap" style="display:none">
+    <div class="ref-video-header">
+      <button type="button" class="ref-detail-back-btn" style="margin-bottom:0" onclick="switchAppTab('detail')" title="Back">←</button>
+      <div class="ref-video-header-title">Video</div>
+    </div>
+
+    <div class="ref-video-frame-container">
+      <div class="ref-video-player-box">
+        <iframe id="ref-video-iframe" src="https://www.youtube.com/embed/hKSMxbFee1U?rel=0&enablejsapi=1&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <button type="button" class="ref-btn-video-next" onclick="completeCurrentModule(1); switchAppTab('detail');">
+        Next
+      </button>
+    </div>
+  </div>
+
+  
+  <!-- INTERACTIVE DAILY DEVOTION READER MODAL -->
+  <div id="ref-devotion-reader-modal" class="inapp-modal-overlay" style="display:none">
+    <div class="inapp-modal-box" style="max-width:440px;max-height:85vh;overflow-y:auto;border-radius:24px;border:1.5px solid rgba(245,168,0,0.3)">
+      <button type="button" class="inapp-modal-close" onclick="closeDevotionReaderModal()">✕</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="background:#F5A800;color:#0D2E5C;font-size:11px;font-weight:900;padding:2px 8px;border-radius:999px" id="ref-modal-devotion-chip">DAY 1 DEVOTION</span>
+        <span style="font-size:12px;color:#64748B;font-weight:600">3 Min Read</span>
+      </div>
+      <h3 style="font-size:1.25rem;font-weight:900;color:#0D2E5C;line-height:1.3;margin-bottom:12px" id="ref-modal-devotion-title">Menjadi Teladan: Living What We Teach</h3>
+      
+      <!-- Scripture Box -->
+      <div style="background:linear-gradient(135deg,#081F3D 0%,#0D2E5C 100%);color:#FFF;border-radius:16px;padding:16px;margin-bottom:14px;border:1px solid rgba(245,168,0,0.35);box-shadow:0 6px 18px rgba(7,34,71,0.25)">
+        <div style="color:#F5A800;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">📖 ကျမ်းချက် / Scripture</div>
+        <div style="font-size:0.9rem;font-weight:600;line-height:1.5;margin-bottom:6px">"Train up a child in the way he should go; even when he is old he will not depart from it."</div>
+        <div style="font-size:0.8rem;color:#FFE6A3;line-height:1.4">"သူငယ်သွားအပ်သောလမ်း၌ သွန်သင်လေ့ကျင့်လော့။ သို့ပြုလျှင် သူသည်အသက်ကြီးသော်လည်း ထိုလမ်းမှမလွှဲမရှောင်ဘဲ နေလိမ့်မည်။"</div>
+        <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.7);margin-top:4px">— သုတ္တံကျမ်း ၂၂:၆ / Proverbs 22:6</div>
+      </div>
+
+      <!-- Devotional Message -->
+      <div style="font-size:0.88rem;color:#334155;line-height:1.65;margin-bottom:14px">
+        Children may not always listen to what we say, but they never fail to imitate what we do. When our children see us handle frustration with calm patience, they learn emotional self-regulation. When they see us seek forgiveness after losing our temper, they learn humility.
+      </div>
+
+      <!-- Family Reflection Box -->
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:12px;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:800;color:#B45309;margin-bottom:3px">💡 မိသားစု ဆင်ခြင်စရာ / Reflection</div>
+        <div style="font-size:0.83rem;color:#78350F;line-height:1.4">What is one habit or response your children saw in you this week that you want them to carry forward?</div>
+      </div>
+
+      <button type="button" class="ref-btn-complete-module" style="position:static !important;border-radius:14px !important;margin-top:0 !important" onclick="markDevotionReadAndCelebrate()">
+        ✓ MARK DAY COMPLETED (+50 PTS)
+      </button>
+    </div>
+  </div>
+
+  <!-- PARENT'S PRAYER MODAL -->
+  <div id="ref-prayer-modal" class="inapp-modal-overlay" style="display:none">
+    <div class="inapp-modal-box" style="max-width:440px">
+      <button type="button" class="inapp-modal-close" onclick="closeParentPrayerModal()">✕</button>
+      <div style="font-size:2rem;text-align:center;margin-bottom:6px">🙏</div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;text-align:center;margin-bottom:8px">Parent's Prayer · Module 1</h3>
+      <div style="background:#F8FAFC;border-radius:12px;padding:16px;font-size:0.85rem;color:#334155;line-height:1.6;margin-bottom:14px">
+        "Lord Heavenly Father, teach me to live as a true, consistent example before my children. When stress and fatigue arrive, grant me peace in my words, gentleness in my actions, and a humble heart to apologise when I make a mistake. May my life be a living reflection of Your grace in our home. Amen."
+      </div>
+      <button type="button" class="prayer-submit-btn" style="background:#0D2E5C;color:#FFF" onclick="closeParentPrayerModal()">
+        ✓ Amen
+      </button>
+    </div>
+  </div>
+
+  <!-- TESTIMONY MODAL -->
+  <div id="ref-testify-modal" class="inapp-modal-overlay" style="display:none">
+    <div class="inapp-modal-box" style="max-width:440px">
+      <button type="button" class="inapp-modal-close" onclick="closeTestifyModal()">✕</button>
+      <div style="font-size:2rem;text-align:center;margin-bottom:6px">💬</div>
+      <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;text-align:center;margin-bottom:4px">I Want to Testify</h3>
+      <p style="font-size:0.78rem;color:#64748B;text-align:center;margin-bottom:14px">Share how The Parenting Project has blessed your home or local church in Myanmar.</p>
+      <textarea id="ref-testify-text" class="prayer-textarea" rows="4" placeholder="ရေးသားမျှဝေပါ / Share your family testimony here..." style="width:100%;padding:10px;border-radius:10px;border:1px solid #CBD5E1;font-family:inherit;font-size:0.85rem;margin-bottom:12px"></textarea>
+      <button type="button" class="prayer-submit-btn" style="background:#F5A800;color:#0D2E5C;font-weight:800" onclick="submitTestimony()">
+        ✉️ Submit Testimony
+      </button>
+    </div>
+  </div>
+
+
   <div id="view-mobile-cinema" class="mobile-screen-view" style="display:none">
     <!-- Playback Top Bar -->
     <div class="cinema-top-bar">
@@ -911,12 +802,14 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
         </div>
 
         <div class="notes-input-box">
-          <label for="cinema-user-notes" style="font-size:0.75rem;font-weight:700;color:#f5a800;display:block;margin-bottom:4px;">
-            📝 သင်၏ ကိုယ်ပိုင် မှတ်စု (Personal Notes):
+          <label for="cinema-user-notes">
+            <span>📝 သင်၏ ကိုယ်ပိုင် မှတ်စု (Personal Notes):</span>
+            <span class="notes-autosave-badge" id="notes-autosave-status">Auto-saved</span>
           </label>
-          <textarea id="cinema-user-notes" class="cinema-notes-textarea" rows="3" placeholder="ဒီအပိုင်းမှ သင်ရရှိသော ထိုးထွင်းသိမြင်မှုများကို မှတ်သားပါ..."></textarea>
-          <button type="button" class="btn btn-outline btn-xs" onclick="saveCurrentEpisodeNotes()" style="margin-top:6px;border-radius:12px;color:#f5a800;border-color:rgba(245,168,0,0.4)">
-            💾 မှတ်စု သိမ်းဆည်းမည် (Save)
+          <textarea id="cinema-user-notes" class="cinema-notes-textarea" rows="4" placeholder="ဒီအပိုင်းမှ သင်ရရှိသော ထိုးထွင်းသိမြင်မှုများကို မှတ်သားပါ..."></textarea>
+          <button type="button" class="btn-save-notes-primary" id="btn-save-episode-notes" onclick="saveCurrentEpisodeNotes()">
+            <span>💾</span>
+            <span id="btn-txt-save-notes">မှတ်စု သိမ်းဆည်းမည် (Save Notes)</span>
           </button>
         </div>
       </div>
@@ -1338,172 +1231,96 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
   <!-- SCREEN: MASTERCLASS ACCOUNT / MEMBERSHIP PAGE             -->
   <!-- VIP Member Profile, Certificate, Storage, and Settings    -->
   <!-- ========================================================= -->
-  <div id="view-mobile-account" class="mobile-screen-view" style="display:none">
-    <!-- Dedicated Top Navigation Bar for Account Screen with Back to Home -->
-    <div class="tpp-account-top-bar" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px 6px 14px;">
-      <button type="button" class="tpp-nav-back-home-btn" onclick="switchAppTab('home')" aria-label="Back to Home" title="Back to Home">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <span id="tpp-acc-back-home-txt">Back to Home</span>
-      </button>
-
-      <button type="button" class="tpp-icon-btn" onclick="openSettingsModal()" aria-label="Settings" title="Settings">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </button>
+  <!-- ============================================== -->
+  <!-- SCREEN 1: PROFILE SCREEN (Photo 1 - Left)      -->
+  <!-- ============================================== -->
+  <div id="view-mobile-account" class="mobile-screen-view ref-profile-view-wrap" style="display:none">
+    <!-- Top Center 3D Shield Logo & Name -->
+    <div class="ref-profile-hero-center">
+      <img src="official_logo.png" alt="The Parenting Project Shield" class="ref-profile-shield-logo" />
+      <h2 class="ref-profile-username" id="ref-profile-user-name">Richard</h2>
     </div>
 
-    <!-- Profile Header (Richard, Parent · Learner · Builder) -->
-    <div class="tpp-profile-header">
-      <div class="tpp-profile-avatar-container" onclick="openAvatarPickerModal()" title="Change Profile Photo / မိမိဓာတ်ပုံ ပြောင်းရန်" style="position:relative;cursor:pointer;display:inline-block">
-        <div class="tpp-profile-avatar-wrap">
-          <img src="mother_avatar.jpg" alt="Profile" id="tpp-profile-avatar-img" class="tpp-profile-avatar"/>
+    <!-- Language & Theme Preferences (Relocated from Home to Settings) -->
+    <div style="padding: 0 16px; margin-bottom: 14px;">
+      <div class="ref-profile-settings-card">
+        <div class="ref-setting-header">
+          <span class="ref-setting-icon">🌐</span>
+          <div style="flex:1">
+            <div class="ref-setting-title">Language Selection <span style="font-weight:400;color:#64748B;font-size:0.85em">ဘာသာစကား</span></div>
+            <div class="ref-setting-desc">Select your preferred app language for lessons & study guides</div>
+          </div>
         </div>
-        <div class="tpp-avatar-camera-badge" title="Change Photo">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
+        <div class="ref-toggle-dual-row">
+          <button type="button" class="ref-toggle-pill active" id="ref-pref-lang-en" onclick="setAppLanguage('en')">English (Active)</button>
+          <button type="button" class="ref-toggle-pill" id="ref-pref-lang-my" onclick="setAppLanguage('my')">Myanmar / မြန်မာစာ</button>
         </div>
       </div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:6px">
-          <div class="tpp-profile-name" id="tpp-acc-name">Richard</div>
-          <button type="button" class="btn btn-ghost btn-xs" onclick="promptEditUserName()" title="Edit Name" style="padding:2px 6px;font-size:0.75rem;opacity:0.75;cursor:pointer;border-radius:6px">✏️</button>
+
+      <div class="ref-profile-settings-card">
+        <div class="ref-setting-header">
+          <span class="ref-setting-icon">🌓</span>
+          <div style="flex:1">
+            <div class="ref-setting-title">Theme & Display Mood</div>
+            <div class="ref-setting-desc">Choose day mode or eye-friendly night dark mode</div>
+          </div>
         </div>
-        <div class="tpp-profile-role" id="tpp-acc-role">Parent · Learner · Builder</div>
-        <button type="button" class="tpp-btn-change-photo" onclick="openAvatarPickerModal()">
-          <span>📷</span> <span id="tpp-acc-change-photo-txt">Change Photo</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Sage / Emerald Quote Card with Leaf Icon -->
-    <div class="tpp-quote-card">
-      <span class="tpp-quote-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.5 10-10 10Z"/>
-          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-        </svg>
-      </span>
-      <p class="tpp-quote-text" id="tpp-acc-quote">Better parenting leads to brighter tomorrows.</p>
-    </div>
-
-    <!-- My Progress Section with Circular Ring Chart (3/11 Videos) -->
-    <div class="tpp-section-header">
-      <h3 class="tpp-section-title" id="tpp-txt-my-progress">My Progress</h3>
-      <a class="tpp-section-link" onclick="switchAppTab('library')" id="tpp-lnk-view-all-progress">View all ›</a>
-    </div>
-
-    <div class="tpp-progress-card">
-      <div class="tpp-circle-ring-wrap">
-        <svg viewBox="0 0 36 36" width="68" height="68">
-          <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" opacity="0.15" stroke-width="3"/>
-          <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="27, 100" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <div class="tpp-ring-stat">
-          <span>3/11</span>
-          <small>Videos</small>
-        </div>
-      </div>
-      <div style="flex:1">
-        <div class="tpp-progress-title" id="tpp-txt-videos-completed">Videos Completed</div>
-        <div class="tpp-progress-track">
-          <div class="tpp-progress-fill" style="width: 27%;"></div>
+        <div class="ref-toggle-dual-row">
+          <button type="button" class="ref-toggle-pill active" id="ref-pref-theme-day" onclick="setThemeMoodDirect('day')">☀️ Day Mode (Active)</button>
+          <button type="button" class="ref-toggle-pill" id="ref-pref-theme-dark" onclick="setThemeMoodDirect('dark')">🌙 Night Dark Mode</button>
         </div>
       </div>
     </div>
 
-    <!-- Menu Items List -->
-    <div class="tpp-menu-list">
-      <div class="tpp-menu-row" onclick="switchAppTab('library')">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-          </svg>
-        </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-saved">Saved Videos</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-saved">Keep your favorite episodes</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
+    <!-- Vertical Stack of Clean Cards with Arrows -->
+    <div class="ref-profile-cards-stack">
+      <div class="ref-profile-menu-card" onclick="promptEditUserName()">
+        <span>Edit Profile</span>
+        <span class="ref-profile-arrow">→</span>
       </div>
 
-      <div class="tpp-menu-row" onclick="openCinemaDirectly(1); switchCinemaTab('notes');">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10 9 9 9 8 9"/>
+      <div class="ref-profile-menu-card" onclick="syncOfflineDataWithCloud()">
+        <span>Synchronize Data</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="openSettingsModal()">
+        <span>Settings</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="switchAppTab('downloads')">
+        <span>Download Manager</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="openCounselingModal()">
+        <span>Family Counseling & Helpline</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="openTermsModal()">
+        <span>Terms and Conditions</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card" onclick="promptDeleteAccount()">
+        <span>Delete Account</span>
+        <span class="ref-profile-arrow">→</span>
+      </div>
+
+      <div class="ref-profile-menu-card ref-profile-logout-card" onclick="handleAppLogout()">
+        <span>Logout</span>
+        <span class="ref-profile-arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
           </svg>
         </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-notes">My Notes</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-notes">Jot down key takeaways</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
-      </div>
-
-      <div class="tpp-menu-row" onclick="openSettingsModal()">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-        </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-settings">Settings</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-settings">Notifications, language, playback</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
-      </div>
-
-      <div class="tpp-menu-row" onclick="openInAppHelpSupport()">
-        <span class="tpp-menu-icon">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </span>
-        <div class="tpp-menu-info">
-          <div class="tpp-menu-title" id="tpp-menu-t-help">Help & Support</div>
-          <div class="tpp-menu-sub" id="tpp-menu-s-help">FAQs, contact us</div>
-        </div>
-        <span class="tpp-menu-chevron">›</span>
       </div>
     </div>
-
-    <!-- About The Parenting Project Card -->
-    <div class="tpp-about-card">
-      <div class="tpp-about-brand">
-        <img src="official_logo.png" alt="The Parenting Project" class="tpp-about-logo-img" />
-        <span id="tpp-about-brand-title">The Parenting Project</span>
-      </div>
-      <p class="tpp-about-desc" id="tpp-about-desc">
-        A 11-part video series to help parents raise confident, kind and resilient children — grounded in truth and real-life wisdom.
-      </p>
-      <a href="javascript:void(0)" onclick="openCurriculumModal()" class="tpp-about-link" id="tpp-about-link">
-        Learn more →
-      </a>
-    </div>
-
-    <!-- Sign Out Button -->
-    <button type="button" class="mc-btn-signout" onclick="logoutUser()">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        <polyline points="16 17 21 12 16 7"/>
-        <line x1="21" y1="12" x2="9" y2="12"/>
-      </svg>
-      <span id="tpp-txt-signout">Sign Out</span>
-    </button>
   </div>
-
   <!-- ========================================================= -->
   <!-- PREMIUM MODULE PREVIEW DRAWER (Deep Curriculum Guide)     -->
   <!-- ========================================================= -->
@@ -3523,35 +3340,98 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 <div id="toast" class="toast"></div>
 
 <!-- FIXED BOTTOM NAVIGATION BAR FOR NATIVE PHONE EXPERIENCE (Appears ONLY in Android App Mode) -->
-<nav id="mobile-app-bottom-bar" class="mobile-app-only">
-  <button type="button" class="app-bottom-tab active" id="btn-app-tab-home" onclick="switchAppTab('home')" aria-label="Home">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-home">Home</span>
+<!-- FIXED BOTTOM NAVIGATION BAR WITH ELEVATED HEART FAB (2026 OFFICIAL REFERENCE) -->
+<nav id="mobile-app-bottom-bar" class="mobile-app-only ref-bottom-nav">
+  <button type="button" class="ref-bottom-tab active" id="btn-app-tab-home" onclick="switchAppTab('home')" aria-label="Home">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span id="ref-lbl-home">Home</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-library" onclick="switchAppTab('library')" aria-label="Library">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-library">Library</span>
+  <button type="button" class="ref-bottom-tab" id="btn-app-tab-module" onclick="switchAppTab('module')" aria-label="Module">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    <span id="ref-lbl-module">Module</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-episodes" onclick="switchAppTab('episodes')" aria-label="Progress">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 17c3.5-6.5 5.5-6.5 8.5-1.5s4.5 4.5 6.5-1.5c1.5-4.5 3-7 3-7"/>
-      <circle cx="15" cy="11" r="2.2" fill="currentColor"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-episodes">Progress</span>
+  <button type="button" class="ref-bottom-tab" id="btn-app-tab-notifications" onclick="openNotificationsModal()" aria-label="Notifications">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    <span id="ref-lbl-notif">Notifications</span>
   </button>
-  <button type="button" class="app-bottom-tab" id="btn-app-tab-profile" onclick="switchAppTab('account')" aria-label="Account">
-    <svg class="app-tab-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-    <span class="app-tab-label" id="tab-lbl-profile">Account</span>
+  <button type="button" class="ref-bottom-tab" id="btn-app-tab-profile" onclick="switchAppTab('profile')" aria-label="Profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span id="ref-lbl-profile">Profile</span>
   </button>
 </nav>
+
+<!-- FAMILY STUDY GUIDE & COUNSELING MODALS (NO DONATION) -->
+<div id="ref-study-guide-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:440px;border-radius:24px;border:1.5px solid rgba(245,168,0,0.35)">
+    <button type="button" class="inapp-modal-close" onclick="closeStudyGuideModal()">✕</button>
+    <div style="font-size:2.4rem;text-align:center;margin-bottom:6px">📘</div>
+    <h3 style="font-size:1.2rem;font-weight:900;color:#0D2E5C;text-align:center;margin-bottom:4px">Family Study Guide · လေ့လာရန်လမ်းညွှန်</h3>
+    <p style="font-size:0.8rem;color:#64748B;text-align:center;margin-bottom:14px">Free printable PDF curriculum workbook and reflection questions for family devotional time.</p>
+    
+    <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:14px;font-size:0.84rem;line-height:1.5;margin-bottom:14px">
+      <div style="font-weight:800;color:#0D2E5C;margin-bottom:4px">📄 Included in this package:</div>
+      <ul style="padding-left:18px;margin:0;color:#475569">
+        <li>Module 1 Discussion Prompts (Burmese & English)</li>
+        <li>Family Scripture Memory Cards (Proverbs 22:6, Eph 6:4)</li>
+        <li>Parent & Child Action Worksheet</li>
+      </ul>
+    </div>
+
+    <button type="button" class="ref-btn-complete-module" style="position:static !important;border-radius:14px !important;margin-top:0 !important;width:100%" onclick="downloadStudyGuidePdf()">
+      📥 DOWNLOAD FREE STUDY GUIDE (PDF)
+    </button>
+  </div>
+</div>
+
+<div id="ref-counseling-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:440px;border-radius:24px;border:1.5px solid rgba(13,46,92,0.25)">
+    <button type="button" class="inapp-modal-close" onclick="closeCounselingModal()">✕</button>
+    <div style="font-size:2.4rem;text-align:center;margin-bottom:6px">🤝</div>
+    <h3 style="font-size:1.2rem;font-weight:900;color:#0D2E5C;text-align:center;margin-bottom:4px">Family Helpline & Counseling</h3>
+    <p style="font-size:0.8rem;color:#64748B;text-align:center;margin-bottom:14px">Free, confidential biblical family counseling and prayer support across Myanmar.</p>
+    
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:14px;font-size:0.85rem;line-height:1.6;margin-bottom:14px">
+      <div style="font-weight:800;color:#166534">📞 Helpline & Telegram:</div>
+      <div style="font-size:1.15rem;font-weight:900;color:#15803D">+95 9 400 888 777</div>
+      <div style="font-size:0.75rem;color:#166534;margin-top:4px">Monday - Saturday (9:00 AM - 6:00 PM MMT)</div>
+    </div>
+
+    <button type="button" class="prayer-submit-btn" style="background:#0D2E5C;color:#FFF;border-radius:14px" onclick="closeCounselingModal()">
+      ✓ Close
+    </button>
+  </div>
+</div>
+
+<div id="ref-notifications-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:420px">
+    <button type="button" class="inapp-modal-close" onclick="closeNotificationsModal()">✕</button>
+    <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span>🔔</span> <span>Notifications</span>
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px">
+        <div style="font-weight:800;color:#0D2E5C;font-size:0.82rem">Module 1 Ready to Complete</div>
+        <div style="font-size:0.75rem;color:#64748B">Continue with Becoming a Good Example (Menjadi Teladan Baik).</div>
+      </div>
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px">
+        <div style="font-weight:800;color:#0D2E5C;font-size:0.82rem">New Discussion Guide Available</div>
+        <div style="font-size:0.75rem;color:#64748B">Download your weekly family discipleship questions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ref-terms-modal" class="inapp-modal-overlay" style="display:none">
+  <div class="inapp-modal-box" style="max-width:440px">
+    <button type="button" class="inapp-modal-close" onclick="closeTermsModal()">✕</button>
+    <h3 style="font-size:1.15rem;font-weight:800;color:#0D2E5C;margin-bottom:8px">Terms & Conditions</h3>
+    <div style="font-size:0.78rem;color:#475569;line-height:1.6;max-height:260px;overflow-y:auto;padding-right:6px">
+      <p style="margin-bottom:8px">The Parenting Project is an initiative of CBN Asia providing free biblically-grounded parenting modules to families and churches in Myanmar.</p>
+      <p style="margin-bottom:8px">All content, video streams, and discussion materials are provided free of charge for non-commercial ministry and personal family discipleship.</p>
+      <p>For inquiries, contact the CBN Myanmar coordinator team.</p>
+    </div>
+  </div>
+</div>
 
 <!-- IN-APP AUTH & REGISTRATION HUB (Seamless across all screens) -->
 <div id="inapp-login-modal" class="inapp-modal-overlay">
@@ -3586,12 +3466,6 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <button type="submit" class="prayer-submit-btn" id="btn-inapp-login">
         🔑 အကောင့်ဝင်မည် (Sign In)
-      </button>
-
-      <!-- 1-Tap Quick Parent Tester Access -->
-      <button type="button" class="inapp-demo-btn" onclick="quickDemoLogin()">
-        <span>⚡</span>
-        <span id="inapp-demo-btn-txt">စမ်းသပ် မိဘအကောင့်ဖြင့် ချက်ချင်းဝင်မည် (1-Tap Fast Login)</span>
       </button>
 
       <div style="margin-top:14px;text-align:center">
