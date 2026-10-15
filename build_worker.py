@@ -417,6 +417,18 @@ let customVideosDB = __DEFAULT_VIDEOS__;
 let contentRulesDB = __DEFAULT_RULES__;
 let prayersDB = __DEFAULT_PRAYERS__;
 let feedbackDB = __DEFAULT_FEEDBACK__;
+let announcementDB = {{
+  titleEn: "The Parenting Project Socialization",
+  titleMy: "The Parenting Project မိတ်သဟာယ အလုပ်ရုံဆွေးနွေးပွဲ",
+  sub: "Connecting Church Leaders & Parents Across Myanmar",
+  badge: "☕ Socialization Workshop",
+  date: "Saturday, Nov 14, 2026 · 9:00 AM – 3:30 PM (MMT)",
+  venue: "Yangon Grace Centre, Insein Township, Yangon",
+  mode: "hybrid",
+  streamLink: "https://zoom.us/j/parenting-project-socialization",
+  image: "workshop_socialization.jpg",
+  desc: "The Parenting Project Socialization Workshop brings together pastors, Christian mentors, and parents across all denominations in Myanmar. Our mission is to introduce the 11 Core Biblical Modules, provide church implementation kits, and foster supportive regional networks so every family can thrive in Christ."
+}};
 
 const ASSETS = __ASSETS_JSON__;
 const INDEX_ETAG = __INDEX_ETAG__;
@@ -850,6 +862,29 @@ export default {{
         if (kvRules) contentRulesDB = kvRules;
       }}
       return jsonResponse(contentRulesDB);
+    }}
+
+    // Event Announcement Slot API (Public Fetch)
+    if (path === "/api/announcement" && method === "GET") {{
+      if (env.KV) {{
+        const kvAnnounce = await env.KV.get("announcement_data", "json");
+        if (kvAnnounce) announcementDB = kvAnnounce;
+      }}
+      return jsonResponse(announcementDB);
+    }}
+
+    // Admin Save Announcement Slot API
+    if (path === "/api/admin/save-announcement" && method === "POST") {{
+      try {{
+        const payload = await request.json();
+        announcementDB = payload;
+        if (env.KV) {{
+          await env.KV.put("announcement_data", JSON.stringify(payload));
+        }}
+        return jsonResponse({{ success: true, message: "Announcement slot saved", data: announcementDB }});
+      }} catch(e) {{
+        return jsonResponse({{ error: "Invalid announcement payload" }}, 400);
+      }}
     }}
 
     // Church Registration API (Rate Limited & Sanitized)

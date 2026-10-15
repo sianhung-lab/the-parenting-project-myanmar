@@ -10255,7 +10255,49 @@ function openVideoPlayerScreen(mid) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+async function syncLiveAnnouncement() {
+  let a = null;
+  try {
+    const res = await fetch('/api/announcement');
+    if (res.ok) a = await res.json();
+  } catch(e) {}
+  if (!a) {
+    try {
+      a = JSON.parse(localStorage.getItem('tpp_announcement_data') || 'null');
+    } catch(e) {}
+  }
+  if (!a) return;
+
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+  const pageTitle = document.querySelector('.ref-event-page-title');
+  const heroSub = document.querySelector('.ref-event-hero-sub');
+  const badgeType = document.querySelector('.ref-event-hero-badge-type');
+  const dateVal = document.querySelector('.ref-event-logistics-card .ref-event-grid-row:nth-child(1) .ref-event-grid-val');
+  const venueVal = document.querySelector('.ref-event-logistics-card .ref-event-grid-row:nth-child(2) .ref-event-grid-val');
+  const descP = document.querySelector('.ref-event-statement-p');
+
+  if (pageTitle && (a.titleEn || a.titleMy)) {
+    pageTitle.textContent = isMy ? (a.titleMy || a.titleEn) : a.titleEn;
+  }
+  if (heroSub && a.venue) {
+    heroSub.textContent = `${a.venue} · In-Person & Hybrid Live Stream`;
+  }
+  if (badgeType && a.badge) {
+    badgeType.textContent = a.badge;
+  }
+  if (dateVal && a.date) {
+    dateVal.textContent = a.date;
+  }
+  if (venueVal && a.venue) {
+    venueVal.textContent = a.venue;
+  }
+  if (descP && a.desc) {
+    descP.textContent = a.desc;
+  }
+}
+
 function openEventAnnouncementScreen() {
+  syncLiveAnnouncement();
   switchAppTab('event');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }

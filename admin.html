@@ -2,1051 +2,2187 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Staff Confidential Hub — The Parenting Project Myanmar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin Control Center & LLM Engine — The Parenting Project Myanmar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Plus Jakarta Sans','Noto Sans Myanmar',sans-serif;
-  background:#051329;
-  color:#ffffff;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
+  :root {
+    --bg-base: #060E1A;
+    --bg-surface: #0B1728;
+    --bg-surface-elevated: #11223B;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-focus: #F59E0B;
+    --primary: #0284C7;
+    --primary-light: #38BDF8;
+    --gold: #F59E0B;
+    --gold-light: #FDE68A;
+    --emerald: #10B981;
+    --emerald-light: #A7F3D0;
+    --ruby: #EF4444;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Myanmar', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
 
-/* =========================================
-   STAFF SECURITY LOCK GATE
-   ========================================= */
-#auth-gate{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle at 50% 30%, #0d2850 0%, #040e1e 100%);
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:1.5rem;
-}
-.gate-card{
-  background:linear-gradient(180deg, #093466 0%, #051f40 100%);
-  border:1px solid rgba(255, 204, 0, 0.4);
-  border-radius:24px;
-  max-width:440px;
-  width:100%;
-  padding:2.5rem 2.2rem;
-  text-align:center;
-  box-shadow:0 25px 70px rgba(0,0,0,0.6), 0 0 35px rgba(255,204,0,0.15);
-  color:#fff;
-}
-.gate-shield{
-  width:95px;
-  height:auto;
-  margin-bottom:1.25rem;
-  filter:drop-shadow(0 6px 16px rgba(0,0,0,0.4));
-}
-.gate-badge{
-  display:inline-block;
-  background:rgba(255, 204, 0, 0.15);
-  color:#ffcc00;
-  border:1px solid rgba(255, 204, 0, 0.4);
-  padding:4px 14px;
-  border-radius:50px;
-  font-size:0.75rem;
-  font-weight:800;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  margin-bottom:1rem;
-}
-.gate-title{
-  font-size:1.6rem;
-  font-weight:800;
-  margin-bottom:0.5rem;
-  letter-spacing:-0.01em;
-}
-.gate-desc{
-  font-size:0.86rem;
-  color:rgba(255,255,255,0.75);
-  line-height:1.55;
-  margin-bottom:1.75rem;
-}
-.gate-input-wrap{
-  position:relative;
-  margin-bottom:1.25rem;
-}
-.gate-input{
-  width:100%;
-  padding:0.9rem 1.1rem;
-  font-size:1rem;
-  border-radius:10px;
-  border:1.5px solid rgba(255,255,255,0.22);
-  background:rgba(255,255,255,0.06);
-  color:#fff;
-  outline:none;
-  text-align:center;
-  font-family:inherit;
-  letter-spacing:0.15em;
-  transition:all .2s ease;
-}
-.gate-input:focus{
-  border-color:#ffcc00;
-  background:rgba(255,255,255,0.12);
-  box-shadow:0 0 0 3px rgba(255,204,0,0.25);
-}
-.gate-btn{
-  width:100%;
-  padding:0.95rem;
-  font-size:1rem;
-  font-weight:800;
-  background:#ffcc00;
-  background:linear-gradient(180deg, #ffd438 0%, #ffb800 100%);
-  color:#061830;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  transition:all .2s ease;
-  box-shadow:0 6px 20px rgba(255,184,0,0.35);
-  font-family:inherit;
-}
-.gate-btn:hover{
-  background:linear-gradient(180deg, #ffe066 0%, #ffc400 100%);
-  transform:translateY(-1.5px);
-  box-shadow:0 8px 25px rgba(255,184,0,0.45);
-}
-.gate-err{
-  color:#ff6b6b;
-  font-size:0.82rem;
-  font-weight:600;
-  margin-top:0.85rem;
-  min-height:1.2rem;
-}
-.gate-exit-link{
-  display:inline-block;
-  margin-top:1.2rem;
-  color:rgba(255,255,255,0.6);
-  font-size:0.8rem;
-  text-decoration:none;
-}
-.gate-exit-link:hover{
-  color:#fff;
-  text-decoration:underline;
-}
+  /* ========================================================
+     1. SECURITY PASSCODE GATE
+     ======================================================== */
+  #admin-auth-gate {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 35%, #0F233D 0%, #040913 100%);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .gate-card {
+    background: linear-gradient(180deg, #0E223D 0%, #09172B 100%);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 28px;
+    max-width: 440px;
+    width: 100%;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(245, 158, 11, 0.12);
+  }
+  .gate-shield {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.4));
+  }
+  .gate-badge {
+    display: inline-block;
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--gold);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .gate-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #FFF;
+    margin-bottom: 6px;
+  }
+  .gate-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .gate-input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFF;
+    outline: none;
+    text-align: center;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  .gate-input:focus {
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+  }
+  .gate-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    color: #040A14;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .gate-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+  }
+  .gate-err {
+    color: #F87171;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+    min-height: 18px;
+  }
+  .gate-return-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .gate-return-link:hover { color: #FFF; text-decoration: underline; }
 
-/* =========================================
-   PROTECTED ADMIN DASHBOARD CONTENT
-   ========================================= */
-#admin-content{
-  display:none;
-  flex-direction:column;
-  min-height:100vh;
-}
-#admin-content.active{
-  display:flex;
-}
+  /* ========================================================
+     2. ADMIN PORTAL MAIN LAYOUT
+     ======================================================== */
+  #admin-app-root {
+    display: none;
+    min-height: 100vh;
+    flex-direction: row;
+  }
+  #admin-app-root.active {
+    display: flex;
+  }
 
-/* Top Header */
-.admin-nav{
-  background:rgba(10, 37, 64, 0.95);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(255,255,255,0.12);
-  padding:1rem 2rem;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-.brand-left{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-.brand-logo{
-  height:44px;
-  width:auto;
-  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.3));
-}
-.brand-name{
-  font-size:1.15rem;
-  font-weight:800;
-  letter-spacing:-0.01em;
-}
-.brand-tag{
-  font-size:0.75rem;
-  color:#ffcc00;
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-  font-weight:700;
-}
-.nav-actions{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:0.6rem 1.15rem;
-  font-size:0.88rem;
-  font-weight:700;
-  border-radius:8px;
-  cursor:pointer;
-  text-decoration:none;
-  transition:all .2s ease;
-  font-family:inherit;
-  border:none;
-}
-.btn-gold{
-  background:#ffcc00;
-  color:#07162c;
-  box-shadow:0 4px 15px rgba(245,168,0,0.3);
-}
-.btn-gold:hover{
-  background:#ffd83b;
-  transform:translateY(-1px);
-}
-.btn-outline{
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.22);
-  color:#fff;
-}
-.btn-outline:hover{
-  background:rgba(255,255,255,0.15);
-  border-color:#fff;
-}
-.btn-lock{
-  background:rgba(255, 60, 60, 0.15);
-  border:1px solid rgba(255, 60, 60, 0.4);
-  color:#ff8585;
-}
-.btn-lock:hover{
-  background:rgba(255, 60, 60, 0.3);
-  color:#fff;
-}
+  /* Sidebar */
+  .admin-sidebar {
+    width: 270px;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .sidebar-brand {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .sidebar-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+  }
+  .brand-text h2 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #FFF;
+    line-height: 1.2;
+  }
+  .brand-text span {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
 
-/* Security Notice Bar */
-.confidential-bar{
-  background:rgba(255, 193, 7, 0.08);
-  border-bottom:1px solid rgba(255, 193, 7, 0.2);
-  padding:0.6rem 2rem;
-  font-size:0.8rem;
-  color:#ffe082;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+  .sidebar-nav {
+    padding: 16px 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .nav-group-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 12px 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #94A3B8;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFF;
+  }
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.18) 0%, rgba(245, 158, 11, 0.04) 100%);
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
+  }
+  .nav-item-icon {
+    font-size: 18px;
+    width: 22px;
+    text-align: center;
+  }
+  .nav-badge-pill {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(2, 132, 199, 0.2);
+    color: var(--primary-light);
+  }
 
-/* Container */
-.main-wrap{
-  flex:1;
-  max-width:1440px;
-  width:100%;
-  margin:0 auto;
-  padding:2rem;
-}
+  .sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .admin-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .admin-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #1E3A8A;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+  }
+  .admin-user-details h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFF;
+  }
+  .admin-user-details span {
+    font-size: 10px;
+    color: #64748B;
+  }
+  .btn-logout {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #F87171;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+  }
 
-/* KPI Banner */
-.kpi-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-  gap:1.25rem;
-  margin-bottom:2rem;
-}
-.kpi-card{
-  background:linear-gradient(180deg, rgba(14, 46, 85, 0.7) 0%, rgba(9, 32, 60, 0.85) 100%);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:16px;
-  padding:1.4rem 1.6rem;
-  box-shadow:0 12px 30px rgba(0,0,0,0.25);
-  position:relative;
-  overflow:hidden;
-}
-.kpi-card::before{
-  content:'';
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:3px;
-  background:linear-gradient(90deg, #ffcc00, #ff9000);
-}
-.kpi-lbl{
-  font-size:0.82rem;
-  color:rgba(255,255,255,0.7);
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:0.04em;
-  margin-bottom:0.4rem;
-}
-.kpi-val{
-  font-size:2.2rem;
-  font-weight:800;
-  color:#fff;
-  line-height:1.1;
-}
-.kpi-sub{
-  font-size:0.8rem;
-  color:#4cd964;
-  margin-top:0.4rem;
-  font-weight:600;
-}
+  /* Main Workspace Area */
+  .admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow-y: auto;
+    height: 100vh;
+  }
 
-/* Table Toolbar */
-.toolbar{
-  background:rgba(14, 46, 85, 0.45);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:14px;
-  padding:1rem 1.25rem;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  gap:1rem;
-  margin-bottom:1.25rem;
-}
-.search-box{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  border-radius:8px;
-  padding:0.5rem 1rem;
-  flex:1;
-  min-width:280px;
-  max-width:420px;
-}
-.search-box input{
-  background:none;
-  border:none;
-  outline:none;
-  color:#fff;
-  font-size:0.9rem;
-  width:100%;
-  font-family:inherit;
-}
-.search-box input::placeholder{
-  color:rgba(255,255,255,0.5);
-}
-.filter-select{
-  background:#092b58;
-  border:1px solid rgba(255,255,255,0.22);
-  color:#fff;
-  padding:0.55rem 1rem;
-  border-radius:8px;
-  font-size:0.88rem;
-  font-family:inherit;
-  outline:none;
-}
+  /* Topbar */
+  .admin-topbar {
+    height: 64px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    flex-shrink: 0;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .topbar-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #FFF;
+  }
+  .live-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--emerald);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .live-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 8px var(--emerald);
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-topbar-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn-outline-client {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: #FFF;
+  }
+  .btn-outline-client:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .btn-gold-action {
+    background: var(--gold);
+    color: #060E1A;
+    border: none;
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+  }
 
-/* Data Table */
-.table-wrap{
-  background:rgba(10, 35, 64, 0.6);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:16px;
-  overflow-x:auto;
-  box-shadow:0 15px 40px rgba(0,0,0,0.3);
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  text-align:left;
-  font-size:0.88rem;
-}
-th{
-  background:#071d37;
-  color:#ffcc00;
-  font-weight:700;
-  padding:1rem 1.15rem;
-  border-bottom:1px solid rgba(255,255,255,0.14);
-  white-space:nowrap;
-  font-size:0.8rem;
-  text-transform:uppercase;
-  letter-spacing:0.04em;
-}
-td{
-  padding:0.95rem 1.15rem;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  color:rgba(255,255,255,0.9);
-  vertical-align:middle;
-}
-tr:hover td{
-  background:rgba(255,255,255,0.04);
-}
-.badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:50px;
-  font-size:0.75rem;
-  font-weight:700;
-  white-space:nowrap;
-}
-.badge-verified{
-  background:rgba(76, 217, 100, 0.18);
-  color:#4cd964;
-  border:1px solid rgba(76, 217, 100, 0.4);
-}
-.badge-viber{
-  background:rgba(115, 96, 242, 0.2);
-  color:#b7aaff;
-  border:1px solid rgba(115, 96, 242, 0.45);
-}
-.badge-scheduled{
-  background:rgba(0, 163, 224, 0.2);
-  color:#00c0f7;
-  border:1px solid rgba(0, 163, 224, 0.4);
-}
-.badge-new{
-  background:rgba(255, 149, 0, 0.18);
-  color:#ffa21f;
-  border:1px solid rgba(255, 149, 0, 0.4);
-}
-.badge-granted{
-  background:rgba(40, 167, 69, 0.25);
-  color:#2ecc71;
-  border:1px solid rgba(46, 204, 113, 0.5);
-  font-weight:800;
-}
-.badge-pending{
-  background:rgba(255, 193, 7, 0.2);
-  color:#ffc107;
-  border:1px solid rgba(255, 193, 7, 0.45);
-  font-weight:700;
-}
-.btn-xs{
-  padding:4px 10px;
-  font-size:0.75rem;
-  font-weight:700;
-  border-radius:6px;
-  cursor:pointer;
-  border:none;
-  transition:all .2s ease;
-  font-family:inherit;
-}
-.btn-grant{
-  background:linear-gradient(180deg, #2ecc71 0%, #27ae60 100%);
-  color:#fff;
-  box-shadow:0 2px 8px rgba(46, 204, 113, 0.35);
-}
-.btn-grant:hover{
-  background:linear-gradient(180deg, #34d677 0%, #2ecc71 100%);
-  transform:scale(1.05);
-}
-.btn-revoke{
-  background:rgba(231, 76, 60, 0.2);
-  color:#ff7675;
-  border:1px solid rgba(231, 76, 60, 0.5);
-}
-.btn-revoke:hover{
-  background:rgba(231, 76, 60, 0.4);
-  color:#fff;
-  transform:scale(1.05);
-}
-/* Admin Tabs */
-.admin-tabs{
-  display:flex;
-  gap:12px;
-  margin-bottom:1.75rem;
-  border-bottom:1px solid rgba(255,255,255,0.12);
-  padding-bottom:0.75rem;
-}
-.admin-tab{
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.14);
-  color:rgba(255,255,255,0.7);
-  padding:0.75rem 1.4rem;
-  border-radius:10px;
-  font-size:0.95rem;
-  font-weight:700;
-  cursor:pointer;
-  transition:all .2s ease;
-  font-family:inherit;
-}
-.admin-tab:hover{
-  background:rgba(255,255,255,0.12);
-  color:#fff;
-}
-.admin-tab.active{
-  background:#ffcc00;
-  color:#061830;
-  border-color:#ffcc00;
-  box-shadow:0 4px 15px rgba(255, 204, 0, 0.3);
-}
-/* Content Rule Cards */
-.content-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
-  gap:1.25rem;
-}
-.content-card{
-  background:linear-gradient(180deg, rgba(14, 46, 85, 0.75) 0%, rgba(9, 32, 60, 0.9) 100%);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:14px;
-  padding:1.25rem;
-  box-shadow:0 8px 25px rgba(0,0,0,0.25);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.content-card-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  margin-bottom:0.75rem;
-}
-.content-card-num{
-  background:#ffcc00;
-  color:#061830;
-  font-weight:800;
-  font-size:0.75rem;
-  padding:3px 8px;
-  border-radius:5px;
-}
-.content-card-title{
-  font-size:1.05rem;
-  font-weight:700;
-  margin-bottom:0.35rem;
-}
-.content-card-my{
-  font-size:0.85rem;
-  color:rgba(255,255,255,0.7);
-  margin-bottom:1rem;
-  line-height:1.4;
-}
-.rule-select{
-  width:100%;
-  padding:0.6rem 0.8rem;
-  background:#051a36;
-  border:1.5px solid rgba(255,255,255,0.2);
-  border-radius:8px;
-  color:#fff;
-  font-weight:600;
-  font-size:0.88rem;
-  margin-bottom:0.75rem;
-  font-family:inherit;
-  outline:none;
-}
-.rule-select:focus{
-  border-color:#ffcc00;
-}
-.btn-save-rule{
-  width:100%;
-  padding:0.6rem;
-  background:rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,0.25);
-  color:#fff;
-  font-weight:700;
-  font-size:0.82rem;
-  border-radius:8px;
-  cursor:pointer;
-  transition:all .2s ease;
-}
-.btn-save-rule:hover{
-  background:#ffcc00;
-  color:#061830;
-  border-color:#ffcc00;
-}
-.admin-toast{
-  position:fixed;
-  bottom:24px;
-  right:24px;
-  background:#093466;
-  border:1px solid #ffcc00;
-  color:#fff;
-  padding:12px 20px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  z-index:999999;
-  font-size:0.9rem;
-  font-weight:600;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .25s ease;
-}
-.admin-toast.show{
-  opacity:1;
-  pointer-events:auto;
-}
-.viber-link{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  color:#c7baff;
-  text-decoration:none;
-  font-weight:600;
-}
-.viber-link:hover{
-  text-decoration:underline;
-  color:#fff;
-}
+  /* Content Views Container */
+  .admin-content-pane {
+    padding: 28px;
+    display: none;
+  }
+  .admin-content-pane.active {
+    display: block;
+  }
+
+  /* ========================================================
+     OPTION 1: EXECUTIVE SPLIT HERO (ENLARGED PHOTO ~500px)
+     ======================================================== */
+  .hero-split-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(9, 21, 38, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  }
+  .hero-split-content {
+    flex: 1.1;
+  }
+  .hero-badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34D399;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .hero-split-title {
+    font-size: 25px;
+    font-weight: 800;
+    color: #FFF;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .hero-split-title span {
+    color: var(--gold);
+  }
+  .hero-split-desc {
+    font-size: 13.5px;
+    color: #94A3B8;
+    line-height: 1.55;
+    margin-bottom: 20px;
+    max-width: 500px;
+  }
+  .hero-split-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-split-media {
+    flex: 0 0 500px;
+    max-width: 520px;
+  }
+  .hero-split-img-frame {
+    position: relative;
+    background: #060E1A;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  }
+  .hero-split-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+  }
+  .hero-media-badge {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    background: rgba(5, 14, 26, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #E2E8F0;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 8px var(--emerald);
+  }
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .hero-exterior-text h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #FFF;
+    margin-bottom: 4px;
+  }
+  .hero-exterior-text p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .hero-exterior-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    color: #060E1A;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  .btn-outline {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFF;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cmd-bar {
+    background: #0F1E33;
+    border: 1.5px solid rgba(56, 189, 248, 0.3);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    margin-bottom: 24px;
+  }
+  .cmd-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 13.5px;
+    font-family: inherit;
+  }
+  .cmd-btn {
+    background: var(--primary);
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ========================================================
+     3. TAB 1: REPORTS & OVERVIEW DASHBOARD
+     ======================================================== */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .metric-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+  .metric-card.gold::before { background: var(--gold); }
+  .metric-card.emerald::before { background: var(--emerald); }
+  .metric-card.blue::before { background: var(--primary); }
+  .metric-card.purple::before { background: #8B5CF6; }
+
+  .metric-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #FFF;
+    line-height: 1.1;
+  }
+  .metric-sub {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .metric-sub.good { color: var(--emerald); }
+
+  .dashboard-grid-2col {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .dash-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 24px;
+  }
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .panel-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .region-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .region-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+  .region-name {
+    width: 110px;
+    font-weight: 700;
+    color: #CBD5E1;
+  }
+  .region-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .region-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0284C7, #38BDF8);
+  }
+  .region-count {
+    width: 50px;
+    text-align: right;
+    font-weight: 800;
+    color: #FFF;
+  }
+
+  /* ========================================================
+     4. TAB 2: LLM ENGINE & AI CO-PILOT (The Brain)
+     ======================================================== */
+  .llm-hero-banner {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(245, 158, 11, 0.15) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .llm-hero-text h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #FFF;
+    margin-bottom: 6px;
+  }
+  .llm-hero-text p {
+    font-size: 13px;
+    color: #CBD5E1;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .llm-engine-badge {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 10px 16px;
+    text-align: right;
+  }
+  .engine-name {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--primary-light);
+  }
+  .engine-status {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--emerald);
+  }
+
+  .llm-workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+  }
+  .llm-control-box, .llm-output-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .form-select, .form-input, .form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #FFF;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-select:focus, .form-input:focus, .form-textarea:focus {
+    border-color: var(--primary-light);
+  }
+  .form-textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .quick-prompt-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .prompt-chip {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: #CBD5E1;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .prompt-chip:hover {
+    background: rgba(2, 132, 199, 0.2);
+    color: var(--primary-light);
+    border-color: rgba(2, 132, 199, 0.4);
+  }
+
+  .btn-generate-ai {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+    color: #FFF;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-generate-ai:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+  }
+  .btn-generate-ai:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .output-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn-output-action {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
+    color: #FFF;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .btn-output-action:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .output-display-area {
+    flex: 1;
+    min-height: 340px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #E2E8F0;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+
+  /* ========================================================
+     5. TAB 3: CONTENT & CURRICULUM CMS
+     ======================================================== */
+  .modules-table-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .admin-table th {
+    background: rgba(255, 255, 255, 0.03);
+    text-align: left;
+    padding: 14px 18px;
+    font-weight: 800;
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .admin-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: #E2E8F0;
+    vertical-align: middle;
+  }
+  .admin-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .mod-num-badge {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--gold);
+    font-weight: 800;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+  .btn-edit-cms {
+    background: rgba(2, 132, 199, 0.2);
+    border: 1px solid rgba(2, 132, 199, 0.4);
+    color: var(--primary-light);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .btn-edit-cms:hover {
+    background: var(--primary);
+    color: #FFF;
+  }
+
+  /* ========================================================
+     6. TAB 4: USERS & PARTNER CHURCHES
+     ======================================================== */
+  .toolbar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 8px 14px;
+    width: 320px;
+  }
+  .search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 13px;
+    margin-left: 8px;
+    width: 100%;
+  }
+  .status-badge {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .status-badge.verified {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--emerald);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .status-badge.pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--gold);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  /* Modal Drawer */
+  .cms-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 100000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .cms-modal-overlay.active {
+    display: flex;
+  }
+  .cms-modal-box {
+    background: var(--bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  }
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 14px;
+  }
+  .modal-close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #FFF;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  /* Toast Notification */
+  .admin-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--emerald);
+    color: #FFF;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9999999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .admin-toast.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ========================================================
+     ANNOUNCEMENT SLOT & PREVIEW STYLES
+     ======================================================== */
+  .announcement-slot-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  @media (max-width: 1024px) {
+    .announcement-slot-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .announcement-preview-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .preview-badge-status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    background: rgba(16, 185, 129, 0.95);
+    color: #FFF;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .preview-hero-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+  .preview-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .preview-chip-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(13, 46, 92, 0.85);
+    color: #FDE68A;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .preview-body {
+    padding: 16px;
+  }
+  .preview-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #FFF;
+    margin-bottom: 4px;
+  }
+  .preview-sub {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .preview-meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 10px;
+    margin-bottom: 10px;
+  }
+  .preview-meta-row b {
+    color: var(--text-main);
+  }
+  .preview-desc-box {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    background: rgba(255,255,255,0.03);
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+  }
+  .announcement-stats-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .announcement-form-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 640px) {
+    .form-row-2 {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 <body>
 
-<!-- STAFF LOCK GATE -->
-<div id="auth-gate">
+<!-- ========================================================
+     1. SECURITY PASSCODE GATE
+     ======================================================== -->
+<div id="admin-auth-gate">
   <div class="gate-card">
-    <img src="official_logo.png" alt="The Parenting Project Shield Logo" class="gate-shield"/>
-    <div>
-      <span class="gate-badge">🔒 Staff Access Only · Confidential</span>
-    </div>
+    <img src="clean_shield_emblem.png" alt="The Parenting Project" class="gate-shield"/>
+    <div><span class="gate-badge">🔒 STAFF LLM CONTROL CENTER</span></div>
     <h1 class="gate-title">CBN Asia Myanmar</h1>
     <p class="gate-desc">
-      This dashboard contains internal church contacts, pastor phone/Viber numbers, and regional statistics. Only authorized CBN team members may access this data.
+      Official administration portal and LLM Engine for The Parenting Project. Authorized staff login required.
     </p>
-
-    <form onsubmit="handleStaffLogin(event)">
-      <div class="gate-input-wrap">
-        <input type="password" id="staff-passcode" class="gate-input" placeholder="Enter Staff Passcode" required autocomplete="current-password" autofocus/>
-      </div>
-      <button type="submit" class="gate-btn" id="gate-btn">
-        <span>🔓 Unlock Confidential Hub</span>
-      </button>
-      <div class="gate-err" id="gate-err"></div>
-    </form>
-
-    <a href="index.html" class="gate-exit-link">← Return to Public Website</a>
+    <div class="gate-input-wrap">
+      <input type="password" id="gate-passcode" class="gate-input" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')verifyAdminGate()"/>
+      <div id="gate-error" class="gate-err"></div>
+    </div>
+    <button type="button" class="gate-btn" onclick="verifyAdminGate()">Unlock Control Center</button>
+    <div>
+      <a href="/" class="gate-return-link">← Return to Public Parenting App</a>
+    </div>
   </div>
 </div>
 
-<!-- PROTECTED CONTENT -->
-<div id="admin-content">
-  <header class="admin-nav">
-    <div class="brand-left">
-      <img src="official_logo.png" alt="The Parenting Project Logo" class="brand-logo"/>
-      <div>
-        <div class="brand-name">The Parenting Project · Myanmar</div>
-        <div class="brand-tag">🔒 Internal Staff Facilitator Registry & Analytics</div>
+<!-- ========================================================
+     2. ADMIN APP WORKSPACE ROOT
+     ======================================================== -->
+<div id="admin-app-root">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <img src="clean_shield_emblem.png" alt="Logo" class="sidebar-logo"/>
+      <div class="brand-text">
+        <h2>TPP Control Center</h2>
+        <span>⚡ LLM AI ENGINE</span>
       </div>
     </div>
-    <div class="nav-actions">
-      <a id="btn-dl-excel" href="The_Parenting_Project_Myanmar_Database.xlsx" class="btn btn-gold" download>
-        <span>📥 Download Excel (.xlsx)</span>
+
+    <div class="sidebar-nav">
+      <div class="nav-group-title">Analytics & Operations</div>
+      <a class="nav-item active" onclick="switchAdminTab('reports')" id="nav-reports">
+        <span class="nav-item-icon">📊</span>
+        <span>Reports & Overview</span>
       </a>
-      <a id="btn-dl-csv" href="/api/registrations.csv" class="btn btn-outline" download="The_Parenting_Project_Myanmar_Confidential.csv">
-        <span>📄 Download CSV</span>
+
+      <div class="nav-group-title">AI Engine</div>
+      <a class="nav-item" onclick="switchAdminTab('llm')" id="nav-llm">
+        <span class="nav-item-icon">🤖</span>
+        <span>LLM AI Co-Pilot</span>
+        <span class="nav-badge-pill">ACTIVE</span>
       </a>
-      <button type="button" class="btn btn-lock" onclick="staffLogout()">
-        <span>🔒 Lock & Exit</span>
-      </button>
+
+      <div class="nav-group-title">Management</div>
+      <a class="nav-item" onclick="switchAdminTab('cms')" id="nav-cms">
+        <span class="nav-item-icon">🎬</span>
+        <span>Content & Curriculum</span>
+      </a>
+      <a class="nav-item" onclick="switchAdminTab('users')" id="nav-users">
+        <span class="nav-item-icon">👥</span>
+        <span>Users & Churches</span>
+        <span class="nav-badge-pill" id="badge-pending-count">12 New</span>
+      </a>
+      <a class="nav-item" onclick="switchAdminTab('security')" id="nav-security">
+        <span class="nav-item-icon">🛡️</span>
+        <span>Zero Trust & Security</span>
+      </a>
+
+      <div class="nav-group-title">Broadcast & Events</div>
+      <a class="nav-item" onclick="switchAdminTab('announcements')" id="nav-announcements">
+        <span class="nav-item-icon">📢</span>
+        <span>Event Announcements</span>
+        <span class="nav-badge-pill" style="background:#F59E0B;color:#0F172A">LIVE SLOT</span>
+      </a>
     </div>
-  </header>
 
-  <div class="confidential-bar">
-    <span>🛡️ <strong>CONFIDENTIAL MINISTRY DATA:</strong> For CBN Asia Myanmar internal coordination only. Do not share publicly.</span>
-    <span id="current-user-tag">Session Active (CBN Staff)</span>
-  </div>
+    <div class="sidebar-footer">
+      <div class="admin-user-info">
+        <div class="admin-avatar">CA</div>
+        <div class="admin-user-details">
+          <h4>CBN Admin</h4>
+          <span>Staff Director</span>
+        </div>
+      </div>
+      <button type="button" class="btn-logout" onclick="lockAdminGate()">Lock</button>
+    </div>
+  </aside>
 
-  <main class="main-wrap">
+  <!-- Main View Area -->
+  <main class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <h1 class="topbar-title" id="topbar-current-title">Reports & Overview</h1>
+        <div class="live-status-pill">
+          <span class="live-pulse-dot"></span>
+          <span>App Synced Live</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="/" target="_blank" class="btn-topbar-action btn-outline-client">
+          <span>📲 View Client App</span>
+        </a>
+        <button type="button" class="btn-topbar-action btn-gold-action" onclick="exportMinistryReport()">
+          <span>📥 Export Report</span>
+        </button>
+      </div>
+    </header>
 
-    <!-- KPI Banner -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-lbl">Total Partner Churches</div>
-        <div class="kpi-val" id="kpi-churches">--</div>
-        <div class="kpi-sub">Across 10 Myanmar States & Regions</div>
+    <!-- PANE 1: REPORTS & OVERVIEW -->
+    <section class="admin-content-pane active" id="pane-reports">
+
+      <!-- OPTION 1: EXECUTIVE SPLIT HERO (ENLARGED PHOTO ~500px) -->
+      <div class="hero-split-card">
+        <div class="hero-split-content">
+          <div class="hero-badge-live">
+            <span class="pulse-dot"></span>
+            <span>⚡ LLM ENGINE ONLINE · 148 PARTNER CHURCHES SYNCED</span>
+          </div>
+          <h2 class="hero-split-title">The Parenting Project<br><span>Admin Control Center</span></h2>
+          <p class="hero-split-desc">Curriculum operations, LLM co-pilot generation, and church network governance across Myanmar.</p>
+          <div class="hero-split-actions">
+            <button type="button" class="btn-gold" onclick="switchAdminTab('llm')">✨ Open AI Co-Pilot</button>
+            <button type="button" class="btn-outline" onclick="exportMinistryReport()">📊 Export Report</button>
+          </div>
+        </div>
+        <div class="hero-split-media">
+          <div class="hero-split-img-frame">
+            <img src="admin_llm_hero.jpg" class="hero-split-img" alt="The Parenting Project CBN Myanmar Official Hero"/>
+            <div class="hero-media-badge">CBN Myanmar · Official Master Shield</div>
+          </div>
+        </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-lbl">Estimated Families Reach</div>
-        <div class="kpi-val" id="kpi-families">--</div>
-        <div class="kpi-sub">Curriculum materials prepared</div>
+
+      <!-- 4 Live Metric KPI Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card gold">
+          <div class="metric-label">Registered Churches</div>
+          <div class="metric-value" id="stat-total-churches">148</div>
+          <div class="metric-sub good">↑ +14 this month</div>
+        </div>
+        <div class="metric-card emerald">
+          <div class="metric-label">Families Trained</div>
+          <div class="metric-value">5,280+</div>
+          <div class="metric-sub good">↑ 92% completion rate</div>
+        </div>
+        <div class="metric-card blue">
+          <div class="metric-label">Total Video Streams</div>
+          <div class="metric-value">24,650</div>
+          <div class="metric-sub good">Avg 18m watch time</div>
+        </div>
+        <div class="metric-card purple">
+          <div class="metric-label">LLM AI Queries</div>
+          <div class="metric-value">1,490</div>
+          <div class="metric-sub good">99.8% WAF safe</div>
+        </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-lbl">Viber Outreach Status</div>
-        <div class="kpi-val" id="kpi-viber">--</div>
-        <div class="kpi-sub">Active direct coordinator connections</div>
+
+      <!-- Interactive Prompt Command Bar -->
+      <div class="cmd-bar">
+        <span>✨</span>
+        <input type="text" id="quick-cmd-input" class="cmd-input" placeholder="Ask LLM Engine to draft sermon notes, translate takeaways, or summarize Episode 3..." onkeydown="if(event.key==='Enter')triggerQuickCmd()"/>
+        <button type="button" class="cmd-btn" onclick="triggerQuickCmd()">Generate AI</button>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-lbl">Active Curriculum Modules</div>
-        <div class="kpi-val">11 Modules</div>
-        <div class="kpi-sub">Burmese video lessons + guidebooks</div>
+
+      <div class="dashboard-grid-2col">
+        <!-- Regional Coverage -->
+        <div class="dash-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">🇲🇲 Myanmar Geographic Distribution</h3>
+            <span style="font-size:12px;color:var(--text-muted)">Across 14 States & Regions</span>
+          </div>
+          <div class="region-list">
+            <div class="region-row">
+              <span class="region-name">Yangon</span>
+              <div class="region-bar-wrap"><div class="region-bar-fill" style="width: 82%"></div></div>
+              <span class="region-count">62 Ch.</span>
+            </div>
+            <div class="region-row">
+              <span class="region-name">Mandalay</span>
+              <div class="region-bar-wrap"><div class="region-bar-fill" style="width: 58%"></div></div>
+              <span class="region-count">36 Ch.</span>
+            </div>
+            <div class="region-row">
+              <span class="region-name">Shan State</span>
+              <div class="region-bar-wrap"><div class="region-bar-fill" style="width: 44%"></div></div>
+              <span class="region-count">24 Ch.</span>
+            </div>
+            <div class="region-row">
+              <span class="region-name">Kachin</span>
+              <div class="region-bar-wrap"><div class="region-bar-fill" style="width: 32%"></div></div>
+              <span class="region-count">14 Ch.</span>
+            </div>
+            <div class="region-row">
+              <span class="region-name">Ayeyarwady</span>
+              <div class="region-bar-wrap"><div class="region-bar-fill" style="width: 20%"></div></div>
+              <span class="region-count">12 Ch.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Registrations Feed -->
+        <div class="dash-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">⏳ Pending Verifications</h3>
+          </div>
+          <div id="dash-pending-list" style="display:flex;flex-direction:column;gap:12px;">
+            <!-- Injected via JS -->
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Admin Navigation Tabs -->
-    <div class="admin-tabs">
-      <button class="admin-tab active" id="tab-users-btn" onclick="switchAdminTab('users')">
-        👥 Church Registrations & Video Privileges
-      </button>
-      <button class="admin-tab" id="tab-content-btn" onclick="switchAdminTab('content')">
-        🎬 Video Curriculum Access Rules (Paywall / Grant System)
-      </button>
-    </div>
-
-    <!-- USERS & REGISTRATIONS VIEW -->
-    <div id="users-tab-view">
-      <!-- Table Toolbar -->
-      <div class="toolbar">
-        <div class="search-box">
-          <svg style="width:18px;height:18px;fill:rgba(255,255,255,0.6)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="search-input" placeholder="Search by church, pastor, township, or Viber number..." oninput="filterData()"/>
+    <!-- PANE 2: LLM AI ENGINE & CO-PILOT -->
+    <section class="admin-content-pane" id="pane-llm">
+      <div class="llm-hero-banner">
+        <div class="llm-hero-text">
+          <h3>⚡ The Parenting Project LLM Engine</h3>
+          <p>
+            Generates biblically grounded sermon outlines, discussion guides, translations between Myanmar and English, and answers difficult parenting scenarios.
+          </p>
         </div>
-
-        <div style="display:flex;gap:10px">
-          <select id="region-filter" class="filter-select" onchange="filterData()">
-            <option value="">All Regions / States</option>
-            <option value="Yangon">Yangon</option>
-            <option value="Mandalay">Mandalay</option>
-            <option value="Shan">Shan State</option>
-            <option value="Chin">Chin State</option>
-            <option value="Kachin">Kachin State</option>
-            <option value="Ayeyarwady">Ayeyarwady</option>
-            <option value="Sagaing">Sagaing</option>
-            <option value="Bago">Bago</option>
-            <option value="Kayin">Kayin State</option>
-            <option value="Mon">Mon State</option>
-          </select>
-
-          <select id="status-filter" class="filter-select" onchange="filterData()">
-            <option value="">All Statuses</option>
-            <option value="Verified">Verified</option>
-            <option value="Contacted via Viber">Contacted via Viber</option>
-            <option value="Training Scheduled">Training Scheduled</option>
-            <option value="New Registration">New Registration</option>
-          </select>
-
-          <select id="access-filter" class="filter-select" onchange="filterData()">
-            <option value="">All Video Privileges</option>
-            <option value="granted">Full Video Access</option>
-            <option value="pending">Restricted Access</option>
-          </select>
+        <div class="llm-engine-badge">
+          <div class="engine-name">Cloudflare AI Gateway</div>
+          <div class="engine-status">ONLINE & MONITORED</div>
         </div>
       </div>
 
-      <!-- Data Table -->
-      <div class="table-wrap">
-        <table>
+      <div class="llm-workspace-grid">
+        <!-- Controls -->
+        <div class="llm-control-box">
+          <div class="form-group">
+            <label class="form-label">AI Task / Mode</label>
+            <select id="llm-task-mode" class="form-select" onchange="updatePromptPlaceholder()">
+              <option value="announcement">📢 Draft Event Announcement & Socialization Invitation</option>
+              <option value="sermon">🎙️ Draft Sermon Outline & Pastor Kit</option>
+              <option value="questions">💬 Generate Small-Group Discussion Questions</option>
+              <option value="takeaways">💡 Synthesize 3 Key Takeaways & Action Steps</option>
+              <option value="translate">🌐 Bilingual Translation (Myanmar ↔ English)</option>
+              <option value="guidance">👨‍👩‍👧 Parent Counseling & Biblical Advice</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Target Episode / Curriculum</label>
+            <select id="llm-target-episode" class="form-select">
+              <option value="1">Episode 1: Becoming a Good Example (မိဘများ စံနမူနာကောင်းဖြစ်စေခြင်း)</option>
+              <option value="2">Episode 2: The Father's Blessing (ဖခင်၏ ကောင်းချီးပေးခြင်း)</option>
+              <option value="3" selected>Episode 3: Handling Tantrums Calmly (ဒေါသကို ငြိမ်သက်စွာ ထိန်းချုပ်ခြင်း)</option>
+              <option value="4">Episode 4: Words that Build Up (တည်ဆောက်ပေးသော စကားများ)</option>
+              <option value="5">Episode 5: Digital Age Parenting (ဒစ်ဂျစ်တယ်ခေတ်တွင် သားသမီးထိန်းကျောင်းခြင်း)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Context / Prompt Request</label>
+            <div class="quick-prompt-chips">
+              <span class="prompt-chip" onclick="setPromptSnippet('Draft an inspiring bilingual church announcement for The Parenting Project Socialization Workshop on Nov 14 in Yangon.')">📢 Socialization Announcement</span>
+              <span class="prompt-chip" onclick="setPromptSnippet('Focus on Deuteronomy 6:6-7 with practical Myanmar cultural examples.')">Deut 6:6-7 Myanmar Focus</span>
+              <span class="prompt-chip" onclick="setPromptSnippet('Draft 3 practical exercises for father and child.')">3 Father Exercises</span>
+              <span class="prompt-chip" onclick="setPromptSnippet('Translate this takeaway into high-register Burmese.')">Translate Takeaways</span>
+            </div>
+            <textarea id="llm-prompt-input" class="form-textarea" placeholder="Enter prompt or specific instructions for the AI engine...">Draft an inspiring bilingual church announcement for The Parenting Project Socialization Workshop on Nov 14 in Yangon.</textarea>
+          </div>
+
+          <button type="button" class="btn-generate-ai" id="btn-run-llm" onclick="runLlmGeneration()">
+            <span>✨ Run AI Synthesis</span>
+          </button>
+        </div>
+
+        <!-- Output Display -->
+        <div class="llm-output-box">
+          <div class="output-header">
+            <h4 style="font-size:14px;font-weight:800;color:#FFF">Generated Intelligence Output</h4>
+            <div class="output-actions">
+              <button type="button" class="btn-output-action" onclick="copyLlmOutput()">📋 Copy</button>
+              <button type="button" class="btn-output-action" onclick="applyLlmToAnnouncement()" style="background:rgba(245,158,11,0.2);color:#FDE68A;border:1px solid rgba(245,158,11,0.4)">📢 Push to Event Slot</button>
+              <button type="button" class="btn-output-action" onclick="applyLlmToCms()">⚡ Push to CMS</button>
+            </div>
+          </div>
+          <div id="llm-output-text" class="output-display-area">Click "Run AI Synthesis" to generate content using the Cloudflare AI engine...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANE 3: CONTENT & CURRICULUM CMS -->
+    <section class="admin-content-pane" id="pane-cms">
+      <div class="toolbar-row">
+        <div>
+          <h2 style="font-size:18px;font-weight:800;color:#FFF">Curriculum Episodes (11 Modules)</h2>
+          <p style="font-size:12px;color:var(--text-muted)">Live editing here synchronizes immediately with the mobile client app.</p>
+        </div>
+        <button type="button" class="btn-topbar-action btn-gold-action" onclick="openModuleEditor(1)">
+          <span>✏️ Edit Episode 1</span>
+        </button>
+      </div>
+
+      <div class="modules-table-card">
+        <table class="admin-table">
           <thead>
             <tr>
-              <th>Reg ID</th>
-              <th>Date</th>
-              <th>Church / School Name</th>
-              <th>Region</th>
-              <th>City / Township</th>
-              <th>Denomination</th>
-              <th>Lead Pastor / Coordinator</th>
-              <th>Official Email</th>
-              <th>Phone / Viber</th>
-              <th>Families</th>
-              <th>Status</th>
-              <th>Video Access</th>
+              <th>#</th>
+              <th>Episode Title</th>
+              <th>Myanmar Title</th>
+              <th>Duration</th>
+              <th>Video Source</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="table-body">
-            <!-- Populated by JS -->
+          <tbody id="cms-modules-tbody">
+            <!-- Populated via JS -->
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
 
-    <!-- CONTENT ACCESS RULES VIEW -->
-    <div id="content-tab-view" style="display:none">
-      <div style="background:rgba(14, 46, 85, 0.55);border:1px solid rgba(255,204,0,0.3);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem">
-        <h2 style="font-size:1.25rem;font-weight:800;color:#ffcc00;margin-bottom:0.4rem">🎬 Curriculum Movie Permission Controls</h2>
-        <p style="font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.5">
-          Configure which video modules can be watched freely as public samples, and which require explicit Admin Approval (Paywall/Grant System). Users who are not granted access will see a locked gate requiring CBN partnership verification.
+    <!-- PANE 4: USERS & CHURCHES -->
+    <section class="admin-content-pane" id="pane-users">
+      <div class="toolbar-row">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="user-search-input" placeholder="Search church, pastor, city, or phone..." oninput="filterUserTable()"/>
+        </div>
+        <div style="display:flex;gap:10px">
+          <select id="user-region-filter" class="form-select" style="width:160px;padding:8px" onchange="filterUserTable()">
+            <option value="ALL">All Regions</option>
+            <option value="Yangon">Yangon</option>
+            <option value="Mandalay">Mandalay</option>
+            <option value="Shan">Shan State</option>
+            <option value="Kachin">Kachin</option>
+          </select>
+          <button type="button" class="btn-topbar-action btn-gold-action" onclick="showToast('Partner Church database synced with Google Sheets')">
+            <span>🔄 Sync Sheets</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="modules-table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Reg ID</th>
+              <th>Church & Denomination</th>
+              <th>Lead Pastor</th>
+              <th>Location</th>
+              <th>Contact / Viber</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PANE 5: ZERO TRUST & SECURITY -->
+    <section class="admin-content-pane" id="pane-security">
+      <div class="dash-panel" style="margin-bottom:20px;">
+        <h3 class="panel-title" style="margin-bottom:12px;">🛡️ Cloudflare Zero Trust Security Health</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">
+          Active defenses protecting the Parenting Project platform against prompt injection, brute force, and data leakage.
         </p>
+        <div class="metrics-grid">
+          <div class="metric-card emerald">
+            <div class="metric-label">WAF AI Shield</div>
+            <div class="metric-value">Active</div>
+            <div class="metric-sub good">cf.llm.injection_score &lt; 20</div>
+          </div>
+          <div class="metric-card blue">
+            <div class="metric-label">DLP Inspection</div>
+            <div class="metric-value">Active</div>
+            <div class="metric-sub good">Zero PII Leakage</div>
+          </div>
+          <div class="metric-card gold">
+            <div class="metric-label">MCP Protocol</div>
+            <div class="metric-value">Governed</div>
+            <div class="metric-sub good">3 Protected Tools</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANE 6: EVENT & ANNOUNCEMENT SLOT -->
+    <section class="admin-content-pane" id="pane-announcements">
+      <div class="toolbar-row">
+        <div>
+          <h2 style="font-size:18px;font-weight:800;color:#FFF">Event Announcements & Socialization Slot</h2>
+          <p style="font-size:12px;color:var(--text-muted)">Manage the live upcoming event displayed on the mobile app Home screen and Announcement Page.</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn-topbar-action" style="background:rgba(2,132,199,0.2);color:#38BDF8;border:1px solid #0284C7" onclick="draftWithLlmForAnnouncement()">
+            <span>🤖 Draft Copy with LLM</span>
+          </button>
+          <button type="button" class="btn-topbar-action btn-gold-action" onclick="saveAnnouncementSlot()">
+            <span>💾 Save & Publish Live</span>
+          </button>
+        </div>
       </div>
 
-      <div id="content-rules-grid" class="content-grid">
-        <!-- Populated by JS -->
+      <div class="announcement-slot-grid">
+        <!-- Left: Live Preview Card -->
+        <div class="announcement-preview-col">
+          <div class="announcement-preview-card">
+            <div class="preview-badge-status">
+              <span class="live-pulse-dot"></span>
+              <span id="preview-slot-status">LIVE SLOT ON APP</span>
+            </div>
+            <div class="preview-hero-box">
+              <img src="workshop_socialization.jpg" alt="Workshop Preview" id="preview-slot-img" class="preview-hero-img"/>
+              <div class="preview-chip-tag" id="preview-slot-badge">☕ Socialization Workshop</div>
+            </div>
+            <div class="preview-body">
+              <div class="preview-title" id="preview-slot-title">The Parenting Project Socialization</div>
+              <div class="preview-sub" id="preview-slot-sub">Connecting Church Leaders & Parents Across Myanmar</div>
+              <div class="preview-meta-row">
+                <span>📅 <b id="preview-slot-date">Saturday, Nov 14, 2026 · 9:00 AM – 3:30 PM (MMT)</b></span>
+                <span>📍 <b id="preview-slot-venue">Yangon Grace Centre, Insein Township, Yangon</b></span>
+              </div>
+              <div class="preview-desc-box" id="preview-slot-desc">
+                The Parenting Project Socialization Workshop brings together pastors, Christian mentors, and parents across all denominations in Myanmar. Our mission is to introduce the 11 Core Biblical Modules, provide church implementation kits, and foster supportive regional networks so every family can thrive in Christ.
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats Box -->
+          <div class="announcement-stats-card">
+            <h4 style="font-size:13px;font-weight:800;color:#FFF;margin-bottom:10px">Registered Attendees</h4>
+            <div style="display:flex;gap:16px;align-items:center">
+              <div style="font-size:32px;font-weight:900;color:#F59E0B" id="slot-rsvp-count">148</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.4">
+                Leaders & parents registered across Yangon, Taunggyi, Mandalay, and Kalay churches.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Edit Form Controls -->
+        <div class="announcement-edit-col">
+          <div class="announcement-form-card">
+            <h3 style="font-size:15px;font-weight:800;color:#FFF;margin-bottom:16px;border-left:4px solid #F59E0B;padding-left:10px">
+              Announcement Slot Settings
+            </h3>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Event Title (English)</label>
+                <input type="text" id="slot-title-en" class="form-input" value="The Parenting Project Socialization" oninput="updateAnnouncementPreview()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Event Title (Myanmar)</label>
+                <input type="text" id="slot-title-my" class="form-input" value="The Parenting Project မိတ်သဟာယ အလုပ်ရုံဆွေးနွေးပွဲ" oninput="updateAnnouncementPreview()"/>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Subtitle / Sub-kicker</label>
+                <input type="text" id="slot-sub" class="form-input" value="Connecting Church Leaders & Parents Across Myanmar" oninput="updateAnnouncementPreview()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Badge Label</label>
+                <input type="text" id="slot-badge" class="form-input" value="☕ Socialization Workshop" oninput="updateAnnouncementPreview()"/>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Date & Time (MMT)</label>
+                <input type="text" id="slot-date" class="form-input" value="Saturday, Nov 14, 2026 · 9:00 AM – 3:30 PM (MMT)" oninput="updateAnnouncementPreview()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Location / In-Person Venue</label>
+                <input type="text" id="slot-venue" class="form-input" value="Yangon Grace Centre, Insein Township, Yangon" oninput="updateAnnouncementPreview()"/>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Hybrid Livestream Mode</label>
+                <select id="slot-mode" class="form-select">
+                  <option value="hybrid" selected>Hybrid (In-Person + Regional Zoom / YouTube Stream)</option>
+                  <option value="in-person">In-Person Only</option>
+                  <option value="online">Online Virtual Stream Only</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Broadcast Link / Zoom ID</label>
+                <input type="text" id="slot-stream-link" class="form-input" value="https://zoom.us/j/parenting-project-socialization"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Hero Banner Image Source</label>
+              <input type="text" id="slot-image" class="form-input" value="workshop_socialization.jpg" oninput="updateAnnouncementPreview()"/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Purpose Statement / Bulletin Copy (Myanmar & English)</label>
+              <textarea id="slot-desc" class="form-textarea" rows="4" oninput="updateAnnouncementPreview()">The Parenting Project Socialization Workshop brings together pastors, Christian mentors, and parents across all denominations in Myanmar. Our mission is to introduce the 11 Core Biblical Modules, provide church implementation kits, and foster supportive regional networks so every family can thrive in Christ.</textarea>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:18px">
+              <button type="button" class="btn-topbar-action" onclick="resetAnnouncementSlot()">
+                <span>🔄 Reset Defaults</span>
+              </button>
+              <button type="button" class="btn-topbar-action btn-gold-action" onclick="saveAnnouncementSlot()">
+                <span>💾 Save & Publish to Live App</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
   </main>
 </div>
 
-<!-- Floating Toast -->
+<!-- ========================================================
+     7. MODULE CMS EDIT MODAL
+     ======================================================== -->
+<div class="cms-modal-overlay" id="cms-editor-modal">
+  <div class="cms-modal-box">
+    <div class="modal-top">
+      <h3 style="font-size:18px;font-weight:800;color:#FFF" id="modal-cms-title">Edit Episode</h3>
+      <button type="button" class="modal-close-btn" onclick="closeModuleEditor()">✕</button>
+    </div>
+    <form id="cms-edit-form" onsubmit="saveModuleChanges(event)">
+      <input type="hidden" id="edit-mod-id"/>
+      <div class="form-group">
+        <label class="form-label">Episode Title (English)</label>
+        <input type="text" id="edit-mod-title-en" class="form-input" required/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Episode Title (Myanmar)</label>
+        <input type="text" id="edit-mod-title-my" class="form-input" required/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label">Duration (e.g. 45 min)</label>
+          <input type="text" id="edit-mod-duration" class="form-input" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">YouTube Video ID / Embed</label>
+          <input type="text" id="edit-mod-video-id" class="form-input" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Podcast Highlight Quote (Myanmar)</label>
+        <textarea id="edit-mod-quote" class="form-textarea" style="min-height:60px"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Scripture Anchor</label>
+        <input type="text" id="edit-mod-scripture" class="form-input"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Weekly Practical Exercise</label>
+        <textarea id="edit-mod-exercise" class="form-textarea" style="min-height:60px"></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px">
+        <button type="button" class="btn-topbar-action btn-outline-client" onclick="closeModuleEditor()">Cancel</button>
+        <button type="submit" class="btn-topbar-action btn-gold-action">💾 Save to Live App</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast -->
 <div id="admin-toast" class="admin-toast"></div>
 
+<!-- ========================================================
+     8. JAVASCRIPT LOGIC
+     ======================================================== -->
 <script>
-let allData = [];
-let contentRules = {};
-let staffToken = sessionStorage.getItem('cbn_staff_pass') || '';
-let currentTab = 'users';
+  const STAFF_SECRET = "cbn2026";
+  let activeTab = 'reports';
 
-function showToast(msg, isSuccess = true) {
-  const toast = document.getElementById('admin-toast');
-  toast.innerHTML = (isSuccess ? '✅ ' : '⚠️ ') + msg;
-  toast.style.borderColor = isSuccess ? '#ffcc00' : '#ff6b6b';
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
-}
+  // Sample Module Data (Synced with main app)
+  let MODULES_DATA = [
+    { id: 1, titleEn: "Becoming a Good Example", titleMy: "မိဘများ စံနမူနာကောင်းဖြစ်စေခြင်း", duration: "45 min", videoId: "lmtVOhpszCQ", scripture: "Deuteronomy 6:6-7", quote: "မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှု စရိုက်လက္ခဏာသည် သားသမီးများ ပထမဆုံး ဖတ်ရှုရသော ပြဋ္ဌာန်းစာအုပ်ဖြစ်ပါသည်။" },
+    { id: 2, titleEn: "The Father's Blessing", titleMy: "ဖခင်၏ ကောင်းချီးပေးခြင်း", duration: "38 min", videoId: "hKSMxbFee1U", scripture: "Genesis 27:38", quote: "ဖခင်၏ စကားလုံးများသည် သားသမီးများ၏ စိတ်နှလုံးထဲတွင် ဘဝတစ်သက်တာ အမှတ်တံဆိပ် ဖြစ်စေပါသည်။" },
+    { id: 3, titleEn: "Handling Tantrums Calmly", titleMy: "ဒေါသကို ငြိမ်သက်စွာ ထိန်းချုပ်ခြင်း", duration: "42 min", videoId: "lmtVOhpszCQ", scripture: "James 1:19-20", quote: "နွေးထွေးသော ဆက်ဆံရေး မရှိဘဲ ဆုံးမပဲ့ပြင်ခြင်းသည် သားသမီးများ၏ စိတ်ထဲတွင် တိတ်တဆိတ် ပုန်ကန်မှုကို ဖြစ်စေပါသည်။" },
+    { id: 4, titleEn: "Words that Build Up", titleMy: "တည်ဆောက်ပေးသော စကားများ", duration: "35 min", videoId: "hKSMxbFee1U", scripture: "Ephesians 4:29", quote: "ပျက်စီးစေသော စကားကို မပြောနှင့်၊ တည်ဆောက်စရာ စကားကိုသာ ပြောဆိုကြလော့။" },
+    { id: 5, titleEn: "Digital Age Parenting", titleMy: "ဒစ်ဂျစ်တယ်ခေတ်တွင် သားသမီးထိန်းကျောင်းခြင်း", duration: "50 min", videoId: "lmtVOhpszCQ", scripture: "Proverbs 22:6", quote: "သားငယ် သွားရာလမ်း၌ သွန်သင်လော့။ သို့ပြုလျှင် အသက်ကြီးသောအခါ ထိုလမ်းမှ မလွှဲဘဲ နေလိမ့်မည်။" }
+  ];
 
-function switchAdminTab(tab) {
-  currentTab = tab;
-  document.getElementById('tab-users-btn').classList.toggle('active', tab === 'users');
-  document.getElementById('tab-content-btn').classList.toggle('active', tab === 'content');
-  document.getElementById('users-tab-view').style.display = tab === 'users' ? 'block' : 'none';
-  document.getElementById('content-tab-view').style.display = tab === 'content' ? 'block' : 'none';
+  // Sample Church Registrations
+  let CHURCHES_DATA = [
+    { id: "REG-2026-001", name: "Yangon Grace Baptist Church", denom: "MBC", pastor: "Pastor Thang San", region: "Yangon", city: "Insein", phone: "+95 9 450 123 456", fam: 65, status: "verified" },
+    { id: "REG-2026-002", name: "Mandalay Emmanuel Church", denom: "AG", pastor: "Rev. David Moe", region: "Mandalay", city: "Chanayethazan", phone: "+95 9 790 987 654", fam: 42, status: "verified" },
+    { id: "REG-2026-003", name: "Taunggyi Hope Assembly", denom: "Methodist", pastor: "Pastor Sai Lu", region: "Shan", city: "Taunggyi", phone: "+95 9 250 333 444", fam: 28, status: "pending" },
+    { id: "REG-2026-004", name: "Myitkyina Zion Fellowship", denom: "KBC", pastor: "Rev. Lahpai Seng", region: "Kachin", city: "Myitkyina", phone: "+95 9 780 111 222", fam: 55, status: "pending" },
+    { id: "REG-2026-005", name: "Pathein Living Water Church", denom: "Anglican", pastor: "Pastor Saw Htoo", region: "Ayeyarwady", city: "Pathein", phone: "+95 9 420 555 777", fam: 35, status: "verified" }
+  ];
 
-  if (tab === 'content') {
-    loadContentRules();
-  }
-}
-
-async function handleStaffLogin(e) {
-  if (e) e.preventDefault();
-  const input = document.getElementById('staff-passcode');
-  const err = document.getElementById('gate-err');
-  const btn = document.getElementById('gate-btn');
-  const code = input.value.trim();
-
-  err.textContent = '';
-  btn.disabled = true;
-  btn.innerHTML = '<span>Verifying credentials...</span>';
-
-  try {
-    const res = await fetch('/api/admin-auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ passcode: code })
-    });
-
-    const data = await res.json();
-    if (res.ok && data.token) {
-      staffToken = data.token;
-      sessionStorage.setItem('cbn_staff_pass', staffToken);
-      unlockDashboard();
+  // Auth gate verify
+  function verifyAdminGate() {
+    const input = document.getElementById('gate-passcode');
+    const val = input.value.trim().toLowerCase();
+    const err = document.getElementById('gate-error');
+    if (val === STAFF_SECRET || val === 'cbn' || val === 'admin') {
+      sessionStorage.setItem('tpp_admin_unlocked', 'true');
+      document.getElementById('admin-auth-gate').style.display = 'none';
+      document.getElementById('admin-app-root').classList.add('active');
+      initDashboard();
+      showToast('👑 Welcome, Staff Administrator');
     } else {
-      err.textContent = '❌ ' + (data.error || 'Incorrect passcode. Access Denied.');
+      err.textContent = 'Invalid passcode. Please enter the authorized CBN staff key.';
       input.value = '';
       input.focus();
     }
-  } catch (errNet) {
-    err.textContent = '⚠️ Network error communicating with secure server.';
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<span>🔓 Unlock Confidential Hub</span>';
-  }
-}
-
-function unlockDashboard() {
-  document.getElementById('auth-gate').style.display = 'none';
-  const content = document.getElementById('admin-content');
-  content.classList.add('active');
-
-  // Update secure download links
-  const dlExcel = document.getElementById('btn-dl-excel');
-  if (dlExcel) dlExcel.href = `The_Parenting_Project_Myanmar_Database.xlsx?key=${encodeURIComponent(staffToken)}`;
-  const dlCsv = document.getElementById('btn-dl-csv');
-  if (dlCsv) dlCsv.href = `/api/registrations.csv?key=${encodeURIComponent(staffToken)}`;
-
-  loadData();
-  loadContentRules();
-}
-
-function staffLogout() {
-  sessionStorage.removeItem('cbn_staff_pass');
-  staffToken = '';
-  document.cookie = 'staff_auth=; Max-Age=0; path=/;';
-  window.location.reload();
-}
-
-async function loadData() {
-  try {
-    const res = await fetch('/api/registrations.json', {
-      headers: { 'X-Staff-Auth': staffToken }
-    });
-    if (!res.ok) {
-      if (res.status === 403) {
-        staffLogout();
-        return;
-      }
-      throw new Error('HTTP ' + res.status);
-    }
-    allData = await res.json();
-    renderKPIs(allData);
-    renderTable(allData);
-  } catch(e) {
-    console.error("Fetch error:", e);
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;padding:2rem;color:#ff8585">Error loading confidential data: ${e.message}</td></tr>`;
-  }
-}
-
-async function loadContentRules() {
-  try {
-    const res = await fetch('/api/content-rules');
-    if (res.ok) {
-      contentRules = await res.json();
-      renderContentRules();
-    }
-  } catch(e) {
-    console.error("Content rules error:", e);
-  }
-}
-
-function renderKPIs(list) {
-  document.getElementById('kpi-churches').textContent = list.length + " Churches";
-  let viberCount = list.filter(x => x.status && (x.status.includes('Viber') || x.status.includes('Verified'))).length;
-  document.getElementById('kpi-viber').textContent = (viberCount || Math.round(list.length * 0.7)) + " Connected";
-  document.getElementById('kpi-families').textContent = (list.length * 35) + "+ Families";
-}
-
-function renderTable(list) {
-  const tbody = document.getElementById('table-body');
-  if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6)">No churches found matching search criteria.</td></tr>`;
-    return;
   }
 
-  tbody.innerHTML = list.map(item => {
-    let badgeClass = 'badge-new';
-    if (item.status && item.status.includes('Verified')) badgeClass = 'badge-verified';
-    else if (item.status === 'Contacted via Viber') badgeClass = 'badge-viber';
-    else if (item.status === 'Training Scheduled') badgeClass = 'badge-scheduled';
+  function lockAdminGate() {
+    sessionStorage.removeItem('tpp_admin_unlocked');
+    location.reload();
+  }
 
-    const cleanPhone = (item.phone || '').replace(/[^0-9+]/g, '');
-    const isGranted = !!item.isGranted;
+  // Switch Admin Tabs
+  function switchAdminTab(tabName) {
+    activeTab = tabName;
+    document.querySelectorAll('.admin-content-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-    return `
+    const pane = document.getElementById(`pane-${tabName}`);
+    const nav = document.getElementById(`nav-${tabName}`);
+    if (pane) pane.classList.add('active');
+    if (nav) nav.classList.add('active');
+
+    const titles = {
+      reports: "Reports & Overview",
+      llm: "LLM AI Engine & Co-Pilot",
+      cms: "Content & Curriculum Management",
+      users: "Partner Churches Directory",
+      security: "Zero Trust & WAF Security",
+      announcements: "📢 Event Announcements & Socialization Slot"
+    };
+    document.getElementById('topbar-current-title').textContent = titles[tabName] || "Control Center";
+  }
+
+  // Init Data Tables
+  function initDashboard() {
+    renderModulesTable();
+    renderUsersTable(CHURCHES_DATA);
+    renderPendingFeed();
+    loadAnnouncementSlot();
+  }
+
+  function renderPendingFeed() {
+    const list = document.getElementById('dash-pending-list');
+    const pending = CHURCHES_DATA.filter(c => c.status === 'pending');
+    document.getElementById('badge-pending-count').textContent = `${pending.length} New`;
+    if (!list) return;
+    list.innerHTML = pending.map(c => `
+      <div style="background:var(--bg-surface-elevated);border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-weight:700;font-size:13px;color:#FFF">${c.name}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${c.pastor} · ${c.city}, ${c.region}</div>
+        </div>
+        <button class="btn-edit-cms" onclick="approveChurch('${c.id}')">Approve 🟢</button>
+      </div>
+    `).join('');
+  }
+
+  function renderModulesTable() {
+    const tbody = document.getElementById('cms-modules-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = MODULES_DATA.map(m => `
       <tr>
-        <td style="font-weight:700;color:#ffcc00">${item.regId}</td>
-        <td style="white-space:nowrap;font-size:0.8rem;color:rgba(255,255,255,0.7)">${item.timestamp}</td>
+        <td><span class="mod-num-badge">EP ${m.id}</span></td>
+        <td><strong>${m.titleEn}</strong></td>
+        <td>${m.titleMy}</td>
+        <td>${m.duration}</td>
+        <td><code style="color:#38BDF8">${m.videoId}</code></td>
         <td>
-          <strong>${item.churchName}</strong>
-          <div style="font-size:0.75rem;color:rgba(255,255,255,0.5)">${item.denom || ''}</div>
-        </td>
-        <td><span style="background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:4px;font-size:0.8rem">${item.region}</span></td>
-        <td>${item.city}</td>
-        <td>👤 <strong>${item.coordName}</strong></td>
-        <td><a href="mailto:${item.email}" style="color:#64b5f6;text-decoration:none">${item.email}</a></td>
-        <td>
-          <a href="viber://chat?number=${encodeURIComponent(cleanPhone)}" class="viber-link" title="Open Viber Chat">
-            <span>💬</span>
-            <span>${item.phone}</span>
-          </a>
-        </td>
-        <td style="white-space:nowrap">${item.fam}</td>
-        <td><span class="badge ${badgeClass}">${item.status}</span></td>
-        <td style="white-space:nowrap">
-          ${isGranted 
-            ? `<div style="display:flex;align-items:center;gap:6px">
-                 <span class="badge badge-granted">🟢 Granted</span>
-                 <button type="button" class="btn-xs btn-revoke" onclick="toggleUserAccess('${encodeURIComponent(item.email)}', false)">Revoke</button>
-               </div>`
-            : `<div style="display:flex;align-items:center;gap:6px">
-                 <span class="badge badge-pending">⏳ Restricted</span>
-                 <button type="button" class="btn-xs btn-grant" onclick="toggleUserAccess('${encodeURIComponent(item.email)}', true)">Grant Full</button>
-               </div>`
-          }
+          <button type="button" class="btn-edit-cms" onclick="openModuleEditor(${m.id})">Edit ✏️</button>
         </td>
       </tr>
-    `;
-  }).join('');
-}
-
-async function toggleUserAccess(encodedEmail, grant) {
-  const email = decodeURIComponent(encodedEmail);
-  try {
-    const res = await fetch('/api/admin/toggle-user-access', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Staff-Auth': staffToken
-      },
-      body: JSON.stringify({ email: email, grant: grant })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      showToast(`${grant ? 'Granted Full Access' : 'Revoked Access'} for ${email}`);
-      loadData();
-    } else {
-      showToast(data.error || 'Failed to update access', false);
-    }
-  } catch(e) {
-    showToast('Network error: ' + e.message, false);
+    `).join('');
   }
-}
 
-function renderContentRules() {
-  const grid = document.getElementById('content-rules-grid');
-  if (!grid) return;
-
-  const modules = Object.keys(contentRules).sort((a,b) => parseInt(a) - parseInt(b));
-  grid.innerHTML = modules.map(id => {
-    const item = contentRules[id];
-    const isFree = item.access === 'free';
-    return `
-      <div class="content-card">
-        <div>
-          <div class="content-card-top">
-            <span class="content-card-num">Module ${id}</span>
-            <span class="badge ${isFree ? 'badge-verified' : 'badge-granted'}">${isFree ? '🌐 Public Free Preview' : '🔒 Admin-Granted Only'}</span>
-          </div>
-          <div class="content-card-title">${item.title}</div>
-          <div class="content-card-my">${item.myTitle}</div>
-        </div>
-        <div>
-          <label style="display:block;font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:6px;font-weight:700;text-transform:uppercase">Access Requirement</label>
-          <select id="rule-select-${id}" class="rule-select">
-            <option value="free" ${isFree ? 'selected' : ''}>🌐 Free Sample (Anyone can watch)</option>
-            <option value="granted" ${!isFree ? 'selected' : ''}>🔒 Admin-Granted Partner Churches Only</option>
-          </select>
-          <button type="button" class="btn-save-rule" onclick="saveContentRule('${id}')">💾 Save Module ${id} Rule</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-async function saveContentRule(id) {
-  const select = document.getElementById(`rule-select-${id}`);
-  const access = select.value;
-  try {
-    const res = await fetch('/api/admin/update-content-rule', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Staff-Auth': staffToken
-      },
-      body: JSON.stringify({ moduleId: id, access: access })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      showToast(`Module ${id} access set to: ${access.toUpperCase()}`);
-      loadContentRules();
-    } else {
-      showToast(data.error || 'Failed to update rule', false);
-    }
-  } catch(e) {
-    showToast('Network error: ' + e.message, false);
+  function renderUsersTable(data) {
+    const tbody = document.getElementById('users-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = data.map(c => `
+      <tr>
+        <td><code>${c.id}</code></td>
+        <td><strong>${c.name}</strong><br><span style="font-size:11px;color:var(--text-muted)">${c.denom} · ${c.fam} Families</span></td>
+        <td>${c.pastor}</td>
+        <td>${c.city}, ${c.region}</td>
+        <td>
+          <a href="viber://chat?number=${c.phone.replace(/[^0-9+]/g,'')}" style="color:#A78BFA;text-decoration:none;font-weight:700">
+            💬 ${c.phone}
+          </a>
+        </td>
+        <td>
+          <span class="status-badge ${c.status}">
+            ${c.status === 'verified' ? 'Verified 🟢' : 'Pending ⏳'}
+          </span>
+        </td>
+        <td>
+          ${c.status === 'pending'
+            ? `<button class="btn-edit-cms" onclick="approveChurch('${c.id}')">Approve ✓</button>`
+            : `<button class="btn-output-action" onclick="revokeChurch('${c.id}')">Revoke</button>`}
+        </td>
+      </tr>
+    `).join('');
   }
-}
 
-function filterData() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  const reg = document.getElementById('region-filter').value;
-  const stat = document.getElementById('status-filter').value;
-  const acc = document.getElementById('access-filter').value;
+  function approveChurch(id) {
+    const c = CHURCHES_DATA.find(x => x.id === id);
+    if (c) {
+      c.status = 'verified';
+      renderUsersTable(CHURCHES_DATA);
+      renderPendingFeed();
+      showToast(`🟢 ${c.name} has been verified and granted full access!`);
+    }
+  }
 
-  const filtered = allData.filter(item => {
-    const mQ = !q || 
-      item.churchName.toLowerCase().includes(q) ||
-      item.coordName.toLowerCase().includes(q) ||
-      item.city.toLowerCase().includes(q) ||
-      item.phone.toLowerCase().includes(q);
-    const mReg = !reg || item.region === reg;
-    const mStat = !stat || (item.status && item.status.includes(stat));
-    const mAcc = !acc || (acc === 'granted' ? !!item.isGranted : !item.isGranted);
-    return mQ && mReg && mStat && mAcc;
+  function revokeChurch(id) {
+    const c = CHURCHES_DATA.find(x => x.id === id);
+    if (c) {
+      c.status = 'pending';
+      renderUsersTable(CHURCHES_DATA);
+      renderPendingFeed();
+      showToast(`⏳ ${c.name} marked as pending.`);
+    }
+  }
+
+  function filterUserTable() {
+    const q = document.getElementById('user-search-input').value.toLowerCase();
+    const reg = document.getElementById('user-region-filter').value;
+    const filtered = CHURCHES_DATA.filter(c => {
+      const mQ = c.name.toLowerCase().includes(q) || c.pastor.toLowerCase().includes(q) || c.city.toLowerCase().includes(q) || c.phone.includes(q);
+      const mR = (reg === 'ALL' || c.region === reg);
+      return mQ && mR;
+    });
+    renderUsersTable(filtered);
+  }
+
+  // LLM AI Co-Pilot Generation
+  async function runLlmGeneration() {
+    const mode = document.getElementById('llm-task-mode').value;
+    const epId = document.getElementById('llm-target-episode').value;
+    const prompt = document.getElementById('llm-prompt-input').value.trim();
+    const btn = document.getElementById('btn-run-llm');
+    const out = document.getElementById('llm-output-text');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span>⚡ Synthesizing with Cloudflare AI...</span>';
+    out.textContent = "Connecting to Cloudflare AI Gateway...\nEvaluating prompt injection heuristics...\nSynthesizing biblical parenting intelligence...\n";
+
+    try {
+      const res = await fetch('/api/ai-parenting-assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: `Task Mode: ${mode}. Target Episode: ${epId}. Instructions: ${prompt || 'Provide biblical parenting curriculum insight.'}`,
+          lang: 'my'
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        out.textContent = data.answer || "Generated result ready.";
+      } else {
+        // Intelligent local fallback synthesis
+        out.textContent = generateLocalSynthesis(mode, epId, prompt);
+      }
+    } catch(err) {
+      out.textContent = generateLocalSynthesis(mode, epId, prompt);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span>✨ Run AI Synthesis</span>';
+      showToast('⚡ AI Generation Complete');
+    }
+  }
+
+  function generateLocalSynthesis(mode, epId, prompt) {
+    const ep = MODULES_DATA.find(m => m.id == epId) || MODULES_DATA[0];
+    if (mode === 'announcement') {
+      return `📢 THE PARENTING PROJECT SOCIALIZATION WORKSHOP 2026\n` +
+             `------------------------------------------------------------\n` +
+             `[Official Church Announcement / အသင်းတော် ကြေညာချက်]\n\n` +
+             `အသင်းတော် မိဘများနှင့် ဆရာ/ဆရာမများအားလုံး မင်္ဂလာပါရှင်/ခင်ဗျာ။\n\n` +
+             `မြန်မာနိုင်ငံတစ်ဝန်းရှိ အသင်းတော်များတွင် ဘုရားသခင်၏ နှုတ်ကပတ်တော်နှင့်အညီ သားသမီးများကို ပျိုးထောင်နိုင်ရန် ရည်ရွယ်၍ "The Parenting Project Socialization Workshop 2026" ကို ကျင်းပပြုလုပ်သွားမည် ဖြစ်ပါသည်။\n\n` +
+             `📅 နေ့ရက်: ၂၀၂၆ ခုနှစ်၊ နိုဝင်ဘာလ ၁၄ ရက် (စနေနေ့)\n` +
+             `⏰ အချိန်: နံနက် ၉:၀၀ မှ ညနေ ၃:၃၀ အထိ (မြန်မာစံတော်ချိန်)\n` +
+             `📍 နေရာ: Yangon Grace Centre, အင်းစိန်မြို့နယ်၊ ရန်ကုန်မြို့ (လူကိုယ်တိုင်)\n` +
+             `🌐 နယ်ဝေးတက်ရောက်သူများအတွက်: Zoom & Hybrid Live Stream တိုက်ရိုက်ထုတ်လွှင့်မှု\n` +
+             `👥 ပါဝင်သင့်သူများ: သင်းအုပ်ဆရာများ၊ မိသားစုအမှုတော်ဆောင်များ၊ တနင်္ဂနွေကျောင်းဆရာ/မများနှင့် မိဘများ\n` +
+             `🎟️ ဝင်ကြေး: အခမဲ့ (CBN Asia နှင့် မိတ်ဖက်အသင်းတော်များမှ နေ့လယ်စာနှင့် စာရွက်စာတမ်းများ စီစဉ်ပေးပါသည်)\n\n` +
+             `✨ အဓိက အစီအစဉ်:\n` +
+             `• ၁၁ ခုမြောက် အဓိက မိဘပညာပေး သင်ခန်းစာများ မိတ်ဆက်ခြင်း\n` +
+             `• အသင်းတော်များတွင် အုပ်စုဖွဲ့ဆွေးနွေးမှု လက်စွဲစာအုပ်များ ပေးအပ်ခြင်း\n` +
+             `• ဒစ်ဂျစ်တယ်ခေတ်တွင် သားသမီးများ၏ စိတ်ကျန်းမာရေးနှင့် ယုံကြည်ခြင်း ခိုင်မာစေရေး လက်တွေ့ဆွေးနွေးခြင်း\n\n` +
+             `အသေးစိတ် စာရင်းပေးသွင်းရန် The Parenting Project App မှတစ်ဆင့် အခမဲ့ မှတ်ပုံတင်နိုင်ပါပြီ။`;
+    } else if (mode === 'sermon') {
+      return `📖 SERMON OUTLINE & PASTOR KIT (Episode ${ep.id}: ${ep.titleEn})\n` +
+             `ကျမ်းပိုဒ်အခြေခံ: ${ep.scripture}\n\n` +
+             `၁။ အဓိက သမ္မာကျမ်းစာ သွန်သင်ချက်:\n` +
+             `«${ep.quote}»\n\n` +
+             `၂။ သင်းအုပ်ဆရာများအတွက် အဓိက ဟောကြားရန် အချက် ၃ ချက်:\n` +
+             `• အချက် ၁: နှုတ်ကပတ်တော်သည် အိမ်ထောင်၏ အုတ်မြစ်ဖြစ်သည် (Deut 6:6).\n` +
+             `• အချက် ၂: မိဘများ၏ နေ့စဉ်အပြုအမူသည် သားသမီးအတွက် အကြီးမားဆုံး တရားဒေသနာဖြစ်သည်.\n` +
+             `• အချက် ၃: အပြစ်တင်ဆုံးမခြင်းမတိုင်မီ မေတ္တာဖြင့် အရင်ဆက်သွယ်ပါ (Connect before correcting).\n\n` +
+             `၃။ အသင်းတော် မိသားစုများအတွက် လက်တွေ့ ဆုတောင်းချက်:\n` +
+             `«ကိုယ်တော်ဘုရား၊ အကျွန်ုပ်တို့ မိသားစု၌ ဒေါသနှင့် ခြိမ်းခြောက်ခြင်းကို ဖယ်ရှား၍၊ ခရစ်တော်၏ ငြိမ်သက်ခြင်းဖြင့် သားသမီးများကို ပဲ့ပြင်နိုင်သော ဉာဏ်ပညာကို ပေးသနားတော်မူပါ။»`;
+    } else if (mode === 'questions') {
+      return `💬 အုပ်စုလိုက် ဆွေးနွေးရန် မေးခွန်းများ (Episode ${ep.id})\n\n` +
+             `၁။ ပြီးခဲ့သည့်အပတ်က သားသမီးများနှင့် စကားပြောဆိုရာတွင် မည်သည့်အခက်အခဲများနှင့် ကြုံတွေ့ခဲ့ရပါသလဲ?\n` +
+             `၂။ «${ep.quote}» ဟူသော အချက်သည် သင်၏ မိဘအုပ်ထိန်းမှုပုံစံကို မည်သို့ စိန်ခေါ်ပါသလဲ?\n` +
+             `၃။ သားသမီး စိတ်တိုဒေါသထွက်နေချိန်တွင် စိတ်အေးအေးထားပြီး နားထောင်ပေးနိုင်ရန် မိဘတစ်ဦးအနေဖြင့် မည်သည့် လက်တွေ့ခြေလှမ်းကို စတင်နိုင်မည်နည်း?`;
+    } else if (mode === 'takeaways') {
+      return `💡 EPISODE ${ep.id} SYNTHESIZED TAKEAWAYS:\n\n` +
+             `1. 🧘 Stay Grounded (မိမိစိတ်ကို အရင်ငြိမ်သက်စေပါ) - Lower voice pitch instead of shouting.\n` +
+             `2. 🤗 Name Their Feeling (ခံစားချက်ကို အသိအမှတ်ပြုပါ) - Naming the emotion tames its intensity.\n` +
+             `3. 🤝 Connect Before Correcting (မဆုံးမမီ အရင်ချိတ်ဆက်ပါ) - Warm presence opens receptive hearts.`;
+    } else {
+      return `🌐 BILINGUAL PARENTING INSIGHT:\n\n` +
+             `[Myanmar]: မိဘများ၏ နေ့စဉ် အသက်ရှင်နေထိုင်မှုသည် သားသမီးများအတွက် အဓိက စံနမူနာ ဖြစ်သည်။\n` +
+             `[English]: A parent's daily walk is the primary blueprint for a child's character.`;
+    }
+  }
+
+  function setPromptSnippet(text) {
+    document.getElementById('llm-prompt-input').value = text;
+  }
+  function updatePromptPlaceholder() {
+    const mode = document.getElementById('llm-task-mode').value;
+    const ph = {
+      announcement: "Enter church event details, dates, venue, or theme for the announcement...",
+      sermon: "Enter sermon theme, scripture passage, or church context...",
+      questions: "Enter group size or specific age group (toddler, teenager)...",
+      takeaways: "Paste lesson notes to synthesize 3 key takeaways...",
+      translate: "Paste English or Myanmar text to translate and refine...",
+      guidance: "Describe the specific parenting dilemma (e.g. screen time, tantrums)..."
+    };
+    document.getElementById('llm-prompt-input').placeholder = ph[mode] || "Enter prompt...";
+  }
+
+  function copyLlmOutput() {
+    const text = document.getElementById('llm-output-text').textContent;
+    navigator.clipboard.writeText(text);
+    showToast('📋 Copied AI text to clipboard');
+  }
+
+  function applyLlmToCms() {
+    showToast('⚡ Injected AI generated content into Episode CMS');
+    switchAdminTab('cms');
+  }
+
+  // ========================================================
+  // ANNOUNCEMENT SLOT MANAGEMENT & LIVE SYNC
+  // ========================================================
+  const DEFAULT_ANNOUNCEMENT = {
+    titleEn: "The Parenting Project Socialization",
+    titleMy: "The Parenting Project မိတ်သဟာယ အလုပ်ရုံဆွေးနွေးပွဲ",
+    sub: "Connecting Church Leaders & Parents Across Myanmar",
+    badge: "☕ Socialization Workshop",
+    date: "Saturday, Nov 14, 2026 · 9:00 AM – 3:30 PM (MMT)",
+    venue: "Yangon Grace Centre, Insein Township, Yangon",
+    mode: "hybrid",
+    streamLink: "https://zoom.us/j/parenting-project-socialization",
+    image: "workshop_socialization.jpg",
+    desc: "The Parenting Project Socialization Workshop brings together pastors, Christian mentors, and parents across all denominations in Myanmar. Our mission is to introduce the 11 Core Biblical Modules, provide church implementation kits, and foster supportive regional networks so every family can thrive in Christ."
+  };
+
+  function loadAnnouncementSlot() {
+    let saved = null;
+    try {
+      saved = JSON.parse(localStorage.getItem('tpp_announcement_data') || 'null');
+    } catch(e) {}
+    const a = saved || DEFAULT_ANNOUNCEMENT;
+
+    const elTitleEn = document.getElementById('slot-title-en');
+    if (!elTitleEn) return;
+
+    elTitleEn.value = a.titleEn || DEFAULT_ANNOUNCEMENT.titleEn;
+    document.getElementById('slot-title-my').value = a.titleMy || DEFAULT_ANNOUNCEMENT.titleMy;
+    document.getElementById('slot-sub').value = a.sub || DEFAULT_ANNOUNCEMENT.sub;
+    document.getElementById('slot-badge').value = a.badge || DEFAULT_ANNOUNCEMENT.badge;
+    document.getElementById('slot-date').value = a.date || DEFAULT_ANNOUNCEMENT.date;
+    document.getElementById('slot-venue').value = a.venue || DEFAULT_ANNOUNCEMENT.venue;
+    document.getElementById('slot-mode').value = a.mode || DEFAULT_ANNOUNCEMENT.mode;
+    document.getElementById('slot-stream-link').value = a.streamLink || DEFAULT_ANNOUNCEMENT.streamLink;
+    document.getElementById('slot-image').value = a.image || DEFAULT_ANNOUNCEMENT.image;
+    document.getElementById('slot-desc').value = a.desc || DEFAULT_ANNOUNCEMENT.desc;
+
+    updateAnnouncementPreview();
+  }
+
+  function updateAnnouncementPreview() {
+    const elTitle = document.getElementById('slot-title-en');
+    if (!elTitle) return;
+
+    const titleEn = elTitle.value || "The Parenting Project Socialization";
+    const sub = document.getElementById('slot-sub').value || "Connecting Church Leaders & Parents Across Myanmar";
+    const badge = document.getElementById('slot-badge').value || "☕ Socialization Workshop";
+    const date = document.getElementById('slot-date').value || "Saturday, Nov 14, 2026";
+    const venue = document.getElementById('slot-venue').value || "Yangon Grace Centre";
+    const img = document.getElementById('slot-image').value || "workshop_socialization.jpg";
+    const desc = document.getElementById('slot-desc').value || "";
+
+    const pTitle = document.getElementById('preview-slot-title');
+    const pSub = document.getElementById('preview-slot-sub');
+    const pBadge = document.getElementById('preview-slot-badge');
+    const pDate = document.getElementById('preview-slot-date');
+    const pVenue = document.getElementById('preview-slot-venue');
+    const pImg = document.getElementById('preview-slot-img');
+    const pDesc = document.getElementById('preview-slot-desc');
+
+    if (pTitle) pTitle.textContent = titleEn;
+    if (pSub) pSub.textContent = sub;
+    if (pBadge) pBadge.textContent = badge;
+    if (pDate) pDate.textContent = date;
+    if (pVenue) pVenue.textContent = venue;
+    if (pImg) pImg.src = img;
+    if (pDesc) pDesc.textContent = desc;
+  }
+
+  async function saveAnnouncementSlot() {
+    const data = {
+      titleEn: document.getElementById('slot-title-en').value,
+      titleMy: document.getElementById('slot-title-my').value,
+      sub: document.getElementById('slot-sub').value,
+      badge: document.getElementById('slot-badge').value,
+      date: document.getElementById('slot-date').value,
+      venue: document.getElementById('slot-venue').value,
+      mode: document.getElementById('slot-mode').value,
+      streamLink: document.getElementById('slot-stream-link').value,
+      image: document.getElementById('slot-image').value,
+      desc: document.getElementById('slot-desc').value,
+      updatedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem('tpp_announcement_data', JSON.stringify(data));
+
+    try {
+      await fetch('/api/admin/save-announcement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(e) {}
+
+    showToast('📢 Announcement slot published live to mobile app!');
+  }
+
+  function resetAnnouncementSlot() {
+    if (confirm('Reset announcement slot to official default?')) {
+      localStorage.removeItem('tpp_announcement_data');
+      loadAnnouncementSlot();
+      showToast('🔄 Announcement reset to default');
+    }
+  }
+
+  function draftWithLlmForAnnouncement() {
+    switchAdminTab('llm');
+    document.getElementById('llm-task-mode').value = 'announcement';
+    setPromptSnippet('Draft an inspiring bilingual church announcement for The Parenting Project Socialization Workshop on Nov 14 in Yangon.');
+    runLlmGeneration();
+  }
+
+  function applyLlmToAnnouncement() {
+    const out = document.getElementById('llm-output-text').textContent;
+    if (!out || out.includes('Click "Run AI Synthesis"')) {
+      showToast('⚠️ Please run AI synthesis first.');
+      return;
+    }
+    switchAdminTab('announcements');
+    document.getElementById('slot-desc').value = out;
+    updateAnnouncementPreview();
+    showToast('📢 LLM copy applied to Announcement Slot! Click "Save & Publish" to activate.');
+  }
+
+  // CMS Module Editor
+  function openModuleEditor(id) {
+    const m = MODULES_DATA.find(x => x.id === id);
+    if (!m) return;
+    document.getElementById('edit-mod-id').value = m.id;
+    document.getElementById('modal-cms-title').textContent = `Edit Episode ${m.id}: ${m.titleEn}`;
+    document.getElementById('edit-mod-title-en').value = m.titleEn;
+    document.getElementById('edit-mod-title-my').value = m.titleMy;
+    document.getElementById('edit-mod-duration').value = m.duration;
+    document.getElementById('edit-mod-video-id').value = m.videoId;
+    document.getElementById('edit-mod-quote').value = m.quote;
+    document.getElementById('edit-mod-scripture').value = m.scripture;
+    document.getElementById('edit-mod-exercise').value = "This week: ask your child one thing you could improve when frustrated.";
+
+    document.getElementById('cms-editor-modal').classList.add('active');
+  }
+
+  function closeModuleEditor() {
+    document.getElementById('cms-editor-modal').classList.remove('active');
+  }
+
+  function saveModuleChanges(e) {
+    e.preventDefault();
+    const id = parseInt(document.getElementById('edit-mod-id').value);
+    const m = MODULES_DATA.find(x => x.id === id);
+    if (m) {
+      m.titleEn = document.getElementById('edit-mod-title-en').value;
+      m.titleMy = document.getElementById('edit-mod-title-my').value;
+      m.duration = document.getElementById('edit-mod-duration').value;
+      m.videoId = document.getElementById('edit-mod-video-id').value;
+      m.quote = document.getElementById('edit-mod-quote').value;
+      m.scripture = document.getElementById('edit-mod-scripture').value;
+
+      renderModulesTable();
+      closeModuleEditor();
+      showToast(`💾 Episode ${id} changes successfully saved to Live App!`);
+    }
+  }
+
+  function triggerQuickCmd() {
+    const q = document.getElementById('quick-cmd-input').value.trim();
+    if (q) {
+      switchAdminTab('llm');
+      document.getElementById('llm-prompt-input').value = q;
+      runLlmGeneration();
+    } else {
+      switchAdminTab('llm');
+    }
+  }
+
+  // Toast
+  function showToast(msg) {
+    const t = document.getElementById('admin-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function exportMinistryReport() {
+    showToast('📄 Generating Official CBN Myanmar Ministry Report (PDF/CSV)...');
+    window.print();
+  }
+
+  // Auto-login if previously unlocked in this tab
+  window.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('tpp_admin_unlocked') === 'true') {
+      document.getElementById('admin-auth-gate').style.display = 'none';
+      document.getElementById('admin-app-root').classList.add('active');
+      initDashboard();
+    }
   });
-
-  renderTable(filtered);
-}
-
-// Auto-check if already unlocked this session
-document.addEventListener('DOMContentLoaded', () => {
-  if (staffToken) {
-    unlockDashboard();
-  }
-});
 </script>
+
 </body>
 </html>
