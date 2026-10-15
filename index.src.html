@@ -256,8 +256,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
         </div>
       </div>
 
-      <!-- 2. UPCOMING EVENT: The Parenting Project Socialization (Unstretched Workshop Photo) -->
-      <div class="ref-event-card" onclick="openCinemaDirectly(1); showToast('Upcoming Event: The Parenting Project Socialization');">
+      <!-- 2. UPCOMING EVENT: The Parenting Project Socialization (Leads to Event Announcement Page) -->
+      <div class="ref-event-card" onclick="openEventAnnouncementScreen()">
         <div class="ref-event-media">
           <div class="ref-event-badge-left">UPCOMING EVENT</div>
           <div class="ref-event-badge-right">☕ Socialization Workshop</div>
@@ -269,7 +269,7 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
             <div class="ref-event-sub">Connecting Church Leaders & Parents Across Myanmar</div>
             <div class="ref-event-meta">Yangon · In-Person & Hybrid Live Stream</div>
           </div>
-          <button type="button" class="ref-event-btn">Details ›</button>
+          <button type="button" class="ref-event-btn" onclick="event.stopPropagation(); openEventAnnouncementScreen();">Details ›</button>
         </div>
       </div>
 
@@ -338,15 +338,10 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
         </div>
       </div>
 
-      <!-- Module 2: Tangki Emosi Anak (Locked) -->
+      <!-- Module 2: Tangki Emosi Anak -->
       <div class="ref-module-card" onclick="handleModuleClick(2)">
-        <div class="ref-module-photo-wrap locked">
-          <img src="crop_mod2_photo.jpg" alt="Module 2" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-2">
+          <img src="yt_thumb_2.jpg" alt="Module 2" class="ref-module-photo" />
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -359,13 +354,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 3: Building Togetherness -->
       <div class="ref-module-card" onclick="handleModuleClick(3)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-3">
           <img src="yt_thumb_3.jpg" alt="Module 3" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -378,13 +368,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 4: Boundaries & Discipline -->
       <div class="ref-module-card" onclick="handleModuleClick(4)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-4">
           <img src="yt_thumb_4.jpg" alt="Module 4" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -397,13 +382,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 5: Becoming A Father -->
       <div class="ref-module-card" onclick="handleModuleClick(5)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-5">
           <img src="yt_thumb_5.jpg" alt="Module 5" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -416,13 +396,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 6: Healthy Sexuality -->
       <div class="ref-module-card" onclick="handleModuleClick(6)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-6">
           <img src="yt_thumb_6.jpg" alt="Module 6" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -435,13 +410,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 7: Parenting For a Lifetime -->
       <div class="ref-module-card" onclick="handleModuleClick(7)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-7">
           <img src="yt_thumb_7.jpg" alt="Module 7" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -454,13 +424,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 8: Parental Authority -->
       <div class="ref-module-card" onclick="handleModuleClick(8)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-8">
           <img src="yt_thumb_8.jpg" alt="Module 8" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -473,13 +438,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 9: The Digital Home -->
       <div class="ref-module-card" onclick="handleModuleClick(9)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-9">
           <img src="yt_thumb_9.jpg" alt="Module 9" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -492,13 +452,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 10: Working Dads and Moms -->
       <div class="ref-module-card" onclick="handleModuleClick(10)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-10">
           <img src="yt_thumb_10.jpg" alt="Module 10" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -511,13 +466,8 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
 
       <!-- Module 11: Guiding Into Faith -->
       <div class="ref-module-card" onclick="handleModuleClick(11)">
-        <div class="ref-module-photo-wrap locked">
+        <div class="ref-module-photo-wrap" id="ref-mod-photo-wrap-11">
           <img src="yt_thumb_11.jpg" alt="Module 11" class="ref-module-photo" />
-          <div class="ref-module-lock-badge">
-            <div class="ref-padlock-frame">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-            </div>
-          </div>
         </div>
         <div class="ref-module-footer-split">
           <div class="ref-mod-footer-text">
@@ -530,7 +480,174 @@ if (document.documentElement.classList.contains('is-authenticated')) { document.
     </div>
   </div>
 
-    <!-- ============================================== -->
+  <!-- ============================================== -->
+  <!-- SCREEN: EVENT ANNOUNCEMENT VIEW (User Request) -->
+  <!-- ============================================== -->
+  <div id="view-mobile-event-announcement" class="mobile-screen-view ref-event-view-wrap" style="display:none">
+    <!-- Header -->
+    <div class="ref-event-page-header">
+      <button type="button" class="ref-detail-back-btn" onclick="switchAppTab('home')" title="Back to Home">←</button>
+      <div class="ref-event-page-kicker">OFFICIAL ANNOUNCEMENT · ၂၀၂၆ တရားဝင် ကြေညာချက်</div>
+      <h1 class="ref-event-page-title">The Parenting Project Socialization</h1>
+    </div>
+
+    <div class="ref-event-page-content">
+      <!-- Event Hero Media with Badges -->
+      <div class="ref-event-hero-frame">
+        <div class="ref-event-hero-badge-live">🔴 UPCOMING EVENT</div>
+        <div class="ref-event-hero-badge-type">☕ Socialization Workshop</div>
+        <img src="workshop_socialization.jpg" alt="Socialization Workshop" class="ref-event-hero-img" />
+        <div class="ref-event-hero-caption">
+          <div class="ref-event-hero-sub">Yangon Grace Centre · In-Person & Hybrid Live Stream</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Bar -->
+      <div class="ref-event-action-bar">
+        <button type="button" class="ref-event-primary-btn" onclick="registerForEvent()">
+          <span>✍️ Register for Free</span>
+        </button>
+        <button type="button" class="ref-event-share-btn" onclick="shareEventAnnouncement()">
+          <span>📤 Share</span>
+        </button>
+      </div>
+
+      <!-- Key Logistics Card Grid -->
+      <div class="ref-event-logistics-card">
+        <h3 class="ref-event-section-h">Event Details & Logistics / အစီအစဉ် အချက်အလက်များ</h3>
+        <div class="ref-event-grid-row">
+          <div class="ref-event-grid-icon">📅</div>
+          <div class="ref-event-grid-info">
+            <div class="ref-event-grid-label">DATE & TIME</div>
+            <div class="ref-event-grid-val">Saturday, Nov 14, 2026 · 9:00 AM – 3:30 PM (MMT)</div>
+          </div>
+        </div>
+        <div class="ref-event-grid-row">
+          <div class="ref-event-grid-icon">📍</div>
+          <div class="ref-event-grid-info">
+            <div class="ref-event-grid-label">LOCATION / VENUE</div>
+            <div class="ref-event-grid-val">Yangon Grace Centre, Insein Township, Yangon</div>
+          </div>
+        </div>
+        <div class="ref-event-grid-row">
+          <div class="ref-event-grid-icon">🌐</div>
+          <div class="ref-event-grid-info">
+            <div class="ref-event-grid-label">HYBRID BROADCAST</div>
+            <div class="ref-event-grid-val">Interactive Zoom & Private Stream for regional pastors (Mandalay, Taunggyi, Kalay, Myitkyina)</div>
+          </div>
+        </div>
+        <div class="ref-event-grid-row">
+          <div class="ref-event-grid-icon">👥</div>
+          <div class="ref-event-grid-info">
+            <div class="ref-event-grid-label">WHO SHOULD ATTEND</div>
+            <div class="ref-event-grid-val">Church Pastors, Family Ministry Leaders, Sunday School Teachers & Christian Parents</div>
+          </div>
+        </div>
+        <div class="ref-event-grid-row">
+          <div class="ref-event-grid-icon">🎟️</div>
+          <div class="ref-event-grid-info">
+            <div class="ref-event-grid-label">ADMISSION & MEALS</div>
+            <div class="ref-event-grid-val">100% Free Admission · Fellowship Lunch & Refreshments provided by CBN Asia</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vision & Purpose Statement -->
+      <div class="ref-event-statement-card">
+        <h3 class="ref-event-section-h">Purpose of Socialization / ရည်ရွယ်ချက်</h3>
+        <p class="ref-event-statement-p">
+          The Parenting Project Socialization Workshop brings together pastors, Christian mentors, and parents across all denominations in Myanmar. Our mission is to introduce the <strong>11 Core Biblical Modules</strong>, provide church implementation kits, and foster supportive regional networks so every family can thrive in Christ.
+        </p>
+        <p class="ref-event-statement-p" style="margin-top:10px;font-style:italic;color:#64748B">
+          «မိဘများ၏ စံနမူနာပြ အသက်ရှင်မှုမှတစ်ဆင့် မြန်မာနိုင်ငံတစ်ဝန်းရှိ မိသားစုများကို ဘုရားသခင်၏ ကျေးဇူးတော်ဖြင့် အသွင်ပြောင်းလဲစေရန်။»
+        </p>
+      </div>
+
+      <!-- Full Workshop Agenda -->
+      <div class="ref-event-agenda-card">
+        <h3 class="ref-event-section-h">Workshop Schedule / အစီအစဉ် အချိန်ဇယား</h3>
+        <div class="ref-agenda-timeline">
+          <div class="ref-agenda-item">
+            <div class="ref-agenda-time">09:00 AM</div>
+            <div class="ref-agenda-content">
+              <div class="ref-agenda-title">Registration & Welcome Fellowship</div>
+              <div class="ref-agenda-sub">Morning coffee, tea & meet fellow ministry coordinators.</div>
+            </div>
+          </div>
+          <div class="ref-agenda-item">
+            <div class="ref-agenda-time">09:30 AM</div>
+            <div class="ref-agenda-content">
+              <div class="ref-agenda-title">Keynote: Transforming Parenting Culture</div>
+              <div class="ref-agenda-sub">Biblical vision for home discipleship in challenging times.</div>
+            </div>
+          </div>
+          <div class="ref-agenda-item">
+            <div class="ref-agenda-time">10:45 AM</div>
+            <div class="ref-agenda-content">
+              <div class="ref-agenda-title">The 11 Core Modules & Church Discipleship Kit</div>
+              <div class="ref-agenda-sub">Practical demo on facilitating parent discussion groups.</div>
+            </div>
+          </div>
+          <div class="ref-agenda-item">
+            <div class="ref-agenda-time">12:00 PM</div>
+            <div class="ref-agenda-content">
+              <div class="ref-agenda-title">Fellowship Lunch & Networking</div>
+              <div class="ref-agenda-sub">Complimentary lunch with regional church partners.</div>
+            </div>
+          </div>
+          <div class="ref-agenda-item">
+            <div class="ref-agenda-time">01:00 PM</div>
+            <div class="ref-agenda-content">
+              <div class="ref-agenda-title">Breakout Tracks: Emotional Tank & Digital Age</div>
+              <div class="ref-agenda-sub">Case studies, practical role-playing, and Q&A.</div>
+            </div>
+          </div>
+          <div class="ref-agenda-item">
+            <div class="ref-agenda-time">02:30 PM</div>
+            <div class="ref-agenda-content">
+              <div class="ref-agenda-title">Dedication Prayer & Certified Partner Badges</div>
+              <div class="ref-agenda-sub">Commissioning prayer for all participating church leaders.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speakers & Leadership -->
+      <div class="ref-event-speakers-card">
+        <h3 class="ref-event-section-h">Featured Facilitators / သင်တန်းပို့ချသူများ</h3>
+        <div class="ref-speaker-row">
+          <img src="clean_portrait_1.png" alt="Pastor Thang San" class="ref-speaker-avatar" />
+          <div class="ref-speaker-info">
+            <div class="ref-speaker-name">Pastor Thang San</div>
+            <div class="ref-speaker-role">Yangon Grace Baptist Church · Family Ministries</div>
+          </div>
+        </div>
+        <div class="ref-speaker-row">
+          <img src="clean_portrait_2.png" alt="Sayama Hlawn Nu" class="ref-speaker-avatar" />
+          <div class="ref-speaker-info">
+            <div class="ref-speaker-name">Sayama Hlawn Nu</div>
+            <div class="ref-speaker-role">Assemblies of God Myanmar · Sunday School Coordinator</div>
+          </div>
+        </div>
+        <div class="ref-speaker-row">
+          <img src="clean_portrait_3.png" alt="CBN Asia Representative" class="ref-speaker-avatar" />
+          <div class="ref-speaker-info">
+            <div class="ref-speaker-name">CBN Asia Family Discipleship Team</div>
+            <div class="ref-speaker-role">The Parenting Project International Directors</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Sticky RSVP Button -->
+      <div style="padding:16px 0 40px">
+        <button type="button" class="ref-event-register-full-btn" onclick="registerForEvent()">
+          <span>🎟️ Confirm Your Seat / စာရင်းပေးသွင်းမည်</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
   <!-- SCREEN: MODULE DETAIL VIEW (User Reference 1) -->
   <!-- ============================================== -->
   <div id="view-mobile-module-detail" class="mobile-screen-view ref-detail-view-wrap" style="display:none">

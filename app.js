@@ -6407,6 +6407,8 @@ function switchAppTab(tab) {
 
   const screenViews = {
     'home': document.getElementById('view-mobile-home'),
+    'event': document.getElementById('view-mobile-event-announcement'),
+    'announcement': document.getElementById('view-mobile-event-announcement'),
     'module': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-episodes'),
     'modules': document.getElementById('view-mobile-modules') || document.getElementById('view-mobile-episodes'),
     'detail': document.getElementById('view-mobile-module-detail'),
@@ -10103,32 +10105,108 @@ function promptDeleteAccount() {
     setTimeout(() => { window.location.reload(); }, 600);
   }
 }
+function isModuleLockedByLLM(mid) {
+  // Lock control from LLM website / content rules
+  if (typeof liveContentRules !== 'undefined' && liveContentRules) {
+    const rule = liveContentRules[String(mid)];
+    if (rule && (rule.access === 'locked' || rule.access === 'denied' || rule.locked === true)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function openModuleDetailScreen(mid) {
   mid = parseInt(mid, 10) || 1;
+  const mod = (typeof MODULES !== 'undefined') ? MODULES.find(m => m.id === mid) : null;
+  const isMy = (typeof lang !== 'undefined' ? lang : 'en') === 'my';
+
+  if (isModuleLockedByLLM(mid)) {
+    showToast(`🔒 Module ${mid} is currently locked by admin policy. Please contact your church coordinator.`);
+    return;
+  }
+
   const kicker = document.getElementById('ref-detail-kicker');
   const title = document.getElementById('ref-detail-title');
-  const titles = {
-    1: 'Role Model Parenting · စံပြမိဘ',
-    2: "Child's Emotional Tank · မေတ္တာအိုး",
-    3: 'Family Togetherness · စည်းလုံးမှု',
-    4: 'Loving Boundaries · စည်းကမ်း',
-    5: 'Role of Fathers · ဖခင်အခန်းကဏ္ဍ',
-    6: 'Healthy Family Guidance · လမ်းညွှန်',
-    7: 'Lifelong Grace-Based Parenting · ကျေးဇူးတော်',
-    8: 'Parental Authority · မိဘဩဇာ',
-    9: 'The Digital Home · ဒစ်ဂျစ်တယ်ခေတ်',
-    10: 'Working Parents · အလုပ်နှင့် မိသားစု',
-    11: 'Guiding Into Faith · ယုံကြည်ခြင်းသို့'
-  };
+  const thumbImg = document.querySelector('.ref-detail-thumb-img');
+  const thumbFrame = document.querySelector('.ref-detail-thumb-frame');
+  const sessionChip = document.querySelector('.ref-video-label-chip');
+  const metaChip = document.querySelector('.ref-video-meta-chip');
+  const dlBtn = document.getElementById('ref-btn-download-mod1') || document.querySelector('.ref-btn-download-full');
+  const prayerCard = document.querySelector('.ref-btn-prayer-pill');
+
   if (kicker) kicker.textContent = `MODULE ${mid} OF 11 · THE PARENTING PROJECT`;
-  if (title) title.textContent = titles[mid] || `Module ${mid}`;
+  if (title) {
+    if (mod) {
+      title.textContent = isMy ? (mod.myTitle || mod.title) : mod.title;
+    } else {
+      title.textContent = `Module ${mid}`;
+    }
+  }
+
+  // Bind video thumbnail to this specific module
+  if (thumbImg) {
+    const thumbs = {
+      1: 'crop_mod1_photo.jpg',
+      2: 'yt_thumb_2.jpg',
+      3: 'yt_thumb_3.jpg',
+      4: 'yt_thumb_4.jpg',
+      5: 'yt_thumb_5.jpg',
+      6: 'yt_thumb_6.jpg',
+      7: 'yt_thumb_7.jpg',
+      8: 'yt_thumb_8.jpg',
+      9: 'yt_thumb_9.jpg',
+      10: 'yt_thumb_10.jpg',
+      11: 'yt_thumb_11.jpg'
+    };
+    thumbImg.src = thumbs[mid] || `yt_thumb_${mid}.jpg`;
+  }
+
+  // Bind thumbnail click directly to open this module's video player
+  if (thumbFrame) {
+    thumbFrame.onclick = function() {
+      openVideoPlayerScreen(mid);
+    };
+  }
+
+  if (metaChip) {
+    const durText = mod?.dur ? `${mod.dur}:00 HD` : '38:00 HD';
+    metaChip.innerHTML = `<span>🎬</span> <span>${durText} • Dual Audio</span>`;
+  }
+
+  if (sessionChip) {
+    sessionChip.textContent = `Session 1 · ${mod?.title || ('Module ' + mid)}`;
+  }
+
+  if (dlBtn) {
+    dlBtn.onclick = function() {
+      handleModuleDownload(mid);
+    };
+  }
+
+  if (prayerCard && mod) {
+    const titleDiv = prayerCard.querySelector('div[style*="font-weight:800"]');
+    const scriptureDiv = prayerCard.querySelector('div[style*="rgba(255,255,255,0.78)"]');
+    if (titleDiv) titleDiv.textContent = `Parent's Prayer · Module ${mid}`;
+    if (scriptureDiv && (mod.myScripture || mod.scripture)) {
+      scriptureDiv.textContent = `"${isMy ? (mod.myScripture || mod.scripture) : mod.scripture}"`;
+    }
+  }
+
   switchAppTab('detail');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function openVideoPlayerScreen(mid) {
   mid = parseInt(mid, 10) || 1;
   const vidEl = document.getElementById('ref-video-player');
   const iframe = document.getElementById('ref-video-iframe');
+  const mod = (typeof MODULES !== 'undefined') ? MODULES.find(m => m.id === mid) : null;
+
+  if (isModuleLockedByLLM(mid)) {
+    showToast(`🔒 Module ${mid} is locked by admin policy.`);
+    return;
+  }
 
   // Modules 1, 2, 3: Streamed directly from Cloudflare R2 high-speed storage
   const r2Videos = {
@@ -10141,18 +10219,23 @@ function openVideoPlayerScreen(mid) {
   if (nextBtn) {
     nextBtn.onclick = function() {
       completeCurrentModule(mid);
-      switchAppTab('detail');
+      if (mid < 11) {
+        openModuleDetailScreen(mid + 1);
+      } else {
+        switchAppTab('module');
+      }
     };
   }
 
-  if (r2Videos[mid]) {
+  if (r2Videos[mid] || (mod && mod.videoType === 'file' && mod.fileUrl)) {
+    const videoSrc = r2Videos[mid] || mod.fileUrl;
     if (iframe) {
       iframe.src = '';
       iframe.style.display = 'none';
     }
     if (vidEl) {
       vidEl.style.display = 'block';
-      vidEl.src = r2Videos[mid];
+      vidEl.src = videoSrc;
       vidEl.load();
       vidEl.play().catch(() => {});
     }
@@ -10164,12 +10247,37 @@ function openVideoPlayerScreen(mid) {
     }
     if (iframe) {
       iframe.style.display = 'block';
-      const mod = (typeof MODULES !== 'undefined') ? MODULES.find(m => m.id === mid) : null;
       const ytId = mod ? mod.youtube : 'hKSMxbFee1U';
       iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
     }
   }
   switchAppTab('video');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openEventAnnouncementScreen() {
+  switchAppTab('event');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function registerForEvent() {
+  showToast('🎉 You are successfully registered for The Parenting Project Socialization Workshop!');
+  setTimeout(() => {
+    showToast('📩 Confirmation & Zoom link will be sent to your account.');
+  }, 1200);
+}
+
+function shareEventAnnouncement() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'The Parenting Project Socialization Workshop 2026',
+      text: 'Join us for The Parenting Project Socialization Workshop connecting church leaders and parents across Myanmar!',
+      url: window.location.href
+    }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(window.location.href);
+    showToast('🔗 Event announcement link copied to clipboard!');
+  }
 }
 
 function openParentPrayerModal() {
@@ -10306,6 +10414,10 @@ window.markDevotionReadAndCelebrate = markDevotionReadAndCelebrate;
 window.toggleAudioOnlyMode = toggleAudioOnlyMode;
 window.handleModuleDownload = handleModuleDownload;
 window.completeCurrentModule = completeCurrentModule;
+window.openEventAnnouncementScreen = openEventAnnouncementScreen;
+window.registerForEvent = registerForEvent;
+window.shareEventAnnouncement = shareEventAnnouncement;
+window.isModuleLockedByLLM = isModuleLockedByLLM;
 
 function handleAppLogout() { if (confirm("Are you sure you want to log out?")) { logoutUser(); } }
 window.handleAppLogout = handleAppLogout;

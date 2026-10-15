@@ -55,6 +55,7 @@ imgs = {
     'shield_extracted.png':             os.path.join(DIR, 'shield_extracted.png'),
     'clean_portrait_1.png':             os.path.join(DIR, 'clean_portrait_1.png'),
     'clean_portrait_2.png':             os.path.join(DIR, 'clean_portrait_2.png'),
+    'clean_portrait_3.png':             os.path.join(DIR, 'clean_portrait_3.png'),
     'card_photo_top.jpg':               os.path.join(DIR, 'card_photo_top.jpg'),
     'card_photo_bottom.jpg':            os.path.join(DIR, 'card_photo_bottom.jpg'),
     'mentor_couple_young_source.jpg':   os.path.join(DIR, 'mentor_couple_young_source.jpg'),
@@ -64,6 +65,9 @@ imgs = {
     'mentor_avatar_young.jpg':          os.path.join(DIR, 'mentor_avatar_young.jpg'),
     'mentor_avatar_senior.jpg':         os.path.join(DIR, 'mentor_avatar_senior.jpg'),
     'mentor_avatar_pink.jpg':           os.path.join(DIR, 'mentor_avatar_pink.jpg'),
+    'workshop_socialization.jpg':       os.path.join(DIR, 'workshop_socialization.jpg'),
+    'boat_clean.jpg':                   os.path.join(DIR, 'boat_clean.jpg'),
+    'greenhouse_clean.jpg':             os.path.join(DIR, 'greenhouse_clean.jpg'),
 }
 img_data = {}
 for name, path in imgs.items():
